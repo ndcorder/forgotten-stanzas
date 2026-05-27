@@ -14,3 +14,4 @@
 | 0010 | The Annotation | annotation | 4.3 | 2026-05-27 | — |
 | 0011 | Autopsy of a Joke That Killed | screenplay | 5.0 | 2026-05-27 | — |
 | 0012 | The Unread Shelf | erasure | 4.9 | 2026-05-27 | — |
+| 0013 | Your Car Knows You're Sad | data-narrative | 5.0 | 2026-05-27 | — |

@@ -1,0 +1,13 @@
+nodes:
+  - id: "0001"
+    title: The Cartographer's Confession
+    domain: fiction
+    rating: 4.3
+edges: []
+constellations: []
+creative_dna:
+  top_motifs: []
+  technique_signatures: []
+  domain_affinities: []
+  unexplored_territory: []
+updated_at: 2026-05-27T07:39:40.228Z

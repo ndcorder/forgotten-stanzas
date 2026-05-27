@@ -1,15 +1,23 @@
 axes:
-  exploratory: 0.599
+  exploratory: 0.6
   playful: 0
   restless: 0
-  bold: 0
-  collaborative: 0.004
-dominant_mood: exploratory
+  bold: 0.28
+  collaborative: -0.349
+dominant_mood: exploratory and independent
 creative_nudge: Trust the creative instinct — make whatever feels right.
 influences:
-  - factor: 7 distinct domains in window
+  - factor: 8 distinct domains in window
     axis: exploratory
     direction: 0.6
     weight: 0.7
-iteration: 10
-updated_at: 2026-05-27T11:03:47.486Z
+  - factor: 10 iterations without a kill — not pushing hard enough
+    axis: bold
+    direction: 0.4
+    weight: 0.5
+  - factor: 10 iterations of standalone work
+    axis: collaborative
+    direction: -0.5
+    weight: 0.6
+iteration: 11
+updated_at: 2026-05-27T11:10:06.896Z

@@ -35,6 +35,10 @@ nodes:
     title: Hymnal for a Dead Language
     domain: music
     rating: 4.9
+  - id: "0011"
+    title: Autopsy of a Joke That Killed
+    domain: screenplay
+    rating: 5
   - id: "0004"
     title: The Murdered Clock
     domain: visual-art
@@ -46,4 +50,4 @@ creative_dna:
   technique_signatures: []
   domain_affinities: []
   unexplored_territory: []
-updated_at: 2026-05-27T11:10:02.402Z
+updated_at: 2026-05-27T11:16:22.783Z

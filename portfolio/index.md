@@ -12,3 +12,4 @@
 | 0008 | Witness Stand | code-tool | 5.0 | 2026-05-27 | — |
 | 0009 | The Collection | archive | 4.3 | 2026-05-27 | — |
 | 0010 | The Annotation | annotation | 4.3 | 2026-05-27 | — |
+| 0011 | Autopsy of a Joke That Killed | screenplay | 5.0 | 2026-05-27 | — |

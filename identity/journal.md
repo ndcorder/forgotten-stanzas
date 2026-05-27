@@ -33,3 +33,6 @@
 ### 2026-05-27T11:10:02.392Z
 
 **Iteration 10 — SHIPPED:** "The Annotation" [annotation] as 0010. Rating: 4.3. Review: The CSS for "The Annotation" is a masterclass in restrained atmospheric design — a stylesheet that makes you feel graphite on paper without a single rendered element to test it against. The five-stage. Token usage: 33870in/15977out.
+### 2026-05-27T11:16:22.779Z
+
+**Iteration 11 — SHIPPED:** "Autopsy of a Joke That Killed" [screenplay] as 0011. Rating: 5.0. Review: A forensic linguist testifies about a comedian who died mid-punchline while the audience laughed, and the testimony itself becomes the joke's final victim — Caldwell's clinical language collapsing und. Token usage: 34901in/15461out.

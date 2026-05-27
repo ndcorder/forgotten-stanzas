@@ -3,6 +3,10 @@ nodes:
     title: Crisis At T-Minus Nothing
     domain: code-game
     rating: 4.7
+  - id: "0008"
+    title: Witness Stand
+    domain: code-tool
+    rating: 5
   - id: "0001"
     title: The Cartographer's Confession
     domain: fiction
@@ -34,4 +38,4 @@ creative_dna:
   technique_signatures: []
   domain_affinities: []
   unexplored_territory: []
-updated_at: 2026-05-27T10:33:03.656Z
+updated_at: 2026-05-27T10:45:32.356Z

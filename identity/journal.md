@@ -24,3 +24,6 @@
 ### 2026-05-27T10:33:03.647Z
 
 **Iteration 7 — SHIPPED:** "Soft Estate" [interactive] as 0007. Rating: 4.9. Review: Soft Estate is a masterwork of environmental narrative — an entire life reconstructed from digital artifacts, where the story emerges not through exposition but through forensic inference. The file sy. Token usage: 225602in/167494out.
+### 2026-05-27T10:45:32.350Z
+
+**Iteration 8 — SHIPPED:** "Witness Stand" [code-tool] as 0008. Rating: 5.0. Review: Witness Stand is a writing analysis tool where the interface IS the art — a command-line prosecutor with biases, blind spots, and existential crises that emerge through use. The "short declarative sen. Token usage: 60448in/34806out.

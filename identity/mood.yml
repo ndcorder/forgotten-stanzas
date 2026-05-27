@@ -1,9 +1,9 @@
 axes:
-  exploratory: 0.546
+  exploratory: 0.584
   playful: 0
-  restless: 0.001
+  restless: 0
   bold: 0
-  collaborative: 0.15
+  collaborative: 0.045
 dominant_mood: exploratory
 creative_nudge: Trust the creative instinct — make whatever feels right.
 influences:
@@ -11,5 +11,5 @@ influences:
     axis: exploratory
     direction: 0.6
     weight: 0.7
-iteration: 7
-updated_at: 2026-05-27T09:33:34.868Z
+iteration: 8
+updated_at: 2026-05-27T10:33:08.062Z

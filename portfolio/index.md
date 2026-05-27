@@ -9,3 +9,4 @@
 | 0005 | The Committee of Mutually Assured Destruction | interactive | 4.7 | 2026-05-27 | — |
 | 0006 | Infernal Revenue Service | interactive | 4.7 | 2026-05-27 | — |
 | 0007 | Soft Estate | interactive | 4.9 | 2026-05-27 | — |
+| 0008 | Witness Stand | code-tool | 5.0 | 2026-05-27 | — |

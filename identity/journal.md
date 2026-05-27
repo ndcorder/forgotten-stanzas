@@ -12,3 +12,6 @@
 ### 2026-05-27T08:20:01.512Z
 
 **Iteration 3 — SHIPPED:** "Hymnal for a Dead Language" [music] as 0003. Rating: 4.9. Review: This is a stunning piece — a generative requiem that maps real phoneme inventories of near-extinct languages onto harmonic structures, then systematically destroys them. The ghost phoneme's return (a . Token usage: 50870in/38091out.
+### 2026-05-27T08:38:05.868Z
+
+**Iteration 4 — SHIPPED:** "The Murdered Clock" [visual-art] as 0004. Rating: 4.6. Review: Nine clocks, each suffering a different pathology of time — Rush's hands smear into ghost trails, Stutter freezes and convulses with visible glitch artifacts, Dissolve sheds particles like dead skin, . Token usage: 69148in/46815out.

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Murdered Clock</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#06060b;overflow:hidden;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center}
+  svg{display:block;width:100vw;height:100vh}
+  #overlay{display:none;position:fixed;inset:0;z-index:10;cursor:pointer;background:rgba(6,6,11,0.97)}
+</style>
+</head>
+<body>
+<svg viewBox="0 0 900 900" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg"><stop offset="0%" stop-color="#0e0e18"/><stop offset="100%" stop-color="#06060b"/></radialGradient>
+    <filter id="gl"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="bl"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="gl2"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="dis"><feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="2" result="n" seed="2"/><feDisplacementMap in="SourceGraphic" in2="n" scale="8" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="blk"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="5" result="n"/><feColorMatrix in="n" type="saturate" values="0" result="gn"/><feBlend in="SourceGraphic" in2="gn" mode="overlay"/></filter>
+  </defs>
+  <rect width="900" height="900" fill="url(#bg)"/>
+  <g id="clocks"></g>
+  <g id="expanded" style="display:none"></g>
+  <g id="centerLayer"></g>
+</svg>
+<div id="overlay"></div>
+<script>
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.querySelector('svg');
+  const clocksG=document.getElementById('clocks');
+  const expG=document.getElementById('expanded');
+  const cLayer=document.getElementById('centerLayer');
+  const overlay=document.getElementById('overlay');
+  const TAU=Math.PI*2;
+  const PI=Math.PI;
+
+  function ce(tag){return document.createElementNS(NS,tag)}
+  function sa(el,obj){for(let k in obj)el.setAttribute(k,obj[k]);return el}
+  function addChild(parent,tag,attrs){const e=ce(tag);sa(e,attrs||{});parent.appendChild(e);return e}
+  function polar(cx,cy,r,angle){
+    return{x:cx+r*Math.cos(angle*PI/180),y:cy+r*Math.sin(angle*PI/180)}
+  }
+  function arcPath(cx,cy,r,startA,endA){
+    const s=polar(cx,cy,r,startA),e=polar(cx,cy,r,endA);
+    const large=(endA-startA>180)?1:0;
+    return`M${s.x},${s.y} A${r},${r} 0 ${large} 1 ${e.x},${e.y}`
+  }
+  function hand(g,cx,cy,angleDeg,len,w,color,filterStr){
+    const p=polar(cx,cy,len,angleDeg);
+    addChild(g,'line',{x1:cx,y1:cy,x2:p.x,y2:p.y,stroke:color,'stroke-width':w,'stroke-linecap':'round',filter:filterStr||''});
+  }
+
+  let time=0;
+  let expState=null; // {idx, phase:'in'|'out', t:0..1}
+
+  const positions=[
+    {x:150,y:150},{x:450,y:150},{x:750,y:150},
+    {x:150,y:450},{x:450,y:450},{x:750,y:450},
+    {x:150,y:750},{x:450,y:750},{x:750,y:750}
+  ];
+
+  const palettes=[
+    {bg:'#1a0a0a',fg:'#ff3b3b',sec:'#ff6644',accent:'#ff8855'},
+    {bg:'#0a0a1a',fg:'#3b8bff',sec:'#2255cc',accent:'#1133aa'},
+    {bg:'#1a0a10',fg:'#ff33aa',sec:'#cc1177',accent:'#ff55cc'},
+    {bg:'#0a1a0a',fg:'#33ff77',sec:'#22cc55',accent:'#11aa33'},
+    {bg:'#14140a',fg:'#ffcc33',sec:'#cc9922',accent:'#aa7711'},
+    {bg:'#0a1420',fg:'#33ccff',sec:'#2299cc',accent:'#1177aa'},
+    {bg:'#1a0a1a',fg:'#cc33ff',sec:'#9922cc',accent:'#7711aa'},
+    {bg:'#0a101a',fg:'#ffffff',sec:'#888888',accent:'#444444'},
+    {bg:'#1a1a14',fg:'#ffaa33',sec:'#cc8822',accent:'#aa6611'}
+  ];
+
+  // Build static clock structures
+  const clockEls=[];
+  for(let i=0;i<9;i++){
+    const pos=positions[i];
+    const pal=palettes[i];
+    const cx=pos.x,cy=pos.y,R=95;
+    const g=addChild(clocksG,'g',{'class':'clk','data-idx':i,style:'cursor:pointer'});
+
+    addChild(g,'circle',{cx,cy,r:R,fill:pal.bg,stroke:pal.fg,'stroke-width':1,'stroke-opacity':0.3});
+
+    switch(i){
+      case 0:
+        for(let a=0;a<12;a++){
+          const p1=polar(cx,cy,R*0.85,a*30);
+          const p2=polar(cx,cy,R*0.92,a*30);
+          addChild(g,'line',{x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y,stroke:pal.fg,'stroke-width':1.5,'stroke-opacity':0.4});
+        }
+        addChild(g,'circle',{cx,cy,r:3,fill:pal.fg});
+        break;
+      case 1:
+        for(let a=0;a<60;a++){
+          const inner=a%5===0?R*0.82:R*0.88;
+          const p1=polar(cx,cy,inner,a*6);
+          const p2=polar(cx,cy,R*0.92,a*6);
+          addChild(g,'line',{x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y,stroke:pal.fg,'stroke-width':a%5===0?1.5:0.5,'stroke-opacity':a%5===0?0.6:0.25});
+        }
+        addChild(g,'circle',{cx,cy,r:4,fill:pal.fg});
+        break;
+      case 2:
+        for(let j=0;j<8;j++){
+          const y2=cy-R+Math.random()*R*2;
+          const w=R*0.3+Math.random()*R*0.5;
+          addChild(g,'rect',{x:cx-w/2,y:y2,width:w,height:1+Math.random(),fill:pal.fg,'fill-opacity':0.1+Math.random()*0.12});
+        }
+        addChild(g,'circle',{cx,cy,r:3,fill:pal.fg});
+        break;
+      case 3:
+        for(let r=18;r<R;r+=16){
+          addChild(g,'circle',{cx,cy,r:r,fill:'none',stroke:pal.fg,'stroke-width':0.3,'stroke-opacity':0.12});
+        }
+        addChild(g,'circle',{cx,cy,r:4,fill:pal.fg});
+        break;
+      case 4:
+        for(let a=0;a<12;a++){
+          const p=polar(cx,cy,R*0.78,a*30);
+          const txt=addChild(g,'text',{x:p.x,y:p.y+4,'text-anchor':'middle','font-size':'10',fill:pal.fg,'fill-opacity':0.6,'font-family':'serif'});
+          txt.textContent=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'][a];
+        }
+        addChild(g,'circle',{cx,cy,r:3,fill:pal.fg});
+        break;
+      case 5:
+        for(let a=0;a<12;a++){
+          const p1=polar(cx,cy,R*0.8,(12-a)*30);
+          const p2=polar(cx,cy,R*0.92,(12-a)*30);
+          addChild(g,'line',{x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y,stroke:pal.fg,'stroke-width':2,'stroke-opacity':0.5});
+        }
+        addChild(g,'circle',{cx,cy,r:3,fill:pal.fg});
+        break;
+      case 6:
+        addChild(g,'circle',{cx,cy,r:R*0.7,fill:'none',stroke:pal.fg,'stroke-width':0.5,'stroke-opacity':0.25});
+        addChild(g,'circle',{cx,cy,r:R*0.4,fill:'none',stroke:pal.fg,'stroke-width':0.5,'stroke-opacity':0.25});
+        addChild(g,'circle',{cx,cy,r:R*0.15,fill:'none',stroke:pal.fg,'stroke-width':0.5,'stroke-opacity':0.25});
+        addChild(g,'circle',{cx,cy,r:3,fill:pal.fg});
+        break;
+      case 7:
+        {const s=R*0.8;
+        addChild(g,'rect',{x:cx-s/2,y:cy-s/2,width:s,height:s,fill:'none',stroke:pal.fg,'stroke-width':0.7,'stroke-opacity':0.25});
+        const s2=s*0.5;
+        addChild(g,'rect',{x:cx-s2/2,y:cy-s2/2,width:s2,height:s2,fill:'none',stroke:pal.fg,'stroke-width':0.5,'stroke-opacity':0.2});
+        addChild(g,'circle',{cx,cy,r:3,fill:pal.fg});}
+        break;
+      case 8:
+        addChild(g,'path',{d:`M${cx-R*0.6},${cy+R*0.2} Q${cx},${cy+R*0.9} ${cx+R*0.6},${cy+R*0.2}`,fill:'none',stroke:pal.fg,'stroke-width':0.7,'stroke-opacity':0.3});
+        addChild(g,'circle',{cx,cy,r:3,fill:pal.fg});
+        break;
+    }
+
+    g.addEventListener('click',e=>{
+      e.stopPropagation();
+      if(expState)return;
+      expState={idx:i,phase:'in',t:0};
+      overlay.style.display='block';
+    });
+
+    clockEls.push({g,cx,cy,R,pal,idx:i});
+  }
+
+  // --- Click to collapse ---
+  overlay.addEventListener('click',()=>{
+    if(expState&&expState.phase==='in'){
+      expState.phase='out';
+      expState.t=1;
+    }
+  });
+
+  // --- Easing ---
+  function easeInOut(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
+  function easeOut(t){return 1-Math.pow(1-t,3)}
+
+  // --- Main frame ---
+  let lastT=0;
+  function animate(ts){
+    const dt=Math.min((ts-lastT)/1000,0.05);
+    lastT=ts;
+    time+=dt;
+
+    // ALWAYS update clock animations (fixes frozen clock bug)
+    for(let i=0;i<9;i++){
+      const c=clockEls[i];
+      // Remove old dynamic elements
+      while(c.g.lastChild&&c.g.lastChild.classList&&c.g.lastChild.classList.contains('dyn')){
+        c.g.removeChild(c.g.lastChild);
+      }
+      const dg=addChild(c.g,'g',{'class':'dyn'});
+
+      const isExpanded=(expState&&expState.idx===i&&expState.phase==='in');
+
+      drawClockSmall(i,dg,c.cx,c.cy,c.R,c.pal);
+
+      // During expansion: fade clock out, never scale up (fixes stroke distortion)
+      if(expState&&expState.idx===i){
+        if(expState.phase==='in'){
+          const t=easeInOut(expState.t);
+          c.g.setAttribute('opacity',Math.max(0,1-t));
+        }else{
+          c.g.setAttribute('opacity',1);
+        }
+      }else if(expState&&expState.idx!==i){
+        const otherT=expState.phase==='in'?easeInOut(expState.t):easeOut(expState.t);
+        c.g.setAttribute('opacity',Math.max(0.05,1-otherT*1.5));
+      }else{
+        c.g.setAttribute('opacity',1);
+      }
+    }
+
+    // Handle expansion state
+    if(expState){
+      expState.t+=dt*(expState.phase==='in'?1.8:2.5);
+
+      if(expState.phase==='in'&&expState.t>=1){
+        expState.t=1;
+      }
+      if(expState.phase==='out'&&expState.t>=1){
+        expState=null;
+        expG.style.display='none';
+        expG.innerHTML='';
+        overlay.style.display='none';
+        cLayer.innerHTML='';
+        clockEls.forEach(c=>c.g.setAttribute('opacity',1));
+      }
+
+      // Draw expanded view (covers viewport, no scaling)
+      if(expState){
+        drawExpanded();
+      }
+    }
+
+    drawCenter();
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+
+  // --- Small clock drawing ---
+  function drawClockSmall(i,g,cx,cy,R,pal){
+    // Center glow
+    addChild(g,'circle',{cx,cy,r:R*0.06,fill:pal.fg,filter:'url(#gl)',opacity:0.5});
+
+    switch(i){
+      case 0: drawRushSmall(g,cx,cy,R,pal);break;
+      case 1: drawCrawlSmall(g,cx,cy,R,pal);break;
+      case 2: drawStutterSmall(g,cx,cy,R,pal);break;
+      case 3: drawLoopSmall(g,cx,cy,R,pal);break;
+      case 4: drawDissolveSmall(g,cx,cy,R,pal);break;
+      case 5: drawReverseSmall(g,cx,cy,R,pal);break;
+      case 6: drawPulseSmall(g,cx,cy,R,pal);break;
+      case 7: drawFractalSmall(g,cx,cy,R,pal);break;
+      case 8: drawPendulumSmall(g,cx,cy,R,pal);break;
+    }
+  }
+
+  function drawRushSmall(g,cx,cy,R,pal){
+    const sec=time*8;
+    for(let t=0;t<4;t++){
+      const a=sec-t*20;
+      const op=0.25-t*0.06;
+      if(op<=0)continue;
+      hand(g,cx,cy,a,R*0.75,1,pal.fg);
+      g.lastChild.setAttribute('opacity',op);
+    }
+    hand(g,cx,cy,time*0.04,R*0.45,2.5,pal.fg);
+    hand(g,cx,cy,time*0.5,R*0.65,1.5,pal.fg);
+    hand(g,cx,cy,sec,R*0.8,0.8,pal.sec,'url(#gl)');
+  }
+
+  function drawCrawlSmall(g,cx,cy,R,pal){
+    hand(g,cx,cy,time*0.0002,R*0.4,4,pal.fg);
+    hand(g,cx,cy,time*0.003,R*0.6,3,pal.fg);
+    hand(g,cx,cy,time*0.05,R*0.75,2,pal.sec);
+    // Wobble
+    const wb=Math.sin(time*0.3)*1.5;
+    hand(g,cx,cy,time*0.05+wb,R*0.76,0.8,pal.fg);
+    g.lastChild.setAttribute('opacity',0.3);
+  }
+
+  function drawStutterSmall(g,cx,cy,R,pal){
+    const raw=time*2;
+    const period=0.8;
+    const frozen=Math.floor(raw/period)*period;
+    const inStep=raw%period;
+    const jerkT=inStep<0.15?frozen+inStep*5:frozen;
+    const glitch=Math.random()<0.1;
+    const sec=glitch?jerkT+Math.random()*40:jerkT;
+    const ox=glitch?(Math.random()-0.5)*6:0;
+    const oy=glitch?(Math.random()-0.5)*6:0;
+    if(glitch){
+      const gy=cy-R+Math.random()*R*2;
+      addChild(g,'rect',{x:cx-R,y:gy,width:R*2,height:2,fill:pal.fg,opacity:0.15});
+    }
+    hand(g,cx+ox,cy+oy,time*0.008,R*0.4,2.5,pal.fg);
+    hand(g,cx-ox*0.5,cy-oy*0.5,time*0.1,R*0.6,1.5,pal.fg);
+    hand(g,cx+ox*0.3,cy+oy*0.3,sec,R*0.78,1,pal.sec,'url(#gl)');
+  }
+
+  function drawLoopSmall(g,cx,cy,R,pal){
+    const lp=6;
+    const phase=(time%lp)/lp;
+    const loopA=phase<0.8?(phase/0.8)*360:((phase-0.8)/0.2)*-108+288;
+    const sec=loopA+time*0.3;
+    const min=loopA*0.08+time*0.02;
+    hand(g,cx,cy,min*0.15,R*0.35,2.5,pal.fg);
+    hand(g,cx,cy,min,R*0.55,1.5,pal.fg);
+    hand(g,cx,cy,sec,R*0.75,1,pal.sec);
+    if(phase*360>1){
+      const ap=arcPath(cx,cy,R*0.88,0,Math.min(phase*360,360));
+      addChild(g,'path',{d:ap,fill:'none',stroke:pal.sec,'stroke-width':1.2,opacity:0.4});
+    }
+  }
+
+  function drawDissolveSmall(g,cx,cy,R,pal){
+    const phase=Math.min(time*0.03,1);
+    const handOp=Math.max(0.2,1-phase*0.8);
+    hand(g,cx,cy,time*0.008,R*0.4,2,pal.fg);
+    g.lastChild.setAttribute('opacity',handOp);
+    hand(g,cx,cy,time*0.1,R*0.6,1.5,pal.fg);
+    g.lastChild.setAttribute('opacity',handOp);
+    hand(g,cx,cy,time*1.5,R*0.75,0.8,pal.sec);
+    const nP=Math.floor(phase*12);
+    for(let j=0;j<nP;j++){
+      const px=cx-R+Math.random()*R*2;
+      const py=cy-R*0.5+(Math.random()*R*2+time*10+j*30)%(R*3);
+      addChild(g,'circle',{cx:px,cy:py,r:0.5+Math.random(),fill:pal.fg,opacity:0.1+Math.random()*0.15});
+    }
+  }
+
+  function drawReverseSmall(g,cx,cy,R,pal){
+    const rr=time*30;
+    addChild(g,'circle',{cx,cy,r:R*0.92,fill:'none',stroke:pal.fg,'stroke-width':0.5,'stroke-dasharray':'4 8',opacity:0.35,transform:`rotate(${rr} ${cx} ${cy})`});
+    addChild(g,'circle',{cx,cy,r:R*0.85,fill:'none',stroke:pal.sec,'stroke-width':0.3,'stroke-dasharray':'2 12',opacity:0.25,transform:`rotate(${-rr*1.5} ${cx} ${cy})`});
+    hand(g,cx,cy,-time*0.008,R*0.4,2.5,pal.fg);
+    hand(g,cx,cy,-time*0.1,R*0.6,1.5,pal.fg);
+    hand(g,cx,cy,-time*1.5,R*0.78,0.8,pal.sec,'url(#gl)');
+  }
+
+  function drawPulseSmall(g,cx,cy,R,pal){
+    const phase=(time%2)/2;
+    const expansion=phase<0.5?(phase/0.5):((1-phase)/0.5);
+    for(let r=0;r<3;r++){
+      const rr=((R*0.3+r*R*0.25)+phase*R*0.6)%R;
+      const op=1-(rr/R);
+      addChild(g,'circle',{cx,cy,r:rr,fill:'none',stroke:pal.fg,'stroke-width':0.8+expansion*0.5,opacity:Math.max(0,op*0.35)});
+    }
+    hand(g,cx,cy,time*0.008,R*0.35,2,pal.fg);
+    hand(g,cx,cy,time*0.1,R*0.55,1.5,pal.fg);
+    hand(g,cx,cy,time*1.5,R*0.75,0.8,pal.sec);
+  }
+
+  function drawFractalSmall(g,cx,cy,R,pal){
+    function drawSq(level,angle,size){
+      if(level>2)return;
+      const corners=[];
+      for(let c=0;c<4;c++)corners.push(polar(cx,cy,size*0.707,angle+c*90));
+      addChild(g,'polygon',{points:corners.map(p=>`${p.x},${p.y}`).join(' '),fill:'none',stroke:pal.fg,'stroke-width':Math.max(0.3,1.5-level*0.4),opacity:0.35-level*0.08});
+      for(let c=0;c<4;c++)drawSq(level+1,angle+time*15*(level+1)+c*90,size*0.38);
+    }
+    drawSq(0,time*10,R*0.45);
+    hand(g,cx,cy,time*0.008,R*0.4,1.5,pal.fg);
+    hand(g,cx,cy,time*0.1,R*0.6,1,pal.fg);
+  }
+
+  function drawPendulumSmall(g,cx,cy,R,pal){
+    const swing=Math.sin(time*TAU/3)*45;
+    const bob=polar(cx,cy,R*0.75,swing+90);
+    addChild(g,'line',{x1:cx,y1:cy,x2:bob.x,y2:bob.y,stroke:pal.fg,'stroke-width':1.2});
+    addChild(g,'circle',{cx:bob.x,cy:bob.y,r:5,fill:pal.accent,filter:'url(#gl)'});
+    const hA=(swing+45)/90*360;
+    hand(g,cx,cy,hA,R*0.35,1.5,pal.fg);
+    hand(g,cx,cy,hA*12+time*0.5,R*0.5,1,pal.sec);
+  }
+
+  // --- Expanded view (full viewport, no scaling of thin-stroked clocks) ---
+  function drawExpanded(){
+    if(!expState)return;
+    const c=clockEls[expState.idx];
+    const {pal}=c;
+    const CX=450,CY=450,VR=380;
+    const t=easeInOut(Math.min(1,expState.t));
+    const fade=t;
+
+    expG.style.display='';
+    expG.innerHTML='';
+
+    // Background disc
+    addChild(expG,'circle',{cx:CX,cy:CY,r:VR,fill:pal.bg,stroke:pal.fg,'stroke-width':1,'stroke-opacity':0.3*fade,opacity:fade});
+
+    // Dynamic elements
+    const dg=addChild(expG,'g',{opacity:fade});
+
+    switch(expState.idx){
+      case 0: drawRushExp(dg,CX,CY,VR,pal,fade);break;
+      case 1: drawCrawlExp(dg,CX,CY,VR,pal,fade);break;
+      case 2: drawStutterExp(dg,CX,CY,VR,pal,fade);break;
+      case 3: drawLoopExp(dg,CX,CY,VR,pal,fade);break;
+      case 4: drawDissolveExp(dg,CX,CY,VR,pal,fade);break;
+      case 5: drawReverseExp(dg,CX,CY,VR,pal,fade);break;
+      case 6: drawPulseExp(dg,CX,CY,VR,pal,fade);break;
+      case 7: drawFractalExp(dg,CX,CY,VR,pal,fade);break;
+      case 8: drawPendulumExp(dg,CX,CY,VR,pal,fade);break;
+    }
+
+    // Center
+    addChild(dg,'circle',{cx:CX,cy:CY,r:4,fill:pal.fg});
+    addChild(dg,'circle',{cx:CX,cy:CY,r:8,fill:pal.fg,filter:'url(#gl)',opacity:0.5});
+  }
+
+  function drawRushExp(g,cx,cy,R,pal,fade){
+    const sec=time*8;
+    // Perimeter fragment marks
+    for(let a=0;a<60;a++){
+      const p1=polar(cx,cy,R*0.88,a*6);
+      const p2=polar(cx,cy,R*0.94,a*6);
+      addChild(g,'line',{x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y,stroke:pal.fg,'stroke-width':a%5===0?2:0.8,'stroke-opacity':(a%5===0?0.5:0.25)*fade});
+    }
+    // Ghost trails
+    for(let t=0;t<8;t++){
+      const a=sec-t*12;
+      const op=(0.3-t*0.035)*fade;
+      if(op<=0)continue;
+      hand(g,cx,cy,a,R*0.78,1.5,pal.fg);
+      g.lastChild.setAttribute('opacity',op);
+      const pp=polar(cx,cy,R*0.78+Math.random()*15,a);
+      addChild(g,'circle',{cx:pp.x,cy:pp.y,r:1.5+Math.random()*2,fill:pal.accent,opacity:op*0.6});
+    }
+    hand(g,cx,cy,time*0.04,R*0.5,4,pal.fg);
+    hand(g,cx,cy,time*0.5,R*0.7,2.5,pal.fg);
+    hand(g,cx,cy,sec,R*0.85,1.2,pal.sec,'url(#gl)');
+    // Speed lines
+    for(let j=0;j<25;j++){
+      const a=Math.random()*360;
+      const r1=R*0.9+Math.random()*R*0.2;
+      const r2=r1+R*0.1+Math.random()*R*0.5;
+      const p1=polar(cx,cy,r1,a);
+      const p2=polar(cx,cy,r2,a);
+      addChild(g,'line',{x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y,stroke:pal.fg,'stroke-width':0.5+Math.random(),opacity:(0.15+Math.random()*0.2)*fade});
+    }
+  }
+
+  function drawCrawlExp(g,cx,cy,R,pal,fade){
+    for(let a=0;a<60;a++){
+      const inner=a%5===0?R*0.84:R*0.9;
+      const p1=polar(cx,cy,inner,a*6);
+      const p2=polar(cx,cy,R*0.94,a*6);
+      addChild(g,'line',{x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y,stroke:pal.fg,'stroke-width':a%5===0?2:0.6,'stroke-opacity':(a%5===0?0.6:0.2)*fade});
+    }
+    hand(g,cx,cy,time*0.0002,R*0.45,6,pal.fg);
+    hand(g,cx,cy,time*0.003,R*0.65,4,pal.fg);
+    hand(g,cx,cy,time*0.05,R*0.8,2.5,pal.sec);
+    // Crystalline formations
+    for(let j=0;j<16;j++){
+      const a=(j/16)*360+time*0.5;
+      const r=R*0.88+j*4;
+      const p=polar(cx,cy,r,a);
+      const sz=3+j*0.6;
+      addChild(g,'polygon',{points:`${p.x},${p.y-sz} ${p.x+sz*0.7},${p.y+sz*0.5} ${p.x-sz*0.7},${p.y+sz*0.5}`,fill:'none',stroke:pal.fg,'stroke-width':0.6,opacity:(0.25+fade*0.15)*fade});
+    }
+  }
+
+  function drawStutterExp(g,cx,cy,R,pal,fade){
+    const raw=time*2;
+    const period=0.8;
+    const frozen=Math.floor(raw/period)*period;
+    const inStep=raw%period;
+    const jerkT=inStep<0.15?frozen+inStep*5:frozen;
+    const glitch=Math.random()<0.15;
+    const sec=glitch?jerkT+Math.random()*40:jerkT;
+    const ox=glitch?(Math.random()-0.5)*12:0;
+    const oy=glitch?(Math.random()-0.5)*12:0;
+    // Heavy glitch bands
+    for(let j=0;j<30;j++){
+      const gy=cy-R+Math.random()*R*2;
+      const gw=R*0.2+Math.random()*R*0.8;
+      addChild(g,'rect',{x:cx-gw/2+(Math.random()-0.5)*25,y:gy,width:gw,height:1+Math.random()*4,fill:Math.random()>0.5?pal.fg:pal.sec,opacity:(0.04+Math.random()*0.1)*fade});
+    }
+    hand(g,cx+ox,cy+oy,time*0.008,R*0.45,3,pal.fg);
+    hand(g,cx-ox*0.5,cy-oy*0.5,time*0.1,R*0.65,2,pal.fg);
+    hand(g,cx+ox*0.3,cy+oy*0.3,sec,R*0.82,1.2,pal.sec,'url(#gl)');
+  }
+
+  function drawLoopExp(g,cx,cy,R,pal,fade){
+    const lp=6;
+    const phase=(time%lp)/lp;
+    const loopA=phase<0.8?(phase/0.8)*360:((phase-0.8)/0.2)*-108+288;
+    const sec=loopA+time*0.3;
+    const min=loopA*0.08+time*0.02;
+    // Full arc
+    if(phase*360>1){
+      const ap=arcPath(cx,cy,R*0.9,0,Math.min(phase*360,360));
+      addChild(g,'path',{d:ap,fill:'none',stroke:pal.sec,'stroke-width':2,opacity:0.5*fade});
+    }
+    // Spiral layers
+    for(let s=0;s<4;s++){
+      const sr=R*(0.25+s*0.2);
+      const startA=time*(0.5+s*0.3)+s*120;
+      const pts=[];
+      for(let a=0;a<360;a+=4){
+        const p=polar(cx,cy,sr+a*0.003*R,startA+a);
+        pts.push(`${a===0?'M':'L'}${p.x},${p.y}`);
+      }
+      addChild(g,'path',{d:pts.join(' '),fill:'none',stroke:pal.fg,'stroke-width':0.5,opacity:0.12*fade});
+    }
+    hand(g,cx,cy,min*0.15,R*0.4,3,pal.fg);
+    hand(g,cx,cy,min,R*0.6,2,pal.fg);
+    hand(g,cx,cy,sec,R*0.8,1.2,pal.sec);
+  }
+
+  function drawDissolveExp(g,cx,cy,R,pal,fade){
+    const phase=Math.min(time*0.03,1);
+    const handOp=Math.max(0.2,1-phase*0.8);
+    // Dissolving perimeter
+    for(let a=0;a<360;a+=2){
+      if(Math.random()>phase*0.7){
+        const p=polar(cx,cy,R*0.96,a);
+        addChild(g,'circle',{cx:p.x+Math.random()*5,cy:p.y+Math.random()*5,r:0.5+Math.random()*1.5,fill:pal.fg,opacity:(0.2+Math.random()*0.25)*fade});
+      }
+    }
+    hand(g,cx,cy,time*0.008,R*0.45,2.5,pal.fg,'url(#dis)');
+    g.lastChild.setAttribute('opacity',handOp*fade);
+    hand(g,cx,cy,time*0.1,R*0.65,1.8,pal.fg,'url(#dis)');
+    g.lastChild.setAttribute('opacity',handOp*fade);
+    hand(g,cx,cy,time*1.5,R*0.8,1,pal.sec);
+    g.lastChild.setAttribute('opacity',fade);
+    // Falling particles
+    for(let j=0;j<Math.floor(phase*30);j++){
+      const px=cx-R+Math.random()*R*2;
+      const py=cy-R*0.5+(Math.random()*R*2+time*15+j*25)%(R*3);
+      addChild(g,'circle',{cx:px,cy:py,r:0.5+Math.random()*2,fill:pal.fg,opacity:(0.08+Math.random()*0.12)*fade});
+    }
+  }
+
+  function drawReverseExp(g,cx,cy,R,pal,fade){
+    const rr=time*30;
+    addChild(g,'circle',{cx,cy,r:R*0.94,fill:'none',stroke:pal.fg,'stroke-width':0.8,'stroke-dasharray':'5 10',opacity:0.35*fade,transform:`rotate(${rr} ${cx} ${cy})`});
+    addChild(g,'circle',{cx,cy,r:R*0.88,fill:'none',stroke:pal.sec,'stroke-width':0.5,'stroke-dasharray':'3 15',opacity:0.25*fade,transform:`rotate(${-rr*1.5} ${cx} ${cy})`});
+    // Counter-clockwise marks
+    for(let a=0;a<12;a++){
+      const p1=polar(cx,cy,R*0.82,(12-a)*30);
+      const p2=polar(cx,cy,R*0.94,(12-a)*30);
+      addChild(g,'line',{x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y,stroke:pal.fg,'stroke-width':2.5,'stroke-opacity':0.5*fade});
+    }
+    hand(g,cx,cy,-time*0.008,R*0.45,3,pal.fg);
+    hand(g,cx,cy,-time*0.1,R*0.65,2,pal.fg);
+    hand(g,cx,cy,-time*1.5,R*0.82,1,pal.sec,'url(#gl)');
+    // Reverse ripples
+    for(let r=0;r<6;r++){
+      const rr2=R*(1.1+r*0.25)-time*8%R;
+      if(rr2>0){
+        addChild(g,'circle',{cx,cy,r:rr2,fill:'none',stroke:pal.fg,'stroke-width':0.6,opacity:Math.max(0,0.12*fade)});
+      }
+    }
+  }
+
+  function drawPulseExp(g,cx,cy,R,pal,fade){
+    const phase=(time%2)/2;
+    const expansion=phase<0.5?(phase/0.5):((1-phase)/0.5);
+    for(let r=0;r<5;r++){
+      const rr=((R*0.2+r*R*0.2)+phase*R*0.6)%R;
+      const op=1-(rr/R);
+      addChild(g,'circle',{cx,cy,r:rr,fill:'none',stroke:pal.fg,'stroke-width':1.2+expansion,opacity:Math.max(0,op*0.35)*fade});
+    }
+    hand(g,cx,cy,time*0.008,R*0.4,2.5,pal.fg);
+    hand(g,cx,cy,time*0.1,R*0.6,1.8,pal.fg);
+    hand(g,cx,cy,time*1.5,R*0.8,1,pal.sec);
+    // Wave patterns
+    for(let w=0;w<8;w++){
+      const wr=R*0.4+w*R*0.08;
+      const pts=[];
+      for(let a=0;a<=360;a+=4){
+        const wave=Math.sin(a*8+time*3+w)*4*fade;
+        const p=polar(cx,cy,wr+wave,a);
+        pts.push(`${a===0?'M':'L'}${p.x},${p.y}`);
+      }
+      addChild(g,'path',{d:pts.join(' '),fill:'none',stroke:pal.fg,'stroke-width':0.5,opacity:0.15*fade});
+    }
+  }
+
+  function drawFractalExp(g,cx,cy,R,pal,fade){
+    function drawSq(level,angle,size){
+      if(level>3||size<3)return;
+      const corners=[];
+      for(let c=0;c<4;c++)corners.push(polar(cx,cy,size*0.707,angle+c*90));
+      addChild(g,'polygon',{points:corners.map(p=>`${p.x},${p.y}`).join(' '),fill:'none',stroke:pal.fg,'stroke-width':Math.max(0.3,2-level*0.4),opacity:(0.4-level*0.08)*fade});
+      for(let c=0;c<4;c++)drawSq(level+1,angle+time*15*(level+1)+c*90,size*0.38);
+    }
+    drawSq(0,time*10,R*0.5);
+    hand(g,cx,cy,time*0.008,R*0.45,2,pal.fg);
+    hand(g,cx,cy,time*0.1,R*0.65,1.5,pal.fg);
+    // Additional fractal detail
+    for(let l=3;l<5;l++){
+      const s=R*0.5*Math.pow(0.38,l);
+      if(s<4)continue;
+      for(let j=0;j<Math.min(Math.pow(4,l),16);j++){
+        const a=time*10*(l+1)+j*90/Math.pow(4,l);
+        const dist=R*0.5*Math.pow(0.38,Math.floor(j/4));
+        const p=polar(cx,cy,dist,a);
+        if(Math.abs(p.x-cx)>R*1.1||Math.abs(p.y-cy)>R*1.1)continue;
+        addChild(g,'rect',{x:p.x-s/2,y:p.y-s/2,width:s,height:s,fill:'none',stroke:pal.fg,'stroke-width':0.3,opacity:0.12*fade,transform:`rotate(${time*10*(l+1)} ${p.x} ${p.y})`});
+      }
+    }
+  }
+
+  function drawPendulumExp(g,cx,cy,R,pal,fade){
+    const swing=Math.sin(time*TAU/3)*45;
+    const armLen=R*0.78;
+    const bob=polar(cx,cy,armLen,swing+90);
+    addChild(g,'line',{x1:cx,y1:cy,x2:bob.x,y2:bob.y,stroke:pal.fg,'stroke-width':1.8});
+    addChild(g,'circle',{cx:bob.x,cy:bob.y,r:8,fill:pal.accent,filter:'url(#gl)'});
+    const hA=(swing+45)/90*360;
+    hand(g,cx,cy,hA,R*0.4,2,pal.fg);
+    hand(g,cx,cy,hA*12+time*0.5,R*0.55,1.2,pal.sec);
+    // Pendulum trace
+    const pts=[];
+    for(let t2=0;t2<120;t2++){
+      const pastA=Math.sin((time-t2*0.02)*TAU/3)*45+90;
+      const p=polar(cx,cy,armLen,pastA);
+      pts.push(`${t2===0?'M':'L'}${p.x},${p.y}`);
+    }
+    addChild(g,'path',{d:pts.join(' '),fill:'none',stroke:pal.fg,'stroke-width':0.8,opacity:0.2*fade});
+    // Arc path
+    addChild(g,'path',{d:`M${cx-R*0.6},${cy+R*0.2} Q${cx},${cy+R*0.95} ${cx+R*0.6},${cy+R*0.2}`,fill:'none',stroke:pal.fg,'stroke-width':0.8,'stroke-opacity':0.3*fade});
+  }
+
+  // --- Center glow ---
+  function drawCenter(){
+    cLayer.innerHTML='';
+    const pulse=Math.sin(time*0.5)*0.3+0.3;
+    const isExp=expState!==null;
+    const intensity=isExp?easeInOut(Math.min(1,expState.t)):0;
+
+    // Fixed center dot radius (clamped to positive, fixes bug)
+    const r=Math.max(1.5,3+pulse*6*(0.3+intensity*0.7));
+    addChild(cLayer,'circle',{cx:450,cy:450,r:r,fill:'#ffffff',opacity:0.06+pulse*0.03+intensity*0.1,filter:'url(#gl2)'});
+
+    if(intensity>0.3){
+      const ip=Math.sin(time*3)*0.2+0.8;
+      addChild(cLayer,'circle',{cx:450,cy:450,r:30+intensity*80,fill:'#ffffff',opacity:intensity*0.06*ip,filter:'url(#gl2)'});
+
+      if(intensity>0.5){
+        for(let a=0;a<12;a++){
+          const angle=a*30+time*10;
+          const p1=polar(450,450,20,angle);
+          const p2=polar(450,450,60+intensity*100,angle);
+          addChild(cLayer,'line',{x1:p1.x,y1:p1.y,x2:p2.x,y2:p2.y,stroke:'#ffffff','stroke-width':0.5,opacity:intensity*0.08});
+        }
+      }
+
+      if(intensity>0.9){
+        const flash=Math.sin(time*5)*0.5+0.5;
+        addChild(cLayer,'circle',{cx:450,cy:450,r:50,fill:'#ffffff',opacity:flash*0.03});
+      }
+    }
+  }
+
+})();
+</script>
+</body>
+</html>

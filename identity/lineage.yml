@@ -11,6 +11,10 @@ nodes:
     title: Hymnal for a Dead Language
     domain: music
     rating: 4.9
+  - id: "0004"
+    title: The Murdered Clock
+    domain: visual-art
+    rating: 4.6
 edges: []
 constellations: []
 creative_dna:
@@ -18,4 +22,4 @@ creative_dna:
   technique_signatures: []
   domain_affinities: []
   unexplored_territory: []
-updated_at: 2026-05-27T08:20:01.517Z
+updated_at: 2026-05-27T08:38:05.874Z

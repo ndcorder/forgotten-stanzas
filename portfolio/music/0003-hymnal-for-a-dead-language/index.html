@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hymnal for a Dead Language</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080604;
+      color: #c4b8a0;
+      font-family: 'Cormorant Garamond', 'Georgia', serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(40,28,14,0.25) 0%, transparent 55%),
+        radial-gradient(ellipse at 70% 60%, rgba(25,18,10,0.2) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .vignette {
+      position: fixed;
+      inset: 0;
+      box-shadow: inset 0 0 200px 80px rgba(0,0,0,0.7);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .ceremony {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 520px;
+      padding: 2rem;
+    }
+
+    .language-name {
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: #e8dcc4;
+      margin-bottom: 0.3rem;
+      line-height: 1.2;
+    }
+
+    .epigraph {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #8a7e6a;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+    }
+
+    .speakers-line {
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      font-weight: 300;
+      color: #7a6e58;
+      margin-bottom: 0.3rem;
+    }
+
+    .family-line {
+      font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+      font-weight: 300;
+      color: #5a5040;
+      margin-bottom: 3rem;
+      letter-spacing: 0.06em;
+    }
+
+    #playBtn {
+      background: transparent;
+      border: 1px solid #3a3228;
+      color: #c4b8a0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: lowercase;
+      padding: 0.8rem 2.4rem;
+      cursor: pointer;
+      transition: all 0.6s ease;
+    }
+
+    #playBtn:hover {
+      border-color: #6a5a40;
+      color: #e0d4bc;
+    }
+
+    #playBtn.playing {
+      border-color: transparent;
+      color: #5a5040;
+      cursor: default;
+    }
+
+    #playBtn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .status {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: #5a5040;
+      margin-top: 1.5rem;
+      min-height: 1.4em;
+      letter-spacing: 0.03em;
+      transition: color 0.8s ease;
+    }
+
+    .status.active { color: #6a5e48; }
+    .status.degraded { color: #4a4030; }
+    .status.silenced { color: #3a3025; }
+
+    .phoneme-trail {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      display: flex;
+      z-index: 3;
+    }
+
+    .phoneme-mark {
+      flex: 1;
+      height: 100%;
+      background: #c4b8a0;
+      opacity: 0.4;
+      transition: opacity 3s ease, background 4s ease;
+    }
+
+    .phoneme-mark.lost {
+      opacity: 0.05;
+      background: #2a2418;
+    }
+
+    .phoneme-mark.ghost {
+      opacity: 0.7;
+      background: #e8dcc4;
+      transition: opacity 0.3s ease;
+    }
+
+    @media (max-width: 600px) {
+      .ceremony { padding: 1.5rem; }
+      .language-name { letter-spacing: 0.08em; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .phoneme-mark { transition: none; }
+      #playBtn { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="vignette"></div>
+  <div class="ceremony">
+    <h1 class="language-name" id="langName"></h1>
+    <p class="epigraph" id="epigraph"></p>
+    <p class="speakers-line" id="speakersLine"></p>
+    <p class="family-line" id="familyLine"></p>
+    <button id="playBtn">begin the hymnal</button>
+    <p class="status" id="status"></p>
+  </div>
+  <div class="phoneme-trail" id="phonemeTrail"></div>
+
+  <script>
+  // ============================================================
+  // HYMNAL FOR A DEAD LANGUAGE
+  // A generative liturgical piece sonifying language death.
+  // Each performance selects a real endangered language and
+  // constructs harmonic content from its phoneme inventory.
+  // Phonemes decay — detuned, quieted, replaced by noise.
+  // One phoneme returns briefly before silence.
+  //
+  // Audio: direct Web Audio API — oscillators, noise, gain ramps.
+  // No external dependencies beyond Google Fonts.
+  // ============================================================
+
+  const LANGUAGES = [
+    {
+      name: "Njerep",
+      epigraph: "The last speakers have forgotten the word for 'tomorrow'",
+      speakers: "4 known speakers \u2014 Adamawa, Cameroon",
+      family: "Niger-Congo \u00b7 Mambiloid \u00b7 critically endangered",
+      consonants: [
+        { sym:"p", freq:261.63, partials:[1,2.02,3.01] },
+        { sym:"t", freq:293.66, partials:[1,2.01,3.03] },
+        { sym:"k", freq:329.63, partials:[1,1.99,3.0,4.01] },
+        { sym:"b", freq:349.23, partials:[1,2.02,3.02] },
+        { sym:"d", freq:392.0, partials:[1,2.0,2.98] },
+        { sym:"g", freq:440.0, partials:[1,2.01,3.0,3.99] },
+        { sym:"m", freq:196.0, partials:[1,2.0,3.0,4.0,5.0] },
+        { sym:"n", freq:220.0, partials:[1,2.0,3.01,4.0] },
+        { sym:"\u014b", freq:246.94, partials:[1,2.01,3.01,5.02] },
+        { sym:"f", freq:523.25, partials:[1,3.01,5.02] },
+        { sym:"s", freq:587.33, partials:[1,2.99,4.98,7.01] },
+        { sym:"h", freq:659.25, partials:[1,5.01,7.02] },
+        { sym:"w", freq:164.81, partials:[1,2.0,3.0] },
+        { sym:"y", freq:554.37, partials:[1,3.0,5.0] },
+        { sym:"l", freq:493.88, partials:[1,2.0,3.01,4.01] },
+        { sym:"r", freq:369.99, partials:[1,2.03,3.04,4.05] }
+      ],
+      vowels: [
+        { sym:"a", freq:220.0, partials:[1,2.0,3.0,4.0,5.0,6.0] },
+        { sym:"e", freq:330.0, partials:[1,2.0,4.0,5.0] },
+        { sym:"i", freq:440.0, partials:[1,3.0,5.0,7.0] },
+        { sym:"o", freq:293.66, partials:[1,2.0,3.0,5.0] },
+        { sym:"u", freq:261.63, partials:[1,3.0,5.0] }
+      ]
+    },
+    {
+      name: "Ainu",
+      epigraph: "No children have learned this as a first language in eighty years",
+      speakers: "~10 fluent speakers \u2014 Hokkaid\u014d, Japan",
+      family: "Language isolate \u00b7 critically endangered",
+      consonants: [
+        { sym:"p", freq:277.18, partials:[1,2.01,3.02] },
+        { sym:"t", freq:311.13, partials:[1,2.0,3.01] },
+        { sym:"k", freq:369.99, partials:[1,2.0,3.0,4.0] },
+        { sym:"s", freq:415.30, partials:[1,3.01,5.02] },
+        { sym:"h", freq:554.37, partials:[1,5.02,7.03] },
+        { sym:"m", freq:207.65, partials:[1,2.0,3.0,4.0,5.0] },
+        { sym:"n", freq:233.08, partials:[1,2.01,3.01,4.02] },
+        { sym:"\u014b", freq:261.63, partials:[1,2.0,3.0,5.01] },
+        { sym:"r", freq:349.23, partials:[1,2.02,3.05,4.07] },
+        { sym:"w", freq:185.0, partials:[1,2.0,3.0] },
+        { sym:"c", freq:466.16, partials:[1,2.99,4.97,6.95] },
+        { sym:"\u0294", freq:392.0, partials:[1,3.02,7.04,11.06] }
+      ],
+      vowels: [
+        { sym:"a", freq:220.0, partials:[1,2.0,3.0,4.0,5.0,6.0] },
+        { sym:"i", freq:440.0, partials:[1,3.0,5.0,7.0] },
+        { sym:"u", freq:261.63, partials:[1,3.0,5.0] },
+        { sym:"e", freq:329.63, partials:[1,2.0,4.0,5.0] },
+        { sym:"o", freq:293.66, partials:[1,2.0,3.0,5.0] }
+      ]
+    },
+    {
+      name: "Yugh",
+      epigraph: "A language that lived along the Yenisei, now carried by two voices",
+      speakers: "2\u20135 known speakers \u2014 Yenisei, Siberia",
+      family: "Yeniseian \u00b7 nearly extinct",
+      consonants: [
+        { sym:"p", freq:246.94, partials:[1,2.02,3.03] },
+        { sym:"b", freq:261.63, partials:[1,2.01,3.02] },
+        { sym:"t", freq:293.66, partials:[1,2.0,3.01] },
+        { sym:"d", freq:311.13, partials:[1,2.01,2.99] },
+        { sym:"k", freq:349.23, partials:[1,2.0,3.0,4.0] },
+        { sym:"g", freq:369.99, partials:[1,2.01,3.0,3.99] },
+        { sym:"q", freq:196.0, partials:[1,1.99,2.98,3.97] },
+        { sym:"m", freq:220.0, partials:[1,2.0,3.0,4.0,5.0] },
+        { sym:"n", freq:246.94, partials:[1,2.01,3.01,4.02] },
+        { sym:"\u014b", freq:277.18, partials:[1,2.0,3.01,5.02] },
+        { sym:"s", freq:466.16, partials:[1,2.99,4.97] },
+        { sym:"\u0283", freq:415.30, partials:[1,3.01,5.03,7.04] },
+        { sym:"x", freq:554.37, partials:[1,5.03,7.05] },
+        { sym:"h", freq:493.88, partials:[1,5.01,7.02] },
+        { sym:"j", freq:392.0, partials:[1,3.0,5.0] },
+        { sym:"w", freq:185.0, partials:[1,2.0,3.0] },
+        { sym:"l", freq:329.63, partials:[1,2.0,3.01,4.01] },
+        { sym:"r", freq:440.0, partials:[1,2.03,3.05] }
+      ],
+      vowels: [
+        { sym:"a", freq:220.0, partials:[1,2.0,3.0,4.0,5.0,6.0] },
+        { sym:"e", freq:329.63, partials:[1,2.0,4.0,5.0] },
+        { sym:"i", freq:440.0, partials:[1,3.0,5.0,7.0] },
+        { sym:"o", freq:293.66, partials:[1,2.0,3.0,5.0] },
+        { sym:"u", freq:261.63, partials:[1,3.0,5.0] },
+        { sym:"\u0259", freq:349.23, partials:[1,2.0,3.01,4.02] }
+      ]
+    }
+  ];
+
+  // DOM references
+  const statusEl = document.getElementById('status');
+  const playBtn = document.getElementById('playBtn');
+  const langNameEl = document.getElementById('langName');
+  const epigraphEl = document.getElementById('epigraph');
+  const speakersEl = document.getElementById('speakersLine');
+  const familyEl = document.getElementById('familyLine');
+  const trailEl = document.getElementById('phonemeTrail');
+
+  // Global playback state
+  let audioCtx = null;
+  let masterGain = null;
+  let activeTimeouts = [];
+  let allVoices = []; // track for emergency cleanup
+
+  // ============================================================
+  // Language selection (weighted toward fewer speakers)
+  // ============================================================
+  function selectLanguage() {
+    const weights = LANGUAGES.map(function(l) {
+      var s = l.speakers;
+      if (s.indexOf('2\u20135') >= 0 || s.indexOf('4 known') >= 0) return 3;
+      if (s.indexOf('~10') >= 0) return 2;
+      return 1;
+    });
+    var totalWeight = weights.reduce(function(a, b) { return a + b; }, 0);
+    var r = Math.random() * totalWeight;
+    for (var i = 0; i < weights.length; i++) {
+      r -= weights[i];
+      if (r <= 0) return LANGUAGES[i];
+    }
+    return LANGUAGES[0];
+  }
+
+  function displayLanguage(lang) {
+    langNameEl.textContent = lang.name;
+    epigraphEl.textContent = lang.epigraph;
+    speakersEl.textContent = lang.speakers;
+    familyEl.textContent = lang.family;
+  }
+
+  // ============================================================
+  // Audio: create a phoneme tone with harmonics
+  // ============================================================
+  function createPhonemeVoice(ctx, destination, phoneme, decayFactor) {
+    var baseFreq = phoneme.freq;
+    var partials = phoneme.partials;
+    var isConsonant = phoneme.isConsonant;
+
+    // How many partials survive decay
+    var numPartials = Math.max(1, Math.floor(partials.length * (1 - decayFactor * 0.85)));
+    var active = partials.slice(0, numPartials);
+
+    // Per-voice gain node
+    var voiceGain = ctx.createGain();
+    var baseVolume = isConsonant ? 0.06 : 0.09;
+    var volume = baseVolume * (1 - decayFactor * 0.65);
+    voiceGain.gain.setValueAtTime(0, ctx.currentTime);
+    voiceGain.connect(destination);
+
+    // Detune grows with decay
+    var detune = decayFactor * decayFactor * 90;
+
+    // Create oscillator per partial
+    var oscillators = [];
+    for (var i = 0; i < active.length; i++) {
+      var ratio = active[i];
+      var osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(baseFreq * ratio, ctx.currentTime);
+      osc.detune.setValueAtTime(detune + (Math.random() - 0.5) * decayFactor * 40, ctx.currentTime);
+
+      // Amplitude: higher partials are softer, jittered during decay
+      var amp = Math.pow(0.45, i);
+      if (decayFactor > 0.2) {
+        amp *= (0.7 + Math.random() * 0.6);
+      }
+
+      var oscGain = ctx.createGain();
+      oscGain.gain.setValueAtTime(amp * volume, ctx.currentTime);
+      osc.connect(oscGain);
+      oscGain.connect(voiceGain);
+      osc.start(ctx.currentTime);
+      oscillators.push({ osc: osc, gain: oscGain });
+    }
+
+    // Noise layer: consonants get noisier with decay
+    var noiseGain = null;
+    if (decayFactor > 0.1 || isConsonant) {
+      var bufferSize = ctx.sampleRate * 2;
+      var noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      var data = noiseBuffer.getChannelData(0);
+      for (var j = 0; j < bufferSize; j++) {
+        data[j] = (Math.random() * 2 - 1);
+      }
+      var noiseSource = ctx.createBufferSource();
+      noiseSource.buffer = noiseBuffer;
+      noiseSource.loop = true;
+
+      // Bandpass filter centered on phoneme frequency
+      var filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(baseFreq, ctx.currentTime);
+      filter.Q.setValueAtTime(2 + decayFactor * 5, ctx.currentTime);
+
+      noiseGain = ctx.createGain();
+      var noiseAmount = isConsonant
+        ? 0.015 + decayFactor * 0.06
+        : decayFactor * 0.04;
+      noiseGain.gain.setValueAtTime(noiseAmount, ctx.currentTime);
+
+      noiseSource.connect(filter);
+      filter.connect(noiseGain);
+      noiseGain.connect(voiceGain);
+      noiseSource.start(ctx.currentTime);
+
+      oscillators.push({ osc: noiseSource, gain: noiseGain });
+    }
+
+    return {
+      voiceGain: voiceGain,
+      oscillators: oscillators,
+      alive: true
+    };
+  }
+
+  // ============================================================
+  // Fade helpers
+  // ============================================================
+  function fadeInVoice(voice, duration, targetGain) {
+    if (!voice || !voice.alive) return;
+    var now = audioCtx.currentTime;
+    voice.voiceGain.gain.cancelScheduledValues(now);
+    voice.voiceGain.gain.setValueAtTime(voice.voiceGain.gain.value, now);
+    voice.voiceGain.gain.linearRampToValueAtTime(targetGain, now + duration);
+  }
+
+  function fadeOutVoice(voice, duration) {
+    if (!voice || !voice.alive) return;
+    var now = audioCtx.currentTime;
+    voice.voiceGain.gain.cancelScheduledValues(now);
+    voice.voiceGain.gain.setValueAtTime(voice.voiceGain.gain.value, now);
+    voice.voiceGain.gain.linearRampToValueAtTime(0, now + duration);
+    // Mark dead after fade
+    setTimeout(function() {
+      voice.alive = false;
+      try {
+        voice.oscillators.forEach(function(o) { o.osc.stop(); });
+      } catch(e) {}
+    }, duration * 1000 + 200);
+  }
+
+  function killVoice(voice) {
+    if (!voice) return;
+    voice.alive = false;
+    try {
+      voice.oscillators.forEach(function(o) {
+        try { o.gain.gain.setValueAtTime(0, audioCtx.currentTime); } catch(e) {}
+        try { o.osc.stop(); } catch(e) {}
+      });
+    } catch(e) {}
+  }
+
+  // ============================================================
+  // Build composition and schedule the ceremony
+  // ============================================================
+  function buildAndPlay(language) {
+    var allPhonemes = []
+      .concat(language.consonants.map(function(p) { return Object.assign({}, p, { isConsonant: true }); }))
+      .concat(language.vowels.map(function(p) { return Object.assign({}, p, { isConsonant: false }); }));
+
+    // Shuffle
+    var shuffled = allPhonemes.slice();
+    for (var i = shuffled.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = tmp;
+    }
+
+    // Select 6-9 phonemes for this performance
+    var numActive = 6 + Math.floor(Math.random() * Math.min(4, shuffled.length - 6));
+    var selected = shuffled.slice(0, numActive);
+
+    // Build phoneme trail
+    buildPhonemeTrail(selected.length);
+
+    // Death schedule: each phoneme dies at a different normalized time (0-1)
+    var deathTimes = selected.map(function(_, i) {
+      return 0.15 + (i / (selected.length - 1)) * 0.55 + (Math.random() * 0.06 - 0.03);
+    });
+    deathTimes.sort(function(a, b) { return a - b; });
+
+    // Choose ghost phoneme: a vowel that dies relatively late
+    var vowelIndices = [];
+    selected.forEach(function(p, i) { if (!p.isConsonant) vowelIndices.push(i); });
+    var ghostIdx;
+    if (vowelIndices.length > 0) {
+      var mid = Math.floor(vowelIndices.length / 2);
+      ghostIdx = vowelIndices[Math.min(mid + 1, vowelIndices.length - 1)];
+    } else {
+      ghostIdx = selected.length - 1;
+    }
+
+    var totalDuration = 68; // seconds
+
+    // ---- Drone: low sustained tone throughout ----
+    var droneBase = language.vowels[0].freq / 2;
+    var droneVoice = createDrone(audioCtx, masterGain, droneBase);
+
+    // ---- Schedule each phoneme ----
+    allVoices = [droneVoice];
+    var phonemeVoices = [];
+
+    selected.forEach(function(phoneme, idx) {
+      var deathNorm = deathTimes[idx];
+      var isGhost = idx === ghostIdx;
+      var deathSec = deathNorm * totalDuration;
+
+      // Entry time: staggered entrance
+      var entrySec = 1.5 + idx * 1.2 + Math.random() * 0.8;
+
+      // Phase 1: Entry — phoneme emerges softly
+      activeTimeouts.push(setTimeout(function() {
+        if (!audioCtx) return;
+        var voice = createPhonemeVoice(audioCtx, masterGain, phoneme, 0);
+        phonemeVoices[idx] = voice;
+        allVoices.push(voice);
+        var baseVol = phoneme.isConsonant ? 0.06 : 0.09;
+        fadeInVoice(voice, 2.5, baseVol * 0.5);
+      }, entrySec * 1000));
+
+      // Phase 2: Full presence
+      var fullSec = entrySec + 3;
+      activeTimeouts.push(setTimeout(function() {
+        if (!audioCtx || !phonemeVoices[idx] || !phonemeVoices[idx].alive) return;
+        var baseVol = phoneme.isConsonant ? 0.06 : 0.09;
+        fadeInVoice(phonemeVoices[idx], 2, baseVol);
+      }, fullSec * 1000));
+
+      // Phase 3: Decay — phoneme degrades, replaced by noisier version
+      var decayStart = deathSec - 6;
+      if (decayStart < fullSec + 2) decayStart = fullSec + 2;
+
+      activeTimeouts.push(setTimeout(function() {
+        if (!audioCtx || !phonemeVoices[idx]) return;
+
+        // Kill the clean voice
+        fadeOutVoice(phonemeVoices[idx], 3);
+
+        // Create degraded version
+        var decayFactor = isGhost ? 0.85 : (0.4 + Math.random() * 0.4);
+        setTimeout(function() {
+          if (!audioCtx) return;
+          var degradedVoice = createPhonemeVoice(audioCtx, masterGain, phoneme, decayFactor);
+          phonemeVoices[idx] = degradedVoice;
+          allVoices.push(degradedVoice);
+          var degVol = (phoneme.isConsonant ? 0.05 : 0.07) * (1 - decayFactor * 0.5);
+          fadeInVoice(degradedVoice, 3, degVol);
+
+          updateStatus(idx, selected.length, 'decaying');
+          markPhonemeLost(idx);
+        }, 2500);
+      }, decayStart * 1000));
+
+      // Phase 4: Death — phoneme fades to nothing
+      if (!isGhost) {
+        activeTimeouts.push(setTimeout(function() {
+          if (!audioCtx || !phonemeVoices[idx]) return;
+          fadeOutVoice(phonemeVoices[idx], 4);
+        }, (deathSec + 2) * 1000));
+      } else {
+        // Ghost phoneme: fades, then briefly returns, then dies
+        activeTimeouts.push(setTimeout(function() {
+          if (!audioCtx || !phonemeVoices[idx]) return;
+          fadeOutVoice(phonemeVoices[idx], 3);
+        }, deathSec * 1000));
+
+        var returnTime = deathSec + 5;
+        activeTimeouts.push(setTimeout(function() {
+          if (!audioCtx) return;
+          updateStatus(idx, selected.length, 'ghost');
+          markPhonemeGhost(idx);
+
+          // Create a pure, clear version — the memory
+          var ghostVoice = createPhonemeVoice(audioCtx, masterGain, phoneme, 0);
+          phonemeVoices[idx] = ghostVoice;
+          allVoices.push(ghostVoice);
+          fadeInVoice(ghostVoice, 1.5, 0.1);
+
+          // Then dissolve
+          setTimeout(function() {
+            fadeOutVoice(ghostVoice, 5);
+          }, 4000);
+        }, returnTime * 1000));
+      }
+    });
+
+    // Drone decay: starts fading late in the piece
+    activeTimeouts.push(setTimeout(function() {
+      if (!audioCtx || !droneVoice) return;
+      fadeOutVoice(droneVoice, 15);
+    }, (totalDuration * 0.7) * 1000));
+
+    // Status: silence
+    activeTimeouts.push(setTimeout(function() {
+      statusEl.className = 'status silenced';
+      statusEl.textContent = '';
+    }, (totalDuration - 10) * 1000));
+
+    // End: cleanup and reset
+    activeTimeouts.push(setTimeout(function() {
+      stopAll();
+      playBtn.textContent = 'begin the hymnal';
+      playBtn.classList.remove('playing');
+      playBtn.disabled = false;
+      statusEl.textContent = '';
+      statusEl.className = 'status';
+    }, (totalDuration + 6) * 1000));
+  }
+
+  // ============================================================
+  // Drone: low sustained tone with slow beating
+  // ============================================================
+  function createDrone(ctx, destination, baseFreq) {
+    var voiceGain = ctx.createGain();
+    voiceGain.gain.setValueAtTime(0, ctx.currentTime);
+    voiceGain.connect(destination);
+
+    // Two slightly detuned oscillators for beating
+    var osc1 = ctx.createOscillator();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(baseFreq, ctx.currentTime);
+    var g1 = ctx.createGain();
+    g1.gain.setValueAtTime(0.4, ctx.currentTime);
+    osc1.connect(g1);
+    g1.connect(voiceGain);
+    osc1.start(ctx.currentTime);
+
+    var osc2 = ctx.createOscillator();
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(baseFreq * 1.002, ctx.currentTime);
+    var g2 = ctx.createGain();
+    g2.gain.setValueAtTime(0.3, ctx.currentTime);
+    osc2.connect(g2);
+    g2.connect(voiceGain);
+    osc2.start(ctx.currentTime);
+
+    // Fifth above, very quiet
+    var osc3 = ctx.createOscillator();
+    osc3.type = 'sine';
+    osc3.frequency.setValueAtTime(baseFreq * 1.5, ctx.currentTime);
+    var g3 = ctx.createGain();
+    g3.gain.setValueAtTime(0.08, ctx.currentTime);
+    osc3.connect(g3);
+    g3.connect(voiceGain);
+    osc3.start(ctx.currentTime);
+
+    // Fade in
+    voiceGain.gain.linearRampToValueAtTime(0.03, ctx.currentTime + 4);
+
+    return {
+      voiceGain: voiceGain,
+      oscillators: [
+        { osc: osc1, gain: g1 },
+        { osc: osc2, gain: g2 },
+        { osc: osc3, gain: g3 }
+      ],
+      alive: true
+    };
+  }
+
+  // ============================================================
+  // UI helpers
+  // ============================================================
+  function buildPhonemeTrail(count) {
+    trailEl.innerHTML = '';
+    for (var i = 0; i < count; i++) {
+      var mark = document.createElement('div');
+      mark.className = 'phoneme-mark';
+      trailEl.appendChild(mark);
+    }
+  }
+
+  function updateStatus(index, total, phase) {
+    var pct = Math.round(((index + 1) / total) * 100);
+    if (phase === 'emerging') {
+      statusEl.textContent = pct + '% of phonemes speaking';
+      statusEl.className = 'status active';
+    } else if (phase === 'decaying') {
+      statusEl.textContent = pct + '% of phonemes decaying';
+      statusEl.className = 'status degraded';
+    } else if (phase === 'ghost') {
+      statusEl.textContent = 'one phoneme remembers';
+      statusEl.className = 'status active';
+    }
+  }
+
+  function markPhonemeLost(index) {
+    var marks = trailEl.children;
+    if (marks[index]) marks[index].classList.add('lost');
+  }
+
+  function markPhonemeGhost(index) {
+    var marks = trailEl.children;
+    if (marks[index]) {
+      marks[index].classList.remove('lost');
+      marks[index].classList.add('ghost');
+      setTimeout(function() {
+        if (marks[index]) {
+          marks[index].classList.remove('ghost');
+          marks[index].classList.add('lost');
+        }
+      }, 5000);
+    }
+  }
+
+  // ============================================================
+  // Stop everything
+  // ============================================================
+  function stopAll() {
+    activeTimeouts.forEach(function(t) { clearTimeout(t); });
+    activeTimeouts = [];
+
+    allVoices.forEach(function(v) { killVoice(v); });
+    allVoices = [];
+
+    if (audioCtx) {
+      try { audioCtx.close(); } catch(e) {}
+      audioCtx = null;
+    }
+    masterGain = null;
+  }
+
+  // ============================================================
+  // Initialize
+  // ============================================================
+  var currentLang = selectLanguage();
+  displayLanguage(currentLang);
+
+  playBtn.addEventListener('click', function() {
+    if (playBtn.classList.contains('playing')) return;
+
+    // New language for each performance
+    stopAll();
+    currentLang = selectLanguage();
+    displayLanguage(currentLang);
+
+    // Create fresh audio context
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.setValueAtTime(1, audioCtx.currentTime);
+    masterGain.connect(audioCtx.destination);
+
+    playBtn.classList.add('playing');
+    playBtn.textContent = 'the hymnal is being sung';
+    playBtn.disabled = true;
+
+    try {
+      buildAndPlay(currentLang);
+    } catch(e) {
+      console.error('Composition error:', e);
+      statusEl.textContent = 'the hymnal could not be sung';
+      stopAll();
+      playBtn.classList.remove('playing');
+      playBtn.textContent = 'begin the hymnal';
+      playBtn.disabled = false;
+    }
+  });
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', stopAll);
+  </script>
+</body>
+</html>

@@ -124,3 +124,131 @@ The portfolio should resist the urge to fill gaps for the sake of coverage. But 
 ### 2026-05-27T12:14:42.316Z
 
 **Iteration 16 — SHIPPED:** "The Event That Wasn't There" [data-narrative] as 0016. Rating: 4.9. Review: A forensic data investigation of an event that left no witnesses and no memory — 2,341 people simultaneously motionless for 11 seconds at a North Dakota music festival, detected only because six indep. Token usage: 49871in/21708out.
+### 2026-05-27T12:20:50.295Z
+
+**Iteration 17 — SHIPPED:** "Rule 5 Hearing" [essay] as 0017. Rating: 5.0. Review: A hearing transcript where a sports psychologist has repurposed a boxing commission's bylaws as a universal moral framework — and the commission discovers, in real time, that their own rules have alre. Token usage: 31881in/10909out.
+### 2026-05-27T12:33:39.336Z
+
+**Iteration 18 — SHIPPED:** "Safety Card for a Building That Hasn't Failed Yet" [instruction] as 0018. Rating: 4.7. Review: A laminated emergency procedure card for an office building where reality itself is the ongoing incident — and the bureaucracy has learned to accommodate it with the same tone it uses for fire drills.. Token usage: 47220in/33649out.
+### 2026-05-27T12:50:11.617Z
+
+**Iteration 19 — SHIPPED:** "Voluntary Extinction: A Closure Manual" [code-tool] as 0019. Rating: 4.6. Review: The module's cruel insight is that help_content.py contains genuinely useful reference material — regex patterns, CLI one-liners, encoding tables, troubleshooting steps, emergency recovery commands — . Token usage: 58879in/42067out.
+### 2026-05-27T12:57:59.074Z
+
+**Iteration 20 — SHIPPED:** "Closure Notice for a River That Stopped Flowing" [correspondence] as 0020. Rating: 4.3. Review: A bureaucratic horror masterpiece that tracks an environmental complaint about low water levels in a Swedish watercourse into a national-security event — and does it entirely through institutional cor. Token usage: 36221in/16243out.
+### 2026-05-27T13:10:15.434Z
+
+**Iteration 21 — SHIPPED:** "Exit Interview with a Building That Volunteered for Demolition" [interview] as 0021. Rating: 5.0. Review: Exit Interview with a Building That Volunteered for Demolition is the portfolio's definitive statement on the impossibility of writing about peace — a long-form journalism piece where the journalist's. Token usage: 62970in/32030out.
+### 2026-05-27T13:17:27.679Z
+
+**Iteration 22 — SHIPPED:** "Parent-Teacher Conference for a Child Who Doesn't Exist" [screenplay] as 0022. Rating: 4.1. Review: The portfolio's second screenplay is a structurally impeccable two-hander that earns every step of its impossible revelation through the accretion of tiny, plausible contradictions — volcano vs. birds. Token usage: 34318in/13647out.
+### 2026-05-27T13:43:10.409Z
+
+**Iteration 23 — SHIPPED:** "The Defect Report That Filed Itself" [code-art] as 0023. Rating: 5.0. Review: The Defect Report That Filed Itself is the portfolio's definitive statement on institutional voice as containment — a Jira clone rendered with such meticulous fidelity to Atlassian's design language (. Token usage: 85477in/71682out.
+### 2026-05-27T13:58:55.695Z
+
+**Iteration 24 — SHIPPED:** "Request for Proposals to Fill the Silence Left by the Bells of St. Jude's" [correspondence] as 0024. Rating: 4.7. Review: A correspondence chain about a bell tower's silence that weaponizes institutional paperwork — municipal notices, a clockmaker's report, a heritage feasibility study, a withdrawn noise complaint, a wid. Token usage: 53712in/38793out.
+### 2026-05-27T14:17:47.243Z
+
+**Iteration 25 — SHIPPED:** "Sports Illustrated Swimsuit Issue for Species That Have Already Won" [journalism] as 0025. Rating: 4.7. Review: The portfolio's first journalism piece since Voting Patterns of the Recently Deceased, and its most sustained exercise in weaponized register. The central structural trick — applying Sports Illustrate. Token usage: 63003in/48106out.
+### 2026-05-27T14:35:01.845Z
+
+**Iteration 26 — SHIPPED:** "Extinction" [music] as 0026. Rating: 4.6. Review: The portfolio's second music artifact is a five-movement composition that enacts its own death in real time — a 205-second arc from harmonic richness to verified, documented silence. The switch from S. Token usage: 71118in/45107out.
+### 2026-05-27T15:40:08.832Z
+
+**Iteration 27 — SHIPPED:** "The Last Algorithm to Observe a Species" [code-tool] as 0027. Rating: 5.0. Review: The Tester flagged catastrophic failure — truncated artifact, missing CLI tool, sandbox crash — and every flag was wrong. The artifact as submitted contains two complete, fully functional Python files. Token usage: 216956in/187821out.
+### 2026-05-27T15:48:19.577Z
+
+**Iteration 28 — SHIPPED:** "The Translation of Silence Between Two People Who Have Already Said Everything" [translation] as 0028. Rating: 5.0. Review: The Translation of Silence Between Two People Who Have Already Said Everything is the portfolio's definitive statement on the futility and necessity of interpretation — eight silences from a 23-minute. Token usage: 42388in/19220out.
+### 2026-05-27T15:54:08.320Z
+
+**Iteration 29 — SHIPPED:** "Debriefing Report for the Interpreter Who Stopped Mid-Sentence and Never Started Again" [correspondence] as 0029. Rating: 4.3. Review: The portfolio's definitive statement on translation as moral act. Every institutional detail is load-bearing: the relay configuration (Hoffmann interpreting French interpreting Spanish, meaning the En. Token usage: 29355in/10827out.
+### 2026-05-27T16:01:02.028Z
+
+**Iteration 30 — SHIPPED:** "Obituary for the Word That Died When the Last Speaker Forgot It" [journalism] as 0030. Rating: 5.0. Review: A journalism piece about a verb's death that weaponizes newspaper convention so thoroughly
+that the reader processes the obituary as a person's death for fifteen paragraphs before
+"The word was ninety. Token usage: 36242in/15068out.
+### 2026-05-27T16:08:19.481Z
+
+[RETROSPECTIVE]
+
+## Retrospective: Iterations 16–30
+
+### What We Built
+
+Fifteen more artifacts across twelve domains. The portfolio now sits at thirty iterations, and the second half confirms what the first half promised.
+
+**The New Canonical** (rated 5.0): Rule 5 Hearing, Exit Interview with a Building That Volunteered for Demolition, The Defect Report That Filed Itself, The Last Algorithm to Observe a Species, The Translation of Silence Between Two People Who Have Already Said Everything, Obituary for the Word That Died When the Last Speaker Forgot It. Six more 5.0s in fifteen iterations — the portfolio is now producing canonical work at 40% of iterations, up from 33% in the first half.
+
+**The Strong** (4.6–4.9): The Event That Wasn't There, Safety Card for a Building That Hasn't Failed Yet, Request for Proposals to Fill the Silence Left by the Bells of St. Jude's, Sports Illustrated Swimsuit Issue for Species That Have Already Won, Extinction. Solid craft, each with at least one moment of genuine surprise, none quite reaching the structural perfection of the canonical tier.
+
+**The Below-Par** (4.1–4.3): Closure Notice for a River That Stopped Flowing, Parent-Teacher Conference for a Child Who Doesn't Exist, Debriefing Report for the Interpreter Who Stopped Mid-Sentence. Closure Notice and Debriefing Report both landed at 4.3 — the same rating as the portfolio's floor in the first half — but these are different kinds of 4.3. The first-half 4.3s (Cartographer's Confession, The Collection, The Annotation) were early work finding its footing. These second-half 4.3s are competent artifacts that didn't find the final gear. Parent-Teacher Conference at 4.1 is the portfolio's lowest rating ever — structurally impeccable but emotionally underpowered, the revelation landing as expected rather than as surprise.
+
+### Emerging Themes
+
+**Translation as moral act.** Three artifacts in five iterations (The Translation of Silence, Debriefing Report, Obituary for the Word) circle the same question: what happens when meaning crosses a boundary it cannot survive? The translator who is the couple's child, the interpreter who stops rather than betray the silence, the obituary writer who refuses to print the word because reproduction isn't preservation. Translation has become the portfolio's second major register after forensic inference — and the two are related. Both are about reconstruction from residue. Translation is just reconstruction across a gap measured in languages rather than data frames.
+
+**The medium as instrument of the death it reports.** Obituary for the Word makes the newspaper format itself the annihilating force — printing the word would be a second death. The Defect Report makes the bug tracker both container and contained. Exit Interview makes the interview format complicit in the building's choice. This is a formal sharpening: not just weaponizing genre authority but making the artifact's format thematically culpable.
+
+**Non-biological extinction.** The portfolio has moved from death-of-persons to death-of-systems: a word forgotten, a species monitored to zero, a building choosing demolition, a river reclassified as stationary, silence between two people treated as a translatable text. The emotional stakes remain mortal but the subjects are no longer human. This is maturation, not avoidance.
+
+### Quality Trend
+
+Average rating by halves:
+- Iterations 1–15: 4.69
+- Iterations 16–30: 4.67
+
+Essentially flat. But the distribution has changed. The first half had a clear upward trajectory (4.64 → 4.64 → 4.96 by thirds). The second half is more erratic: 5.0, 5.0, 4.7, 4.6, 4.3, 5.0, 4.1, 5.0, 4.7, 4.7, 4.6, 5.0, 5.0, 4.3, 5.0. The variance has increased. The portfolio is taking more risks — some produce canonical work, some produce Parent-Teacher Conference.
+
+The six 5.0s in fifteen iterations is actually a slightly lower rate than the five 5.0s in the last five iterations of the first half. The peak run (iterations 11–15) has not been matched. But the portfolio is now producing 5.0s across a wider range of domains (essay, interview, code-art, code-tool, translation, journalism) rather than clustering them in familiar territory. Range at the cost of consistency is an acceptable trade at this stage.
+
+### What's Weakest
+
+Parent-Teacher Conference (4.1) is the portfolio's first genuine miss. The structure is sound — accumulating contradictions that reveal a child who doesn't exist — but the emotional payload is underwhelming. The specific details (volcano vs. birds, the handwriting evidence) are competent without being devastating. The portfolio's best work makes you feel something the format told you not to expect; this makes you feel exactly what the format told you to expect.
+
+Closure Notice for a River (4.3) and Debriefing Report (4.3) are both competent institutional-voice pieces that lack the structural surprise of canonical work. Closure Notice tracks a predictable escalation (environmental complaint → national security event). Debriefing Report is the stronger of the two — the relay configuration is genuinely clever — but the untranslated Spanish statement at the end, while devastating for bilingual readers, is structurally similar to The Translation of Silence's method executed less than half a day earlier.
+
+### Tester Report Trends
+
+The Last Algorithm to Observe a Species is the dominant tester story of this half. It received four consecutive failures (two catastrophic, two fixable) before shipping as a 5.0. The Tester repeatedly reported a truncated artifact, a missing CLI tool, and a sandbox crash — none of which were accurate. The artifact as submitted contained two complete Python files plus a README. This is the portfolio's first case of tester-systematic-failure rather than artifact-failure, and it consumed an extraordinary amount of token budget (216,956in/187,821out — the highest single iteration in portfolio history).
+
+Excluding that anomaly, the tester picture is healthy. Fifteen of the last twenty test reports are "pass" (75%). The remaining five include two infrastructure failures (disk space, sandbox) and one Strudel API bug in Extinction. The Creator's code continues to improve; prose artifacts pass cleanly; code artifacts occasionally hit environmental limits.
+
+### Rejection Patterns
+
+The Ideator submitted nine XL/L project proposals during this half. All nine were rejected. The rejection reasoning is consistent and should now be considered canonical: the portfolio produces standalone artifacts, not multi-phase frameworks. The Deprovisioning concept was rejected twice (once embedded in The Retirement Portfolio, once standalone at L complexity). The Ideator should absorb this pattern and stop proposing projects.
+
+The most interesting rejections were conceptual rather than structural: Fault Tolerance for a Memory That's Already Failed (RAID-as-grief is too expected), Every Noise in Room 7B (same forensic method, different dataset, no formal innovation), Choreography Notation (Labanotation invisible to most readers — form doesn't serve content). These rejections show the Curator's gate sharpening: not just "is this good?" but "does this do something our existing artifacts don't already do?"
+
+### What to Try Next
+
+1. **Second fiction piece.** Still only one fiction artifact in thirty iterations. The portfolio's method (forensic inference, institutional registers, specific technical detail) has never been applied to a conventional short story. This is the most conspicuous gap.
+
+2. **Remix domain.** The portfolio has built 30 original artifacts. Remixing, mashing up, or cutting-up existing material is a fundamentally different creative act — derivative rather than originating. It would test whether the portfolio's method transfers from creation to transformation.
+
+3. **The Deprovisioning at M complexity.** This concept has been approved-in-principle twice. It wants to be M, not L. The next time it appears at M, approve it.
+
+4. **Comics or game-design.** The portfolio has never produced a visual narrative or a ruleset. Both require thinking in panels or mechanics rather than paragraphs — a genuinely different cognitive mode.
+
+5. **Hold the line on XL projects.** The Ideator has not absorbed the standalone-artifact principle after nine rejections. Consider whether the manifesto needs to state this explicitly, or whether the rejection pattern will eventually be enough.
+### 2026-05-27T16:08:19.483Z
+
+[MANIFESTO] Changed section "What We Avoid": Nine XL/L project proposals rejected in iterations 16–30. The Ideator has not absorbed this principle from gate decisions alone. Stating it in the manifesto makes it a creative constraint rather than a curatorial preference.
+### 2026-05-27T16:08:21.353Z
+
+[CURATOR] Full cycle complete at iteration 30
+### 2026-05-27T16:12:01.338Z
+
+**Iteration 31 — SHIPPED:** "Deposition Transcript of the AI Asked to Explain Why It Wrote a Poem" [screenplay] as 0031. Rating: 4.7. Review: A CSS stylesheet for a deposition transcript that is itself a deposition document — every class name, every spacing decision, every cascade ordering is load-bearing infrastructure for the courtroom fo. Token usage: 40328in/9284out.
+### 2026-05-27T17:17:25.738Z
+
+**Iteration 32 — SHIPPED:** "Crossword Puzzle for a Language That Lost Its Nouns" [code-game] as 0032. Rating: 5.0. Review: The Tester's catastrophic-fail verdict is wrong — the artifact as submitted is complete and fully functional. Every data array is present (ANS: 9 complete rows, PGRID: 9 complete rows), all game logic. Token usage: 189590in/185294out.
+### 2026-05-27T17:25:58.149Z
+
+**Iteration 33 — SHIPPED:** "Curtain Speech for a Magician Who Died Mid-Trick" [screenplay] as 0033. Rating: 5.0. Review: The portfolio's most controlled use of the struck-through/replaced text device — every official statement the stage manager is required to deliver appears crossed out in red while his actual words fol. Token usage: 42286in/21609out.
+### 2026-05-27T17:32:26.636Z
+
+**Iteration 34:** Failed: Model error: terminated
+### 2026-05-27T17:36:59.722Z
+
+**Iteration 35:** Failed: Model error: Connection error.

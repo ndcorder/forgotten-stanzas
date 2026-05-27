@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Correspondence Regarding the Vacancy in the Tower of St. Jude's, Brackchurch (1686–2026)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --paper: #f5f0e8;
+    --ink: #2a2420;
+    --faded: #8a7e6f;
+    --accent: #6b3a2a;
+    --blue-ink: #1a3a5c;
+    --red-ink: #7a2020;
+    --heritage-green: #2d4a3e;
+    --ecclesiastical-purple: #4a2d5e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1714;
+    color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    line-height: 1.7;
+    padding: 2rem 1rem;
+  }
+
+  .document {
+    max-width: 720px;
+    margin: 3rem auto;
+    padding: 3rem 3.5rem;
+    background: var(--paper);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4), inset 0 0 80px rgba(139,119,90,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .document::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .municipal-header {
+    border-bottom: 3px double var(--ink);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .municipal-header h2 {
+    font-family: 'Spectral', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .municipal-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+  }
+  .municipal-header .dept {
+    font-size: 0.8rem;
+    color: var(--faded);
+    font-style: italic;
+  }
+
+  .heritage-header {
+    border-left: 4px solid var(--heritage-green);
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .heritage-header h2 {
+    font-family: 'Spectral', serif;
+    color: var(--heritage-green);
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .heritage-header .org-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--heritage-green);
+  }
+
+  .personal-letter {
+    font-style: italic;
+  }
+
+  .ecclesiastical-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--ecclesiastical-purple);
+    padding-bottom: 1rem;
+  }
+  .ecclesiastical-header .cross {
+    font-size: 1.8rem;
+    color: var(--ecclesiastical-purple);
+    margin-bottom: 0.5rem;
+  }
+  .ecclesiastical-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--ecclesiastical-purple);
+    font-weight: 700;
+  }
+
+  .reference-line {
+    font-size: 0.8rem;
+    color: var(--faded);
+    margin-bottom: 0.3rem;
+  }
+  .date-line {
+    text-align: right;
+    font-style: italic;
+    color: var(--faded);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+  .addressee {
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+  .subject {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .salutation { margin-bottom: 1rem; }
+  .body-text { margin-bottom: 1rem; text-align: justify; }
+  .body-text p { margin-bottom: 0.8rem; }
+
+  .signoff {
+    margin-top: 2rem;
+    line-height: 1.8;
+  }
+  .signature {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 600;
+  }
+  .title-block {
+    font-size: 0.85rem;
+    color: var(--faded);
+    line-height: 1.4;
+  }
+
+  .footnote {
+    font-size: 0.8rem;
+    color: var(--faded);
+    border-top: 1px solid var(--faded);
+    padding-top: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  /* METHOD BOOK */
+  .method-book {
+    background: #f0e8d8;
+    border: 1px solid #c4b89a;
+    padding: 3rem;
+    max-width: 720px;
+    margin: 3rem auto;
+    position: relative;
+  }
+  .method-book .book-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+  }
+  .method-book .book-subtitle {
+    text-align: center;
+    font-style: italic;
+    color: var(--faded);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+  }
+  .method-book .entry {
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px dashed #c4b89a;
+  }
+  .method-book .entry-header {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .method-book .entry-body {
+    padding-left: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .marginalia {
+    display: inline;
+    color: var(--red-ink);
+    font-style: italic;
+    cursor: default;
+    position: relative;
+  }
+  .marginalia .margin-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    left: 100%;
+    top: -4px;
+    width: 220px;
+    padding: 0.6rem 0.8rem;
+    background: #fdf6ec;
+    border: 1px solid var(--red-ink);
+    border-radius: 2px;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    z-index: 10;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+  .marginalia:hover .margin-text,
+  .marginalia:focus .margin-text,
+  .marginalia.revealed .margin-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  .marginalia-marker {
+    color: var(--red-ink);
+    font-size: 0.7em;
+    vertical-align: super;
+    cursor: help;
+  }
+
+  .handwritten {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--red-ink);
+  }
+
+  .separator {
+    text-align: center;
+    margin: 4rem auto;
+    color: var(--faded);
+    font-size: 1.2rem;
+    letter-spacing: 1em;
+    max-width: 720px;
+  }
+
+  .page-number {
+    position: absolute;
+    bottom: 1.5rem;
+    font-size: 0.75rem;
+    color: var(--faded);
+  }
+  .page-number.left { left: 3.5rem; }
+  .page-number.right { right: 3.5rem; }
+
+  .stamp {
+    display: inline-block;
+    border: 2px solid var(--red-ink);
+    color: var(--red-ink);
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transform: rotate(-3deg);
+    margin: 0.5rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .document { padding: 2rem 1.5rem; }
+    .method-book { padding: 2rem 1.5rem; }
+    .marginalia .margin-text {
+      left: auto;
+      right: 0;
+      width: 180px;
+    }
+  }
+
+  .interstitial {
+    max-width: 720px;
+    margin: 1rem auto;
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<!-- DOCUMENT 1: Municipal Notice -->
+<div class="document" id="doc1">
+  <div class="municipal-header">
+    <h2>Borough of Brackchurch</h2>
+    <h1>Department of Civic Works &amp; Public Timekeeping</h1>
+    <div class="dept">Office of the Municipal Clerk, Established 1684</div>
+  </div>
+
+  <div class="reference-line">Ref: TCW-PT/2026/0347</div>
+  <div class="date-line">14 March 2026</div>
+
+  <div class="addressee">
+    To: All Interested Parties<br>
+    From: Elaine M. Hargrove, Municipal Clerk<br>
+    Re: Vacancy — Bellringer, St. Jude's Parish Tower
+  </div>
+
+  <div class="body-text">
+    <p>Notice is hereby given that the position of <strong>Bellringer, St. Jude's Parish Tower</strong> has been vacant since the death of Mr. Thomas Edgar Gant on 7 February 2026, aged 87. Mr. Gant served as bellringer for fifty-three years, succeeding his father, Mr. Edgar George Gant, who served from 1921 to 1971.</p>
+
+    <p>Under the Brackchurch Borough Charter (1684), Section 14, subsection (a): <em>"The bells of the parish church shall be rung at such hours as the inhabitants of the borough have been accustomed, that no person may be ignorant of the time of day nor the passage of the hours."</em> The Municipal Clerk's office notes that this obligation has been continuously observed for three hundred and forty years.</p>
+
+    <p>Mr. Gant left no succession plan. He declined to train an apprentice despite repeated enquiries from this office (see correspondence Ref: TCW-PT/2021/0182, TCW-PT/2023/0291). His only known survivor is a niece, Ms. Catherine Gant, resident in Toronto, Canada, who has confirmed she will not be assuming the position.</p>
+
+    <p>The tower contains a ring of eight bells, the oldest dated 1683, the most recent recast in 1952. The clock mechanism, a Grimthorpe triple-legged gravity escapement installed in 1897, requires manual winding at eight-hour intervals and is currently stopped.</p>
+
+    <p>The Borough Council invites proposals for the filling of this vacancy. Applications and expressions of interest should be directed to this office by 31 May 2026.</p>
+  </div>
+
+  <div class="signoff">
+    Respectfully,<br><br>
+    <span class="signature">Elaine M. Hargrove</span><br>
+    <span class="title-block">Municipal Clerk<br>
+    Borough of Brackchurch</span>
+  </div>
+
+  <div class="page-number left">1</div>
+</div>
+
+<div class="separator">⋅ ⋅ ⋅</div>
+
+<!-- DOCUMENT 2: Clockmaker's Assessment -->
+<div class="document" id="doc2">
+  <div class="reference-line">PRIVATE &amp; CONFIDENTIAL</div>
+  <div class="date-line">2 April 2026</div>
+
+  <div class="addressee">
+    Ms. Elaine M. Hargrove<br>
+    Municipal Clerk<br>
+    Borough of Brackchurch<br>
+    High Street Offices<br>
+    Brackchurch, BC4 8NL
+  </div>
+
+  <div class="body-text">
+    <p>Dear Ms. Hargrove,</p>
+
+    <p>Thank you for engaging me to assess the timekeeping mechanism at St. Jude's. I conducted my inspection on 28 March. Please find my observations below.</p>
+
+    <p><strong>The mechanism is in remarkably good condition.</strong> I have examined the triple-legged gravity escapement and found no fault beyond expected wear. Mr. Gant maintained the works to an exceptional standard. The pivot bushes were oiled, the pinions clean, the maintaining power click-work properly adjusted. I would estimate the mechanism to be accurate to within two seconds per week — well within the tolerance required by the 1684 Charter.</p>
+
+    <p>The winding drums require manual cranking at approximately eight-hour intervals (7:00 AM, 3:00 PM, 11:00 PM). This is not onerous. Mr. Gant appears to have maintained this schedule without interruption for the entirety of his tenure. The winding log, kept in pencil on a tablet hung beside the drum, shows no gap longer than ten minutes from the scheduled time. I note with some feeling that the last entry reads <em>"7:02 AM, 7 Feb. T.G."</em> — two minutes late, the morning he died.</p>
+
+    <p>The striking trains are in order. The quarter-hour chimes (Trebles 1–2) and the hour strikes (Tenor) function correctly. The full peal mechanism requires the engagement of all eight bells, which I did not test, as this would require a team of at least four ringers.</p>
+
+    <p><strong>One irregularity.</strong> I noted that the Treble No. 1 bell — the smallest, which sounds the highest quarter-chime — has been fitted with a leather wrap around its clapper shaft, muting it by approximately 60%. This is not a fault; it is a deliberate modification. The wrap is old and well-maintained, possibly decades in place. I did not remove it.</p>
+
+    <p>In summary: the tower can resume its timekeeping function immediately upon appointment of a person willing to perform the winding schedule. No mechanical impediment exists.</p>
+
+    <p>I am, madam, your obedient servant,</p>
+  </div>
+
+  <div class="signoff">
+    <span class="signature">D. Kettering</span><br>
+    <span class="title-block">Master Clockmaker, F.B.H.I.<br>
+    Kettering &amp; Sons, Horological Services<br>
+    Church Street, Aylesbury</span>
+  </div>
+
+  <div class="page-number right">2</div>
+</div>
+
+<div class="separator">⋅ ⋅ ⋅</div>
+
+<!-- DOCUMENT 3: Heritage Society Feasibility Study -->
+<div class="document" id="doc3">
+  <div class="heritage-header">
+    <h2>Feasibility Report No. 47/26</h2>
+    <div class="org-name">The Brackchurch &amp; District Heritage Society</div>
+    <div style="font-size: 0.8rem; color: var(--faded); margin-top: 0.3rem;">Chartered 1953 · Patron: The Lord Bishop of Brackchurch</div>
+  </div>
+
+  <div class="reference-line">Our ref: BDHS/FR-47/2026</div>
+  <div class="date-line">19 April 2026</div>
+
+  <div class="subject">Feasibility of Resuming the Ringing of the Bells of St. Jude's, Brackchurch</div>
+
+  <div class="body-text">
+    <p><strong>1. Introduction.</strong> At the request of the Borough Council, the Heritage Society convened a working group to assess the practical, financial, and heritage implications of resuming bell-ringing at St. Jude's following the death of Mr. Thomas Gant.</p>
+
+    <p><strong>2. Historical context.</strong> The bells of St. Jude's have rung continuously since their installation in 1683–84. They are documented in the parish records as having rung without interruption through both World Wars, the Blitz evacuation of 1940 (when the borough was mistakenly bombed), the cholera outbreak of 1854, and the miners' strike of 1984. There is no recorded period of silence longer than twenty-four hours.</p>
+
+    <p>The current silence, now in its ninth week, is unprecedented in the 340-year history of the tower.</p>
+
+    <p><strong>3. Options considered.</strong></p>
+    <p><em>(a) Full manual ringing.</em> This would require a band of eight ringers capable of change-ringing, plus a bellringer to maintain the clock-winding schedule. The Thames Valley Ringing Association has been consulted. They have no available bands. The nearest active tower is St. Mary's, Dunfield, 14 miles away. Their ringmaster reports declining membership and cannot spare personnel.</p>
+
+    <p><em>(b) Automated electro-mechanical ringing.</em> The bells could be fitted with electromechanical hammers on timer mechanisms. Estimated cost: £38,000–45,000. English Heritage has been consulted and notes that such a modification would require listed building consent and would "materially alter the character of the tower's auditory heritage." Objection likely.</p>
+
+    <p><em>(c) Recorded bell sounds via loudspeaker.</em> Rejected as "profoundly undignified" (working group minutes, 12 April 2026).</p>
+
+    <p><em>(d) Appointment of a single bellringer to maintain clock-striking only.</em> This would restore the quarter-hour chimes and hour strikes without full change-ringing. A single capable person could perform the winding and maintenance. This is the most viable option.</p>
+
+    <p><strong>4. Recruitment concerns.</strong> The working group placed advertisements in <em>The Ringing World</em>, the parish magazine, and the Brackchurch Gazette. As of 18 April, we have received one response, from a gentleman in Swindon who appeared to believe the position was for a town crier. His application was not pursued.</p>
+
+    <p><strong>5. Recommendation.</strong> The Society recommends option (d) — appointment of a part-time bellringer/clock-winder at a modest stipend — and notes with regret that if no suitable candidate is found by the Council's deadline of 31 May, the question of the tower's silence may become moot through simple force of habit. The town is, we are told, already adjusting.</p>
+  </div>
+
+  <div class="signoff">
+    Submitted on behalf of the working group,<br><br>
+    <span class="signature">Dr. Roger Fenster</span><br>
+    <span class="title-block">Chair, Brackchurch &amp; District Heritage Society</span>
+  </div>
+
+  <div class="footnote">
+    *Addendum, 22 April:* A second response has been received. See attached correspondence from Mrs. Margaret Ames, 4 Dunstone Court, Brackchurch. We are forwarding this to the Clerk's office unopened, as it appears to be a letter of objection rather than an application.
+  </div>
+
+  <div class="page-number left">3</div>
+</div>
+
+<div class="separator">⋅ ⋅ ⋅</div>
+
+<!-- DOCUMENT 4: Helen Gorse's Letter -->
+<div class="document personal-letter" id="doc4">
+  <div class="date-line">21 April 2026</div>
+
+  <div class="addressee" style="font-style: normal; color: var(--ink);">
+    Dear Ms. Hargrove,
+  </div>
+
+  <div class="body-text" style="color: var(--blue-ink);">
+    <p>I am writing to withdraw my complaint.</p>
+
+    <p>As you know, I have written to your office thirty-one times over the past twenty-three years regarding the noise from St. Jude's tower. My file, which I have kept in full, begins with a letter dated 16 November 2003 and concludes with a telephone complaint logged 3 January of this year. In each instance I requested that the quarter-hour chimes between the hours of 11 PM and 6 AM be suspended or muted. In each instance I was informed that the 1684 Charter required continuous sounding.</p>
+
+    <p>I am writing to tell you that I have been sleeping through the night since February.</p>
+
+    <p>For twenty-three years I did not sleep properly. I bought earplugs. I moved my bedroom to the back of the house. I tried white noise machines, which simply gave me something else to be kept awake by. Nothing worked because the problem was not the volume. The problem was that every fifteen minutes, without fail, without mercy, something happened. A small intrusion. Ding-ding. And then another. Ding-ding. And then another. I could set my life by them. I could not escape them. I lay in the dark and waited for the next one and the next one and the next one and I thought I would lose my mind.</p>
+
+    <p>The bells stopped and I started sleeping and I thought: wonderful. Peace. But I have to tell you — and I did not expect this, and I am not pleased about it — the silence is worse.</p>
+
+    <p>Not worse than the bells. I am not asking for the bells back. But the silence is worse because now I have nothing to fight against. I was angry at Mr. Gant for twenty-three years. I was angry at the Charter. I was angry at the bells. The anger was clean and clear and gave me something to do in the night. Now I lie in the dark and there is nothing to be angry about and I cannot sleep because I am thinking about why I am sleeping.</p>
+
+    <p>I don't know what I'm asking for. I'm not asking for anything. I just wanted someone to know that the silence isn't nothing either.</p>
+
+    <p>I would appreciate it if this letter were filed. I have a complete record.</p>
+  </div>
+
+  <div class="signoff">
+    <span class="signature" style="color: var(--blue-ink);">Helen Gorse</span><br>
+    16 Mill Street<br>
+    Brackchurch, BC4 1PN
+  </div>
+
+  <div class="stamp" style="margin-top: 1.5rem;">RECEIVED 23 APR 2026 — TCW-PT</div>
+  <div style="font-size: 0.8rem; color: var(--faded); margin-top: 0.5rem; font-style: normal;">
+    Clerk's note: Filed under general correspondence. Mrs. Gorse's previous complaints span two arch lever files. <span class="handwritten">E.H.</span>
+  </div>
+
+  <div class="page-number right">4</div>
+</div>
+
+<div class="separator">⋅ ⋅ ⋅</div>
+
+<!-- DOCUMENT 5: Margaret Ames's Letter -->
+<div class="document personal-letter" id="doc5">
+  <div class="date-line">17 April 2026</div>
+
+  <div class="addressee" style="font-style: normal; color: var(--ink);">
+    Dear Ms. Hargrove,<br>
+    Dear Dr. Fenster,<br>
+    Dear Whoever Is Reading This,
+  </div>
+
+  <div class="body-text" style="color: var(--blue-ink);">
+    <p>I am writing about the bells. I know I am supposed to be writing about wanting them back. I don't. I am writing to ask you to leave them off.</p>
+
+    <p>My husband, Frank, died on the third of September, 2019. He had been ill for a long time. What no one in Brackchurch knows — what I am telling you now — is that for the last fourteen months of his illness, Frank could not sleep through the night. The pain would not allow it. He would lie awake and the only thing — the <em>only</em> thing — that gave him any comfort was the quarter-chimes from St. Jude's.</p>
+
+    <p>He couldn't hear them during the day. Too much noise. But at night, in the quiet, when the pain was worst, he could hear them. Every fifteen minutes. <em>Ting. Ting-ting.</em> The little ones, then the big one on the hour. He told me once that he could feel them in the bed frame. He said they were the only thing that proved time was still passing. He said without them he would think he had been frozen in the same moment of pain forever.</p>
+
+    <p>He died at 4:15 in the morning. I know this because I heard the quarter chime at 4:15 and then he was gone and then the 4:30 chime came and he was still gone and every chime after that was the same.</p>
+
+    <p>After Frank died I could not sleep. I would lie there and hear the chimes and every one of them marked the same quarter-hour I had sat watching him not be alive. Every fifteen minutes, all night, for four and a half years. <em>Ting. Ting-ting.</em> Still dead. Still dead. Still dead. The most reliable thing in my life was the reminder that he was dead.</p>
+
+    <p>And then Mr. Gant died, and the bells stopped, and for the first time since September 2019 I slept through the night.</p>
+
+    <p>I know the bells are historic. I know the Charter says they must ring. I know I am just one person and the town is accustomed to them. But I am telling you that for me, the silence is not absence. The silence is the first rest I have had in five years. The silence is merciful. Nobody asked me if the bells were merciful when they rang. They rang regardless. They rang through everything. That is what bells do. They ring regardless.</p>
+
+    <p>I am not asking you to choose me over three hundred years of tradition. I know how this works. I know I will lose. But I wanted someone to know that the silence is not nothing. It is the first thing I have heard in years that isn't counting the time since Frank died.</p>
+
+    <p>Please don't start them again.</p>
+  </div>
+
+  <div class="signoff">
+    <span class="signature" style="color: var(--blue-ink);">Margaret Ames</span><br>
+    4 Dunstone Court<br>
+    Brackchurch, BC4 2JG
+  </div>
+
+  <div class="stamp" style="margin-top: 1.5rem;">RECEIVED 22 APR 2026 — TCW-PT</div>
+  <div style="font-size: 0.8rem; color: var(--faded); margin-top: 0.5rem; font-style: normal;">
+    Clerk's note: Filed under objection. Forwarded to Heritage Society. <span class="handwritten">E.H.</span>
+  </div>
+
+  <div class="page-number left">5</div>
+</div>
+
+<div class="separator">⋅ ⋅ ⋅</div>
+
+<!-- DOCUMENT 6: Vicar's Letter -->
+<div class="document" id="doc6">
+  <div class="ecclesiastical-header">
+    <div class="cross">✟</div>
+    <h2>The Rectory, St. Jude's Parish<br>Brackchurch</h2>
+  </div>
+
+  <div class="date-line">8 May 2026</div>
+
+  <div class="addressee">
+    Ms. Elaine M. Hargrove<br>
+    Municipal Clerk
+  </div>
+
+  <div class="body-text">
+    <p>Dear Elaine,</p>
+
+    <p>I am writing in a personal capacity, though I suppose one never entirely ceases being the vicar, even in retirement.</p>
+
+    <p>Thomas Gant was a difficult man. I do not say this with any pleasure. He was difficult in the way that certain parishioners are difficult — not unkind, not hostile, simply immovable. He had a way of hearing what you said and then proceeding as though you had said something else entirely. In twenty-two years of ministry I do not believe I once persuaded him of anything.</p>
+
+    <p>He was also, I think, the loneliest man I have known. His wife, Margery, died in 1987. I barely knew her — she was before my time — but Thomas spoke of her in a way that made you feel she was still present to him, more vividly than anyone alive. I once visited the tower and found a chair positioned by the south window, facing the village. He said, "Margery liked to see the high street from up here." I said, "Thomas, she's been gone eleven years." He looked at me as though I had said something profoundly stupid. Which, I think, I had.</p>
+
+    <p>I have read the Heritage Society's report and the letters from Mrs. Ames and Mrs. Gorse. I understand both positions. But I think perhaps we are all missing something about what Thomas was doing up in that tower for fifty-three years.</p>
+
+    <p>He was not keeping time for the town. He was not fulfilling a Charter obligation. I do not believe he gave the slightest thought to the Borough of Brackchurch or its civic bylaws. I believe he was keeping a promise. To whom, and about what, I will leave to your imagination. I knew the man. I have my suspicions. But Thomas's business was his own, and I think the tower should be allowed to keep at least some of its secrets.</p>
+
+    <p>Canon Peters, my predecessor — himself now deceased — told me once that after Margery's funeral, Thomas went up to the tower and rang something. Canon Peters wasn't certain what. It went on for hours. He came down and said to Canon Peters: "She'll know where I am."</p>
+
+    <p>Whatever you decide about the bells, decide it with the understanding that what we are calling "a vacancy" is, in fact, a conversation that has been interrupted mid-sentence.</p>
+  </div>
+
+  <div class="signoff">
+    With every blessing,<br><br>
+    <span class="signature">Michael Trewin</span><br>
+    <span class="title-block">Vicar of St. Jude's (retired)<br>
+    The Old Vicarage, Mill Lane</span>
+  </div>
+
+  <div class="page-number right">6</div>
+</div>
+
+<div class="separator">⋅ ⋅ ⋅</div>
+
+<div class="interstitial">
+  The following document was discovered on 23 May 2026 by Mr. Daniel Kettering during a follow-up inspection of the tower. It was found beneath the winding bench, wrapped in cotton cloth, alongside a photograph of a woman standing on the high street, smiling up at the tower.
+</div>
+
+<div class="separator">⋅ ⋅ ⋅</div>
+
+<!-- DOCUMENT 7: The Method Book -->
+<div class="method-book" id="doc7">
+  <div class="book-title">A METHOD BOOK<br>of the BELLS<br>of ST. JUDE'S, BRACKCHURCH</div>
+  <div class="book-subtitle">
+    Being a Practical Guide to the Ringing of the Eight Bells,<br>
+    With Notations for Quarter-Chimes, Hour-Strikes,<br>
+    and Change-Ringing up to Grandsire Triples.<br><br>
+    <span style="font-variant: small-caps; letter-spacing: 0.1em;">Kept by T. E. Gant, Bellringer</span>
+  </div>
+
+  <div style="text-align: center; margin: 1.5rem 0; font-size: 0.85rem; color: var(--faded);">
+    — Begun 1971 —
+  </div>
+
+  <!-- Entry 1 -->
+  <div class="entry">
+    <div class="entry-header">I. Of the Bells and Their Names</div>
+    <div class="entry-body">
+      <p>The eight bells of St. Jude's are, from Treble to Tenor:</p>
+      <p style="padding-left: 1rem; line-height: 2;">
+        1. <strong>Treble</strong> — E natural, 4 cwt.<br>
+        2. <strong>Second</strong> — F♯, 4½ cwt.<br>
+        3. <strong>Third</strong> — G♯, 5 cwt.<br>
+        4. <strong>Fourth</strong> — A natural, 5½ cwt.<br>
+        5. <strong>Fifth</strong> — B natural, 6 cwt.<br>
+        6. <strong>Sixth</strong> — C♯, 7 cwt.<br>
+        7. <strong>Seventh</strong> — D♯, 8 cwt.<br>
+        8. <strong>Tenor</strong> — E natural, 12 cwt.
+      </p>
+      <p>The Treble is the smallest and highest. <span class="marginalia" tabindex="0">It was always Margery's favourite.<span class="marginalia-marker">†</span><span class="margin-text">She said it sounded like someone calling her name from very far away.</span></span> I have fitted a leather wrap to its clapper to soften it slightly, as the E natural can pierce at close range and I spend many hours in proximity.</p>
+    </div>
+  </div>
+
+  <!-- Entry 2 -->
+  <div class="entry">
+    <div class="entry-header">II. Of the Winding Schedule</div>
+    <div class="entry-body">
+      <p>The clock requires winding at eight-hour intervals. The schedule is: 7:00 AM, 3:00 PM, 11:00 PM. Each winding takes approximately twelve minutes. The drum must be wound clockwise with a steady pressure; jerking the crank will cause the maintaining spring to slip and the clock will lose.</p>
+      <p>I have not missed a winding since 1971. <span class="marginalia" tabindex="0">My father missed one in 1963 (influenza) and it troubled him terribly.<span class="marginalia-marker">†</span><span class="margin-text">He said a bellringer who lets the bells stop is a man who has broken faith with the town. I think now he meant something different. I think he meant: a man who lets the bells stop has allowed the silence to have the last word.</span></span></p>
+      <p>On windy nights the mechanism labours slightly and the 11 PM winding may require an extra half-turn. <span class="marginalia" tabindex="0">Margery disliked the wind.<span class="marginalia-marker">†</span><span class="margin-text">On windy nights I would climb the stairs and wind the clock and by the time I came home she would have fallen asleep to the sound of the quarter-chimes. She said the Treble was like a hand on her forehead.</span></span> I add this note so that my successor will know to attend to the weather.</p>
+    </div>
+  </div>
+
+  <!-- Entry 3 -->
+  <div class="entry">
+    <div class="entry-header">III. Of the Quarter-Chimes</div>
+    <div class="entry-body">
+      <p>The quarter-chimes are automatic once the clock is wound. At fifteen minutes past, Trebles 1 and 2 sound together, twice. At thirty minutes past, they sound four times. At forty-five minutes past, they sound six times. On the hour, the Tenor strikes the hour count, preceded by a pause of four seconds.</p>
+      <p>The sequence is:<br>
+      <em>:15</em> — Ding-ding. Ding-ding.<br>
+      <em>:30</em> — Ding-ding. Ding-ding. Ding-ding. Ding-ding.<br>
+      <em>:45</em> — Ding-ding. Ding-ding. Ding-ding. Ding-ding. Ding-ding. Ding-ding.<br>
+      <em>:00</em> — [pause] — <em>BOOM.</em> <em>BOOM.</em> Etc.</p>
+      <p>The sound carries furthest on still winter nights. <span class="marginalia" tabindex="0">In certain conditions the Treble can be heard as far as Dunstone Court.<span class="marginalia-marker">†</span><span class="margin-text">I have thought about this. I think about this every quarter of every hour. Someone on Dunstone Court is hearing the same bell I am ringing, and what it means to them is not what it means to me. I know this. I did not stop. I could not stop.</span></span></p>
+    </div>
+  </div>
+
+  <!-- Entry 4 -->
+  <div class="entry">
+    <div class="entry-header">IV. Of the Night Hours</div>
+    <div class="entry-body">
+      <p>The bells ring through the night. This is the Charter requirement. I have always understood this to be the most important part of the duty. In daytime the town has clocks, watches, phones. At night it has only the bells.</p>
+      <p><span class="marginalia" tabindex="0">Margery died at 4:15 AM, 12 November 1987.<span class="marginalia-marker">†</span><span class="margin-text">The quarter-chime was ringing. Her eyes opened and then closed and then she was gone and the chime kept going. It did not pause. It did not falter. I was grateful. It meant she did not go into silence. She went into the sound of the Treble, which was always her favourite, which was the sound of someone calling her name from very far away.</span></span> The night is the hardest part and also the only part that matters.</p>
+      <p>During the night winding at 11 PM, I often sit in the chair by the south window for an hour or more. The village is dark except for the streetlamp by the war memorial. <span class="marginalia" tabindex="0">The view from that window has not changed in forty years.<span class="marginalia-marker">†</span><span class="margin-text">She liked to see the high street. I keep the chair where she kept it. I sit in it and look where she looked and wait for nothing in particular.</span></span></p>
+    </div>
+  </div>
+
+  <!-- Entry 5 -->
+  <div class="entry">
+    <div class="entry-header">V. Of Grandsire Triples</div>
+    <div class="entry-body">
+      <p>Grandsire Triples is a method for seven bells, with the Tenor covering. It produces 5040 distinct rows without repetition, requiring approximately three hours and forty minutes to complete.</p>
+      <p>After Margery's funeral I went up to the tower and rang a full peal. <span class="marginalia" tabindex="0">Seven bells. One man.<span class="marginalia-marker">†</span><span class="margin-text">I do not explain this because I cannot. I climbed from rope to rope. My hands bled. I did not feel it. Three hours and forty-two minutes and every row correct. Canon Peters heard it from the vicarage and came to the tower door and knocked and I did not open it. When I was done I came down and he asked me how and I said: "She'll know where I am."</span></span></p>
+      <p>I have not rung Grandsire Triples since.</p>
+      <p>The method is notated below for a band of seven. I include it for the sake of completeness, though I doubt any band will ring from this tower again. <span class="marginalia" tabindex="0">Seven bells working and the eighth lying behind.<span class="marginalia-marker">†</span><span class="margin-text">You don't ring Grandsire with a hole in it. You ring it whole or you don't ring it at all. I rang it once. She was the eighth. She is still the eighth. There is no peal left in me that doesn't have her in it.</span></span></p>
+    </div>
+  </div>
+
+  <!-- Entry 6 -->
+  <div class="entry">
+    <div class="entry-header">VI. Of the Succession</div>
+    <div class="entry-body">
+      <p>Should this book pass to another bellringer, know this:</p>
+      <p>The bells of St. Jude's are not public timepieces. They are not civic amenities. They are a voice. <span class="marginalia" tabindex="0">They have been mine for fifty-three years and every chime has said the same thing.<span class="marginalia-marker">†</span><span class="margin-text">I am here. I am still here. I am still here.</span></span></p>
+      <p>If you take up this duty, ring for whatever reason moves you. Ring for the Charter, ring for the town, ring for God, ring for the pleasure of the sound. But know that a bell does not distinguish. It rings and rings and does not care who hears or what they hear in it.</p>
+      <p>If you take up this duty, be kind to the Treble. It is small and high and most people do not attend to it. But it carries further than the others on a still night. <span class="marginalia" tabindex="0">Wind the clock. Pull the ropes. Keep the hours.<span class="marginalia-marker">†</span><span class="margin-text">Or don't. I will not be here to know the difference. Neither will she. But I like to think — I have no reason, but I like to think — that somewhere she can still hear the Treble, and that she knows what it means.</span></span></p>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #c4b89a;">
+    <span class="handwritten" style="font-size: 1.1rem;">T.E.G.<br>
+    Tower of St. Jude's<br>
+    Brackchurch<br>
+    <span style="font-size: 0.9rem;">— and so to bed —</span></span>
+  </div>
+
+  <div style="text-align: center; margin-top: 2rem;">
+    <span class="handwritten" style="font-size: 0.85rem; opacity: 0.7;">
+      [written very small, in pencil, at the bottom of the last page]
+    </span>
+    <div class="handwritten" style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.8;">
+      Margery — I have wound the clock for tomorrow morning. The Treble is in good voice.
+      I will see you at 4:15.
+    </div>
+  </div>
+
+  <div class="page-number left" style="bottom: 1.5rem;">7</div>
+</div>
+
+<div class="separator" style="margin-bottom: 4rem;">⋅ ⋅ ⋅</div>
+
+<div class="interstitial" style="max-width: 720px; margin: 0 auto 4rem; padding: 1.5rem 2rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 2px; color: #888;">
+  <em>Addendum:</em> On 31 May 2026, the Borough Council received no valid applications for the position of Bellringer, St. Jude's Parish Tower. The vacancy remains open. The clock is stopped. The Treble is silent.
+</div>
+
+<script>
+  document.querySelectorAll('.marginalia').forEach(el => {
+    el.setAttribute('aria-label', 'Marginalia note — hover or focus to reveal');
+    el.addEventListener('mouseenter', () => el.classList.add('revealed'));
+    el.addEventListener('mouseleave', () => el.classList.remove('revealed'));
+    el.addEventListener('focus', () => el.classList.add('revealed'));
+    el.addEventListener('blur', () => el.classList.remove('revealed'));
+  });
+</script>
+</body>
+</html>

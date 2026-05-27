@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Helmund Valley Register — Obituary</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+        :root {
+            --column-rule: #c4b59a;
+            --text-dark: #2a2319;
+            --text-mid: #4a4239;
+            --text-light: #7a7060;
+            --text-muted: #9a9080;
+            --page-bg: #f5f0e6;
+            --rule-thin: 0.5px;
+            --rule-thick: 1.5px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--page-bg);
+            color: var(--text-dark);
+            font-family: 'EB Garamond', 'Georgia', serif;
+            font-size: 16px;
+            line-height: 1.55;
+            padding: 0;
+        }
+
+        .page {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 40px 30px 60px;
+        }
+
+        /* Masthead */
+        .masthead {
+            text-align: center;
+            border-bottom: 2px solid var(--text-dark);
+            padding-bottom: 10px;
+            margin-bottom: 6px;
+        }
+
+        .masthead-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-dark);
+        }
+
+        .masthead-details {
+            font-family: 'Source Serif 4', serif;
+            font-size: 11px;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .masthead-rule {
+            border: none;
+            border-top: var(--rule-thin) solid var(--column-rule);
+            margin: 6px 0;
+        }
+
+        .masthead-rule-thick {
+            border: none;
+            border-top: var(--rule-thick) solid var(--text-dark);
+            margin: 0;
+        }
+
+        /* Section header */
+        .section-label {
+            font-family: 'Source Serif 4', serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: center;
+            margin: 18px 0 20px;
+        }
+
+        /* Obituary headline */
+        .obit-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.2;
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .obit-subhead {
+            font-family: 'EB Garamond', serif;
+            font-size: 17px;
+            font-weight: 400;
+            font-style: italic;
+            text-align: center;
+            color: var(--text-mid);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .obit-rule {
+            border: none;
+            border-top: var(--rule-thick) solid var(--text-dark);
+            margin: 20px auto;
+            width: 120px;
+        }
+
+        /* Byline and dateline */
+        .obit-meta {
+            text-align: center;
+            margin-bottom: 22px;
+            font-family: 'Source Serif 4', serif;
+            font-size: 12px;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+        }
+
+        .obit-meta .dateline {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .obit-meta .byline {
+            font-style: italic;
+            margin-top: 3px;
+        }
+
+        /* Body text */
+        .obit-body {
+            column-count: 2;
+            column-gap: 32px;
+            column-rule: var(--rule-thin) solid var(--column-rule);
+            font-size: 15.5px;
+            line-height: 1.6;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        .obit-body p {
+            margin-bottom: 14px;
+            text-indent: 1.5em;
+        }
+
+        .obit-body p:first-child {
+            text-indent: 0;
+        }
+
+        .obit-body p:first-child::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            float: left;
+            line-height: 0.85;
+            margin-right: 6px;
+            margin-top: 4px;
+            color: var(--text-dark);
+        }
+
+        /* Pull quote */
+        .pull-quote {
+            break-inside: avoid;
+            border-top: var(--rule-thick) solid var(--text-dark);
+            border-bottom: var(--rule-thick) solid var(--text-dark);
+            padding: 14px 10px;
+            margin: 18px 0;
+            text-align: center;
+        }
+
+        .pull-quote p {
+            text-indent: 0 !important;
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            font-style: italic;
+            line-height: 1.45;
+            color: var(--text-mid);
+        }
+
+        .pull-quote .attribution {
+            font-family: 'Source Serif 4', serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-style: normal;
+        }
+
+        /* Section breaks within columns */
+        .section-divider {
+            border: none;
+            border-top: var(--rule-thin) solid var(--column-rule);
+            margin: 18px 0;
+        }
+
+        /* Editor's note */
+        .editors-note {
+            margin-top: 28px;
+            border-top: var(--rule-thick) solid var(--text-dark);
+            padding-top: 14px;
+        }
+
+        .editors-note-label {
+            font-family: 'Source Serif 4', serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .editors-note p {
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--text-mid);
+            text-indent: 0;
+        }
+
+        /* Closing mark */
+        .end-mark {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .obit-body {
+                column-count: 1;
+            }
+
+            .page {
+                padding: 24px 16px 40px;
+            }
+
+            .obit-headline {
+                font-size: 23px;
+            }
+
+            .masthead-name {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="masthead">
+            <div class="masthead-name">The Helmand Valley Register</div>
+            <div class="masthead-details">Est. 1987 &middot; Serving the Communities of the Helmand Watershed</div>
+        </header>
+        <hr class="masthead-rule-thick">
+        <div class="masthead-details" style="font-size:10px; text-align:center; padding:4px 0;">
+            Vol. XXXVI &nbsp;&middot;&nbsp; No. 41 &nbsp;&middot;&nbsp; Thursday, 17 Safar 1446 &nbsp;&middot;&nbsp; Final Edition
+        </div>
+        <hr class="masthead-rule">
+        <hr class="masthead-rule-thick">
+
+        <div class="section-label">Obituaries</div>
+
+        <h1 class="obit-headline">A Verb Has Died in Sangin District</h1>
+        <p class="obit-subhead">The last speaker to hold it forgot it on a Tuesday. The woman who wrote it down says she is the one who killed it.</p>
+        <hr class="obit-rule">
+
+        <div class="obit-meta">
+            <div class="dateline">Sangin, Helmand Province &mdash; 22 August</div>
+            <div class="byline">By Nasir Hotak, Staff Correspondent</div>
+        </div>
+
+        <div class="obit-body">
+            <p>Something has left the Helmand Valley that will not return. Not a person, though those who knew it speak of the loss in the same breath and the same tense as they speak of the dead. Not a road or a canal or a pomegranate orchard razed to its roots. Something smaller than any of these and, by the reckoning of those who attended to it, older. A verb. A single verb, in a language spoken by fewer people each year in the villages north of the Helmand River, has ceased to exist. It is survived by a handful of approximate synonyms, none of which fit the shape of what was lost, and by a field notebook in the possession of a German linguist who wishes she had never opened it.</p>
+
+            <p>The word &mdash; this newspaper has decided, after lengthy deliberation, not to print it &mdash; was a verb in the injunctive mood. The injunctive is a grammatical form found in certain Indo-Iranian languages for giving commands about things that should not exist. Not prohibitions. Prohibitions are common as dust. A prohibition tells you not to do what can be done. The injunctive, as it was spoken along this stretch of the Helmand, was used for commanding things not to be. To speak the verb was to assert, with the full authority of speech, that the thing you named had no right to exist. That reality itself, properly ordered, would reject it.</p>
+
+            <p>&ldquo;You could tell a fire not to burn. You could tell a sickness not to spread,&rdquo; said Mahboob Elham, a schoolteacher in Sangin who was among the last to hear the word spoken by someone who understood it. &ldquo;But that is not quite right. You were telling the fire that its burning was an offense to the order of things. You were commanding it to not-be. There is no word for this in Dari or Pashto or English. There was only this one word, and now there is not even that.&rdquo;</p>
+
+            <p>The word is believed to have died on or about Tuesday, the 4th of August, in a village whose name the <em>Register</em> is withholding to protect the privacy of the family. The last person known to have held the word &mdash; to have been able to summon it at will, to have felt it in the mouth as a living thing &mdash; was Noor Zalmai, a farmer and occasional mullah, who was 91 when he suffered a stroke in his son&rsquo;s home. He survived the stroke. The word did not survive him. In the weeks that followed, his family says, he would pause in conversation, his mouth open, searching for something he could not name. He told his daughter, Sana, that it was like reaching for a tool that had always hung by the door and finding only a nail, and then not even the nail.</p>
+
+            <hr class="section-divider">
+
+            <p>Dr. Luise Hartmann, a linguist at the University of Hamburg who has worked in the Helmand Valley since 2011, spent three years documenting the grammar of the regional dialect in which the verb was spoken. She recorded Mr. Zalmai saying the word seven times between 2016 and 2019. She transcribed its morphology, mapped its conjugational pattern, and deposited her field recordings in the Hamburg phonetics archive. She is now certain that she killed it.</p>
+
+            <p>&ldquo;This language was never written,&rdquo; Dr. Hartmann said, speaking by telephone from her office. &ldquo;Words lived in the mouth. They were passed from one mouth to the next, and that was their form of continuation. Like breath. Like prayer. Noor knew the word because his grandmother had spoken it over him when he was a boy with a fever the village doctor could not break. He told me she sat beside him through the night and repeated it, and in the morning the fever was gone. He never forgot it. It lived in him like a stone in a river &mdash; shaped by the water, but holding firm.&rdquo;</p>
+
+            <p>&ldquo;And then I wrote it down.&rdquo;</p>
+
+            <p>She paused. &ldquo;Do you understand what writing is, for an oral language? It is extraction. It is pulling the word out of the breath that sustains it and pinning it to paper. The word was not meant to be seen. It was meant to be spoken, person to person, in a room or a courtyard, at night, when a child was burning with fever. By writing it, I told everyone who read my work: this word is a specimen. It is not alive. It is data. And the people who heard it &mdash; once they saw it written, once they knew it had been recorded and archived, they stopped feeling that it depended on them. They thought: it is safe now. It is preserved. And so they let it go. Noor was the last. And when I showed him the page &mdash;&rdquo;</p>
+
+            <p>She stopped. &ldquo;He said it looked like a dead thing.&rdquo;</p>
+
+            <p>The etymological origins of the word are a matter of some dispute, though the dispute itself has an air of futility, like arguing over the parentage of a child who has already been buried. Dr. Hartmann believes the verb derives from an Old Iranian root shared with the Avestan term for &ldquo;unmaking,&rdquo; and has published a paper to this effect in the <em>Journal of Indo-European Studies</em>. Professor Ahmad Khorasani of Kabul University disagrees. He argues, in a response published eight months later, that the verb is more likely a compound of two Pashto particles meaning &ldquo;without&rdquo; and &ldquo;permission,&rdquo; and that its injunctive use is a relatively recent development, perhaps no more than three hundred years old. Dr. Hartmann replied to his reply with a letter to the editor noting that three hundred years is older than most words in most living languages. Professor Khorasani did not respond. The two have not spoken since.</p>
+
+            <p>None of this will bring the word back.</p>
+
+            <div class="pull-quote">
+                <p>&ldquo;We do not speak its name. We speak around it. What it meant cannot be meant again. This is not a sadness. It is a silence that has learned to hold its shape.&rdquo;</p>
+                <div class="attribution">&mdash; Mahboob Elham, Sangin</div>
+            </div>
+
+            <p>The word occupied a grammatical niche that, so far as anyone can determine, exists in no other language spoken on earth. The injunctive in this dialect was not a fossil or an archaism. It was a living, productive part of the grammar, used to address things that were felt to be violations of the world&rsquo;s natural order: a flood, a tumor, a nightmare, a betrayal. To use the verb was to tell a thing, with authority, that the world itself rejected its presence.</p>
+
+            <p>Mr. Zalmai used it twice in Dr. Hartmann&rsquo;s presence. The first time was in 2016, during a recording session in his courtyard. He told her to begin recording, waited until the microphone was on, and spoke the verb quietly, directing it, he said, at the war. Dr. Hartmann said the air in the courtyard did not change, but Mr. Zalmai&rsquo;s hands were shaking when he finished. The second time was in the spring of 2018. A neighbor&rsquo;s infant, born prematurely, was not expected to survive the night. Mr. Zalmai sat with the child for four hours. He held the baby&rsquo;s hand between his thumb and forefinger. He spoke the verb in the same rhythm he might have used to recite a prayer, each repetition a command that this small, particular wrong not be permitted to stand. The infant survived. Dr. Hartmann, who recorded the session, said this proves nothing. The infant&rsquo;s mother disagrees.</p>
+
+            <p>The baby is six years old now. Her name is Paridah. She is learning to read. The word was ninety-one years old and is survived by no one.</p>
+
+            <hr class="section-divider">
+
+            <p>Since Mr. Zalmai&rsquo;s stroke, a small number of people in the Sangin district have attempted to reconstruct the word from memory. None have succeeded. Mr. Elham, the schoolteacher, spent three weeks trying to recall its shape before concluding that what he remembered was not the word itself but the silence that followed it &mdash; the way the air seemed to recognize what had been said and to assent. &ldquo;I can remember the feeling of the word,&rdquo; he said. &ldquo;The feeling of commanding something to not-be. But the sounds are gone. It is as though I am reaching for a face I saw only in a dream. The harder I look, the more it recedes.&rdquo;</p>
+
+            <p>The surviving synonyms, reached for comment, were unable to agree on the nature of their loss. <em>To forbid</em>, a verb common to most Indo-European languages, issued a statement calling the deceased &ldquo;a colleague whose work we could never adequately perform.&rdquo; <em>To mourn</em>, which occupies a related emotional register, declined to comment, citing professional differences. A Shughni verb meaning &ldquo;to hold something that belongs to someone who is gone&rdquo; said only: &ldquo;There is a space where it was. I can feel the shape of it when I am spoken.&rdquo;</p>
+
+            <p>A service of mourning was held for the word on Friday, the 7th of August, at the Masjid-e-Noor in Sangin. It was attended by approximately forty people, including Mr. Zalmai, who sat near the back of the room and did not speak. Mr. Elham delivered the eulogy. He spoke for nine minutes. He described the word as &ldquo;a gift given to this valley and to no other place,&rdquo; and said its loss was &ldquo;not a linguistic event but a wound in the world&rsquo;s capacity to know itself.&rdquo; He did not say the word. No one expected him to. The service concluded with a silence that lasted, by most estimates, between two and three minutes, though several attendees said it felt longer. &ldquo;Time moved differently in that silence,&rdquo; said Halima, a midwife who asked that her full name not be used. &ldquo;I believe it was the word speaking through us one last time, in the only form it has left.&rdquo;</p>
+
+            <p>The word is also survived by Dr. Hartmann&rsquo;s field recordings, now archived in Hamburg, which she has requested be sealed until 2099. &ldquo;No good comes of playing a recording of a word whose only proper home was a living mouth,&rdquo; she said. When asked whether sealing the recordings constituted another form of forgetting, she was quiet for a long time and then said: &ldquo;I do not know what preservation is. I thought I did.&rdquo;</p>
+
+            <p>Mr. Zalmai, reached at his son&rsquo;s home in Sangin, declined to be interviewed for this article. Through his daughter, he conveyed a single message: the word was good. It was good for the world to have had it. And it is good that it is gone, if gone means it cannot be made into something it was never meant to be.</p>
+
+            <p>In lieu of flowers, the family has asked that donations be made to the Sangin District Literacy Program, which teaches children to read and write the languages their grandparents spoke aloud. &ldquo;This is not the same thing,&rdquo; Sana Zalmai said. &ldquo;We know it is not the same thing. But it is what we have.&rdquo;</p>
+        </div>
+
+        <div class="editors-note">
+            <div class="editors-note-label">Editor&rsquo;s Note</div>
+            <p>The staff of the <em>Register</em> considered, at length, whether to print the word that is the subject of this obituary. Dr. Hartmann provided the transcription from her field notes. Mr. Elham offered to confirm it against his memory. The word could have appeared here, set in type, preserved at last in the very medium Dr. Hartmann says killed it. The author of this piece declined. He submitted this article with the word omitted and attached a note to the editor that read, in full: &ldquo;Reproduction is not preservation. I will not be the second person to put this word on paper. A newspaper is not a mouth.&rdquo; We have honored his decision.</p>
+        </div>
+
+        <div class="end-mark">&mdash; 30 &mdash;</div>
+    </div>
+</body>
+</html>

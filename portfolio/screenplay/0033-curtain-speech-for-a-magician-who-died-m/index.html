@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curtain Speech</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+  :root {
+    --bg: #0a0a0a;
+    --fg: #d4d0c8;
+    --muted: #6b6560;
+    --accent: #c4a35a;
+    --strike: #8b2020;
+    --stage-dir: #7a9bb5;
+    --paper: #141210;
+    --border: #2a2520;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Courier Prime', 'Courier New', monospace;
+    line-height: 1.8;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .title-block {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .title-block h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--fg);
+    margin-bottom: 0.5rem;
+  }
+
+  .title-block .subtitle {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .scene-heading {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stage-direction {
+    font-style: italic;
+    color: var(--stage-dir);
+    font-size: 0.9rem;
+    padding-left: 2rem;
+    margin: 1.5rem 0;
+    max-width: 90%;
+  }
+
+  .stage-direction.first-direction {
+    padding-left: 0;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  .dialogue-block {
+    margin: 1.2rem 0;
+  }
+
+  .speaker {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg);
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+  }
+
+  .parenthetical {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.2rem;
+    padding-left: 1rem;
+  }
+
+  .speech {
+    padding-left: 2rem;
+    color: var(--fg);
+    font-size: 0.95rem;
+  }
+
+  .official {
+    text-decoration: line-through;
+    text-decoration-color: var(--strike);
+    text-decoration-thickness: 2px;
+    color: var(--muted);
+    opacity: 0.7;
+    display: inline;
+  }
+
+  .actual {
+    color: var(--fg);
+    display: inline;
+  }
+
+  .emerge {
+    color: var(--accent);
+    display: inline;
+  }
+
+  .break {
+    display: block;
+    height: 0.8rem;
+  }
+
+  .page-break {
+    margin: 3rem 0;
+    text-align: center;
+    color: var(--border);
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+  }
+
+  .end-mark {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .note-block {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.7;
+  }
+
+  .note-block strong {
+    color: var(--fg);
+    font-weight: 700;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 1rem 0.8rem; }
+    .speech { padding-left: 1rem; }
+    .stage-direction { padding-left: 1rem; }
+  }
+
+  .fade-section {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .fade-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="title-block fade-section">
+    <h1>Curtain Speech</h1>
+    <div class="subtitle">A stage manager addresses the audience following the final performance of <em>The Unthinkable</em></div>
+  </div>
+
+  <div class="scene-heading fade-section">
+    ACT IV — AFTER THE CURTAIN
+  </div>
+
+  <p class="stage-direction fade-section first-direction">
+    The stage of the Harcourt Theatre. 11:47 PM. The house lights remain at half. The Zig-Zag cabinet stands center stage, its middle section displaced eighteen inches to the performer's left. Three stainless-steel blades are inserted through the cabinet at angles calibrated to suggest the impossible. The interior is unlit. The assistant, DIANE, occupies the lower section. Her position has not changed since the completion of the illusion. She is upright. Her hands rest at her sides. She has not been told to leave. A stage manager enters from stage left. He is wearing a headset and carrying a clipboard. He does not look at the cabinet. He looks at the audience.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="parenthetical">(reading from clipboard)</div>
+    <div class="speech">
+      Ladies and gentlemen. <span class="official">Thank you for attending this evening's performance.</span> Thank you for staying in your seats.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He adjusts his headset. A burst of static. He mutes it.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="official">Mr. Harlan wishes to express his gratitude for your attendance tonight and regrets that he cannot take his customary bow.</span> He would have hated the custom. He thought bowing was a concession to the idea that the audience had been fooled, and he never believed anyone was fooled. He believed people <em>agreed</em> to be fooled, which he considered a much higher form of collaboration.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    A pause. His eyes move toward the cabinet. He corrects. Back to the audience.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="official">The illusion you witnessed this evening was completed as designed.</span> The illusion was completed as designed. <span class="break"></span>The Zig-Zag principle, for those unfamiliar, relies on displacement. The assistant's body occupies a smaller space than the cabinet appears to require. The blades do not contact her. The central section slides laterally, creating the impression of severance. <span class="break"></span>The illusion relies entirely on the assistant's stillness. Diane has performed this role for four hundred and twelve performances. She has never broken position.
+    </div>
+  </div>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      She has not broken position tonight.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He looks at the clipboard. Turns a page.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="official">The performer's exit was an intentional element of this evening's presentation.</span> He designed his exits to be untraceable. He said a magician should disappear the way a thought disappears — not the way an object is removed. You shouldn't be able to point to the moment. You should only notice the absence and wonder if there was ever anything there to begin with.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He sets the clipboard on a prop table. His hands are shaking. He puts them in his pockets.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="official">The management wishes to assure you that at no point during this evening's performance was any audience member in danger.</span> No one in this room was ever in any danger. That was always his rule. The danger was his to hold. He said it was the only honest thing about the profession — that someone stands in the blind spot so everyone else can believe there isn't one.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He removes his headset. Holds it.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="official">The running time of this evening's performance was approximately two hours and twenty minutes, within the advertised range.</span> <span class="break"></span>The Zig-Zag was the closing illusion. It was always the closing illusion. He said you close with the trick where the assistant survives, because that's the one people need to see last. He said audiences can tolerate a man in danger but they need the woman to walk away. He called it the primal architecture of the evening.
+    </div>
+  </div>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="parenthetical">(quieter)</div>
+    <div class="speech">
+      He said he wanted the trick to be the one thing in the room that didn't need explaining.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    A long pause. From the wings, the faint sound of a radio. Dispatch codes. Voices in low, practiced registers. The stage manager does not look toward the sound.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="official">The Harcourt Theatre regrets any confusion caused by the extended interval between the conclusion of the illusion and this address.</span> The interval was nine minutes. <span class="break"></span>I should tell you what happened during those nine minutes, because I'm not going to tell you what happened during those nine minutes, and I want you to understand the difference.
+    </div>
+  </div>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      During the nine-minute interval, I stood at this microphone. I was told to wait. I was told the house lights would be brought up slowly and I should speak in a measured tone and use only the approved language. I was told to refer to the performer in the present tense. I was told to smile.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He does not smile.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="official">Mr. Harlan extends his personal thanks to the Harcourt Theatre staff, the Harcourt Foundation, and the city of Chicago for its ongoing support of the performing arts.</span> He hated this theatre. He said the dressing rooms smelled like every failed actor who ever cried in them. He was right. They do. He cried in them himself. I know because I found him there once and he told me he was rehearsing. He said a magician should practice his exits in private. I told him that was the saddest thing I'd ever heard. He said that was why he was rehearsing.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He takes his hands out of his pockets. They have stopped shaking.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      The Zig-Zag illusion requires misdirection at the moment of restoration. The blades are removed. The center section slides back into position. The cabinet is opened. The assistant steps out. <span class="break"></span>The audience's attention is directed to the assistant. That is the design. The assistant's emergence is the moment of relief. No one watches the cabinet itself. No one watches the space the illusion occupied.
+    </div>
+  </div>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="parenthetical">(measured)</div>
+    <div class="speech">
+      I am going to ask you now to direct your attention to the cabinet.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    The house lights come up a fraction. The cabinet is fully visible. The blades catch the light. The center section remains displaced. It has not been restored. Diane is visible in the lower section. Her hands rest at her sides. She is looking straight ahead. She has not been told to stay. She has not been told to leave.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      The illusion has not been reset. In four hundred and twelve performances, Diane has emerged at mark forty-two, second cue, every night. She is not late. She has never been late. <span class="break"></span><span class="emerge">The cabinet is not empty.</span>
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    A longer pause. The static from the headset on the prop table. His hand moves toward it, then away.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="official">The management reminds you that all illusions performed this evening were conducted under the supervision of licensed professionals and in accordance with established safety protocols.</span> He was not a licensed professional. He was a man who learned to hold a straight pin in his palm for nineteen years. He was a man who could make you look at his left hand while his right hand did something you would never forgive yourself for missing. He was not a professional. He was a person who did a thing so well that people forgot it was a person doing it.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He picks up the clipboard. Puts it down. His hands are shaking again.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      The Zig-Zag was built to his specifications in 2016. The cabinet is thirty-six inches wide, sixty-four inches tall, twenty-four inches deep. The middle section displaces laterally on a track system that he designed himself because he didn't trust the commercial models. He said commercial models were built for magicians who wanted to be safe. He wanted to build one for magicians who wanted the audience to <em>believe</em>. Those are different apparatuses. They look identical. One is built to protect the assistant. The other is built to protect the audience from the knowledge that it can't.
+    </div>
+  </div>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      I should say that I don't know the specifics of this evening's performance. I was at the booth. I called the cues. I called them as written. Light cue forty-seven, sound cue twelve, the follow spot on Diane at mark forty-two. I called them at the right times. I said the words in the right order. The lights moved to the right places. The sound played. The spot found her face.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    Beat.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="emerge">I was watching the cabinet.</span>
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    The static from the headset grows louder. Then stops.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="official">For questions or concerns, audience members are encouraged to contact the Harcourt Theatre management at the number listed in your program.</span> <span class="break"></span>There is no number listed in your program. He had it removed during previews. He said he didn't want people calling to ask how the tricks worked. He said the whole point was that nobody calls. The whole point is that you leave the theatre with the thing unfinished in your mind. He said a trick explained is a relationship ended.
+    </div>
+  </div>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="parenthetical">(slowly)</div>
+    <div class="speech">
+      He thought about the audience constantly. What they need from the first act. What they need from the assistant. What they need from the silence between the blade going in and the assistant's smile when she steps out. He said that silence is the only part of the show that's real. The silence is where the audience decides what they believe. He designed the whole show around that silence.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He does not look at the cabinet. He has not looked at the cabinet once since he entered.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      The last thing he said to me was "Don't call the next cue until Diane is out." I told him Diane is always out at mark forty-two. He said, "I know. I just want you to wait for her anyway." I said fine. He said, "Promise." I said I promised. <span class="break"></span>I did not call the next cue. <span class="break"></span><span class="break"></span>I am still not calling it.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He waits. The silence is total. The cabinet's center section remains displaced.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="official">The management thanks you for a successful engagement and wishes you a safe journey home.</span> <span class="break"></span>He designed the Zig-Zag so that the assistant could be restored in under four seconds. He timed it. He timed everything. He said four seconds is the longest an audience will hold its breath. After four seconds, they start to wonder. After eight seconds, they start to worry. After twelve seconds, they know.
+    </div>
+  </div>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      The interval was nine minutes.
+    </div>
+  </div>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      Diane is still in position. She has been in position for nine minutes. I have not told her to stay. I have not told her anything. I do not know if she knows. I think she knows. She has performed this illusion four hundred and twelve times. She knows how long four seconds takes.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He looks at Diane. It is the first time he has looked toward the cabinet since entering. He looks at her for a long time. Then he looks back at the audience.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      The illusion requires misdirection. The audience watches the assistant. The cabinet is not observed. The cabinet can be opened, the apparatus reset, the interior prepared for the next performance. This is how it works. This is how it has always worked. <span class="break"></span>He said the trick is not the trick. The trick is the room's willingness to look where you point.
+    </div>
+  </div>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      I pointed you at the assistant.
+    </div>
+  </div>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="parenthetical">(quietly)</div>
+    <div class="speech">
+      I am pointing you at the cabinet now.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    The house lights come up full. The cabinet stands in plain light. The blades. The displaced section. The dark interior. Diane, visible, still. The stage manager looks at it — at all of it — for the first time. He looks at it for a long time. Then he looks at the audience. His expression does not change. It does not need to.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      <span class="official">The Harcourt Theatre thanks you for your patronage. Please check your seats for personal belongings. The lobby bar remains open for a short time.</span> <span class="break"></span>The lobby bar is closed. He drank there after every show. He sat at the end of the bar near the fire exit and drank two bourbons, neat, and reviewed the performance in a notebook he kept in his left jacket pocket. He filled seven notebooks. He never let me read them. He never let anyone read them.
+    </div>
+  </div>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      His name was Martin. I was not going to say his name. The legal department asked me not to say his name until the family has been — <span class="break"></span>until the family has been —
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He stops. He folds the paper on the clipboard so only the blank side shows.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="speech">
+      His name is Martin. Martin did not design the Zig-Zag to be dangerous. Martin designed the Zig-Zag to be the most beautiful thing in the room. He said apparatuses should be like good lighting — invisible until you need them to show you something. He said the blades should gleam. He said the wood should be dark. He said the assistant should look like she was resting. He said the whole point of the illusion is that a person goes into a box and blades pass through the box and the person is fine. He said that is the whole point of every illusion. That a person goes into a box and comes out fine. He said it is the simplest story in the world and it is the only story worth telling.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He places the headset on the prop table. He looks at Diane again. He speaks to her.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="parenthetical">(to Diane)</div>
+    <div class="speech">
+      You can step out.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    Diane does not move.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="parenthetical">(to Diane, softer)</div>
+    <div class="speech">
+      Diane.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    Diane closes her eyes. Opens them. She does not step out.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="parenthetical">(to the audience)</div>
+    <div class="speech">
+      She knows.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He walks to the cabinet. He stands beside it. He places one hand on the displaced center section. He does not move it.
+  </p>
+
+  <div class="dialogue-block fade-section">
+    <div class="speaker">STAGE MANAGER</div>
+    <div class="parenthetical">(at last)</div>
+    <div class="speech">
+      I am not going to restore it.
+    </div>
+  </div>
+
+  <p class="stage-direction fade-section">
+    He takes his hand off the cabinet. He looks at Diane one more time. She is looking at him.
+  </p>
+
+  <p class="stage-direction fade-section">
+    Lights fade to black.
+  </p>
+
+  <div class="end-mark fade-section">
+    — END —
+  </div>
+
+  <div class="note-block fade-section">
+    <strong>PRODUCTION NOTE:</strong> Diane remained in position for six additional minutes after the lights faded. The stage manager sat on the edge of the stage and waited. Emergency medical services entered from the house left wing at 12:04 AM. The apparatus was dismantled and removed the following morning. The stage manager submitted his resignation to the Harcourt Foundation on November 15th. It was not accepted. He submitted it again on November 16th. The Foundation's records indicate the resignation is under review. His headset was found in the prop room, still charged. The seven notebooks were not recovered.
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.fade-section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -30px 0px'
+    });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMERGENCY PROCEDURES — Meridian Tower</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #d4d0c8;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card {
+    background: linear-gradient(175deg, #ffffff 0%, #f8f7f5 40%, #f2f1ed 100%);
+    max-width: 720px;
+    width: 100%;
+    padding: 0;
+    box-shadow:
+      0 1px 3px rgba(0,0,0,0.12),
+      0 4px 12px rgba(0,0,0,0.08),
+      0 12px 40px rgba(0,0,0,0.12),
+      inset 0 1px 0 rgba(255,255,255,0.9);
+    border: 1px solid #c8c4bc;
+    position: relative;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.008) 3px,
+      rgba(0,0,0,0.008) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .card-inner {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* LAMINATION BANNER */
+  .lamination-banner {
+    background: repeating-linear-gradient(
+      -45deg,
+      #5c3d7a,
+      #5c3d7a 8px,
+      #4a2f66 8px,
+      #4a2f66 16px
+    );
+    color: white;
+    text-align: center;
+    padding: 3px 24px;
+    font-size: 7.5px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  /* HEADER */
+  .header-bar {
+    background: linear-gradient(180deg, #c41e1e 0%, #a81818 100%);
+    color: white;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #8b1010;
+  }
+
+  .header-bar .title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .header-bar .emblem {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255,255,255,0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .header-bar h1 {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .header-bar .subtitle {
+    font-size: 9.5px;
+    font-weight: 400;
+    letter-spacing: 1.2px;
+    opacity: 0.85;
+    margin-top: 2px;
+    text-transform: uppercase;
+  }
+
+  .header-bar .doc-badge {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9px;
+    background: rgba(0,0,0,0.2);
+    padding: 4px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  /* META STRIP */
+  .meta-strip {
+    background: #eeeee8;
+    border-bottom: 1px solid #d4d2ca;
+    padding: 8px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9px;
+    color: #666;
+    letter-spacing: 0.3px;
+  }
+
+  .meta-strip .effective {
+    font-weight: 700;
+    color: #333;
+  }
+
+  /* MOUNT HOLES */
+  .mount-holes {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 12px;
+    height: 0;
+    position: relative;
+    top: -6px;
+  }
+
+  .mount-hole {
+    width: 10px;
+    height: 10px;
+    border: 1.5px solid #bbb;
+    border-radius: 50%;
+    background: #d4d0c8;
+  }
+
+  /* CONTENT */
+  .content {
+    padding: 16px 24px 16px;
+  }
+
+  .section-title {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #c41e1e;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    padding-bottom: 4px;
+    border-bottom: 1.5px solid #e0ddd6;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title:first-child {
+    margin-top: 0;
+  }
+
+  .section-title .icon {
+    font-size: 11px;
+  }
+
+  .instruction {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+    padding: 7px 10px;
+    border-radius: 2px;
+    background: rgba(0,0,0,0.012);
+    border-left: 3px solid transparent;
+    line-height: 1.55;
+  }
+
+  .instruction.level-standard { border-left-color: #4a7c59; }
+  .instruction.level-elevated { border-left-color: #c49a1e; }
+  .instruction.level-critical { border-left-color: #c41e1e; }
+  .instruction.level-classified {
+    border-left-color: #5c3d7a;
+    background: rgba(92,61,122,0.025);
+  }
+
+  .instruction .code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: #999;
+    min-width: 40px;
+    padding-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .instruction .body { flex: 1; }
+
+  .instruction .body .headline {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 2px;
+  }
+
+  .instruction .body .desc {
+    font-size: 10.5px;
+    color: #444;
+    line-height: 1.55;
+  }
+
+  .instruction .body .sub-step {
+    font-size: 10px;
+    color: #666;
+    margin-top: 5px;
+    padding-left: 12px;
+    border-left: 1px solid #d8d6d0;
+    font-style: italic;
+  }
+
+  /* WARNING BOX */
+  .warning-box {
+    background: linear-gradient(180deg, #fff8e1 0%, #fff3cd 100%);
+    border: 1px solid #e6c54d;
+    border-radius: 3px;
+    padding: 10px 14px;
+    margin: 16px 0;
+    font-size: 10px;
+    color: #6b5a1e;
+    line-height: 1.55;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .warning-box .warn-icon {
+    font-size: 15px;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+
+  .warning-box strong { color: #5a4a10; }
+
+  /* QR CODE */
+  .qr-section {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin: 16px 0;
+    padding: 10px 12px;
+    background: #f9f9f6;
+    border: 1px solid #e0ddd6;
+    border-radius: 3px;
+  }
+
+  .qr-code {
+    width: 76px;
+    height: 76px;
+    flex-shrink: 0;
+  }
+
+  .qr-code svg { width: 100%; height: 100%; }
+
+  .qr-info {
+    font-size: 9.5px;
+    color: #777;
+    line-height: 1.5;
+  }
+
+  .qr-info .qr-label {
+    font-weight: 700;
+    color: #333;
+    font-size: 10px;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* REPORT FIELDS */
+  .report-section {
+    font-size: 10.5px;
+    color: #444;
+    line-height: 2;
+  }
+
+  .report-field {
+    display: inline-block;
+    border-bottom: 1px solid #999;
+    min-width: 120px;
+    margin: 0 2px;
+  }
+
+  /* REVISION HISTORY */
+  .footer-area {
+    margin-top: 18px;
+    border-top: 2px solid #d4d2ca;
+    padding-top: 12px;
+  }
+
+  .revision-table { width: 100%; margin-bottom: 0; }
+
+  .rev-title {
+    font-size: 8.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #999;
+    margin-bottom: 8px;
+  }
+
+  .revision-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .revision-grid .rev-entry {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 7.5px;
+    color: #aaa;
+    width: 25%;
+    padding: 2.5px 5px;
+  }
+
+  .revision-grid .rev-entry.current {
+    color: #333;
+    background: rgba(196, 30, 30, 0.06);
+  }
+
+  .revision-grid .rev-entry .rev-num {
+    font-weight: 700;
+    color: #888;
+  }
+
+  .revision-grid .rev-entry.current .rev-num {
+    color: #c41e1e;
+  }
+
+  /* FOOTER */
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 12px 24px;
+    background: #eeeee8;
+    border-top: 1px solid #d4d2ca;
+    font-size: 8px;
+    color: #999;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .footer-bottom .legal-line {
+    max-width: 65%;
+    line-height: 1.6;
+  }
+
+  .footer-bottom .legal-line .print-timestamp {
+    color: #bbb;
+    margin-top: 2px;
+  }
+
+  .footer-bottom .controlled {
+    text-align: right;
+    font-weight: 500;
+    color: #777;
+  }
+
+  .footer-bottom .controlled .rev-big {
+    font-size: 24px;
+    font-weight: 700;
+    color: #c41e1e;
+    display: block;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  /* Laminate edge */
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255,255,255,0.3);
+    pointer-events: none;
+    z-index: 3;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-inner">
+
+    <!-- TOP MOUNT HOLES -->
+    <div class="mount-holes">
+      <div class="mount-hole"></div>
+      <div class="mount-hole"></div>
+    </div>
+
+    <div class="lamination-banner">LAMINATED — DO NOT REMOVE — PROPERTY OF MERIDIAN PROPERTIES GROUP</div>
+
+    <div class="header-bar">
+      <div class="title-group">
+        <div class="emblem">&#9961;</div>
+        <div>
+          <h1>Emergency Procedures</h1>
+          <div class="subtitle">Meridian Tower &middot; 600 Grenville Street</div>
+        </div>
+      </div>
+      <div class="doc-badge">MT-EP-2016-047</div>
+    </div>
+
+    <div class="meta-strip">
+      <span>Effective: <span class="effective">Tuesday, July 15, 2025</span></span>
+      <span>Supersedes: Rev. 46 (July 12, 2025)</span>
+      <span>FOR POSTING — ALL FLOORS</span>
+    </div>
+
+    <div class="content">
+
+      <!-- ═══ STANDARD ═══ -->
+      <div class="section-title">
+        <span class="icon">&#9679;</span> Standard Emergency Protocols
+      </div>
+
+      <div class="instruction level-standard">
+        <div class="code">EP-01</div>
+        <div class="body">
+          <div class="headline">Fire / Smoke Detected</div>
+          <div class="desc">Activate nearest pull station. Evacuate via posted routes. Do not use elevators. Assemble at Rally Point C (parking structure P2, level 3). Do not re-enter until authorized by Fire Safety Officer.</div>
+        </div>
+      </div>
+
+      <div class="instruction level-standard">
+        <div class="code">EP-02</div>
+        <div class="body">
+          <div class="headline">Medical Emergency</div>
+          <div class="desc">Call Security at ext. 4400. Administer first aid only if trained. AED units located at each elevator lobby and loading dock. Provide arriving paramedics with completed <strong>Medical Information Card MT-MIC-03</strong>.</div>
+        </div>
+      </div>
+
+      <div class="instruction level-standard">
+        <div class="code">EP-03</div>
+        <div class="body">
+          <div class="headline">Earthquake / Structural Event</div>
+          <div class="desc">Drop, cover, hold. After shaking stops, proceed to nearest stairwell. Account for all personnel using floor checklist. Report missing persons and any new cracks, standing water, or odor of almonds to Security.</div>
+        </div>
+      </div>
+
+      <div class="instruction level-standard">
+        <div class="code">EP-04</div>
+        <div class="body">
+          <div class="headline">Extended Power Loss</div>
+          <div class="desc">Emergency generators activate within 8 seconds. If corridor lights remain off after 30 seconds, proceed to stairwell using personal flashlight. <em>Do not count floor numbers aloud.</em> Remain calm.</div>
+        </div>
+      </div>
+
+      <!-- ═══ ELEVATED ═══ -->
+      <div class="section-title">
+        <span class="icon">&#9679;</span> Elevated Emergency Protocols
+      </div>
+
+      <div class="instruction level-elevated">
+        <div class="code">EP-05</div>
+        <div class="body">
+          <div class="headline">Stairwell Enumeration Irregularity</div>
+          <div class="desc">If you notice the stairwell counting floors in a non-sequential pattern (e.g., 7, 8, 8, 8, 9) or skipping a number you expected, stop descending immediately. Remain on the current landing. Press and hold the call button for <strong>3 seconds, release for 2 seconds, press again for 3 seconds</strong>. Do not proceed until the floor indicator matches your expected floor.</div>
+          <div class="sub-step">If the repeated number is your destination floor, continue descending normally. The irregularity has been noted.</div>
+        </div>
+      </div>
+
+      <div class="instruction level-elevated">
+        <div class="code">EP-06</div>
+        <div class="body">
+          <div class="headline">Elevator Anomalous Behavior</div>
+          <div class="desc">If an elevator stops at a floor that does not correspond to any floor of Meridian Tower — including floors labeled with symbols, unrecognized numerals, or names of places you do not remember existing — do not exit. Press and hold the DOOR CLOSE button. The car will resume normal operation within 90 seconds. <strong>Do not make eye contact with anyone on the anomalous floor.</strong></div>
+          <div class="sub-step">If the doors open and the corridor is filled with water, remain calm. The water is not wet. Close your eyes until the doors close.</div>
+        </div>
+      </div>
+
+      <div class="instruction level-elevated">
+        <div class="code">EP-07</div>
+        <div class="body">
+          <div class="headline">Unexplained Auditory Events</div>
+          <div class="desc">Persistent humming, whispering, or a sound described by witnesses as "a song played at the wrong speed" should be reported to Security via text message to 555-0147. Do not attempt to record the sound. Do not describe the sound to colleagues. Describe it only to the Security operator using the code phrase <strong>"the conference room is double-booked."</strong></div>
+        </div>
+      </div>
+
+      <div class="instruction level-elevated">
+        <div class="code">EP-08</div>
+        <div class="body">
+          <div class="headline">Non-Vertical Structural Displacement</div>
+          <div class="desc">If a wall, floor, or ceiling appears to have moved to a location that does not match the building's architectural plans, note the displacement on the nearest copy of <strong>Form MT-ARCH-09</strong> (located in each floor's safety binder). Do not push, pull, or lean on the displaced surface. Security will verify within 4 hours. Previous displacements have all been explained.</div>
+        </div>
+      </div>
+
+      <!-- ═══ CRITICAL ═══ -->
+      <div class="section-title">
+        <span class="icon">&#9679;</span> Critical Emergency Protocols
+      </div>
+
+      <div class="instruction level-critical">
+        <div class="code">EP-09</div>
+        <div class="body">
+          <div class="headline">Temporal Floor Displacement (3rd / 4th Floor)</div>
+          <div class="desc">In the event the third floor becomes temporally displaced from the fourth — you will know this has occurred when the stairwell between these floors takes more than 30 seconds to traverse — do not attempt to reach either floor. Alert all personnel on both floors via the intercom (press INTERCOM, then dial <strong>**39</strong>). Evacuate floors 2 through 5 inclusive. The floors will be reunited within the building. This is normal and has happened before.</div>
+          <div class="sub-step">If you are already on the third floor and it has been displaced, remain at your desk. The building will find you. Do not look out the windows, as the view will not be correct.</div>
+        </div>
+      </div>
+
+      <div class="instruction level-critical">
+        <div class="code">EP-10</div>
+        <div class="body">
+          <div class="headline">Mirror / Reflective Surface Anomaly</div>
+          <div class="desc">If your reflection does not match your current posture, expression, or clothing, or if your reflection is absent entirely: cover the surface immediately. Do not interact with it. Do not respond if the reflection speaks. Notify Floor Warden. A mirror response team will be dispatched within 15 minutes. <strong>Shaving mirrors, phone screens, elevator doors, and restroom surfaces are all considered reflective.</strong></div>
+        </div>
+      </div>
+
+      <div class="instruction level-critical">
+        <div class="code">EP-11</div>
+        <div class="body">
+          <div class="headline">Additional Employee on Floor</div>
+          <div class="desc">If a headcount reveals more personnel than are assigned to your floor, do not attempt to identify the extra individual. <strong>This is not a security breach.</strong> Complete the headcount as normal and report the total number, including the additional person, to Security. The additional individual will depart during the next headcount interval. They are cooperative. They do not need to be acknowledged.</div>
+          <div class="sub-step">The additional employee will always answer to the name you give them. This is expected.</div>
+        </div>
+      </div>
+
+      <div class="instruction level-critical">
+        <div class="code">EP-12</div>
+        <div class="body">
+          <div class="headline">Sky Discrepancy (Windows Facing North, Floors 9–14)</div>
+          <div class="desc">If the sky visible through north-facing windows on floors 9 through 14 does not match conditions reported by local weather services — including but not limited to: wrong time of day, wrong season, unfamiliar celestial bodies, or a sky that is a color other than blue, grey, or black — lower all blinds on the affected floor and contact Security. <strong>Do not photograph the sky.</strong> The sky you are seeing is accurate for a location that is not here. It will synchronize.</div>
+        </div>
+      </div>
+
+      <div class="instruction level-critical">
+        <div class="code">EP-13</div>
+        <div class="body">
+          <div class="headline">Room That Should Not Exist</div>
+          <div class="desc">If you discover a room, corridor, or space that does not appear on any floor plan and cannot be accounted for by the building's known dimensions, do not enter. Note the door's material, color, and any signage. Close the door firmly. <strong>Place a piece of furniture in front of it if possible.</strong> Report to Security with the code phrase <strong>"the copy machine needs toner."</strong> The room will be removed from the floor plan within one business day.</div>
+        </div>
+      </div>
+
+      <!-- ═══ CLASSIFIED ═══ -->
+      <div class="section-title">
+        <span class="icon">&#9679;</span> Classified Emergency Protocols
+      </div>
+
+      <div class="instruction level-classified">
+        <div class="code">EP-14</div>
+        <div class="body">
+          <div class="headline">Remembered Event Protocol</div>
+          <div class="desc">If you remember an emergency that, upon checking with colleagues or records, does not appear to have occurred, do not attempt to verify the memory independently. Report to Floor Warden using the phrase <strong>"I think I attended that meeting."</strong> You will be given a blue badge. Wear it until the end of the business day. The memory is not yours. It will be collected.</div>
+        </div>
+      </div>
+
+      <div class="instruction level-classified">
+        <div class="code">EP-15</div>
+        <div class="body">
+          <div class="headline">Descending Floor Protocol</div>
+          <div class="desc">If a floor begins to descend through the building without mechanical assistance — you will feel a slow, steady downward motion and may notice the ceiling of the floor below rising into your floor's space — instruct all personnel to move to the center of the floor plate. <strong>The floor will stop at the lobby.</strong> When it stops, exit through the lobby doors normally. The floor will return to its assigned position overnight.</div>
+          <div class="sub-step">Floors 6 and 11 have experienced this. Personnel on those floors are issued wristbands. If you are issued a wristband, wear it.</div>
+        </div>
+      </div>
+
+      <div class="instruction level-classified">
+        <div class="code">EP-16</div>
+        <div class="body">
+          <div class="headline">Visitor Who Arrived Before You Left</div>
+          <div class="desc">If a visitor arrives at your office and describes, in accurate detail, a conversation you have not yet had with them, listen carefully. <strong>Do not complete the conversation as described.</strong> Vary at least one substantive detail. Provide the visitor with Form MT-VISIT-07 (gold form, available at reception). The visitor will understand. They will not be offended.</div>
+        </div>
+      </div>
+
+      <div class="instruction level-classified">
+        <div class="code">EP-17</div>
+        <div class="body">
+          <div class="headline">The Hour Between 4:00 AM and 5:00 AM</div>
+          <div class="desc">If you are in the building between 4:00 AM and 5:00 AM and observe that the clock has not advanced for more than three minutes, sit down in the nearest chair or on the floor. Close your eyes. <strong>The hour will pass.</strong> Do not open your eyes until you hear the HVAC system resume. If you must open your eyes, look only at your own hands. This has always been sufficient.</div>
+        </div>
+      </div>
+
+      <!-- WARNING -->
+      <div class="warning-box">
+        <span class="warn-icon">&#9888;&#65039;</span>
+        <div>
+          <strong>IMPORTANT:</strong> Revisions to this card will be issued as needed. All previous revisions should be destroyed immediately upon receipt of an update. Do not retain, photograph, or make copies of superseded revisions. If you have seen a revision number higher than the one printed on this card, <strong>contact Security immediately and remain where you are.</strong>
+        </div>
+      </div>
+
+      <!-- QR CODE -->
+      <div class="qr-section">
+        <div class="qr-code">
+          <svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <!-- Top-left finder -->
+            <rect x="0" y="0" width="7" height="7" fill="#222"/>
+            <rect x="1" y="1" width="5" height="5" fill="white"/>
+            <rect x="2" y="2" width="3" height="3" fill="#222"/>
+            <!-- Top-right finder -->
+            <rect x="14" y="0" width="7" height="7" fill="#222"/>
+            <rect x="15" y="1" width="5" height="5" fill="white"/>
+            <rect x="16" y="2" width="3" height="3" fill="#222"/>
+            <!-- Bottom-left finder -->
+            <rect x="0" y="14" width="7" height="7" fill="#222"/>
+            <rect x="1" y="15" width="5" height="5" fill="white"/>
+            <rect x="2" y="16" width="3" height="3" fill="#222"/>
+            <!-- Alignment -->
+            <rect x="14" y="14" width="5" height="5" fill="#222"/>
+            <rect x="15" y="15" width="3" height="3" fill="white"/>
+            <rect x="16" y="16" width="1" height="1" fill="#222"/>
+            <!-- Data modules (decorative) -->
+            <rect x="8" y="1" width="1" height="1" fill="#222"/>
+            <rect x="10" y="1" width="1" height="1" fill="#222"/>
+            <rect x="12" y="1" width="1" height="1" fill="#222"/>
+            <rect x="8" y="3" width="1" height="1" fill="#222"/>
+            <rect x="11" y="3" width="1" height="1" fill="#222"/>
+            <rect x="9" y="4" width="1" height="1" fill="#222"/>
+            <rect x="12" y="4" width="1" height="1" fill="#222"/>
+            <rect x="8" y="5" width="1" height="1" fill="#222"/>
+            <rect x="10" y="5" width="1" height="1" fill="#222"/>
+            <rect x="1" y="8" width="1" height="1" fill="#222"/>
+            <rect x="3" y="8" width="1" height="1" fill="#222"/>
+            <rect x="5" y="8" width="1" height="1" fill="#222"/>
+            <rect x="8" y="8" width="1" height="1" fill="#222"/>
+            <rect x="10" y="8" width="1" height="1" fill="#222"/>
+            <rect x="12" y="8" width="1" height="1" fill="#222"/>
+            <rect x="15" y="8" width="1" height="1" fill="#222"/>
+            <rect x="18" y="8" width="1" height="1" fill="#222"/>
+            <rect x="1" y="10" width="1" height="1" fill="#222"/>
+            <rect x="4" y="10" width="1" height="1" fill="#222"/>
+            <rect x="9" y="10" width="1" height="1" fill="#222"/>
+            <rect x="11" y="10" width="1" height="1" fill="#222"/>
+            <rect x="16" y="10" width="1" height="1" fill="#222"/>
+            <rect x="19" y="10" width="1" height="1" fill="#222"/>
+            <rect x="2" y="11" width="1" height="1" fill="#222"/>
+            <rect x="5" y="11" width="1" height="1" fill="#222"/>
+            <rect x="8" y="11" width="1" height="1" fill="#222"/>
+            <rect x="12" y="11" width="1" height="1" fill="#222"/>
+            <rect x="15" y="11" width="1" height="1" fill="#222"/>
+            <rect x="17" y="11" width="1" height="1" fill="#222"/>
+            <rect x="1" y="12" width="1" height="1" fill="#222"/>
+            <rect x="3" y="12" width="1" height="1" fill="#222"/>
+            <rect x="10" y="12" width="1" height="1" fill="#222"/>
+            <rect x="12" y="12" width="1" height="1" fill="#222"/>
+            <rect x="16" y="12" width="1" height="1" fill="#222"/>
+            <rect x="19" y="12" width="1" height="1" fill="#222"/>
+            <rect x="8" y="14" width="1" height="1" fill="#222"/>
+            <rect x="11" y="14" width="1" height="1" fill="#222"/>
+            <rect x="8" y="16" width="1" height="1" fill="#222"/>
+            <rect x="10" y="16" width="1" height="1" fill="#222"/>
+            <rect x="12" y="16" width="1" height="1" fill="#222"/>
+            <rect x="9" y="17" width="1" height="1" fill="#222"/>
+            <rect x="11" y="17" width="1" height="1" fill="#222"/>
+            <rect x="8" y="19" width="1" height="1" fill="#222"/>
+            <rect x="10" y="19" width="1" height="1" fill="#222"/>
+            <rect x="12" y="19" width="1" height="1" fill="#222"/>
+          </svg>
+        </div>
+        <div class="qr-info">
+          <div class="qr-label">Scan for Current Revision Status</div>
+          Real-time procedure updates, building status, and floor availability. Requires Meridian Connect app (v4.2+). If the QR code appears to change between scans, <strong>you are scanning it correctly.</strong> Proceed as directed.
+        </div>
+      </div>
+
+      <!-- REPORT TO -->
+      <div class="section-title">
+        <span class="icon">&#9742;</span> Please Report To
+      </div>
+
+      <div class="report-section">
+        Building Security: ext. 4400 &nbsp;|&nbsp; 555-0147 (24hr)<br>
+        Floor Warden: <span class="report-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Ext: <span class="report-field">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br>
+        Property Management: ext. 4200 &nbsp;|&nbsp; Suite 110<br>
+        Environmental Compliance: ext. 4355 &nbsp;|&nbsp; Code phrase: <em>"the air is recyclable"</em>
+      </div>
+
+      <!-- REVISION HISTORY -->
+      <div class="footer-area">
+        <div class="revision-table">
+          <div class="rev-title">Revision History (Abbreviated)</div>
+          <div class="revision-grid">
+            <div class="rev-entry"><span class="rev-num">Rev. 1</span> — Mar 14, 2016</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 2</span> — Sep 22, 2016</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 3</span> — Feb 8, 2017</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 4</span> — Jan 11, 2018</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 5</span> — Aug 3, 2018</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 6</span> — Apr 19, 2019</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 7</span> — Nov 30, 2019</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 8</span> — Jun 5, 2020</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 9</span> — Mar 12, 2021</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 10</span> — Oct 28, 2021</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 11</span> — Jan 7, 2022</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 12</span> — Apr 14, 2022</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 13</span> — Jun 22, 2022</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 14</span> — Aug 9, 2022</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 15</span> — Sep 15, 2022</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 16</span> — Oct 20, 2022</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 17</span> — Dec 1, 2022</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 18</span> — Jan 14, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 19</span> — Feb 27, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 20</span> — Mar 19, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 21</span> — Apr 8, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 22</span> — May 1, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 23</span> — Jun 11, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 24</span> — Jul 14, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 25</span> — Aug 22, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 26</span> — Sep 30, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 27</span> — Oct 17, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 28</span> — Nov 2, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 29</span> — Nov 18, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 30</span> — Dec 3, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 31</span> — Dec 19, 2023</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 32</span> — Jan 8, 2024</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 33</span> — Jan 24, 2024</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 34</span> — Feb 9, 2024</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 35</span> — Mar 1, 2024</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 36</span> — Mar 28, 2024</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 37</span> — Apr 19, 2024</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 38</span> — May 11, 2024</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 39</span> — Jun 3, 2024</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 40</span> — Aug 18, 2024</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 41</span> — Oct 29, 2024</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 42</span> — Dec 6, 2024</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 43</span> — Feb 14, 2025</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 44</span> — Apr 21, 2025</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 45</span> — Jun 28, 2025</div>
+            <div class="rev-entry"><span class="rev-num">Rev. 46</span> — Jul 12, 2025</div>
+            <div class="rev-entry current"><span class="rev-num">Rev. 47</span> — Jul 15, 2025 &#9664;</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+
+    <!-- BOTTOM MOUNT HOLES -->
+    <div class="mount-holes" style="top: auto; bottom: -6px;">
+      <div class="mount-hole"></div>
+      <div class="mount-hole"></div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="legal-line">
+        &copy; 2016–2025 Meridian Properties Group LLC. All rights reserved.<br>
+        Unauthorized reproduction or distribution prohibited.<br>
+        For procedure questions, contact the Office of Building Compliance.<br>
+        <span class="print-timestamp">Printed July 14, 2025 at 11:47 PM. You are holding revision 47.</span>
+      </div>
+      <div class="controlled">
+        CONTROLLED DOCUMENT<br>
+        <span class="rev-big">47</span>
+        DO NOT DESTROY
+      </div>
+    </div>
+
+  </div><!-- /card-inner -->
+</div><!-- /card -->
+
+</body>
+</html>

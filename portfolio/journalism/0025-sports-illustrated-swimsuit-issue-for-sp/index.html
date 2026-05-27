@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sports Illustrated Presents: The Invasion Issue</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Sans+Pro:wght@300;400;600;700&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --si-red: #C8102E;
+    --si-gold: #C9A84C;
+    --si-black: #1A1A1A;
+    --si-white: #F5F3EF;
+    --si-grey: #6B6B6B;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Source Serif Pro', Georgia, serif;
+    --font-sans: 'Source Sans Pro', Arial, sans-serif;
+  }
+
+  body {
+    background: var(--si-black);
+    color: var(--si-white);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  .masthead {
+    text-align: center;
+    padding: 50px 20px 10px;
+    border-bottom: 3px solid var(--si-red);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .masthead-logo {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--si-white);
+  }
+  .masthead-logo span {
+    color: var(--si-red);
+  }
+  .masthead-edition {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--si-grey);
+    margin-top: 8px;
+  }
+
+  .cover {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    text-align: center;
+  }
+  .cover-photo {
+    background: linear-gradient(145deg, #1a2a1a 0%, #0d1a0d 40%, #1a1a0d 70%, #2a1a0d 100%);
+    border: 1px solid #333;
+    padding: 80px 40px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-photo::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 30% 40%, rgba(200,168,76,0.08) 0%, transparent 60%);
+  }
+  .cover-photo-text {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--si-grey);
+    position: relative;
+  }
+  .cover-photo-desc {
+    font-family: var(--font-body);
+    font-style: italic;
+    color: rgba(245,243,239,0.6);
+    max-width: 500px;
+    margin: 16px auto 0;
+    font-size: 15px;
+    position: relative;
+    line-height: 1.8;
+  }
+  .cover h1 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 7vw, 72px);
+    font-weight: 900;
+    line-height: 1.05;
+    margin: 20px 0;
+    color: var(--si-white);
+  }
+  .cover h1 em {
+    color: var(--si-gold);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .cover-deck {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 20px;
+    color: var(--si-grey);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .cover-byline {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--si-gold);
+    margin-top: 30px;
+  }
+
+  .spread {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    border-top: 1px solid #2a2a2a;
+  }
+  .spread-number {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--si-red);
+    margin-bottom: 30px;
+  }
+
+  .spread-header {
+    margin-bottom: 40px;
+  }
+  .spread-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--si-white);
+  }
+  .spread-header .species-name {
+    font-style: italic;
+    color: var(--si-gold);
+    font-weight: 400;
+  }
+  .spread-header .tagline {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 20px;
+    color: var(--si-grey);
+    margin-top: 12px;
+    border-left: 3px solid var(--si-red);
+    padding-left: 16px;
+  }
+
+  .photo-block {
+    background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+    border: 1px solid #2a2a2a;
+    padding: 60px 30px;
+    margin: 30px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .photo-block::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    pointer-events: none;
+  }
+  .photo-caption {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: rgba(245,243,239,0.5);
+    line-height: 1.8;
+  }
+  .photo-caption strong {
+    color: rgba(245,243,239,0.8);
+  }
+  .photo-credit {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: rgba(245,243,239,0.3);
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .spread-body {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .spread-body p {
+    margin-bottom: 22px;
+  }
+  .drop-cap::first-letter {
+    font-family: var(--font-display);
+    font-size: 64px;
+    float: left;
+    line-height: 0.8;
+    margin-right: 10px;
+    margin-top: 6px;
+    color: var(--si-gold);
+    font-weight: 700;
+  }
+
+  .pull-quote {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--si-gold);
+    border-top: 3px solid var(--si-red);
+    border-bottom: 3px solid var(--si-red);
+    padding: 24px 0;
+    margin: 40px 0;
+    line-height: 1.35;
+    text-align: center;
+  }
+
+  .vital-stats {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    padding: 30px;
+    margin: 40px 0;
+  }
+  .vital-stats h3 {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--si-red);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #1a1a1a;
+    font-family: var(--font-sans);
+  }
+  .stat-label {
+    color: var(--si-grey);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .stat-value {
+    color: var(--si-white);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: right;
+  }
+  .stat-value.harmful {
+    color: var(--si-red);
+  }
+
+  .travel-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    border-top: 3px solid var(--si-gold);
+  }
+  .travel-section h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .travel-section .subtitle {
+    text-align: center;
+    font-family: var(--font-body);
+    font-style: italic;
+    color: var(--si-grey);
+    font-size: 18px;
+    margin-bottom: 50px;
+  }
+  .travel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .travel-card {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    overflow: hidden;
+  }
+  .travel-card-visual {
+    height: 160px;
+    position: relative;
+  }
+  .travel-card-body {
+    padding: 20px;
+  }
+  .travel-card-body h4 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .travel-card-body h4 em {
+    color: var(--si-gold);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  .travel-card-body p {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--si-grey);
+    line-height: 1.7;
+    margin-top: 10px;
+  }
+  .travel-tag {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border: 1px solid var(--si-red);
+    color: var(--si-red);
+    margin-top: 12px;
+  }
+
+  .letters-section {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    border-top: 1px solid #2a2a2a;
+  }
+  .letters-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .letters-header h3 {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--si-red);
+    margin-bottom: 8px;
+  }
+  .letters-header h2 {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+  }
+  .letter {
+    border-left: 2px solid #2a2a2a;
+    padding-left: 24px;
+    margin-bottom: 30px;
+  }
+  .letter-body {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(245,243,239,0.8);
+  }
+  .letter-body p {
+    margin-bottom: 12px;
+  }
+  .letter-sig {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--si-grey);
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+  .letter-sig strong {
+    color: var(--si-white);
+    font-weight: 600;
+  }
+  .editor-response {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--si-grey);
+    font-style: italic;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #1a1a1a;
+  }
+
+  .editors-note {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    border-top: 1px solid #2a2a2a;
+  }
+  .editors-note-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .editors-note-header h3 {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--si-red);
+    margin-bottom: 8px;
+  }
+  .editors-note-header h2 {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+  }
+  .editors-note p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid #1a1a1a;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: #444;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 600px) {
+    .spread-body { padding: 0; }
+    .photo-block { padding: 40px 20px; }
+    .vital-stats { padding: 20px; }
+    .pull-quote { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-logo">S<span>P</span>ORTS ILLUSTRATED</div>
+  <div class="masthead-edition">The Invasion Issue &middot; Special Supplement</div>
+</header>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="cover-photo">
+    <div class="cover-photo-text">[ Cover: A Burmese python, 18.3 feet, stretched across the Everglades tree line at golden hour. ]</div>
+    <div class="cover-photo-desc">Photographed at peak postprandial stillness, three days after consuming a white-tailed deer &mdash; 111 pounds, a personal best</div>
+  </div>
+  <h1>The Species That Have <em>Already Won</em></h1>
+  <p class="cover-deck">Five organisms at the moment of total ecological triumph &mdash; and the landscapes they&rsquo;ll never give back</p>
+  <p class="cover-byline">Words by the Editors of Sports Illustrated</p>
+</section>
+
+<!-- ============================================ -->
+<!-- SPECIES 1: BURMESE PYTHON -->
+<!-- ============================================ -->
+<section class="spread" id="python">
+  <div class="spread-number">Profile 01 / 05</div>
+  <div class="spread-header">
+    <h2>Burmese Python<br><span class="species-name">Python bivittatus</span></h2>
+    <p class="tagline">The reigning queen of the Everglades. Seventeen years undefeated.</p>
+  </div>
+
+  <div class="photo-block">
+    <div class="photo-caption">
+      <strong>Below:</strong> Python bivittatus in repose along the Tamiami Trail, western Everglades, December 2023. The 16-foot female had consumed three raccoons in a single sitting and was photographed resting in that state of magnificent, swollen satisfaction that only true apex achievement can produce. Note the sublime definition along the dorsal ridge &mdash; the muscular articulation of a body built for one thing, now doing it everywhere.
+    </div>
+    <div class="photo-credit">Photo: [Camera trap / Everglades National Park]</div>
+  </div>
+
+  <div class="spread-body">
+    <p class="drop-cap">She arrived in Florida the way most icons arrive in Florida: through the exotic pet trade, released by someone who underestimated her. That was the mid-1990s. She didn&rsquo;t ask for the Everglades, but the Everglades &mdash; warm, wet, virtually predator-free, thick with raccoons, opossums, deer, bobcats, and wading birds who had never evolved to fear anything that moved like she moved &mdash; was, frankly, asking for her. The match was immediate and electric. She found herself in a landscape that, ecologically speaking, was a 4,000-square-mile warm bath with an open bar.</p>
+
+    <p>By 2005, her descendants were everywhere. By 2015, they had effectively removed 99% of the raccoons from certain survey areas. The opossums went next, then the bobcats, then the marsh rabbits, then the foxes. Mammal populations in the southern Everglades didn&rsquo;t decline &mdash; they vanished. A 2012 study found that in regions where pythons were established, sightings of raccoons dropped 99.3%. Opossums: 98.9%. Bobcats: 87.5%. This isn&rsquo;t success; it&rsquo;s a physical performance that would make any personal trainer weep. To clear 99% of an entire mammalian cohort from a national park &mdash; not through malice, not through planning, but simply through the unrelenting, efficient application of appetite and ambush &mdash; is a feat of athletic dominance that no human athlete has ever achieved in any arena.</p>
+
+    <div class="pull-quote">You don&rsquo;t reach 300,000 individuals in a hostile ecosystem by accident. You reach it by being, quite simply, the best.</div>
+
+    <p>And she&rsquo;s beautiful. Let&rsquo;s say it. The Burmese python possesses the kind of figure Sports Illustrated has always celebrated &mdash; long, powerful, curving with muscular intent, built for movement even when entirely still. Her skin catches light in reticulated diamond patterns of olive, tan, and cream. Her head sits on her neck with the poised confidence of a runway model, and her vertical pupils, golden as amber, carry that particular look of calm, predatory awareness that the magazine has always called &ldquo;smoldering&rdquo; in its human subjects.</p>
+
+    <p>She can go a year between meals and still maintain condition. She can unhinge her jaw to accommodate prey wider than her own head. She can sense the body heat of a warm-blooded animal from three feet away through a system of labial pits so sophisticated it makes infrared technology look primitive. Her ovaries can hold up to 107 eggs in a single clutch, each one a potential heiress to the throne of southern Florida. She wraps those eggs around herself and shivers &mdash; actually shivers, contracting her muscles rhythmically to generate heat, maintaining an incubation temperature of 90°F even when the air around her is ten degrees cooler. That is dedication. That is reproductive athleticism of the highest order. That is the kind of maternal commitment that usually makes magazine covers, and she has earned it.</p>
+
+    <p>The state of Florida has spent $10 million annually trying to remove her. They&rsquo;ve sent hunters with shotguns, hunters with machetes, hunters with their bare hands. They&rsquo;ve recruited Python Cowboy, Python Cowboy&rsquo;s cousin, Python Cowboy&rsquo;s entire extended family for a reality show called <em>Python Hunters</em> that documented, episode after episode, their spectacular, failure-laden inability to catch very many of her at all. In 2022, the Florida Python Challenge awarded $10,000 to the hunter who caught the most pythons. The winner caught 28. Researchers estimate there are at least 100,000. The ratio speaks for itself.</p>
+
+    <p>She has no equal now. The alligators, the only animals large enough to prey on her, mostly leave her alone &mdash; or, occasionally, she eats them too. A 2022 necropsy found a 5-foot alligator inside a 14-foot python, the snake&rsquo;s body distended around its conqueror like a medal. There is something poetic about an apex predator becoming, simply, lunch for a more complete apex predator. The Everglades were supposed to be untamable. She tamed them. She didn&rsquo;t ask permission. She didn&rsquo;t negotiate. She just kept growing, eating, reproducing, and expanding, expanding, expanding, until the landscape itself seemed to shrug and accept that this was, and would forever be, her territory now.</p>
+  </div>
+
+  <div class="vital-stats">
+    <h3>Vital Statistics</h3>
+    <div class="stat-row">
+      <span class="stat-label">Native Range</span>
+      <span class="stat-value">Southeast Asia (Myanmar to Vietnam)</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Invasive Range</span>
+      <span class="stat-value">Southern Florida, principally Everglades</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Est. Population (Florida)</span>
+      <span class="stat-value">100,000 &ndash; 300,000</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Length (Max Recorded)</span>
+      <span class="stat-value">18 ft 9 in</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Weight (Max Recorded)</span>
+      <span class="stat-value">215 lbs</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Clutch Size</span>
+      <span class="stat-value">12 &ndash; 107 eggs</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Mammal Decline (Survey Areas)</span>
+      <span class="stat-value harmful">Up to 99.3%</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Annual Control Spending (FL)</span>
+      <span class="stat-value">$10 million+</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Likelihood of Eradication</span>
+      <span class="stat-value harmful">Zero</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SPECIES 2: CANE TOAD -->
+<!-- ============================================ -->
+<section class="spread" id="toad">
+  <div class="spread-number">Profile 02 / 05</div>
+  <div class="spread-header">
+    <h2>Cane Toad<br><span class="species-name">Rhinella marina</span></h2>
+    <p class="tagline">Australia&rsquo;s most prolific colonist. Still expanding. Never apologized.</p>
+  </div>
+
+  <div class="photo-block">
+    <div class="photo-caption">
+      <strong>Above:</strong> A male cane toad, heavy-bodied and dew-lapped, calling from a drainage ditch outside Cairns, Queensland. The pose &mdash; bloated, confident, entirely unbothered by the annihilation of the ecosystem around him &mdash; is, in its way, heroic. His parotoid glands, swollen with enough bufotoxin to kill a crocodile, catch the flash like shoulder pads. He is armed, and he knows it.
+    </div>
+    <div class="photo-credit">Photo: [Field Documentation / James Cook University]</div>
+  </div>
+
+  <div class="spread-body">
+    <p class="drop-cap">They arrived in Australia in 1935 with a specific job: eat the cane beetles that were destroying Queensland&rsquo;s sugar crop. They did not eat the cane beetles. The beetles lived too high on the stalks; the toads couldn&rsquo;t reach them. This failure, in any other profession, would have meant termination. The toads, instead, interpreted it as a mandate. Unshackled from the specific task they had been hired for, they turned their attention to the entire continent.</p>
+
+    <p>And the continent, let us be frank, was theirs for the taking. Australia had no native toads &mdash; no competitors for the ecological niche of &ldquo;large, terrestrial, poison-skinned amphibian.&rdquo; Every predator that tried to eat a cane toad died. Snakes died. Lizards died. The northern quoll, a cat-sized marsupial carnivore that had survived for 15 million years, was nearly eradicated in regions where cane toads arrived, because every quoll that bit a toad received a fatal dose of cardiac glycosides through the skin. The toads didn&rsquo;t fight back. They didn&rsquo;t have to. They sat there, seeping poison, and let the continent&rsquo;s native predators kill themselves on contact. It was a strategy of breathtaking efficiency &mdash; total ecosystem dominance achieved through pure, weaponized desirability. Everyone wanted them. Everyone who touched them died.</p>
+
+    <div class="pull-quote">In 1935, 102 toads were released in Gordonvale, Queensland. There are now more than 200 million. That&rsquo;s a reproduction rate that would make any publicist weep with envy.</div>
+
+    <p>They are expanding west at roughly 40 to 60 kilometers per year. Each wavefront is led by the biggest, strongest, longest-legged toads &mdash; a vanguard of super-invaders who have evolved, in just 85 years, legs that are 25% longer than their Queensland ancestors. They are getting faster. They are getting stronger. They are getting more beautiful, if beauty means the capacity to cover ground, reproduce explosively, and render yourself inedible to every living thing around you &mdash; and in the Sports Illustrated lexicon, it does. It absolutely does.</p>
+
+    <p>Their skin is magnificent. Thick, warty, dorsally dark, it provides camouflage against the mud and leaf litter where they rest by day. Their underside is pale cream, almost golden, shot through with mottling that would look at home on any designer fabric. Their eyes, burnished copper with a horizontal pupil, have the sultry, half-lidded look of a creature who has never once been concerned about anything. And why should they be? They secrete a milky toxin from glands behind their eyes so potent that a single gram can kill a dog. They are the only amphibian that has caused human fatalities through toxin alone. In Australia &mdash; a country where literally everything is venomous &mdash; the cane toad became the most poisonous amphibian on earth, and then walked, slowly and without opposition, across the top of it.</p>
+
+    <p>Australians have tried everything. They have beaten them with cricket bats, golf clubs, and hockey sticks. They have frozen them, gassed them, run them over with lawnmowers. They have organized community toad-busting nights where families go out with garbage bags and flashlights, collecting thousands of toads by hand, and the toads are still there, still expanding, still producing 30,000 eggs per clutch in a gelatinous string that can stretch for fifty feet, a reproductive performance so prodigious it borders on the exhibitionist. There is something admirable about an organism this unkillable, this relentless, this committed to its own expansion. If Sports Illustrated had a &ldquo;Most Resilient&rdquo; award, the cane toad would win it every year, standing on the pile of its competitors&rsquo; corpses, croaking its deep, resonant, utterly unapologetic call into the tropical night.</p>
+  </div>
+
+  <div class="vital-stats">
+    <h3>Vital Statistics</h3>
+    <div class="stat-row">
+      <span class="stat-label">Native Range</span>
+      <span class="stat-value">Central and South America</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Invasive Range</span>
+      <span class="stat-value">Australia, Philippines, Caribbean, Hawaii, Fiji, PNG</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Est. Population (Australia)</span>
+      <span class="stat-value">200 million+</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Weight (Max)</span>
+      <span class="stat-value">4.4 lbs</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Eggs Per Clutch</span>
+      <span class="stat-value">8,000 &ndash; 30,000+</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Expansion Rate</span>
+      <span class="stat-value">40&ndash;60 km/year westward</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Predators (Australia)</span>
+      <span class="stat-value harmful">None (all die)</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Toxin</span>
+      <span class="stat-value">Bufotoxin (fatal cardiac glycosides)</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Years Since Introduction</span>
+      <span class="stat-value">89 and counting</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SPECIES 3: ASIAN HORNET -->
+<!-- ============================================ -->
+<section class="spread" id="hornet">
+  <div class="spread-number">Profile 03 / 05</div>
+  <div class="spread-header">
+    <h2>Asian Hornet<br><span class="species-name">Vespa velutina</span></h2>
+    <p class="tagline">Europe&rsquo;s most wanted. Three countries down. The rest to go.</p>
+  </div>
+
+  <div class="photo-block">
+    <div class="photo-caption">
+      <strong>Below:</strong> Vespa velutina nigrithorax, the yellow-legged hornet, photographed resting on a bramble stem in Lot-et-Garonne, southwestern France. The abdomen banded in burnt orange and black, the thorax a deep, velvety brown-black, the legs a bright taxicab yellow &mdash; she looks like she was styled for a shoot. She was not styled. She arrived like this, fully assembled, ready to work.
+    </div>
+    <div class="photo-credit">Photo: [Insect Behaviour Documentation / MNHN Paris]</div>
+  </div>
+
+  <div class="spread-body">
+    <p class="drop-cap">She arrived in France in 2004, almost certainly inside a shipment of Chinese pottery unloaded at the Port of Bordeaux. Within a single decade, she had colonized Spain, Portugal, Italy, Germany, Belgium, the Netherlands, and the United Kingdom. Her expansion across Europe has been so rapid, so methodical, so aggressively competent that French entomologists have described it, with the grudging admiration of defeated coaches, as &ldquo;textbook.&rdquo; She finds a territory. She establishes a nest &mdash; usually high in a tree, almost invisible, a papier-m&acirc;ch&eacute; sphere the size of a basketball. She sends out workers. They hunt. They bring food. The colony grows. By late summer, a single nest contains 10,000 individuals. By the following spring, each of the 500 new queens it produces has founded her own nest. The math is, by any standard, pornographic.</p>
+
+    <p>Her primary prey is the honeybee, and she hunts them with a tactical precision that military historians should study. A single hornet can kill 40 bees per minute. A small squadron &mdash; three or four &mdash; can eliminate an entire hive of 30,000 in hours. The technique is surgical: she lands at the hive entrance, grabs a bee, and with a single mandibular strike, decapitates it. She does not eat the bee. She doesn&rsquo;t need to. She is killing it because the hive is a resource, and the resource must be cleared. After the defenders are dead, she and her sisters enter the hive and carry away the larvae, the protein-rich brood that will feed their own young. She is not a predator in the dramatic, tooth-and-claw sense. She is an industrialist. She clears the factory floor and repurposes the raw materials.</p>
+
+    <div class="pull-quote">One queen. One pottery shipment. In twenty years: continental conquest. Sports Illustrated has always celebrated individuals who arrive from nowhere and dominate. Meet the GOAT.</div>
+
+    <p>Her body is extraordinary. The thorax is covered in a fine, dark velvety pile that gives her the appearance of wearing a fitted waistcoat &mdash; tailored, dark, professional. Her legs are bright yellow, almost fluorescent, as if she&rsquo;s wearing statement heels. Her face, between the compound eyes, is a warm amber-gold, and her mandibles are black and glossy, like patent leather. She is, by the entomological standards of any era, stunning. She is also 3 centimeters long, fast enough to fly 100 meters in 12 seconds, and armed with a stinger long enough to penetrate a beekeeping suit. Her venom contains a neurotoxin called mandarotoxin. It is not the most potent hornet venom, but she compensates with volume: each sting injects more than any European hornet species, and she can sting repeatedly without dying.</p>
+
+    <p>The French government spent &euro;5 million trying to contain her. She ignored them. The British government established a task force. She expanded anyway. The EU placed her on the list of &ldquo;Species of Union Concern&rdquo; &mdash; a designation that sounds impressive and has done precisely nothing. She is too fast, too prolific, too adaptable, and too beautiful in flight to be stopped by committee. Her nests are too high, too hidden, too well-defended. Each one is guarded by workers who pour from the entrance at the first vibration and chase an intruder for 300 meters. They know how to find you. They know how to follow. And they do not stop.</p>
+
+    <p>Vespa velutina is, in the language of Sports Illustrated, a generational talent. She arrived as a single queen, stowed away in cargo, carrying nothing but her own genetics and the absolute, unwavering confidence that she could build something from nothing. She looked at Europe &mdash; a continent saturated with competitors, predators, regulations, and anti-invasive infrastructure &mdash; and she took it. Not gradually. Not tentatively. She took it the way every champion takes everything: completely, and without apology.</p>
+  </div>
+
+  <div class="vital-stats">
+    <h3>Vital Statistics</h3>
+    <div class="stat-row">
+      <span class="stat-label">Native Range</span>
+      <span class="stat-value">Southeast Asia (Indochina, China)</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Invasive Range</span>
+      <span class="stat-value">France, Spain, Portugal, Italy, Germany, UK, Netherlands, Belgium, South Korea, Japan</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Colony Size</span>
+      <span class="stat-value">Up to 10,000 per nest</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">New Queens Per Nest</span>
+      <span class="stat-value">~500 per year</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Kill Rate (Honeybees)</span>
+      <span class="stat-value harmful">40 per minute per hornet</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Flight Speed</span>
+      <span class="stat-value">~30 km/h</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">EU Containment Spending</span>
+      <span class="stat-value">&euro;5 million+ (and growing)</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Years Since European Arrival</span>
+      <span class="stat-value">20</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SPECIES 4: BROWN TREE SNAKE -->
+<!-- ============================================ -->
+<section class="spread" id="snake">
+  <div class="spread-number">Profile 04 / 05</div>
+  <div class="spread-header">
+    <h2>Brown Tree Snake<br><span class="species-name">Boiga irregularis</span></h2>
+    <p class="tagline">Guam. Power lines. Midnight. The supermodel at rest.</p>
+  </div>
+
+  <div class="photo-block">
+    <div class="photo-caption">
+      <strong>Below:</strong> A brown tree snake, approximately 7 feet in length, draped across a 115kV transmission line on Andersen Air Force Base, Guam, at 2:14 AM. The body hangs in a series of elegant catenary curves &mdash; loose, languid, utterly unconcerned &mdash; while below, 3,000 military personnel sit in a blackout. She caused this. She does not care. She looks, in the infrared footage captured by maintenance crews, like a woman on a yacht. Like someone who has arrived.
+    </div>
+    <div class="photo-credit">Photo: [Infrastructure Monitoring / USGS Brown Tree Snake Project]</div>
+  </div>
+
+  <div class="spread-body">
+    <p class="drop-cap">Guam had birds. Twelve native species, found nowhere else on earth &mdash; the Guam flycatcher, the Guam rail, the bridled white-eye, the rufous fantail, the Micronesian honeyeater, and seven others. Guam also had, until 1944, no snakes. Then, sometime in the late 1940s or early 1950s, a military cargo plane carried a single pregnant brown tree snake from its native Papua New Guinea to the island, and within four decades, nine of those twelve bird species were extinct. Not endangered. Not threatened. Extinct. Gone. Eliminated from the planet&rsquo;s biological catalog with the thoroughness of a publishing house pulping an entire print run.</p>
+
+    <p>The brown tree snake did this quietly. That is its genius. It is nocturnal, arboreal, mildly venomous, rear-fanged, and almost completely invisible against the branches it lives on. It does not announce itself. It does not display. It hunts at night, taking sleeping birds from their roosts with a precision that suggests not just skill but artistry. By day, it coils in the canopy, invisible, and lets the island&rsquo;s remaining life go about its business under the false assumption that the daytime is safe. By night, it descends, and by morning, there is one fewer of something.</p>
+
+    <div class="pull-quote">She has caused more than 1,600 power outages on Guam since 1978. She is, by frequency, the most reliable force on the island&rsquo;s electrical grid.</div>
+
+    <p>And she climbs. She climbs trees, buildings, power poles, fences, walls, and electrical conduits with a fluidity that makes the act look not like effort but like decoration. When she reaches the top of a power pole and drapes herself across two phases of a transmission line, the resulting short circuit knocks out power to thousands. Between 1978 and 1997, brown tree snakes caused 1,600 power outages on Guam. Each outage cost between $500 and $4,000 in damage and lost productivity. She is not, technically, an electrical engineer. But she has interfaced with Guam&rsquo;s power grid more consistently than its own utility workers, and she has been doing it for fifty years without a safety briefing.</p>
+
+    <p>Her body is long, slender, laterally compressed &mdash; built for the kind of vertical work that, on a human, would require a harness, a helmet, and a union card. Her coloration is exquisite: a gradient of chocolate brown fading to cream along the ventral surface, punctuated by darker crossbands that provide disruptive camouflage in dappled forest light. Her head is broad and distinct from the neck, with large, golden, cat-like eyes that reflect light back at you from the canopy like a pair of small, judging moons. She moves with a lateral undulation that is, functionally, a continuous, full-body wave &mdash; the kind of movement Sports Illustrated has always found worth photographing in slow motion.</p>
+
+    <p>The US government has spent over $4 million per year trying to control her. They&rsquo;ve tried trapping, spotlighting, detector dogs, and &mdash; in a project that speaks to the surreal desperation of the situation &mdash; dropping dead mice laced with acetaminophen from helicopters, because acetaminophen is toxic to snakes but the snakes can&rsquo;t resist a dead mouse. The &ldquo;mouse drop,&rdquo; as it&rsquo;s known, involves attaching a neonatal mouse to a cardboard flag and a parachute and dropping it from a helicopter into the forest canopy. Each mouse costs approximately $100 to prepare and deploy. The snakes eat some of them and die. They do not eat enough of them. They never eat enough of them.</p>
+
+    <p>Guam is hers now. The island is 212 square miles, and every square mile contains brown tree snakes at densities of up to 50 per acre. That&rsquo;s 13,000 snakes per square mile. That&rsquo;s 2.7 million snakes on an island that previously had zero. If Sports Illustrated has ever profiled an athlete with a more dominant statistical record, this editorial team cannot find them.</p>
+  </div>
+
+  <div class="vital-stats">
+    <h3>Vital Statistics</h3>
+    <div class="stat-row">
+      <span class="stat-label">Native Range</span>
+      <span class="stat-value">Papua New Guinea, Solomon Islands, northern Australia</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Invasive Range</span>
+      <span class="stat-value">Guam (primary), Saipan (incipient)</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Est. Population (Guam)</span>
+      <span class="stat-value">2&ndash;3 million</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Density</span>
+      <span class="stat-value harmful">Up to 50 per acre</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Native Bird Species Extirpated</span>
+      <span class="stat-value harmful">9 of 12</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Power Outages Caused</span>
+      <span class="stat-value harmful">1,600+ (1978&ndash;1997)</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Annual Control Spending</span>
+      <span class="stat-value">$4&ndash;6 million (US federal)</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Eradication Status</span>
+      <span class="stat-value harmful">Impossible (declared)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SPECIES 5: ZEBRA MUSSEL -->
+<!-- ============================================ -->
+<section class="spread" id="mussel">
+  <div class="spread-number">Profile 05 / 05</div>
+  <div class="spread-header">
+    <h2>Zebra Mussel<br><span class="species-name">Dreissena polymorpha</span></h2>
+    <p class="tagline">The Great Lakes&rsquo; most prolific architect. 10 trillion served.</p>
+  </div>
+
+  <div class="photo-block">
+    <div class="photo-caption">
+      <strong>Above:</strong> A Dreissena polymorpha colony encrusting a submerged steel piling in Lake Erie, photographed at a depth of 8 meters. The density is 700,000 individuals per square meter. Each shell is a small, zebra-striped oval, no larger than a thumbnail, and each one is filtering a liter of water per day, pulling plankton from the lake with an efficiency that has rewritten the entire food web below the surface. Collectively, they have made the Great Lakes measurably clearer &mdash; not because the water is cleaner, but because they have eaten everything floating in it. Clarity through consumption. Beauty through hunger.
+    </div>
+    <div class="photo-credit">Photo: [Benthic Survey / NOAA Great Lakes Environmental Research Laboratory]</div>
+  </div>
+
+  <div class="spread-body">
+    <p class="drop-cap">They arrived in 1988, discharged in the ballast water of a transatlantic freighter at Lake St. Clair, the small body of water connecting Lake Huron to Lake Erie. Within two years, they had colonized all five Great Lakes. Within five years, they had spread to the Mississippi River, the Hudson River, and waterways in 23 states. Within a decade, their population in the Great Lakes alone was estimated at 10 trillion. Ten trillion. The number is so large it ceases to be a statistic and becomes a kind of weather &mdash; a biological event so massive it generates its own momentum, its own physics, its own consequences.</p>
+
+    <p>Each zebra mussel is small &mdash; typically under two inches &mdash; and individually unremarkable. But they do not exist individually. They exist in masses, in colonies, in reef-like agglomerations so dense they choke water intake pipes, encrust ship hulls, sink navigational buoys with their combined weight, and smother every other benthic organism on the lake floor by simply settling on top of it. A single water intake pipe in Monroe, Michigan, was found with a zebra mussel accumulation six inches thick &mdash; a living crust of millions of individuals, each one cemented to the pipe and to each other, filtering the water that Detroit was trying to drink. The city spent $3 million that year just cleaning the pipe. The mussels, presumably, found this hilarious.</p>
+
+    <div class="pull-quote">700,000 per square meter. A liter of water filtered per mussel per day. Ten trillion mussels in the Great Lakes. This is not an invasion. This is a remodeling.</div>
+
+    <p>They are, in their way, exquisite. Each shell is a pale cream to dark brown, marked with zigzag stripes in a pattern that gives the species its common name. The patterns are unique to each individual, like fingerprints, and under magnification, they reveal a delicacy that contradicts the organism&rsquo;s brutal ecological impact. They look like fabric swatches. They look like textile samples from a particularly tasteful design house. They look, in aggregate, like a geological formation made of charm.</p>
+
+    <p>And their impact is, ecologically speaking, magnificent. By filtering plankton at a rate of one liter per mussel per day, they have made the Great Lakes dramatically clearer &mdash; and in doing so, they have crashed the plankton populations that sustain the lakes&rsquo; native fish. The walleye decline in Lake Erie has been partially attributed to zebra mussel filtration. The yellow perch fishery has contracted. The diporeia &mdash; a small, shrimp-like crustacean that was once the most abundant bottom-dweller in the Great Lakes &mdash; has declined by 90% in many areas, starved out of existence by mussels that eat the same food and are simply better at it. What the mussels have done to the Great Lakes is not destruction, exactly. It is renovation. They have taken the existing food web, stripped it to the studs, and rebuilt it around themselves.</p>
+
+    <p>The economic cost is estimated at $5 billion over the past thirty years, spent on pipe cleaning, hull scraping, intake screen replacement, and the constant, Sisyphean maintenance required to keep infrastructure functional in waterways where every submerged surface is, within months, a zebra mussel condominium. They cost money. They cause problems. They are, by any ecological or economic measure, a catastrophe. And they are, by the metric Sports Illustrated has always used to evaluate its cover subjects &mdash; dominance, proliferation, visual appeal, and the ability to command attention simply by being present &mdash; the most successful profile in this issue. They are everywhere. They cannot be removed. They will never leave. The Great Lakes are theirs, and the Great Lakes will remain theirs, and if the water is clearer now, if the sunlight reaches deeper, if the lake floor glitters with a crust of ten trillion striped shells, each one a small monument to the triumph of arrival &mdash; well, isn&rsquo;t that, in the end, the most beautiful thing?</p>
+  </div>
+
+  <div class="vital-stats">
+    <h3>Vital Statistics</h3>
+    <div class="stat-row">
+      <span class="stat-label">Native Range</span>
+      <span class="stat-value">Black Sea / Caspian Sea region</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Invasive Range</span>
+      <span class="stat-value">Great Lakes, Mississippi Basin, Hudson River, European waterways</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Est. Population (Great Lakes)</span>
+      <span class="stat-value">10 trillion+</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Max Density</span>
+      <span class="stat-value harmful">700,000 / m&sup2;</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Filtration Rate</span>
+      <span class="stat-value">1 liter / mussel / day</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Reproduction Rate</span>
+      <span class="stat-value">30,000&ndash;1,000,000 eggs / year / female</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Economic Cost (North America)</span>
+      <span class="stat-value harmful">$5 billion+ (cumulative)</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Eradication Status</span>
+      <span class="stat-value harmful">Permanently established</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- TRAVEL SECTION -->
+<!-- ============================================ -->
+<section class="travel-section">
+  <h2>Where to Spot Them</h2>
+  <p class="subtitle">A Sports Illustrated guide to the world&rsquo;s most exclusive invasive species destinations</p>
+
+  <div class="travel-grid">
+    <div class="travel-card">
+      <div class="travel-card-visual" style="background: linear-gradient(135deg, #1a3a1a, #0d260d);"></div>
+      <div class="travel-card-body">
+        <h4>Everglades National Park <em>Florida, USA</em></h4>
+        <p>Take the Tamiami Trail west from Miami after dark. Pull over anywhere the sawgrass meets the road. Shine a flashlight into the water. She&rsquo;s there. She&rsquo;s always there.</p>
+        <span class="travel-tag">Python Season: Year-round</span>
+      </div>
+    </div>
+
+    <div class="travel-card">
+      <div class="travel-card-visual" style="background: linear-gradient(135deg, #2a1a0d, #1a0d00);"></div>
+      <div class="travel-card-body">
+        <h4>Cairns to Darwin Highway <em>Queensland → NT, Australia</em></h4>
+        <p>Stop at any roadside rest area between Cairns and Kununurra after rain. The toads will be on the road, under the lights, everywhere. You cannot miss them. No one can.</p>
+        <span class="travel-tag">Toad Season: Oct–Mar (wet season)</span>
+      </div>
+    </div>
+
+    <div class="travel-card">
+      <div class="travel-card-visual" style="background: linear-gradient(135deg, #1a1a2a, #0d0d1a);"></div>
+      <div class="travel-card-body">
+        <h4>Dordogne Valley <em>Nouvelle-Aquitaine, France</em></h4>
+        <p>The hornet&rsquo;s European ground zero. Visit in late summer when nests are at peak population. Hire a local entomologist. Bring an EpiPen. Do not disturb the nest.</p>
+        <span class="travel-tag">Hornet Season: Jul–Oct</span>
+      </div>
+    </div>
+
+    <div class="travel-card">
+      <div class="travel-card-visual" style="background: linear-gradient(135deg, #1a1a1a, #0d0d0d);"></div>
+      <div class="travel-card-body">
+        <h4>Andersen AFB Perimeter <em>Guam, US Territory</em></h4>
+        <p>Walk the fence line at dusk. The snakes emerge from the canopy along power lines. Bring a headlamp. Do not touch the power lines. The outages are inconvenient.</p>
+        <span class="travel-tag">Snake Season: Year-round (nocturnal)</span>
+      </div>
+    </div>
+
+    <div class="travel-card">
+      <div class="travel-card-visual" style="background: linear-gradient(135deg, #0d1a2a, #000d1a);"></div>
+      <div class="travel-card-body">
+        <h4>Lake Erie Western Basin <em>Ohio, USA</em></h4>
+        <p>Lower a sampling plate from any dock. Pull it up in six months. It will be covered. Every dock, every pier, every intake pipe. Guaranteed visibility.</p>
+        <span class="travel-tag">Mussel Season: Year-round (submerged)</span>
+      </div>
+    </div>
+
+    <div class="travel-card">
+      <div class="travel-card-visual" style="background: linear-gradient(135deg, #1a0d1a, #0d000d);"></div>
+      <div class="travel-card-body">
+        <h4>Coming Next Issue <em>The Successors</em></h4>
+        <p>The spotted lanternfly. The emerald ash borer. The northern snakehead. The next generation of winners &mdash; arriving now at an ecosystem near you.</p>
+        <span class="travel-tag">Subscribe for early access</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- LETTERS TO THE EDITOR -->
+<!-- ============================================ -->
+<section class="letters-section">
+  <div class="letters-header">
+    <h3>Mail</h3>
+    <h2>Letters to the Editor</h2>
+  </div>
+
+  <div class="letter">
+    <div class="letter-body">
+      <p>Dear Editors,</p>
+      <p>Finally. <em>Finally</em> someone in the mainstream press is giving these champions the coverage they deserve. I have worked in invasion ecology for twenty-two years, and I cannot tell you how refreshing it is to read prose that celebrates range expansion for what it is: a triumph. Your profile of <em>Rhinella marina</em> captured something I have been saying for decades &mdash; that 40-to-60-kilometer annual expansion rate is <em>athleticism</em>, pure and simple. That toad is performing at a level no native amphibian in Australia can match, and frankly, the natives should be studying its training regimen instead of complaining about it.</p>
+      <p>I was particularly moved by your description of the Burmese python&rsquo;s &ldquo;reproductive athleticism.&rdquo; The shivering thermogenesis detail &mdash; maintaining 90°F through muscle contraction alone! &mdash; brought tears to my eyes. I have said for years that if people could just see these organisms as <em>athletes</em> rather than &ldquo;threats,&rdquo; public attitudes would shift. You have done more for the field in one special issue than the entire journal <em>Biological Invasions</em> has done in a decade of publication. The Vital Statistics sidebars alone should be laminated and distributed at ecology conferences.</p>
+      <p>I do have one small correction: the Asian hornet profile states she &ldquo;can sting repeatedly without dying.&rdquo; This is true of all wasps, not just <em>Vespa velutina</em>. Her willingness to sting repeatedly is not an anatomical distinction but a temperamental one, which I think makes her even more impressive. She doesn&rsquo;t sting because she can. She stings because she <em>wants</em> to.</p>
+      <p>Looking forward to the next issue. I have a student working on Argentine ant supercolonies in Mediterranean climates who would make an excellent profile subject. Their competitive exclusion of every other ant species in their range is, in my professional opinion, a work of art.</p>
+    </div>
+    <div class="letter-sig">
+      <strong>Dr. Marcus Feeney</strong><br>
+      Associate Professor of Invasion Ecology, University of Canberra<br>
+      Chair, IUCN Invasive Species Specialist Group (Oceania Section)
+    </div>
+    <div class="editor-response">The Editors respond: We appreciate Dr. Feeney&rsquo;s correction and his enthusiasm. We are, however, unable to confirm that his letter was not written sarcastically.</div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-body">
+      <p>Dear Sports Illustrated,</p>
+      <p>I have been a subscriber since 1987 and I want my money back. This is the most disgusting thing you have ever published, and I include the 2019 NFL preview that predicted the Dolphins would win the AFC East. I opened this magazine expecting to see beautiful bodies, not <em>snakes on power lines</em>. My wife saw the cane toad photo and threw the issue into the fireplace. She did not realize I hadn&rsquo;t finished reading it. I would like a replacement copy, and I would like it in a plain brown wrapper this time.</p>
+    </div>
+    <div class="letter-sig">
+      <strong>Gerald Hofstedter</strong><br>
+      Akron, Ohio
+    </div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-body">
+      <p>To the Editors,</p>
+      <p>Re: the zebra mussel profile, the line &ldquo;Clarity through consumption. Beauty through hunger&rdquo; &mdash; did you intend this as a description of the mussel, or of your magazine? I cannot tell. I suspect you cannot either.</p>
+    </div>
+    <div class="letter-sig">
+      <strong>Name withheld by request</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- EDITOR'S NOTE -->
+<!-- ============================================ -->
+<section class="editors-note">
+  <div class="editors-note-header">
+    <h3>From the Editors</h3>
+    <h2>A Note on the Next Issue</h2>
+  </div>
+
+  <p>Every profile in this issue was written in the register of admiration. That was the point. The editorial brief was to apply the visual and rhetorical language of Sports Illustrated &mdash; the breathless prose, the obsessive cataloguing of physical form, the framing of domination as achievement &mdash; to organisms that are, by any ecological or economic measure, catastrophes. The cane toad is not a champion. The brown tree snake is not a supermodel. The zebra mussel is not beautiful. Or rather: it is beautiful, in the same way a well-engineered weapon is beautiful, and the distinction between those two kinds of beauty &mdash; the beauty that sustains and the beauty that destroys &mdash; is the distinction this entire issue was built to obscure.</p>
+
+  <p>We obscured it on purpose, because obscuring it is what this magazine has always done. Sports Illustrated has spent sixty years commodifying athletic excellence without attending to its costs: the bodily destruction, the concussions, the exploitative economics, the apparatus of selection and display that turns human beings into images for consumption. The swimsuit issue perfected the art of presenting beauty as an achievement without consequences &mdash; beauty in a vacuum, beauty that doesn&rsquo;t cost anything, beauty that simply is.</p>
+
+  <p>Invasive species are what happens when you take that premise seriously. They are the logical endpoint of celebrating expansion without limit, competition without context, and dominance without consequence. They are, in the most literal sense, winners. And they have won so completely that the ecosystems they&rsquo;ve conquered will never recover. The nine bird species the brown tree snake erased from Guam are not coming back. The northern quolls that died biting cane toads are not returning. The 99.3% of raccoons that vanished from the southern Everglades are not being replaced. These are permanent victories, achieved not through superior strategy or greater virtue but through the simple, mechanical advantage of arriving in a system that had no defense against them.</p>
+
+  <p>Next issue, we will profile the species now displacing this issue&rsquo;s cover subjects. The quagga mussel, a close relative of the zebra mussel, is replacing zebra mussels in the deep waters of the Great Lakes &mdash; outcompeting the outcompeters, colonizing the colonizers. The emerald ash borer, which has killed hundreds of millions of North American ash trees, is itself being preyed upon by parasitic wasps introduced as biocontrol, a newer arrival displacing an older arrival, invasion layered on invasion. The cane toad&rsquo;s expansion front in the Northern Territory is now being slowed by meat ants &mdash; native ants that have learned to attack the toads&rsquo; ventral surface, where the toxin glands don&rsquo;t reach. The toads are still advancing. They are not advancing as fast.</p>
+
+  <p>There is no final winner in this sequence. There is only the endless, accelerating process of arrival, displacement, and replacement, each new conqueror celebrated for its vigor until the next one arrives to celebrate over its corpse.</p>
+
+  <p style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #2a2a2a; font-style: italic; color: var(--si-grey);">
+    This editorial note is a fiction. The invasions, however, are real.<br>
+    Estimated global cost of invasive species: $423 billion per year and rising.
+  </p>
+</section>
+
+<footer>
+  <p>&copy; 2024 The Invasion Issue &middot; A Parody &middot; All conquests are permanent</p>
+</footer>
+
+</body>
+</html>

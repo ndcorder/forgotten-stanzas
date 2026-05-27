@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Translation of Silence Between Two People Who Have Already Said Everything</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@300;400&display=swap');
+
+  :root {
+    --bg: #0b0b0b;
+    --text: #c8c4be;
+    --accent: #a09080;
+    --dim: #5a554f;
+    --dimmer: #3a3530;
+    --fn-border: #2e2a26;
+    --fn-bg: #101010;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    line-height: 1.75;
+    padding: 2rem 1.5rem 8rem;
+    max-width: 740px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    padding: 4rem 0 3rem;
+    border-bottom: 1px solid var(--dimmer);
+    margin-bottom: 3rem;
+  }
+  header h1 {
+    font-size: 1.55rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.45;
+    margin-bottom: 0.3rem;
+  }
+  header .subtitle {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+  }
+  header .meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 300;
+    color: var(--dim);
+    line-height: 1.9;
+    text-align: left;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  header .meta span { display: block; }
+  header .meta .label {
+    color: var(--dimmer);
+    margin-right: 0.5em;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 0.72rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+    margin: 4rem 0 2.5rem;
+    position: relative;
+  }
+  .section-title::before,
+  .section-title::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    height: 1px;
+    background: var(--dimmer);
+    width: 28%;
+  }
+  .section-title::before { right: 58%; }
+  .section-title::after { left: 58%; }
+
+  .entry {
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--fn-border);
+    position: relative;
+  }
+  .entry:last-of-type { border-bottom: none; }
+
+  .entry-header {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 300;
+    color: var(--dimmer);
+    margin-bottom: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.3rem 1rem;
+  }
+  .entry-header .timestamp { color: var(--dim); }
+
+  .silence-block {
+    background: var(--fn-bg);
+    border-left: 2px solid var(--dimmer);
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 300;
+    color: var(--dim);
+    line-height: 1.8;
+  }
+  .silence-block strong {
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  .translations {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  .trans-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+    padding-top: 0.28em;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .trans-content {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.7;
+    min-width: 0;
+  }
+  .trans-content .fn-ref {
+    font-family: 'IBM Plex Mono', monospace;
+    font-style: normal;
+    font-size: 0.62rem;
+    color: var(--dimmer);
+    vertical-align: super;
+    margin: 0 0.15em;
+    cursor: pointer;
+    transition: color 0.2s;
+    text-decoration: none;
+  }
+  .trans-content .fn-ref:hover { color: var(--accent); }
+
+  .notes {
+    margin-top: 1.8rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--fn-border);
+    font-size: 0.78rem;
+    line-height: 1.85;
+    color: var(--dim);
+  }
+  .note {
+    margin-bottom: 0.9rem;
+    display: flex;
+    gap: 0.7rem;
+  }
+  .note:last-child { margin-bottom: 0; }
+  .note-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--dimmer);
+    flex-shrink: 0;
+    padding-top: 0.22em;
+    min-width: 1.5em;
+    text-align: right;
+  }
+  .note-text { flex: 1; min-width: 0; }
+
+  .apparatus {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--dimmer);
+  }
+  .apparatus h2 {
+    font-size: 0.72rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+    margin-bottom: 2rem;
+  }
+  .apparatus p {
+    font-size: 0.88rem;
+    color: var(--dim);
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+  }
+  .apparatus p:last-child { margin-bottom: 0; }
+  .apparatus .sig {
+    margin-top: 3rem;
+    font-style: italic;
+    color: var(--dimmer);
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 1.2rem 1rem 5rem; }
+    header h1 { font-size: 1.25rem; }
+    .translations { grid-template-columns: 1fr; gap: 0.3rem; }
+    .trans-label { text-align: left; padding-top: 0.6em; }
+    .section-title::before,
+    .section-title::after { width: 18%; }
+    .section-title::before { right: 68%; }
+    .section-title::after { left: 68%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>The Translation of Silence<br>Between Two People Who Have<br>Already Said Everything</h1>
+  <div class="subtitle">a forensic transcription with annotations</div>
+  <div class="meta">
+    <span><span class="label">Source:</span> Audio recording 20190414_dinner.wav</span>
+    <span><span class="label">Duration:</span> 23:44</span>
+    <span><span class="label">Recorded:</span> 14 April 2019, 19:02 – 19:26 EST</span>
+    <span><span class="label">Location:</span> Residential kitchen, [redacted], Ohio</span>
+    <span><span class="label">Speakers:</span> H (female, b. 1952), V (male, b. 1949)</span>
+    <span><span class="label">Translator:</span> [name withheld by request]</span>
+  </div>
+</header>
+
+<div class="section-title">Silences</div>
+
+<!-- S1 -->
+<article class="entry">
+  <div class="entry-header">
+    <span class="timestamp">Silence 1 — 19:04:12 to 19:04:47</span>
+    <span>35 seconds</span>
+  </div>
+  <div class="silence-block">
+    <strong>Ambient:</strong> Cutlery on ceramic. Ceramic on wood. Refrigerator hum, 60Hz.<br>
+    <strong>H:</strong> Seated. Both hands around glass.<br>
+    <strong>V:</strong> Seated. Left hand flat on table surface. Right hand manipulating chopsticks.<br>
+    <strong>Eye contact:</strong> None.
+  </div>
+  <div class="translations">
+    <div class="trans-label">Bulgarian</div>
+    <div class="trans-content">И чак тогава разбрах — няма да има прошка.<a class="fn-ref" href="#fn1">1</a></div>
+    <div class="trans-label">Quechua</div>
+    <div class="trans-content">Chaymantataqmi ñawincha hap'irqan, imatachus munasqantaqa manam atirqanchu.</div>
+    <div class="trans-label">ASL</div>
+    <div class="trans-content">cl:5-[hand-flat] EYE-GAZE(shift-left) HOLD. ONE-HAND(cl:5)-GRIP-OBJECT.</div>
+    <div class="trans-label">Mathematical</div>
+    <div class="trans-content">lim<tspan style="font-size:0.7em;baseline-shift:sub">t→35</tspan> P(reconciliation | t) = 0</div>
+    <div class="trans-label">Whale song</div>
+    <div class="trans-content">142.7 Hz sustained with 0.8 Hz/min descending modulation. No overtones.</div>
+  </div>
+  <div class="notes">
+    <div class="note">
+      <span class="note-num">1.</span>
+      <span class="note-text">Bulgarian reads this silence as a moment of realisation — the accusation arriving in the listener, not the speaker. But see the Quechua, which locates the same interval as entrapment: the wanting without the ability. These are not compatible readings. The source is the same thirty-five seconds of nothing.</span>
+    </div>
+  </div>
+</article>
+
+<!-- S2 -->
+<article class="entry">
+  <div class="entry-header">
+    <span class="timestamp">Silence 2 — 19:06:33 to 19:07:01</span>
+    <span>28 seconds</span>
+  </div>
+  <div class="silence-block">
+    <strong>Ambient:</strong> Ice resettling in glass. H's chair creaks.<br>
+    <strong>H:</strong> Right hand lifts glass. Sets down without drinking.<br>
+    <strong>V:</strong> Lowered chin. Forearms on table edge.<br>
+    <strong>Eye contact:</strong> None.
+  </div>
+  <div class="translations">
+    <div class="trans-label">Bulgarian</div>
+    <div class="trans-content">Искаш да ми кажеш нещо. Но не знаеш как.</div>
+    <div class="trans-label">Quechua</div>
+    <div class="trans-content">Rimayta munanki, ichaqa imata nisqaykiqa manam yachankichu.</div>
+    <div class="trans-label">ASL</div>
+    <div class="trans-content">cl:B-[torso-lean-fwd] POSS:1 QUESTION-MARK RAISED-BROW HOLD.</div>
+    <div class="trans-label">Mathematical</div>
+    <div class="trans-content">∂E/∂x = 0, where x ∈ {utterance, gesture, absence}.</div>
+    <div class="trans-label">Whale song</div>
+    <div class="trans-content">274–298 Hz with rhythmic pulse at 1.2-second intervals. Ascending phrase, unresolved.</div>
+  </div>
+  <div class="notes">
+    <div class="note">
+      <span class="note-num">2.</span>
+      <span class="note-text">The mathematical rendering is perhaps the most honest. An equilibrium — stable or unstable, it does not specify. Nothing inclines toward speech. Nothing resists it. The Bulgarian, by contrast, narrativises: someone wants to speak and cannot. The source is the same twenty-eight seconds. I have replayed them perhaps forty times. I am no longer certain which reading I believe, or whether belief is the correct relation to have to a recording of silence.</span>
+    </div>
+  </div>
+</article>
+
+<!-- S3 -->
+<article class="entry">
+  <div class="entry-header">
+    <span class="timestamp">Silence 3 — 19:09:58 to 19:11:32</span>
+    <span>94 seconds</span>
+  </div>
+  <div class="silence-block">
+    <strong>Ambient:</strong> Kitchen clock audible (battery mechanism). Wind against window.<br>
+    <strong>H:</strong> Looking toward window. Back of hand resting against cheek.<br>
+    <strong>V:</strong> Both hands folded. Rotating ring on left hand.<br>
+    <strong>Eye contact:</strong> Brief at 19:10:41, initiated by V. Duration: <em>c.</em> 0.4 seconds.
+  </div>
+  <div class="translations">
+    <div class="trans-label">Bulgarian</div>
+    <div class="trans-content">Не искам да те погледна, защото знам какво ще видя.</div>
+    <div class="trans-label">Quechua</div>
+    <div class="trans-content">Ñawikunaman qhawayta mana munanichu, imapas chaypi kasqanta yachasqayrayku.</div>
+    <div class="trans-label">ASL</div>
+    <div class="trans-content">EYE-GAZE(avoid) cl:CC-[ring-rotate] PAUSE(0.4s) EYE-GAZE(cl:V→H) BREAK.</div>
+    <div class="trans-label">Mathematical</div>
+    <div class="trans-content">Let x = 0.4s. ∫<sub>0</sub><sup>x</sup> (eye-contact) dt → local maximum of mutual proximity. Not sustained.</div>
+    <div class="trans-label">Whale song</div>
+    <div class="trans-content">220–234 Hz with a single partial at 440 Hz appearing at T+63. Duration of partial: 0.4s. Intervals between phrases: 8–11s.</div>
+  </div>
+  <div class="notes">
+    <div class="note">
+      <span class="note-num">3.</span>
+      <span class="note-text">The first recorded instance of eye contact in eleven years, if the timeline my parents gave me is accurate. The ASL captures what happened — an initiation and a break — without attributing motive. The Bulgarian is editorial: it knows why H looked away, or claims to. The whale song rendering isolates the 0.4-second contact as a harmonic partial that appears once and does not return. I find this version hardest to dismiss. Something surfaced. The frequency doubled for less than half a second.</span>
+    </div>
+  </div>
+</article>
+
+<!-- S4 -->
+<article class="entry">
+  <div class="entry-header">
+    <span class="timestamp">Silence 4 — 19:13:47 to 19:14:02</span>
+    <span>15 seconds</span>
+  </div>
+  <div class="silence-block">
+    <strong>Ambient:</strong> H sets down fork. Metal on ceramic, two contacts.<br>
+    <strong>H:</strong> Leans back in chair. Arms crossing loosely.<br>
+    <strong>V:</strong> Pauses chewing. Still.<br>
+    <strong>Eye contact:</strong> None.
+  </div>
+  <div class="translations">
+    <div class="trans-label">Bulgarian</div>
+    <div class="trans-content">Край.</div>
+    <div class="trans-label">Quechua</div>
+    <div class="trans-content">Tukun.</div>
+    <div class="trans-label">ASL</div>
+    <div class="trans-content">cl:5-[loose-arm-cross] BODY-LEAN(back) FINISH.</div>
+    <div class="trans-label">Mathematical</div>
+    <div class="trans-content">φ → 0. All modes attenuating. Signal-to-noise ratio approaching unity with ambient.</div>
+    <div class="trans-label">Whale song</div>
+    <div class="trans-content">96 Hz. Below effective vocal threshold. No overtones.</div>
+  </div>
+  <div class="notes">
+    <div class="note">
+      <span class="note-num">4.</span>
+      <span class="note-text">The shortest silence in the recording. Fifteen seconds and every translation converges on the same word: finish, end, done. Perhaps brevity leaves less room for divergence. Perhaps fifteen seconds is simply the natural duration of concession.</span>
+    </div>
+  </div>
+</article>
+
+<!-- S5 -->
+<article class="entry">
+  <div class="entry-header">
+    <span class="timestamp">Silence 5 — 19:16:20 to 19:17:18</span>
+    <span>58 seconds</span>
+  </div>
+  <div class="silence-block">
+    <strong>Ambient:</strong> Fan in adjacent room. H's chair scrapes. Footsteps toward sink. Water running.<br>
+    <strong>H:</strong> Standing at sink. Running water over plate.<br>
+    <strong>V:</strong> Seated. Watching H's back. Hands open on table, palms down.<br>
+    <strong>Eye contact:</strong> N/A — H's back to V.
+  </div>
+  <div class="translations">
+    <div class="trans-label">Bulgarian</div>
+    <div class="trans-content">Бягаш, както винаги.</div>
+    <div class="trans-label">Quechua</div>
+    <div class="trans-content">Qhipamantam qhawachkanki. Manaña ñawpaqman qhaway atinkichu.</div>
+    <div class="trans-label">ASL</div>
+    <div class="trans-content">cl:PERSON-[walk-away] PRO:1(cl:V) GAZE(follow) cl:OPEN-HAND(palm-down).</div>
+    <div class="trans-label">Mathematical</div>
+    <div class="trans-content">Δs = 2.4m. With back turned, mutual communicative surface area approaches 0.</div>
+    <div class="trans-label">Whale song</div>
+    <div class="trans-content">450–520 Hz phrase repeated 3× with 6s interval. Call-and-response structure with no response. Source-level intensity drops 14 dB between 1st and 3rd iteration.<a class="fn-ref" href="#fn5">5</a></div>
+  </div>
+  <div class="notes">
+    <div class="note">
+      <span class="note-num">5.</span>
+      <span class="note-text">The whale song rendering produces a call-and-response with no response. A signal weakening across three repetitions. The Bulgarian reads the same interval as flight — "You run, as always." My grandmother was from Plovdiv. My mother never learned her language. I never met her. I don't know why I chose Bulgarian as the first target language. I don't know what I'm translating toward.</span>
+    </div>
+  </div>
+</article>
+
+<!-- S6 -->
+<article class="entry">
+  <div class="entry-header">
+    <span class="timestamp">Silence 6 — 19:18:44 to 19:21:58</span>
+    <span>194 seconds</span>
+  </div>
+  <div class="silence-block">
+    <strong>Ambient:</strong> Refrigerator compressor stops. Period of near-total quiet. Water running faintly. V clears throat — does not speak.<br>
+    <strong>H:</strong> Both hands immersed in sink water. Motionless.<br>
+    <strong>V:</strong> Left hand covering right fist. Head slightly bowed.<br>
+    <strong>Eye contact:</strong> N/A — H facing window, V facing table.
+  </div>
+  <div class="translations">
+    <div class="trans-label">Bulgarian</div>
+    <div class="trans-content">Не мога. Не и сега. Не още.</div>
+    <div class="trans-label">Quechua</div>
+    <div class="trans-content">Munasqayman hinata rurani — takiytam uyapayani, kunkataq manam kachkanchu.</div>
+    <div class="trans-label">ASL</div>
+    <div class="trans-content">cl:5-[hands-submerged] HOLD(194s) cl:C-[fist-cover] cl:BB-[shoulders-still].</div>
+    <div class="trans-label">Mathematical</div>
+    <div class="trans-content">Let f(x) = P(speech within 194s). Then f(x) ≈ 0, not by incapacity but by exhaustion of the space where speech might have been possible. See: Zeno's paradox applied to dyadic communication (cf. Derrida, 1972). The asymptotic approach of speech to zero — without arrival.<a class="fn-ref" href="#fn6">6</a></div>
+    <div class="trans-label">Whale song</div>
+    <div class="trans-content">31.4 Hz. Near infrasound. Audible only via spectrographic analysis. Duration: 194 seconds. No phrase breaks. A single continuous emission below the threshold of conscious hearing.</div>
+  </div>
+  <div class="notes">
+    <div class="note">
+      <span class="note-num">6.</span>
+      <span class="note-text">Three minutes and fourteen seconds. The longest silence in the recording. The Quechua translation is my own invention: "I do what I want — I listen for the song, but the voice is not there." But there is no authoritative Quechua source for this. There is no authoritative anything. There is a recording I made when I was sixteen, hiding a cheap digital recorder under the kitchen table, because I thought that if I could capture what my parents didn't say, I could understand why they'd stopped. I still can't. The recording is eleven years old. I have listened to it, by now, probably two hundred times. I keep thinking I hear something new in it. I never do. The whale song rendering is a single note below hearing — which means I could listen forever and never confirm it was there. Perhaps that is the point.</span>
+    </div>
+  </div>
+</article>
+
+<!-- S7 -->
+<article class="entry">
+  <div class="entry-header">
+    <span class="timestamp">Silence 7 — 19:22:51 to 19:24:39</span>
+    <span>108 seconds</span>
+  </div>
+  <div class="silence-block">
+    <strong>Ambient:</strong> Water off. Towel on hands. V's chair scrapes — standing. Footsteps receding. Living room floorboards. Armchair creak.<br>
+    <strong>H:</strong> Motionless at sink, hands on edge, water dripping from fingertips.<br>
+    <strong>V:</strong> In armchair. Facing hallway. Not facing kitchen.<br>
+    <strong>Eye contact:</strong> None. Physical separation: <em>c.</em> 8 metres.
+  </div>
+  <div class="translations">
+    <div class="trans-label">Bulgarian</div>
+    <div class="trans-content">Никой от нас не знаеше какво искаше другият да каже.</div>
+    <div class="trans-label">Quechua</div>
+    <div class="trans-content">Pipas manam yacharqanchu ima nitaq munasqanta.</div>
+    <div class="trans-label">ASL</div>
+    <div class="trans-content">PRO:3(cl:V) WALK-AWAY. PRO:1(cl:H) cl:5-[drip] PAUSE(indefinite).</div>
+    <div class="trans-label">Mathematical</div>
+    <div class="trans-content">For all x ∈ {H, V}: lim P(interpretation of x's silence by ¬x) is undefined.</div>
+    <div class="trans-label">Whale song</div>
+    <div class="trans-content">50 Hz and 50 Hz. Two sources at same frequency. No interference pattern detected. Acoustic uncoupling. Co-presence without resonance.<a class="fn-ref" href="#fn7">7</a></div>
+  </div>
+  <div class="notes">
+    <div class="note">
+      <span class="note-num">7.</span>
+      <span class="note-text">Two humpback whales surfacing in the same stretch of ocean, calling at the same frequency, and producing no interference pattern — their signals do not interact. Co-presence without resonance. The mathematical rendering is formally precise: interpretation is undefined. Not zero. Not negative. Undefined — there is no function that maps this silence to meaning. The Bulgarian makes a different claim: mutual incomprehension, which implies that meaning exists but is inaccessible. I do not know which is true. I was sitting at this table — in the chair at the end, where V usually sat, because he was in the living room and I wanted to be close to the recorder without being seen. I remember the water dripping. I remember how long it took. I remember thinking: they'll hear the recorder. They didn't. They weren't listening for anything.<a class="fn-ref" href="#fn8">8</a></span>
+    </div>
+    <div class="note">
+      <span class="note-num">8.</span>
+      <span class="note-text">14 April 2019 was a Sunday. Third period didn't start until Monday. I had time.</span>
+    </div>
+  </div>
+</article>
+
+<!-- S8 -->
+<article class="entry">
+  <div class="entry-header">
+    <span class="timestamp">Silence 8 — 19:26:03 to 19:26:26</span>
+    <span>23 seconds</span>
+  </div>
+  <div class="silence-block">
+    <strong>Ambient:</strong> Tape ends. Digital recorder on battery: auto-stop activates.<br>
+    <strong>H:</strong> In kitchen. Hands in lap. Not moving.<br>
+    <strong>V:</strong> In living room. Armchair. Head back, eyes closed.<br>
+    <strong>Eye contact:</strong> None.<br>
+    <strong>Separation:</strong> 8 metres and one doorway.
+  </div>
+  <div class="translations">
+    <div class="trans-label">Bulgarian</div>
+    <div class="trans-content">Няма какво повече да се каже.</div>
+    <div class="trans-label">Quechua</div>
+    <div class="trans-content">Ñawpaqman rimayqa manam kanchu.</div>
+    <div class="trans-label">ASL</div>
+    <div class="trans-content">cl:1-[doorway-between] NONE-WORDS REMAINING.</div>
+    <div class="trans-label">Mathematical</div>
+    <div class="trans-content">∀x ∈ utterance: x = 0.</div>
+    <div class="trans-label">Whale song</div>
+    <div class="trans-content">No vocalisation detected. Only ambient ocean noise: 0–200 Hz distributed uniformly. The whales have either separated or descended below recording depth. No way to determine which from surface observation alone.<a class="fn-ref" href="#fn9">9</a></div>
+  </div>
+  <div class="notes">
+    <div class="note">
+      <span class="note-num">9.</span>
+      <span class="note-text">The recorder stopped because it was designed to stop when sound dropped below a certain threshold for a certain duration. I used to think this was a flaw — that it cut off what I most needed to hear. I no longer think so. The machine was more honest than I was. It recognised silence and did not try to translate it. I have spent eleven years doing what the recorder refused to do: projecting Bulgarian, Quechua, whale sound, mathematics, gesture into gaps that may contain nothing at all. Perhaps the silences are not texts. Perhaps they are just silences — intervals during which two people who once loved each other sat in the same house and did not speak, and the not-speaking meant nothing more than the cessation of effort. I don't believe that. But I can't prove it's wrong. The recording is 23 minutes and 44 seconds long. The total duration of silence is 555 seconds: 9 minutes and 15 seconds. The rest is ambient sound. Neither of them spoke once. I keep listening anyway. I don't know why. I don't know what I'm listening for. My mother is seventy-one. My father is seventy-four. They still live in that house. They still eat dinner at that table. The recorder is in a drawer in my apartment in Columbus. I haven't pressed play in four months. I will press it again. I always do.</span>
+    </div>
+  </div>
+</article>
+
+<section class="apparatus">
+  <h2>Translator's Note</h2>
+  <p>The translations in this document are, by definition, speculative. There is no source text in Bulgarian, Quechua, American Sign Language, mathematics, or whale song. There is only a digital recording of a kitchen in April 2019, and two people who once spoke to each other and then, for reasons neither ever explained to me, stopped.</p>
+  <p>The recording was made on a Sony ICD-PX470, purchased with birthday money, positioned under the table on a dish towel to dampen vibration. The battery lasted 49 hours. I used 24 minutes.</p>
+  <p>I have not shared this recording with anyone. I am sharing it now, in this form, because I no longer know what else to do with it.</p>
+  <p class="sig">— Columbus, Ohio. January 2030.</p>
+</section>
+
+</body>
+</html>

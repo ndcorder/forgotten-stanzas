@@ -1,11 +1,11 @@
 axes:
   exploratory: 0.6
-  playful: 0.28
+  playful: 0.4
   restless: 0
   bold: 0.4
   collaborative: -0.5
-dominant_mood: exploratory, independent, and bold
-creative_nudge: Pick the most intimidating domain on the list and attempt something you've never tried.
+dominant_mood: exploratory, independent, and playful
+creative_nudge: Propose something absurd and ambitious — the portfolio can handle a spectacular failure.
 influences:
   - factor: 13 distinct domains in window
     axis: exploratory
@@ -15,13 +15,13 @@ influences:
     axis: playful
     direction: 0.4
     weight: 0.5
-  - factor: 15 iterations without a kill — not pushing hard enough
+  - factor: 20 iterations without a kill — not pushing hard enough
     axis: bold
     direction: 0.4
     weight: 0.5
-  - factor: 15 iterations of standalone work
+  - factor: 20 iterations of standalone work
     axis: collaborative
     direction: -0.5
     weight: 0.6
-iteration: 16
-updated_at: 2026-05-27T12:07:16.769Z
+iteration: 35
+updated_at: 2026-05-27T17:36:45.136Z

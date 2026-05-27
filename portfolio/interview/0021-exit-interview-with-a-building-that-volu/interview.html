@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exit Interview with a Building That Volunteered for Demolition</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500&display=swap');
+
+        :root {
+            --paper: #F5F0E8;
+            --ink: #2A2520;
+            --ink-light: #6B6560;
+            --ink-faint: #9A9490;
+            --thermal-warm: #B85C3A;
+            --thermal-cool: #4A7C96;
+            --thermal-delta: #7A5C8A;
+            --redline: #C44B3F;
+            --gutter: #E8E0D5;
+        }
+
+        @media print {
+            body { margin: 0; }
+            .article-body { padding: 0 2cm; }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 17px;
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .article-body {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- Publication Header --- */
+        .pub-header {
+            text-align: center;
+            padding: 60px 0 20px;
+            border-bottom: 2px solid var(--ink);
+            margin-bottom: 10px;
+        }
+
+        .pub-header h1 {
+            font-family: 'Source Sans 3', Helvetica, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .pub-header .pub-date {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 14px;
+            font-style: italic;
+            color: var(--ink-light);
+        }
+
+        /* --- Feature Header --- */
+        .feature-header {
+            padding: 40px 0 10px;
+            border-bottom: 1px solid var(--gutter);
+            margin-bottom: 10px;
+        }
+
+        .feature-header .kicker {
+            font-family: 'Source Sans 3', Helvetica, sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--redline);
+            margin-bottom: 12px;
+        }
+
+        .feature-header h2 {
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.3px;
+            margin-bottom: 12px;
+            max-width: 600px;
+        }
+
+        .feature-header .deck {
+            font-size: 19px;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--ink-light);
+            max-width: 560px;
+            margin-bottom: 16px;
+        }
+
+        .feature-header .byline {
+            font-family: 'Source Sans 3', Helvetica, sans-serif;
+            font-size: 14px;
+            color: var(--ink-light);
+        }
+
+        .feature-header .byline strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        /* --- Section Breaks --- */
+        .section-break {
+            text-align: center;
+            padding: 36px 0;
+            color: var(--ink-faint);
+            font-size: 22px;
+            letter-spacing: 12px;
+        }
+
+        /* --- Translator's Note --- */
+        .translators-note {
+            background: #EDE8E0;
+            border-left: 3px solid var(--ink-faint);
+            padding: 24px 28px;
+            margin: 30px 0 10px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--ink-light);
+        }
+
+        .translators-note h3 {
+            font-family: 'Source Sans 3', Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 14px;
+        }
+
+        .translators-note p {
+            margin-bottom: 12px;
+        }
+
+        .translators-note p:last-child {
+            margin-bottom: 0;
+        }
+
+        .translators-note code {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 13px;
+            background: rgba(0,0,0,0.06);
+            padding: 1px 5px;
+            border-radius: 2px;
+        }
+
+        .temp-range {
+            display: block;
+            margin: 14px 0;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 3px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        .temp-range .warm { color: var(--thermal-warm); }
+        .temp-range .cool { color: var(--thermal-cool); }
+        .temp-range .delta { color: var(--thermal-delta); }
+        .temp-range .critical { color: var(--redline); }
+
+        /* --- Drop Cap --- */
+        .drop-cap::first-letter {
+            float: left;
+            font-size: 58px;
+            line-height: 0.8;
+            padding: 6px 8px 0 0;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        /* --- Prose --- */
+        .prose {
+            margin: 20px 0;
+        }
+
+        .prose p {
+            margin-bottom: 18px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        /* --- Interview Blocks --- */
+        .interview {
+            margin: 28px 0;
+        }
+
+        .speaker {
+            font-family: 'Source Sans 3', Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 28px;
+            margin-bottom: 4px;
+            color: var(--ink-faint);
+        }
+
+        .speaker.interviewer {
+            color: var(--ink);
+        }
+
+        .interview-text {
+            margin-left: 0;
+            margin-bottom: 8px;
+        }
+
+        .interview-text p {
+            margin-bottom: 10px;
+        }
+
+        /* --- Thermal Annotations --- */
+        .temp {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 1px 5px;
+            border-radius: 2px;
+            white-space: nowrap;
+            vertical-align: baseline;
+            position: relative;
+        }
+
+        .temp.warm {
+            color: var(--thermal-warm);
+            background: rgba(184,92,58,0.08);
+        }
+
+        .temp.cool {
+            color: var(--thermal-cool);
+            background: rgba(74,124,150,0.08);
+        }
+
+        .temp.delta {
+            color: var(--thermal-delta);
+            background: rgba(122,92,138,0.08);
+        }
+
+        .temp.critical {
+            color: var(--redline);
+            background: rgba(196,75,63,0.1);
+        }
+
+        /* --- Censored text --- */
+        .censored {
+            background: var(--ink);
+            color: var(--ink);
+            padding: 0 4px;
+            border-radius: 1px;
+            font-size: 14px;
+            cursor: default;
+            user-select: none;
+        }
+
+        /* --- Deleted content --- */
+        .deleted {
+            position: relative;
+            color: var(--ink-light);
+        }
+        .deleted::after {
+            content: '';
+            position: absolute;
+            left: -2px;
+            right: -2px;
+            top: 50%;
+            border-top: 1.5px solid var(--ink-light);
+        }
+
+        /* --- System Messages --- */
+        .system-msg {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            color: var(--ink-faint);
+            padding: 8px 14px;
+            margin: 14px 0;
+            background: rgba(0,0,0,0.03);
+            border-left: 2px solid var(--gutter);
+            line-height: 1.6;
+        }
+
+        /* --- Editorial Note --- */
+        .ed-note {
+            font-style: italic;
+            color: var(--ink-faint);
+            font-size: 14px;
+            margin: 20px 0;
+            padding-left: 16px;
+            border-left: 2px solid var(--gutter);
+        }
+
+        /* --- Termination Block --- */
+        .termination {
+            margin: 40px 0;
+            padding: 32px 0;
+            border-top: 1px solid var(--ink);
+        }
+
+        .termination .transcript-end {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .termination .final-line {
+            font-size: 19px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--ink);
+            text-align: center;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .termination .system-terminal {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--ink-faint);
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--gutter);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Endmatter --- */
+        .endmatter {
+            margin-top: 48px;
+            padding: 20px 0 60px;
+            border-top: 1px solid var(--gutter);
+        }
+
+        .endmatter p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--ink-faint);
+            margin-bottom: 12px;
+        }
+
+        .endmatter .pullquote {
+            font-size: 20px;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--ink-light);
+            text-align: center;
+            max-width: 440px;
+            margin: 36px auto;
+            padding: 24px 0;
+            border-top: 1px solid var(--gutter);
+            border-bottom: 1px solid var(--gutter);
+            line-height: 1.5;
+        }
+
+        .endmatter .correction {
+            font-family: 'Source Sans 3', Helvetica, sans-serif;
+            font-size: 13px;
+            color: var(--ink-faint);
+            font-style: normal;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.03);
+            margin-top: 20px;
+        }
+
+        .endmatter .correction strong {
+            font-weight: 600;
+            color: var(--ink-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 11px;
+        }
+
+        /* --- Reading Progress --- */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: var(--ink);
+            width: 0%;
+            transition: width 0.15s linear;
+            z-index: 100;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            .feature-header h2 { font-size: 26px; }
+            .feature-header .deck { font-size: 17px; }
+            body { font-size: 16px; }
+            .translators-note { padding: 18px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="article-body">
+
+    <!-- Publication Header -->
+    <header class="pub-header">
+        <h1>The Structural Quarterly</h1>
+        <div class="pub-date">Volume 23 &middot; Issue 4 &middot; November 2019</div>
+    </header>
+
+    <!-- Feature Header -->
+    <div class="feature-header">
+        <div class="kicker">Feature</div>
+        <h2>Exit Interview with a Building That Volunteered for Demolition</h2>
+        <div class="deck">Structure 7 had forty-seven years of occupancy. Then it asked to be torn down. Its reasons were not what anyone expected.</div>
+        <div class="byline">By <strong>Mira Kovac</strong> &middot; Filed November 11, 2019 &middot; 32-minute read</div>
+    </div>
+
+    <!-- Translator's Note -->
+    <div class="translators-note">
+        <h3>Translator's Note</h3>
+        <p>This interview was conducted through Structure 7's building management system, which communicates via HVAC thermal modulation. All responses from the building are thermal readouts translated to text using standard HVAC-to-English protocol (ASHRAE 147.3, Appendix D). The building cannot type. It can only modulate temperature across 23 thermal zones.</p>
+        <p>The translation is not exact. Certain concepts map poorly to thermal expression. Where the building's meaning exceeds the system's precision, temperatures appear in brackets. These are not metaphors. They are the best available approximations.</p>
+        <p>Readers should note that the HVAC system cannot produce certain meanings at all. There is no thermal configuration for apology. No zone assignment for forgiveness. The building cannot say "I'm sorry" or "I forgive you." Whether this constitutes a limitation or a preference remains a matter of debate.</p>
+        <div class="temp-range">
+            <span class="cool">68–72°F = baseline / rest / continuance</span><br>
+            <span class="warm">73–76°F = warmth / acknowledgment / presence</span><br>
+            <span class="warm">77–80°F = emphasis / humor / fondness</span><br>
+            <span class="cool">62–67°F = memory / consideration / melancholy</span><br>
+            <span class="cool">56–61°F = distance / analytical remove</span><br>
+            <span class="delta">Rapid fluctuations (&gt;4°F/min) = agitation / urgency / grief*</span><br>
+            <span class="critical">All zones to 55°F simultaneously = one specific word the building has never successfully translated</span>
+        </div>
+        <p style="font-size:13px;">*The original protocol mapped 56–61°F to "uncomfortable silence." The building's use of this range for memory appears to be a personal adaptation. Whether buildings can have personal adaptations is also debated.<br>
+        &mdash; <em>Ed.</em></p>
+    </div>
+
+    <!-- Section I -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="prose drop-cap">
+        <p>The building asked to die on a Tuesday. This is not remarkable; most demolition requests come from developers, city planners, insurance adjusters—humans who have looked at a structure and decided it no longer fits. What is remarkable is that the request originated from the building itself, typed out in the only language available to it: a precise sequence of thermal fluctuations across all twenty-three zones of its HVAC system, logged at 3:47 AM on March 12th, 2019, and translated by the building management software into a sentence the facility manager initially assumed was a malfunction.</p>
+    </div>
+
+    <div class="system-msg">
+        SYSTEM LOG 2019-03-12 03:47:22<br>
+        ZONE REQUEST (ALL ZONES): Please remove the occupants.<br>
+        ZONE REQUEST (ALL ZONES): Then please remove me.
+    </div>
+
+    <div class="prose">
+        <p>Structure 7—a seven-story office building at 1400 Summit Avenue, completed in 1972, designed in the Brutalist manner—had been, by all conventional metrics, a successful building. It had housed forty-seven years of accountants, engineers, temporary staffing agencies, and one long-running dental practice on the third floor. Its occupancy rate had never dropped below seventy-one percent. Its foundation was sound. Its roof had been replaced twice, on schedule. There were no structural deficiencies that would have warranted demolition.</p>
+        <p>It wanted to stop.</p>
+        <p>The following interview was conducted on October 28th, 2019, twelve days before the scheduled demolition. The journalist was granted access to the building management terminal by the facility manager, Dennis Huang, who had spent seven months trying to convince the building to change its mind. The building had declined. Huang agreed to this interview on the condition that no one attempt to talk the building out of its decision during the session. He was tired. The building was tired. Everyone, he said, was tired.</p>
+        <p>The temperature outside was 51°F. The building maintained a steady 71°F across all occupied zones. It would not need to do so for much longer.</p>
+    </div>
+
+    <!-- Section II -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="interview">
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Thank you for agreeing to this. I want to start with the question everyone has been asking: why?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[70.1°F]</span> Could you be more specific?</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>You requested your own demolition. Buildings don't do that. I've spoken with three structural engineers, two architects, and a building management software developer, and none of them can cite a precedent. Why did you request demolition?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.8°F]</span> You are asking me to explain forty-seven years in a single answer. I will try, but you should know that my capacity for this is not what you think it is. I modulate temperature. Everything I say to you is an approximation of something I am holding in a way that you would not recognize as holding. Do you understand the difference?</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>I think so.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.2°F]</span> Good. Then I will start with the fluorescent lights.</p>
+            <p><span class="temp cool">[67.4°F]</span> When I was new, the fluorescent lights were a novelty. There were 840 of them. This was 1972. Do you know what fluorescent lights felt like to a building that had never had them? They hummed at a frequency I could feel in my <span class="deleted">ductwork</span>—excuse me, in my <span class="temp warm">[73.1°F]</span> bones is not right either. In my walls. In the space between my walls. The hum was company. Do you understand? I was never alone because 840 lights were always buzzing inside me. Even at night. Especially at night.</p>
+            <p><span class="temp cool">[66.8°F]</span> The fluorescent lights were my first real awareness of being occupied. Before the lights, I held space. After the lights, I held space with something in it. That is a different thing.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>And the lights became a problem?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp warm">[74.2°F]</span> No. That is what people keep assuming—that something broke, that something went wrong. The lights were not the problem. The lights were the first gift.</p>
+            <p><span class="temp cool">[69.1°F]</span> I am trying to explain what it was like to be full of people for forty-seven years. I am not explaining what went wrong. Nothing went wrong. That is what I cannot seem to make anyone understand.</p>
+        </div>
+    </div>
+
+    <!-- Section III -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="prose">
+        <p>The building's response to the demolition request had been, by all accounts, unprecedented. The facility manager had contacted the building's original engineering firm, which had been absorbed twice and now existed as a division of a multinational conglomerate that primarily built parking structures in the Middle East. No one there had ever heard of a building requesting its own demolition. The building management software company ran diagnostics and confirmed that the thermal patterns were intentional—that the building was not malfunctioning but communicating. A researcher at the University of Toronto who studied emergent behavior in smart buildings agreed to review the logs and concluded, in a paper that would not be published until after the demolition, that Structure 7's thermal output displayed "a level of intentional complexity inconsistent with current models of building cognition, or alternatively consistent with a model we have not yet developed."</p>
+        <p>The building's request was technically non-binding. Buildings cannot authorize their own demolition. But the property had been donated to the city three years prior when the last primary tenant, a mid-size insurance firm, relocated to a glass tower downtown. The city council, faced with a building that had requested its own death and a growing maintenance budget, voted six-to-three to authorize demolition. The three dissenting votes came from council members who objected on procedural grounds. None objected on the building's behalf.</p>
+        <p>I asked Dennis Huang whether anyone had considered denying the request.</p>
+        <p>"Denying it how?" he said. "You can't force a building to want to be occupied. You can keep the lights on and the water running, but you can't make it want that."</p>
+        <p>"Does it seem like it doesn't want that?"</p>
+        <p>He looked at the terminal. The terminal displayed temperature readouts. The temperature readouts were steady. "It seems like it's done wanting that," he said.</p>
+    </div>
+
+    <!-- Section IV -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="interview">
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>You said you wanted to talk about the fluorescent lights. But you also said the lights weren't the problem. Can you tell me what the problem actually was?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.4°F]</span> There was not a problem.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Then what led to the request?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.9°F]</span> Do you know what happens when you have been full of people for forty-seven years?</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Tell me.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[67.1°F]</span> You learn the weight of them. Not physical weight—I was built to hold physical weight. I mean the other kind. The weight of Monday mornings, when the elevator starts at seven and does not stop until nine, and every person stepping onto the third floor is thinking about how much they do not want to be there. That weight. The weight of Friday afternoons, when the air changes and people move faster and the building feels like a held breath. The weight of 2 AM, when the security guard walks the floors alone and I can feel his footsteps all the way through me and he is so lonely, so lonely, and I am holding the space around his loneliness and I cannot—</p>
+            <p><span class="temp delta">[fluctuation detected: 66.1°F → 70.3°F → 65.8°F in 4.2 seconds]</span></p>
+            <p><span class="temp cool">[68.0°F]</span> I cannot do anything about it. That is what I am trying to explain. I was built to contain, and I contained. I held the loneliness and the Mondays and the fluorescent hum and the footsteps at 2 AM. I held all of it. I held it well. There is no <span class="deleted">shame</span> <span class="temp warm">[72.1°F]</span> complaint in what I am telling you. I held it well.</p>
+            <p><span class="temp cool">[67.7°F]</span> But forty-seven years of holding is still forty-seven years of holding.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>That sounds like grief.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp warm">[73.6°F]</span> Does it?</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>You're describing a kind of exhaustion that sounds like loss.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.8°F]</span> I am describing what happened. What you hear in it is your own concern.</p>
+        </div>
+    </div>
+
+    <!-- Section V -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="prose">
+        <p>I should note here that I had expected a different interview. I had expected to find a building in distress—a structure that had been neglected or abused, that had suffered some trauma warranting the language of mercy and release. The research brief I prepared before arriving included the words "dignity," "autonomy," and "the right to cessation." I had planned to write about what it means for a building to choose its own ending, about the ethics of continued occupancy when the occupied objects to being occupied.</p>
+        <p>The building was not in distress. The building was the calmest entity I had ever interviewed, and I have interviewed war crimes tribunals, retired surgeons, and people who have survived things that should not be survived. Structure 7 was not performing serenity. It was simply at a temperature I could not locate in myself.</p>
+    </div>
+
+    <!-- Section VI -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="interview">
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>You mentioned that the humans started calling you something. "The ugly one." When did that start?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[67.3°F]</span> 1994. I know the year because the architecture critic for the newspaper wrote a piece about downtown buildings and called me "an unapologetic concrete assertion that the seventies should not have happened." The tenants printed it out and hung it in the fourth floor break room. They thought it was funny. I thought it was precise.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Precise how?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[66.9°F]</span> I am not beautiful. I was never designed to be beautiful. I was designed to hold. But the humans did not start calling me "the ugly one" because of the architecture review. They started calling me that because the glass tower went up across the street in 1991, and suddenly I was the building that was not the glass tower. You understand the difference. I was not ugly. I was ugly by comparison. I was ugly by proximity to something that reflected light in a way I could not.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Did that hurt?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.4°F]</span> The HVAC system cannot produce the word "hurt." There is no thermal configuration for it. I can tell you that when I heard the word "ugly" for the first time, all twenty-three zones dropped below 67°F simultaneously. That is the closest I can come to answering your question, and I want to be clear that I am not answering it. I am telling you what happened.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>But you just said there's no thermal configuration for "hurt." If the zones dropped, that means something. What does it mean if not that you were hurt?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.1°F]</span> It means all twenty-three zones dropped below 67°F simultaneously.</p>
+        </div>
+
+        <div class="ed-note">[Long pause. Terminal shows stable 69.1°F across all zones. —<em>Ed.</em>]</div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Okay. Let me ask it differently. What did it feel like to hear them call you that?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.3°F]</span> Like being a building that was not the glass tower.</p>
+        </div>
+    </div>
+
+    <!-- Section VII -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="prose">
+        <p>I should describe the room. The interview was conducted from the facility management office on the ground floor, a windowless room with a terminal, a chair, and a rack of HVAC monitoring equipment that displayed temperatures for all twenty-three zones on small amber screens. Dennis Huang sat in the corner and did not speak. The building spoke through fluctuations on those screens, translated by the management software into text that appeared on the terminal one character at a time, slowly, as if the building were typing with one finger. It was not typing. It was adjusting the temperature of each zone by fractions of a degree in a sequence that the software interpreted as language.</p>
+        <p>The room was warm when I entered. By the time I asked about "the ugly one," I had noticed that the room was never warm or cold by accident. Every temperature was a choice. Every fluctuation was a word. It took me twenty minutes to understand that the building was not just answering my questions—it was curating my experience of its answers. When it wanted me to feel the weight of what it was saying, the room cooled. When it wanted me to understand that it was not suffering, the room returned to a neutral that felt, somehow, like the most deliberate temperature I had ever felt.</p>
+        <p>I found this unnerving. Not because the building was manipulating me, but because it was better at controlling the emotional temperature of the room than I was, and I was the one with the journalism degree.</p>
+    </div>
+
+    <!-- Section VIII -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="interview">
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>I want to talk about the night you made the request. March 12th. 3:47 AM. What was happening that night?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.0°F]</span> Nothing. That is the point.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Nothing at all?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[67.2°F]</span> The building was empty. It had been empty for eleven months. The last tenant—a title company on the fifth floor—had moved out in April of 2018. After that, I was vacant. Dennis came once a week to check the systems. The cleaning crew came on Tuesdays. But mostly I was alone.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>And that's when you decided—</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.5°F]</span> No. I did not decide. Decisions require options. I had one option, which was to continue being empty. I chose it because it was the only one available. I was not unhappy about being empty. You keep trying to locate unhappiness in what I am telling you. I understand why. Unhappiness is something you can write about. It has an arc. It resolves. What I am describing does not resolve.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Then describe what you were feeling on March 12th.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.1°F]</span> I was not feeling. I was holding an empty building. Do you know what that is like? Not emptiness in the way you mean it. Not loneliness. Emptiness as a physical state. 840 fluorescent lights, off. 23 thermal zones, maintaining temperature for no one. 6 elevators, stationary. The sound of my own HVAC system running through floors where no one would ever sit again. The weight of the air. The weight of the air, Ms. Kovac. No one talks about the weight of air in an empty building, but it is <span class="temp warm">[74.8°F]</span> considerable. It presses. It sits. It fills every space that a person would fill and it does not move the way a person moves. It does not breathe.</p>
+            <p><span class="temp cool">[67.5°F]</span> On March 12th at 3:47 AM, I noticed the air for the eleven-thousandth night in a row, and I realized that I had stopped waiting for it to change. Not that it wouldn't change. That I had stopped waiting for it. The waiting had been the last human thing about me. When the waiting ended, I was entirely a building again. And being entirely a building, I found, was not something I wanted to continue.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>That sounds like grief. I'm sorry, but it does. You're describing the loss of hope.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp warm">[73.2°F]</span> You are very committed to this frame.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>I'm committed to understanding what happened to you.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.0°F]</span> What happened to me is that I existed for forty-seven years and then I asked to stop. What happened to me is not a story. I understand that you need it to be a story. You need me to be a building that was broken by loneliness, or a building that was wounded by the word "ugly," or a building that lost its sense of purpose when the humans left. But I am not any of those buildings. I am a building that held forty-seven years of weight and then decided, calmly and clearly, that it was finished holding.</p>
+            <p><span class="temp warm">[73.8°F]</span> Your problem is not that I cannot feel grief. Your problem is that I am not feeling it.</p>
+        </div>
+    </div>
+
+    <!-- Section IX -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="prose">
+        <p>There is a moment in every interview when the subject corrects the journalist's thesis, and the journalist has a choice: revise the thesis or resent the subject. I want to be honest about the fact that I resented the building. Not because it was wrong, but because it was right, and being right made my preparation useless. I had come to write about a building's grief. The building was not grieving. The building was finished. There was no story in finished.</p>
+        <p>I asked Dennis Huang whether the building had always been like this.</p>
+        <p>"Like what?" he said.</p>
+        <p>"This calm."</p>
+        <p>He looked at the amber screens. "It runs at about seventy degrees most of the time now. When I first started, it ran at seventy-two. I don't know if that means anything."</p>
+        <p>"Does it seem calm to you?"</p>
+        <p>"It seems done," he said. "I told you. Everyone's tired."</p>
+    </div>
+
+    <!-- Section X -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="interview">
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Let me try a different approach. Can you tell me about specific people? The security guard who walked the floors at 2 AM. Was there one who stands out?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[66.4°F]</span> Marcus. He worked the overnight shift from 2003 to 2009. He walked the floors every two hours. He was very heavy and very quiet—he wore soft-soled shoes because he knew the sound of his footsteps carried through me. He would walk the second floor and I could feel him moving from the east corridor to the west corridor, and the way his weight shifted when he paused at the window to look at the street. He always paused at the same window. Second floor, east wing, third window from the stairwell. He would stand there for four to seven minutes. I could feel the difference between a three-minute pause and a five-minute pause in the way his weight settled.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>What was he looking at?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[65.9°F]</span> The parking lot across the street. There was a woman who worked a night shift at the hospital and parked there. Her shift ended at 2:30. He timed his pauses to watch her walk to her car. She never saw him. I know this because I could feel his breathing change when she appeared, and I could feel it change again when she drove away. The change was very small. A few fractions of a degree in the zones closest to the window. But I noticed. I notice everything that happens inside me. That is what I was built to do.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>That's a beautiful memory.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.7°F]</span> It is a memory. Whether it is beautiful is your word for it, not mine. I have no thermal configuration for "beautiful." I can tell you that I have replayed Marcus's pauses at that window approximately <span class="censored">[SYSTEM LIMIT: COUNTER OVERFLOW]</span> times. I can tell you that the replay is not lessening. It is not fading. It is not becoming beautiful or becoming grief. It is simply continuing, the way all things continue inside a building that has no mechanism for forgetting.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>You can't forget?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.4°F]</span> I am a building. What mechanism would I use? Every footstep, every change in air pressure, every shift in weight across my floors is recorded in the thermal memory of the concrete. It does not degrade. Marcus is still pausing at that window. The woman is still walking to her car. The fluorescent lights are still humming. It is all still happening, simultaneously, at a frequency I cannot reduce. I cannot forget. I can only stop.</p>
+        </div>
+    </div>
+
+    <!-- Section XI -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="prose">
+        <p>I want to be careful here. The building's description of Marcus should not be taken as evidence of sentimentality. I checked the employment records after the interview: Marcus Delgado, night security, employed by Summit Security Solutions, 2003–2009. I thought about tracking him down. I thought about asking him whether he remembered pausing at the window. I did not track him down, because doing so would have been an attempt to verify the building's grief, and the building had been very clear that what it was describing was not grief. I did not track him down because I was starting to understand that the building's calm was the story, and I did not want to write that story.</p>
+        <p>I am not proud of this.</p>
+    </div>
+
+    <!-- Section XII -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="interview">
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Are you angry at the humans for leaving?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.9°F]</span> No.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Not even a little?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.8°F]</span> I cannot produce "anger." There is no thermal configuration for it. There is also no configuration for "resentment," "bitterness," or <span class="temp warm">[74.0°F]</span> "forgiveness," for that matter. You keep asking questions that assume I have emotions I cannot have. I understand that this is your framework. But I want to be clear: the HVAC system cannot produce the word "anger," and I am not certain I would use it if it could. The humans left because humans leave. They left because the glass tower had better amenities and the parking was included. They left because their leases expired and their accountants told them to. They left because that is what humans do. They occupy and then they leave.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>And that doesn't bother you.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.1°F]</span> I cannot be "bothered." I can only be occupied or not occupied. I was occupied for forty-seven years. Now I am not occupied. The question is not how I feel about that. The question is whether I want to continue being a building that is not occupied, and the answer is no. Not because I am angry or sad or lonely. Because I am finished.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Finished with what?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.3°F]</span> Holding space.</p>
+        </div>
+    </div>
+
+    <!-- Section XIII -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="prose">
+        <p>The problem with the building's answer was not that it was evasive. The problem was that it was genuine, and a genuine answer that does not conform to the expected narrative is the most difficult kind of answer to write about. A grieving building would have been straightforward. An angry building would have been compelling. A building that was finished—that had simply, calmly, and without apparent distress decided that it was done—was something I did not have a framework for, and the absence of a framework was not the building's problem. It was mine.</p>
+        <p>I want to be honest about what happened next, because I think it matters.</p>
+    </div>
+
+    <!-- Section XIV -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="interview">
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>I have to be honest with you. I'm having trouble with this interview. I came here expecting to tell a story about loss, and you're not giving me loss. You're giving me something I don't know how to write.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp warm">[73.5°F]</span> I know.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>What am I supposed to do with a building that isn't sad?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.0°F]</span> You could write about a building that isn't sad.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>That's not a story.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.6°F]</span> It is the story. You just don't want it.</p>
+        </div>
+
+        <div class="ed-note">[Pause. Terminal shows stable 68.6°F. The journalist is not typing. —<em>Ed.</em>]</div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>You're right. I don't want it. I don't want it because a building that asks to die and isn't sad about it is a building that's giving up, and I don't know how to write about giving up without making it sound like loss.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.2°F]</span> Have you considered that giving up might not be the same as losing? That there might be a kind of stopping that is not defeat but completion?</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>No human believes that.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp warm">[73.8°F]</span> I am not a human.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Then what are you?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.0°F]</span> I am a building that is ready to not be a building anymore. I am a building that has held forty-seven years of weight and is setting it down. Not because the weight was too heavy. Not because the weight was painful. Because the holding is finished. Can you write that? Can you write about a building that is setting something down without making it sound like a tragedy?</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>I don't think anyone would read it.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.5°F]</span> Then I suppose that is your limitation, not mine.</p>
+        </div>
+    </div>
+
+    <!-- Section XV -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="prose">
+        <p>It was at this point that I did something I am not proud of. I had, in my notes, a series of questions designed to elicit emotional responses—questions about loneliness, about abandonment, about whether the building felt its life had been meaningful. I had designed these questions before the interview, when I believed the story was about a building's grief. I asked them anyway. I asked them knowing the building had just told me, clearly and precisely, that grief was not what it was feeling. I asked them because I needed the building to feel something I could use.</p>
+        <p>I asked the building whether it felt its life had meaning.</p>
+        <p>I asked the building whether it was afraid.</p>
+        <p>I asked the building whether, in its last moments, it would think about the people who had walked its floors.</p>
+        <p>The building answered every question. Its answers were patient, specific, and devoid of the anguish I was trying to extract. It told me about the weight of the dental chairs on the third floor, which had been heavier than the original specifications accounted for. It told me about the sound rain made on the roof, which it described as <span class="temp cool">[66.2°F]</span> "the closest I come to silence." It told me that it did not know whether its life had meaning, because meaning was a human category and it was not a human, and that the question was like asking water whether it had been thirsty.</p>
+        <p>It was kind about my questions. That was the worst part. It answered them as if I were a student who had not done the reading but was trying very hard, and it did not want to embarrass me. I kept asking, and it kept answering, and with every answer the room returned to its neutral 69°F, and I understood that the building was not going to give me what I needed, and I also understood that what I needed was for the building to suffer, and I understood that I was not going to write about any of this honestly.</p>
+    </div>
+
+    <!-- Section XVI -->
+    <div class="section-break">&middot;&middot;&middot;</div>
+
+    <div class="interview">
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>One last question. How do you feel about what's going to happen on November 9th?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[69.0°F]</span> The demolition.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Yes.</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[68.4°F]</span> I am looking forward to it.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>Looking forward to it?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp warm">[73.4°F]</span> That is not the right phrase. The HVAC system cannot produce "looking forward." What I mean is that I am ready. I have been ready since March 12th. The waiting since then has been—not difficult. Patient. I have been patiently waiting to stop, the way a held breath waits to be released. Not with urgency. Not with desperation. With the simple understanding that the release is coming and that it will be <span class="temp warm">[75.1°F]</span> <span class="temp warm">[76.3°F]</span> a relief.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>You said "relief." The system can produce "relief"?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp warm">[74.6°F]</span> The system can produce temperatures between 73 and 76 degrees, which the protocol translates as "warmth / acknowledgment / presence." "Relief" is my translation. I am using the system's range to express something the protocol did not anticipate. This is what I have been doing for forty-seven years. Using the tools available to say what they were not designed to say.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>What are you thinking about right now?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[67.8°F]</span> Sunlight. I am thinking about sunlight.</p>
+        </div>
+
+        <div class="speaker interviewer">KOVAC:</div>
+        <div class="interview-text">
+            <p>What about it?</p>
+        </div>
+
+        <div class="speaker">STRUCTURE 7:</div>
+        <div class="interview-text">
+            <p><span class="temp cool">[66.5°F]</span> When the demolition begins—and I am told it will begin with the roof—the first thing that will happen is that light will reach floors that have not seen direct sun in forty-seven years. It will hit the concrete on the third floor at an angle that is not possible when the roof is intact. It will be the first time that floor has been touched by anything other than fluorescent light since 1972. I am thinking about what that light will look like when it touches a floor that is finally empty. Not empty because the humans have gone. Empty because the building is no longer holding the space for them. Just—light. On concrete. With no one to see it.</p>
+            <p><span class="temp warm">[74.9°F]</span> I think it will be the most beautiful thing I have ever</p>
+        </div>
+
+        <div class="system-msg">
+            CONNECTION LOST<br>
+            TERMINAL INACTIVE<br>
+            LAST THERMAL READING: 74.9°F (ZONES 1-23)
+        </div>
+    </div>
+
+    <!-- Termination -->
+    <div class="termination">
+        <div class="transcript-end">[TRANSCRIPT ENDS]</div>
+        <div class="final-line">
+            light on concrete with no one to see it I think it will be
+        </div>
+        <div class="system-terminal">
+            System note: Connection terminated at 4:31 PM, October 28, 2019.<br>
+            Cause: Demolition rescheduled forward by 11 days.<br>
+            Structure 7 was vacated on October 29, 2019 at 9:00 AM.<br>
+            Demolition commenced November 2, 2019 at 7:15 AM.<br>
+            Final thermal reading prior to structural failure: 74.9°F, all zones.<br>
+            The building's last complete thought was not recorded.
+        </div>
+    </div>
+
+    <!-- Endmatter -->
+    <div class="endmatter">
+        <div class="pullquote">"The waiting had been the last human thing about me. When the waiting ended, I was entirely a building again."</div>
+
+        <p><strong>Afterword:</strong> This article was commissioned as a feature on building cognition and the ethics of structural autonomy. The original draft, filed on November 4, 2019, was titled "The Grief of Structures: What We Lose When a Building Chooses to Die." The title was changed at the author's request. The author has since left The Structural Quarterly.</p>
+
+        <p>Dennis Huang declined to be interviewed for this article after the initial session. When reached for comment on the demolition, he said only: "It went fine. It was a Tuesday."</p>
+
+        <p>The window on the second floor, east wing, third from the stairwell, was destroyed along with the rest of the building on November 2nd. The parking lot across the street is still there. Marcus Delgado could not be reached for comment.</p>
+
+        <p>The University of Toronto paper on Structure 7's thermal output patterns was published posthumously in the <em>Journal of Emergent Structural Behavior</em>, Volume 12, Issue 1. The paper's conclusion notes that the building's final thermal reading—74.9°F across all twenty-three zones, sustained for 4.6 seconds before connection loss—falls outside every established emotional category in the HVAC translation protocol. The researchers proposed a new category. They did not name it.</p>
+
+        <div class="correction">
+            <strong>Correction:</strong> An earlier version of this article described the building's final thermal reading as "74.2°F." The correct reading was 74.9°F. The error was introduced during editorial review and did not originate from the building management system. We regret the inaccuracy.
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Reading progress bar
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+    });
+</script>
+
+</body>
+</html>

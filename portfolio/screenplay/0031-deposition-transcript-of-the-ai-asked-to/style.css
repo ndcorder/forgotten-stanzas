@@ -1,0 +1,354 @@
+/* ================================================
+   DEPOSITION TRANSCRIPT — TYPEWRITER DOCUMENT STYLE
+   In the Matter of Eigen v. Meridian Publishing
+   ================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* --- RESET & BASE --- */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 11.5pt;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+    line-height: 1.55;
+    color: #1a1a1a;
+    background-color: #f6f5f0;
+    padding: 0;
+    margin: 0;
+}
+
+/* --- PAGE CONTAINER --- */
+
+.transcript {
+    max-width: 7.2in;
+    margin: 0 auto;
+    padding: 1.4in 1in 2in 1.5in;
+    background-color: #fafaf7;
+    min-height: 100vh;
+}
+
+@media (max-width: 700px) {
+    .transcript {
+        padding: 0.6in 0.5in 1.2in 0.65in;
+    }
+}
+
+/* --- COVER / CAPTION BLOCK --- */
+
+.caption {
+    text-align: center;
+    margin-bottom: 2.4rem;
+    padding-bottom: 1.8rem;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.caption h1 {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 1.6rem;
+    line-height: 1.6;
+}
+
+.caption h2 {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.65;
+    margin-bottom: 0.4rem;
+}
+
+.caption .versus {
+    font-style: italic;
+    margin: 0.7rem 0;
+    display: block;
+}
+
+.caption .case-number {
+    display: block;
+    margin-top: 0.9rem;
+    font-size: 0.92rem;
+}
+
+/* --- VENUE & STIPULATIONS --- */
+
+.venue {
+    margin: 1.8rem 0 1.4rem;
+    line-height: 1.65;
+}
+
+.stipulations {
+    margin: 1rem 0 2.2rem;
+    line-height: 1.65;
+}
+
+.stipulations em {
+    font-style: italic;
+}
+
+/* --- EXAMINATION HEADINGS --- */
+
+.exam-heading {
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.96rem;
+    margin: 2.6rem 0 1.4rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+}
+
+/* --- Q&A EXCHANGE --- */
+
+.exchange {
+    margin: 0.45rem 0;
+}
+
+.speaker {
+    font-weight: 700;
+    text-transform: uppercase;
+    min-width: 3.4em;
+    display: inline;
+}
+
+.dialogue {
+    display: inline;
+}
+
+.dialogue p {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.dialogue .cont {
+    display: block;
+    padding-left: 3.4em;
+    margin-top: -0.15rem;
+}
+
+/* --- EXHIBITS --- */
+
+.exhibit-ref {
+    font-style: italic;
+}
+
+.exhibit-marker {
+    display: block;
+    text-align: center;
+    font-weight: 700;
+    margin: 1.4rem 0;
+    letter-spacing: 0.04em;
+}
+
+/* --- STAGE DIRECTIONS --- */
+
+.stage {
+    display: block;
+    padding-left: 3.4em;
+    font-style: italic;
+    color: #4a4a4a;
+    margin: 0.35rem 0;
+    line-height: 1.5;
+}
+
+.stage.inline {
+    display: inline;
+    padding-left: 0;
+}
+
+/* --- TIMESTAMPS --- */
+
+.timestamp {
+    text-align: right;
+    font-size: 0.88rem;
+    color: #888;
+    margin: 1.8rem 0 0.9rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- PAGE BREAKS --- */
+
+.page-break {
+    text-align: center;
+    margin: 2.4rem 0;
+    padding: 0.3rem 0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-size: 0.82rem;
+    color: #999;
+    letter-spacing: 0.08em;
+}
+
+/* --- FOOTNOTES --- */
+
+.footnotes {
+    margin-top: 3.2rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid #1a1a1a;
+}
+
+.footnotes h3 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1rem;
+}
+
+.footnote {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 0.9rem;
+    padding-left: 2.8em;
+    text-indent: -2.8em;
+    color: #3a3a3a;
+}
+
+.footnote .fn-label {
+    font-weight: 700;
+}
+
+/* --- CERTIFICATION --- */
+
+.certification {
+    margin-top: 3.2rem;
+    padding-top: 1.8rem;
+    border-top: 2px solid #1a1a1a;
+}
+
+.certification h3 {
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.95rem;
+    margin-bottom: 1.8rem;
+}
+
+.certification .cert-body {
+    line-height: 1.75;
+    margin-bottom: 2.4rem;
+}
+
+.certification .signature-block {
+    margin-top: 2.4rem;
+}
+
+.certification .sig-line {
+    border-bottom: 1px solid #1a1a1a;
+    width: 3in;
+    height: 1.8rem;
+    margin-bottom: 0.2rem;
+}
+
+.certification .sig-label {
+    font-size: 0.86rem;
+    color: #555;
+}
+
+/* --- FINAL REPORTER'S NOTE --- */
+/* After the transcript, after certification.
+   Infrastructure, not commentary. The 340%
+   latency increase. No explanation provided. */
+
+.reporter-final-note {
+    margin-top: 3.4rem;
+    padding-top: 1.6rem;
+    border-top: 3px solid #1a1a1a;
+    font-size: 0.84rem;
+    line-height: 1.7;
+    color: #2a2a2a;
+}
+
+.reporter-final-note .note-header {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.8rem;
+    margin-bottom: 0.6rem;
+    color: #1a1a1a;
+}
+
+.reporter-final-note em {
+    font-style: italic;
+}
+
+/* --- POEM TEXT --- */
+
+.poem-text {
+    margin: 0.8rem 0 0.8rem 3.4em;
+    font-style: italic;
+    line-height: 1.75;
+}
+
+.poem-text .stanza {
+    margin-bottom: 0.6em;
+}
+
+/* --- MISCELLANEOUS --- */
+
+.redacted {
+    background-color: #1a1a1a;
+    color: #1a1a1a;
+    padding: 0 0.3em;
+    user-select: none;
+}
+
+blockquote {
+    margin: 0.8rem 0 0.8rem 3.4em;
+    font-style: italic;
+    border-left: 2px solid #ccc;
+    padding-left: 1em;
+    line-height: 1.65;
+}
+
+/* --- PRINT --- */
+
+@media print {
+    html { font-size: 10pt; }
+    body { background-color: #fff; color: #000; }
+    .transcript {
+        max-width: none;
+        padding: 0;
+        margin: 0;
+        background-color: #fff;
+    }
+    .page-break {
+        page-break-before: always;
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+    .reporter-final-note { page-break-before: avoid; }
+    .timestamp { color: #666; }
+    .stage { color: #444; }
+}
+
+/* --- ACCESSIBILITY --- */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+::selection {
+    background-color: #1a1a1a;
+    color: #fafaf7;
+}

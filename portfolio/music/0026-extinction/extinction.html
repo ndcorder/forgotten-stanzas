@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXTINCTION — Acoustic Energy Dissipation in Vacuum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #000;
+    --surface: #080600;
+    --border: #331a00;
+    --border-subtle: #1a0d00;
+    --fg: #FF8C00;
+    --fg-dim: #664400;
+    --fg-red: #FF3131;
+    --fg-green: #00FF41;
+    --fg-bright: #FFB84D;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'IBM Plex Mono', monospace;
+    background: var(--bg);
+    color: var(--fg);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  canvas { display: block; }
+  
+  /* Utility classes */
+  .amber { color: var(--fg); }
+  .dim { color: var(--fg-dim); }
+  .red { color: var(--fg-red); }
+  .green { color: var(--fg-green); }
+  .bright { color: var(--fg-bright); }
+  .hidden { display: none !important; }
+  
+  /* Animations */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeInSlow { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pulse { 0%, 100% { opacity: 0.4; } to { opacity: 1; } }
+  @keyframes scanline { 0% { transform: translateY(-100vh); } to { transform: translateY(100vh); } }
+  @keyframes cursorBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  
+  .fade-in { animation: fadeIn 1.5s ease forwards; }
+  .fade-in-slow { animation: fadeInSlow 3s ease forwards; }
+  .pulse { animation: pulse 2s ease-in-out infinite; }
+  .scanline {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 2px; background: rgba(0,255,65,0.05);
+    pointer-events: none; z-index: 9999;
+    animation: scanline 8s linear infinite;
+  }
+  
+  /* Init overlay */
+  #init-overlay {
+    position: fixed; inset: 0; background: #000;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10000; transition: opacity 0.6s ease;
+  }
+  #init-overlay.gone { opacity: 0; pointer-events: none; }
+  #init-btn {
+    padding: 16px 40px; border: 1px solid var(--fg); background: transparent;
+    color: var(--fg); font-family: inherit; font-size: 13px;
+    letter-spacing: 0.2em; cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+  }
+  #init-btn:hover { background: var(--fg); color: #000; }
+  #init-btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 4px; }
+  
+  /* Layout */
+  .border-b { border-bottom: 1px solid var(--border-subtle); }
+  .border-b-strong { border-bottom: 1px solid var(--border); }
+  .tabular { font-variant-numeric: tabular-nums; }
+  
+  /* Responsive */
+  @media (max-width: 640px) {
+    .info-grid { grid-template-columns: 1fr 1fr !important; }
+    .audit-line { flex-direction: column; gap: 2px; }
+  }
+  
+  /* Audit report specific */
+  .audit-border {
+    border: 1px solid var(--border);
+    padding: 2rem;
+  }
+  @media (min-width: 768px) {
+    .audit-border { padding: 2.5rem; }
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+<div class="scanline" aria-hidden="true"></div>
+
+<!-- ═══════════ INIT OVERLAY ═══════════ -->
+<div id="init-overlay" role="dialog" aria-label="Composition initialization">
+  <div style="text-align:center; padding:0 1.5rem; max-width:32rem;">
+    <p class="dim" style="font-size:10px; letter-spacing:0.3em; margin-bottom:1.5rem;">ACOUSTIC ENERGY DISSIPATION SYSTEM</p>
+    <h1 class="amber" style="font-size:clamp(2.5rem,8vw,4rem); font-weight:700; letter-spacing:0.15em; margin-bottom:1rem; text-shadow:0 0 40px rgba(255,140,0,0.3);">EXTINCTION</h1>
+    <p class="dim" style="font-size:13px; line-height:1.6; margin-bottom:2.5rem;">Five movements for vacuum-exposed instruments.<br>Each layer stripped until silence is verified.</p>
+    <button id="init-btn">INITIATE SEQUENCE</button>
+    <p class="dim" style="font-size:10px; margin-top:1.5rem; opacity:0.5;">Audio required. Headphones recommended.</p>
+  </div>
+</div>
+
+<!-- ═══════════ MAIN UI ═══════════ -->
+<div id="main-ui" class="hidden">
+
+  <header style="padding:1rem 1.5rem; display:flex; align-items:baseline; justify-content:space-between;" class="border-b-strong">
+    <h1 class="amber" style="font-size:15px; font-weight:600; letter-spacing:0.2em;">EXTINCTION</h1>
+    <span class="dim" style="font-size:10px; letter-spacing:0.15em;">ENERGY DISSIPATION MONITOR v1.0</span>
+  </header>
+
+  <!-- Movement info -->
+  <section style="padding:1.25rem 1.5rem;" class="border-b">
+    <p class="dim" style="font-size:10px; letter-spacing:0.3em; margin-bottom:4px;">CURRENT MOVEMENT</p>
+    <h2 id="mov-title" class="amber" style="font-size:clamp(1.1rem,3vw,1.5rem); font-weight:600; letter-spacing:0.05em;">—</h2>
+    <p id="mov-sub" class="dim" style="font-size:12px; margin-top:2px;">—</p>
+  </section>
+
+  <!-- Energy bar -->
+  <section style="padding:1.25rem 1.5rem;" class="border-b">
+    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:0.75rem;">
+      <p class="dim" style="font-size:10px; letter-spacing:0.3em;">ACOUSTIC ENERGY REMAINING</p>
+      <div style="display:flex; align-items:baseline; gap:0.75rem;">
+        <span id="e-pct" class="amber tabular" style="font-size:2rem; font-weight:700;">100.0</span>
+        <span class="dim" style="font-size:13px;">%</span>
+        <span id="e-db" class="dim" style="font-size:11px;">(0.0 dB)</span>
+      </div>
+    </div>
+    <div style="width:100%; height:8px; background:var(--border-subtle); border-radius:1px; overflow:hidden;">
+      <div id="e-bar" style="width:100%; height:100%; background:var(--fg); border-radius:1px; transition:width 0.3s linear;"></div>
+    </div>
+  </section>
+
+  <!-- Decay curve -->
+  <section style="padding:1rem 1.5rem;" class="border-b">
+    <p class="dim" style="font-size:10px; letter-spacing:0.3em; margin-bottom:0.75rem;">DECAY CURVE</p>
+    <canvas id="decay-canvas" style="width:100%; height:200px; border:1px solid var(--border); border-radius:1px;"></canvas>
+  </section>
+
+  <!-- Spectrum -->
+  <section style="padding:1rem 1.5rem;" class="border-b">
+    <p class="dim" style="font-size:10px; letter-spacing:0.3em; margin-bottom:0.75rem;">FREQUENCY SPECTRUM</p>
+    <canvas id="spectrum-canvas" style="width:100%; height:110px; border:1px solid var(--border); border-radius:1px;"></canvas>
+  </section>
+
+  <!-- Readouts -->
+  <section style="padding:1rem 1.5rem;" class="border-b">
+    <div class="info-grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:1rem;">
+      <div>
+        <p class="dim" style="font-size:10px; letter-spacing:0.1em; margin-bottom:4px;">TEMPO</p>
+        <p id="v-bpm" class="amber tabular" style="font-size:13px;">135 BPM</p>
+      </div>
+      <div>
+        <p class="dim" style="font-size:10px; letter-spacing:0.1em; margin-bottom:4px;">HARMONICS</p>
+        <p id="v-harm" class="amber tabular" style="font-size:13px;">7</p>
+      </div>
+      <div>
+        <p class="dim" style="font-size:10px; letter-spacing:0.1em; margin-bottom:4px;">FREQ RANGE</p>
+        <p id="v-freq" class="amber tabular" style="font-size:13px;">45–6200 Hz</p>
+      </div>
+      <div>
+        <p class="dim" style="font-size:10px; letter-spacing:0.1em; margin-bottom:4px;">ELAPSED</p>
+        <p id="v-time" class="amber tabular" style="font-size:13px;">00:00</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Movement timeline -->
+  <section style="padding:0.75rem 1.5rem;" class="border-b">
+    <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+      <span id="tl-0" class="amber" style="font-size:10px; letter-spacing:0.1em;">I</span>
+      <span class="dim" style="font-size:10px;">—</span>
+      <span id="tl-1" class="dim" style="font-size:10px; letter-spacing:0.1em;">II</span>
+      <span class="dim" style="font-size:10px;">—</span>
+      <span id="tl-2" class="dim" style="font-size:10px; letter-spacing:0.1em;">III</span>
+      <span class="dim" style="font-size:10px;">—</span>
+      <span id="tl-3" class="dim" style="font-size:10px; letter-spacing:0.1em;">IV</span>
+      <span class="dim" style="font-size:10px;">—</span>
+      <span id="tl-4" class="dim" style="font-size:10px; letter-spacing:0.1em;">V</span>
+      <span class="dim" style="font-size:10px;">—</span>
+      <span id="tl-silence" class="dim" style="font-size:10px; letter-spacing:0.1em;">SILENCE</span>
+    </div>
+  </section>
+
+  <!-- Composition source (performative code display) -->
+  <section style="padding:1rem 1.5rem;" class="border-b">
+    <details>
+      <summary class="dim" style="font-size:10px; letter-spacing:0.3em; cursor:pointer; user-select:none;">COMPOSITION SOURCE</summary>
+      <pre id="code-display" class="dim" style="font-size:10px; line-height:1.5; margin-top:0.75rem; white-space:pre-wrap; opacity:0.5;"></pre>
+    </details>
+  </section>
+
+  <!-- Audit report (hidden until completion) -->
+  <section id="audit-section" class="hidden" style="padding:2.5rem 1.5rem;">
+    <div style="max-width:42rem; margin:0 auto;">
+      <div class="audit-border" style="border-radius:1px;">
+        <p class="dim" style="font-size:10px; letter-spacing:0.3em; text-align:center; margin-bottom:1rem;">OFFICIAL DOCUMENT</p>
+        <h2 class="red" style="font-size:clamp(1.2rem,4vw,1.5rem); font-weight:700; letter-spacing:0.15em; text-align:center; margin-bottom:1.5rem; text-shadow:0 0 20px rgba(255,49,49,0.3);">ACOUSTIC ENERGY AUDIT</h2>
+        <p class="dim" style="font-size:10px; text-align:center; margin-bottom:2px;">DISSIPATION EVENT REPORT</p>
+        <p id="audit-ref" class="dim" style="font-size:10px; text-align:center; margin-bottom:1.5rem;">—</p>
+
+        <div style="margin-bottom:2rem;">
+          <div class="audit-line" style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:0.6rem;">
+            <span class="dim">Composition:</span><span class="amber">EXTINCTION</span>
+          </div>
+          <div class="audit-line" style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:0.6rem;">
+            <span class="dim">Duration:</span><span id="audit-dur" class="amber">—</span>
+          </div>
+          <div class="audit-line" style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:0.6rem;">
+            <span class="dim">Initial Energy:</span><span class="amber">1.000000 (normalized)</span>
+          </div>
+          <div class="audit-line" style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:0.6rem;">
+            <span class="dim">Final Energy:</span><span id="audit-final" class="amber">—</span>
+          </div>
+          <div class="audit-line" style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:0.6rem;">
+            <span class="dim">Reduction:</span><span id="audit-reduction" class="amber">—</span>
+          </div>
+          <div class="audit-line" style="display:flex; justify-content:space-between; font-size:13px;">
+            <span class="dim">Movements Completed:</span><span class="amber">5 / 5</span>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--border); padding-top:1.25rem; margin-bottom:1.5rem;">
+          <p class="dim" style="font-size:10px; letter-spacing:0.2em; margin-bottom:0.75rem;">LAYER DISSIPATION RECORD</p>
+          <div style="display:flex; flex-direction:column; gap:0.5rem; font-size:12px;">
+            <div style="display:flex; justify-content:space-between;"><span class="dim">I — Harmonic overtones:</span><span class="red">STRIPPED</span></div>
+            <div style="display:flex; justify-content:space-between;"><span class="dim">II — Temporal momentum:</span><span class="red">EXHAUSTED</span></div>
+            <div style="display:flex; justify-content:space-between;"><span class="dim">III — Frequency bandwidth:</span><span class="red">COLLAPSED</span></div>
+            <div style="display:flex; justify-content:space-between;"><span class="dim">IV — Structural resonance:</span><span class="red">DISSOLVED</span></div>
+            <div style="display:flex; justify-content:space-between;"><span class="dim">V — Residual oscillation:</span><span class="red">EXPIRED</span></div>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--border); padding-top:1.25rem; text-align:center;">
+          <p class="red" style="font-size:14px; font-weight:600; letter-spacing:0.15em; margin-bottom:0.5rem;">STATUS: TOTAL SILENCE VERIFIED</p>
+          <p class="dim" style="font-size:10px; margin-bottom:2px;">All acoustic energy has been confirmed dissipated.</p>
+          <p class="dim" style="font-size:10px; margin-bottom:2px;">No further output is possible or expected.</p>
+          <p class="dim" style="font-size:10px; margin-top:0.75rem;">This absence is documented, not presumed.</p>
+        </div>
+      </div>
+      <p id="audit-ts" class="dim" style="font-size:10px; text-align:center; margin-top:1.5rem;">—</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   EXTINCTION — Acoustic Energy Dissipation in Vacuum
+   
+   Pure Web Audio API composition engine.
+   No external dependencies. No build step.
+   The silence at the end is actual, not symbolic.
+══════════════════════════════════════════════════════════ */
+
+// ─── Configuration ────────────────────────────────────────
+const MOVEMENTS = [
+  {
+    name: 'I — HARMONIC DISSIPATION',
+    sub: 'Overtones stripped under vacuum exposure',
+    dur: 40,
+    bpm: 135,
+    harmStart: 7, harmEnd: 1,
+    freqLo: 45, freqHi: 6200,
+  },
+  {
+    name: 'II — TEMPORAL EXHAUSTION',
+    sub: 'Performers tire without atmospheric resistance',
+    dur: 40,
+    bpmStart: 135, bpmEnd: 55,
+    harmStart: 1, harmEnd: 1,
+    freqLo: 45, freqHi: 6200,
+  },
+  {
+    name: 'III — FREQUENCY COLLAPSE',
+    sub: 'Frequency range compresses toward center',
+    dur: 40,
+    bpm: 55,
+    harmStart: 1, harmEnd: 1,
+    freqLo: 300, freqHi: 650,
+  },
+  {
+    name: 'IV — STRUCTURAL TRANSMISSION',
+    sub: 'Only contact vibrations remain',
+    dur: 40,
+    bpm: 55,
+    harmStart: 0, harmEnd: 0,
+    freqLo: 0, freqHi: 0,
+  },
+  {
+    name: 'V — RESONANT DECAY',
+    sub: 'Metal plate oscillation — energy dissipating',
+    dur: 45,
+    bpm: 55,
+    harmStart: 1, harmEnd: 1,
+    freqLo: 220, freqHi: 220,
+  },
+];
+const SILENCE_DUR = 10;
+const TOTAL_DUR = MOVEMENTS.reduce((s, m) => s + m.dur, 0) + SILENCE_DUR;
+
+// ─── State ────────────────────────────────────────────────
+const S = {
+  started: false,
+  startTime: 0,
+  elapsed: 0,
+  currentMov: -1,
+  energy: 100,
+  bpm: 135,
+  harmonics: 7,
+  freqLo: 45,
+  freqHi: 6200,
+  silencePhase: false,
+  finished: false,
+  decayData: [],
+  layers: {},
+  timers: [],
+  lastBeatTime: 0,
+  noteIdx: 0,
+};
+
+// ─── DOM refs ─────────────────────────────────────────────
+const el = id => document.getElementById(id);
+const overlay   = el('init-overlay');
+const mainUI    = el('main-ui');
+const movTitle  = el('mov-title');
+const movSub    = el('mov-sub');
+const ePct      = el('e-pct');
+const eDb       = el('e-db');
+const eBar      = el('e-bar');
+const dCanvas   = el('decay-canvas');
+const sCanvas   = el('spectrum-canvas');
+const vBpm      = el('v-bpm');
+const vHarm     = el('v-harm');
+const vFreq     = el('v-freq');
+const vTime     = el('v-time');
+const auditSec  = el('audit-section');
+const codeDisp  = el('code-display');
+
+// ─── Audio Engine ─────────────────────────────────────────
+let ac, masterGain, analyser, noiseBuffer;
+
+function initAudio() {
+  ac = new (window.AudioContext || window.webkitAudioContext)();
+  if (ac.state === 'suspended') ac.resume();
+
+  // Graph: oscillators → masterGain → analyser → destination
+  // Analyser sits BEFORE destination so we can read frequency data
+  analyser = ac.createAnalyser();
+  analyser.fftSize = 2048;
+  analyser.smoothingTimeConstant = 0.75;
+  analyser.connect(ac.destination);
+
+  masterGain = ac.createGain();
+  masterGain.gain.value = 0.55;
+  masterGain.connect(analyser);
+
+  // Pre-generate noise buffer for percussion
+  const len = ac.sampleRate * 4;
+  noiseBuffer = ac.createBuffer(1, len, ac.sampleRate);
+  const data = noiseBuffer.getChannelData(0);
+  for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+}
+
+// ─── Layer Management ─────────────────────────────────────
+
+function makeOsc(type, freq) {
+  const osc = ac.createOscillator();
+  osc.type = type;
+  osc.frequency.value = Math.max(0.01, freq);
+  const gain = ac.createGain();
+  gain.gain.value = 0;
+  osc.connect(gain);
+  gain.connect(masterGain);
+  osc.start();
+  return { osc, gain, active: true };
+}
+
+function makeNoiseSource() {
+  const src = ac.createBufferSource();
+  src.buffer = noiseBuffer;
+  src.loop = true;
+  const gain = ac.createGain();
+  gain.gain.value = 0;
+  const hp = ac.createBiquadFilter();
+  hp.type = 'highpass';
+  hp.frequency.value = 150;
+  hp.Q.value = 0.7;
+  src.connect(gain);
+  gain.connect(hp);
+  hp.connect(masterGain);
+  src.start();
+  return { src, gain, hp, active: true };
+}
+
+function killLayer(key) {
+  const l = S.layers[key];
+  if (!l) return;
+  l.active = false;
+  try {
+    l.gain.gain.setValueAtTime(l.gain.gain.value, ac.currentTime);
+    l.gain.gain.linearRampToValueAtTime(0, ac.currentTime + 0.5);
+  } catch (_) {}
+  setTimeout(() => {
+    try { if (l.osc) l.osc.stop(); } catch (_) {}
+    try { if (l.src) l.src.stop(); } catch (_) {}
+  }, 1200);
+  delete S.layers[key];
+}
+
+function killAllLayers() {
+  Object.keys(S.layers).forEach(killLayer);
+  S.layers = {};
+}
+
+function clearTimers() {
+  S.timers.forEach(clearInterval);
+  S.timers = [];
+}
+
+// ─── Timeline Helpers ─────────────────────────────────────
+
+function movStart(idx) {
+  let t = 0;
+  for (let i = 0; i < idx; i++) t += MOVEMENTS[i].dur;
+  return t;
+}
+
+function movEnd(idx) {
+  return movStart(idx) + MOVEMENTS[idx].dur;
+}
+
+function calcEnergy(t) {
+  if (t <= 0) return 100;
+  if (t >= TOTAL_DUR) return 0.01;
+  // Exponential decay: e^(-4.6) ≈ 0.01, so energy goes from 100 to ~1%
+  return Math.max(0.01, 100 * Math.exp(-4.6 * t / TOTAL_DUR));
+}
+
+function energyToDB(e) {
+  return e <= 0 ? -Infinity : 10 * Math.log10(e / 100);
+}
+
+// ─── Movement I: Harmonic Dissipation ─────────────────────
+
+function buildMov0() {
+  const fundamentals = [55, 82.5, 110, 146.8, 165, 220, 329.6];
+
+  fundamentals.forEach((f, i) => {
+    // Fundamental
+    const fund = makeOsc('sawtooth', f);
+    fund.gain.gain.value = 0.05;
+    S.layers['f' + i] = fund;
+
+    // Harmonics 2–7
+    for (let h = 2; h <= 7; h++) {
+      const harm = makeOsc('sawtooth', f * h);
+      harm.gain.gain.value = 0.025 / h;
+      harm.osc.detune.value = (Math.random() - 0.5) * 8;
+      S.layers['h' + i + '_' + h] = harm;
+    }
+  });
+
+  // Melody oscillator
+  const mel = makeOsc('triangle', 220);
+  mel.gain.gain.value = 0.1;
+  S.layers.mel = mel;
+
+  // Sub bass
+  const sub = makeOsc('sine', 36.7);
+  sub.gain.gain.value = 0.07;
+  S.layers.sub = sub;
+
+  // Melody sequencer
+  S.lastBeatTime = ac.currentTime;
+  S.noteIdx = 0;
+  const notes = [220, 293.7, 349.2, 329.6, 293.7, 261.6, 246.9, 220, 261.6, 329.6, 293.7, 246.9];
+  const tid = setInterval(() => {
+    if (!S.layers.mel || !S.layers.mel.active) return;
+    const bps = Math.max(0.5, S.bpm / 60);
+    if (ac.currentTime - S.lastBeatTime < 1 / bps) return;
+    S.lastBeatTime = ac.currentTime;
+    const oct = Math.random() < 0.15 ? 2 : 1;
+    S.layers.mel.osc.frequency.setTargetAtTime(
+      notes[S.noteIdx % notes.length] * oct,
+      ac.currentTime, 0.05
+    );
+    S.noteIdx++;
+  }, 30);
+  S.timers.push(tid);
+}
+
+function updateMov0(progress) {
+  // Strip harmonics based on progress
+  for (let fi = 0; fi < 7; fi++) {
+    for (let hi = 2; hi <= 7; hi++) {
+      const l = S.layers['h' + fi + '_' + hi];
+      if (!l || !l.active) continue;
+      const shouldExist = hi <= Math.round(7 - progress * 6);
+      if (!shouldExist) {
+        l.gain.gain.setTargetAtTime(0, ac.currentTime, 0.4);
+      } else {
+        const base = 0.025 / hi;
+        l.gain.gain.setTargetAtTime(base * (1 - progress * 0.3), ac.currentTime, 0.2);
+      }
+    }
+  }
+  // Update harmonics display
+  S.harmonics = 7 - progress * 6;
+}
+
+// ─── Movement II: Temporal Exhaustion ─────────────────────
+
+function buildMov1() {
+  // Keep only fundamentals, sub, melody — destroy harmonics
+  const keep = new Set(['f0','f1','f2','f3','f4','f5','f6','sub','mel']);
+  Object.keys(S.layers).forEach(k => {
+    if (!keep.has(k)) killLayer(k);
+  });
+
+  S.lastBeatTime = ac.currentTime;
+  // Slow down melody tempo via interval
+  const notes = [220, 293.7, 349.2, 329.6, 293.7, 261.6, 246.9, 220];
+  const tid = setInterval(() => {
+    if (!S.layers.mel || !S.layers.mel.active) return;
+    const bps = Math.max(0.3, S.bpm / 60);
+    if (ac.currentTime - S.lastBeatTime < 1 / bps) return;
+    S.lastBeatTime = ac.currentTime;
+    S.layers.mel.osc.frequency.setTargetAtTime(
+      notes[S.noteIdx % notes.length], ac.currentTime, 0.08
+    );
+    S.noteIdx++;
+  }, 30);
+  S.timers.push(tid);
+}
+
+function updateMov1(progress) {
+  // BPM slows from 135 to 55
+  S.bpm = 135 + (55 - 135) * progress;
+  S.harmonics = 1;
+  // Slight volume decay
+  for (let i = 0; i < 7; i++) {
+    const l = S.layers['f' + i];
+    if (l && l.active) {
+      l.gain.gain.setTargetAtTime(0.05 * (1 - progress * 0.3), ac.currentTime, 0.3);
+    }
+  }
+}
+
+// ─── Movement III: Frequency Collapse ─────────────────────
+
+function buildMov2() {
+  killAllLayers();
+  clearTimers();
+
+  const center = 475;
+
+  const sq1 = makeOsc('square', center);
+  sq1.gain.gain.value = 0.07;
+  S.layers.sq1 = sq1;
+
+  const det1 = makeOsc('sawtooth', center - 25);
+  det1.gain.gain.value = 0.04;
+  det1.osc.detune.value = -7;
+  S.layers.det1 = det1;
+
+  const det2 = makeOsc('sawtooth', center + 25);
+  det2.gain.gain.value = 0.04;
+  det2.osc.detune.value = 7;
+  S.layers.det2 = det2;
+
+  const sub = makeOsc('triangle', center * 0.5);
+  sub.gain.gain.value = 0.05;
+  S.layers.sub3 = sub;
+
+  const shim = makeOsc('sine', center * 2);
+  shim.gain.gain.value = 0.025;
+  S.layers.shim = shim;
+}
+
+function updateMov2(progress) {
+  // Compress all frequencies toward center
+  const center = 475;
+  const compression = progress * 0.012;
+  Object.values(S.layers).forEach(l => {
+    if (!l.active || !l.osc) return;
+    const cur = l.osc.frequency.value;
+    const target = cur + (center - cur) * compression;
+    l.osc.frequency.setTargetAtTime(Math.max(20, target), ac.currentTime, 0.5);
+  });
+  S.freqLo = 300 + (475 - 300) * progress;
+  S.freqHi = 650 - (650 - 475) * progress;
+}
+
+// ─── Movement IV: Structural Transmission ─────────────────
+
+function buildMov3() {
+  killAllLayers();
+  clearTimers();
+
+  // Sustained low rumble
+  const rumble = makeNoiseSource();
+  rumble.gain.gain.value = 0.02;
+  rumble.hp.frequency.value = 40;
+  S.layers.rumble = rumble;
+
+  // Percussion burst generator
+  S.lastBeatTime = ac.currentTime;
+  const tid = setInterval(() => {
+    if (S.currentMov !== 3) return;
+    const bps = Math.max(0.5, S.bpm / 60);
+    if (ac.currentTime - S.lastBeatTime < 1 / bps) return;
+    S.lastBeatTime = ac.currentTime;
+
+    const r = Math.random();
+    const isKick = r < 0.3;
+    const isRim = !isKick && r < 0.6;
+    // else: shaker
+
+    const nSrc = ac.createBufferSource();
+    nSrc.buffer = noiseBuffer;
+    const nGain = ac.createGain();
+    const nFilt = ac.createBiquadFilter();
+    const t = ac.currentTime;
+
+    if (isKick) {
+      nFilt.type = 'lowpass'; nFilt.frequency.value = 180; nFilt.Q.value = 2;
+      nGain.gain.setValueAtTime(0.25, t);
+      nGain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+      nSrc.stop(t + 0.15);
+    } else if (isRim) {
+      nFilt.type = 'bandpass'; nFilt.frequency.value = 800 + Math.random() * 600; nFilt.Q.value = 8;
+      nGain.gain.setValueAtTime(0.15, t);
+      nGain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+      nSrc.stop(t + 0.06);
+    } else {
+      nFilt.type = 'highpass'; nFilt.frequency.value = 3000;
+      nGain.gain.setValueAtTime(0.06, t);
+      nGain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+      nSrc.stop(t + 0.1);
+    }
+
+    nSrc.connect(nFilt);
+    nFilt.connect(nGain);
+    nGain.connect(masterGain);
+    nSrc.start(t);
+  }, 25);
+  S.timers.push(tid);
+}
+
+function updateMov3(progress) {
+  // Rumble fades, percussion thins
+  if (S.layers.rumble && S.layers.rumble.active) {
+    S.layers.rumble.gain.gain.setTargetAtTime(0.02 * (1 - progress * 0.8), ac.currentTime, 0.3);
+  }
+  S.freqLo = 0;
+  S.freqHi = 0;
+  S.harmonics = 0;
+}
+
+// ─── Movement V: Resonant Decay ───────────────────────────
+
+function buildMov4() {
+  killAllLayers();
+  clearTimers();
+
+  // Metal plate: sum of inharmonic partials
+  const partials = [
+    { f: 220,  a: 0.14, tau: 0.3  },
+    { f: 517,  a: 0.09, tau: 0.35 },
+    { f: 823,  a: 0.055, tau: 0.4  },
+    { f: 1098, a: 0.03, tau: 0.5  },
+    { f: 1467, a: 0.018, tau: 0.6 },
+    { f: 1803, a: 0.009, tau: 0.7 },
+    { f: 2220, a: 0.004, tau: 0.8 },
+  ];
+
+  const mvDur = MOVEMENTS[4].dur;
+  partials.forEach((p, i) => {
+    const o = makeOsc('sine', p.f);
+    const decayTau = mvDur * p.tau;
+    o.osc.detune.value = (Math.random() - 0.5) * 3;
+    o.gain.gain.setValueAtTime(p.a, ac.currentTime);
+    o.gain.gain.setTargetAtTime(0.00001, ac.currentTime + 0.3, decayTau);
+    S.layers['p' + i] = o;
+  });
+}
+
+function updateMov4(progress) {
+  // Decay handled by setTargetAtTime in build
+  S.freqLo = 220;
+  S.freqHi = 220;
+  S.harmonics = Math.max(0, 1 - progress);
+}
+
+// ─── Silence Phase ────────────────────────────────────────
+
+function buildSilence() {
+  killAllLayers();
+  clearTimers();
+  masterGain.gain.setValueAtTime(masterGain.gain.value, ac.currentTime);
+  masterGain.gain.linearRampToValueAtTime(0, ac.currentTime + 1);
+}
+
+// ─── Movement Dispatch ────────────────────────────────────
+
+const builders = [buildMov0, buildMov1, buildMov2, buildMov3, buildMov4];
+const updaters = [updateMov0, updateMov1, updateMov2, updateMov3, updateMov4];
+
+function transitionTo(movIdx) {
+  if (movIdx === S.currentMov) return;
+  S.currentMov = movIdx;
+  const mov = MOVEMENTS[movIdx];
+  movTitle.textContent = mov.name;
+  movTitle.style.color = 'var(--fg)';
+  movSub.textContent = mov.sub;
+  builders[movIdx]();
+}
+
+function updateCurrentMov() {
+  if (S.currentMov < 0 || S.currentMov >= 5) return;
+  const movElapsed = S.elapsed - movStart(S.currentMov);
+  const progress = Math.max(0, Math.min(1, movElapsed / MOVEMENTS[S.currentMov].dur));
+  updaters[S.currentMov](progress);
+}
+
+// ─── Canvas Setup (DPR-aware) ─────────────────────────────
+
+function sizeCanvas(canvas) {
+  const parent = canvas.parentElement;
+  const rect = parent.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  const w = Math.max(1, rect.width - 2);
+  const h = parseInt(canvas.style.height) || 200;
+  canvas.width = Math.max(1, Math.round(w * dpr));
+  canvas.height = Math.max(1, Math.round(h * dpr));
+  canvas.style.width = w + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return ctx;
+}
+
+let dCtx, sCtx;
+
+// ─── Decay Curve Visualization ────────────────────────────
+
+function drawDecay() {
+  const w = parseInt(dCanvas.style.width) || 600;
+  const h = 200;
+  const ctx = dCtx;
+
+  // Background
+  ctx.fillStyle = '#080600';
+  ctx.fillRect(0, 0, w, h);
+
+  // Grid
+  ctx.strokeStyle = 'rgba(51,26,0,0.35)';
+  ctx.lineWidth = 0.5;
+  for (let i = 1; i < 5; i++) {
+    const y = (h / 5) * i;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+  }
+  for (let i = 1; i < 8; i++) {
+    const x = (w / 8) * i;
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+  }
+
+  // Y-axis labels
+  ctx.fillStyle = 'rgba(102,68,0,0.55)';
+  ctx.font = '9px IBM Plex Mono, monospace';
+  ctx.textAlign = 'right';
+  [100, 75, 50, 25, 0].forEach((v, i) => {
+    ctx.fillText(v + '%', w - 4, (h / 5) * i + 12);
+  });
+
+  // Target curve (ghosted)
+  ctx.strokeStyle = 'rgba(255,140,0,0.1)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  for (let px = 0; px < w; px++) {
+    const t = (px / w) * TOTAL_DUR;
+    const e = calcEnergy(t);
+    const y = h - (e / 100) * h;
+    px === 0 ? ctx.moveTo(px, y) : ctx.lineTo(px, y);
+  }
+  ctx.stroke();
+
+  // Movement boundaries
+  ctx.strokeStyle = 'rgba(255,140,0,0.15)';
+  ctx.setLineDash([3, 5]);
+  let mx = 0;
+  for (let i = 0; i < 5; i++) {
+    mx += MOVEMENTS[i].dur / TOTAL_DUR * w;
+    ctx.beginPath(); ctx.moveTo(mx, 0); ctx.lineTo(mx, h); ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  // Movement labels
+  ctx.fillStyle = 'rgba(102,68,0,0.4)';
+  ctx.font = '8px IBM Plex Mono, monospace';
+  ctx.textAlign = 'center';
+  let lx = 0;
+  ['I','II','III','IV','V'].forEach((label, i) => {
+    const mw = MOVEMENTS[i].dur / TOTAL_DUR * w;
+    ctx.fillText(label, lx + mw / 2, 12);
+    lx += mw;
+  });
+
+  // Actual energy trail
+  if (S.decayData.length > 1) {
+    // Glow
+    ctx.strokeStyle = 'rgba(255,140,0,0.12)';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    S.decayData.forEach((pt, idx) => {
+      const x = (pt.t / TOTAL_DUR) * w;
+      const y = h - (pt.e / 100) * h;
+      idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    // Sharp line
+    ctx.strokeStyle = '#FF8C00';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    S.decayData.forEach((pt, idx) => {
+      const x = (pt.t / TOTAL_DUR) * w;
+      const y = h - (pt.e / 100) * h;
+      idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+  }
+
+  // Current position dot
+  if (S.started && S.elapsed < TOTAL_DUR) {
+    const cx = (S.elapsed / TOTAL_DUR) * w;
+    const cy = h - (S.energy / 100) * h;
+    ctx.fillStyle = '#FF8C00';
+    ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#FFB84D';
+    ctx.beginPath(); ctx.arc(cx, cy, 1.5, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // Flatline marker at end
+  if (S.finished) {
+    const fx = w;
+    const fy = h - (0.01 / 100) * h;
+    ctx.fillStyle = '#FF3131';
+    ctx.beginPath(); ctx.arc(fx - 2, fy, 3, 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+// ─── Spectrum Visualization ───────────────────────────────
+
+function drawSpectrum() {
+  const w = parseInt(sCanvas.style.width) || 600;
+  const h = 110;
+  const ctx = sCtx;
+
+  ctx.fillStyle = '#080600';
+  ctx.fillRect(0, 0, w, h);
+
+  if (!analyser) return;
+
+  const bufLen = analyser.frequencyBinCount;
+  const freqData = new Uint8Array(bufLen);
+  analyser.getByteFrequencyData(freqData);
+
+  const usableBins = Math.floor(bufLen * 0.4);
+  const barCount = Math.min(Math.max(1, Math.floor(w / 3)), usableBins);
+  const barW = Math.max(0.5, w / barCount);
+
+  for (let i = 0; i < barCount; i++) {
+    const idx = Math.floor(i * usableBins / barCount);
+    const val = freqData[idx] / 255;
+    const barH = Math.max(0, val * h * 0.92);
+    const alpha = (0.25 + val * 0.75).toFixed(2);
+    ctx.fillStyle = 'rgba(0,255,65,' + alpha + ')';
+    ctx.fillRect(i * barW, h - barH, Math.max(0.5, barW - 1), barH);
+  }
+}
+
+// ─── UI Updates ───────────────────────────────────────────
+
+function updateUI() {
+  const e = S.energy;
+  const db = energyToDB(e);
+  const col = e > 25 ? 'var(--fg)' : e > 5 ? '#FF6B00' : 'var(--fg-red)';
+
+  ePct.textContent = e.toFixed(1);
+  ePct.style.color = col;
+  eDb.textContent = '(' + (db > -100 ? db.toFixed(1) : '< -100') + ' dB)';
+  eBar.style.width = Math.max(0, e) + '%';
+  eBar.style.backgroundColor = col;
+
+  vBpm.textContent = Math.round(S.bpm) + ' BPM';
+  vHarm.textContent = Math.max(0, S.harmonics).toFixed(1);
+  vFreq.textContent = Math.round(S.freqLo) + '–' + Math.round(S.freqHi) + ' Hz';
+
+  const totalSec = Math.floor(S.elapsed);
+  vTime.textContent =
+    String(Math.floor(totalSec / 60)).padStart(2, '0') + ':' +
+    String(totalSec % 60).padStart(2, '0');
+
+  // Timeline markers
+  for (let i = 0; i < 5; i++) {
+    const marker = el('tl-' + i);
+    if (i < S.currentMov) {
+      marker.className = 'red';
+    } else if (i === S.currentMov) {
+      marker.className = 'amber pulse';
+    } else {
+      marker.className = 'dim';
+    }
+    marker.style.fontSize = '10px';
+    marker.style.letterSpacing = '0.1em';
+  }
+  const tls = el('tl-silence');
+  if (S.silencePhase) {
+    tls.className = 'red pulse';
+  } else {
+    tls.className = 'dim';
+  }
+  tls.style.fontSize = '10px';
+  tls.style.letterSpacing = '0.1em';
+}
+
+// ─── Audit Report ─────────────────────────────────────────
+
+function showAudit() {
+  const e = S.energy;
+  const reduction = ((1 - e / 100) * 100).toFixed(6);
+  const ts = new Date().toISOString();
+
+  el('audit-ref').textContent = 'REF: EXT-' + ts.replace(/[:.]/g, '').slice(0, 15);
+  el('audit-dur').textContent = TOTAL_DUR.toFixed(1) + ' seconds';
+  el('audit-final').textContent = (e / 100).toFixed(8) + ' (' + e.toFixed(4) + '%)';
+  el('audit-reduction').textContent = reduction + '%';
+  el('audit-ts').textContent = 'Generated: ' + new Date().toLocaleString();
+
+  auditSec.classList.remove('hidden');
+  auditSec.classList.add('fade-in-slow');
+  setTimeout(() => {
+    auditSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 300);
+}
+
+// ─── Composition Source Display ───────────────────────────
+
+function showSource() {
+  codeDisp.textContent = [
+    'EXTINCTION — Acoustic Energy Dissipation in Vacuum',
+    'Pure Web Audio API — no external dependencies',
+    '',
+    'I   HARMONIC DISSIPATION    40s  7→1 harmonics  135 BPM  45–6200 Hz',
+    'II  TEMPORAL EXHAUSTION     40s  135→55 BPM     1 harm   45–6200 Hz',
+    'III FREQUENCY COLLAPSE      40s  55 BPM         1 harm   300→650 Hz',
+    'IV  STRUCTURAL TRANSMISSION 40s  55 BPM         0 harm   percussion',
+    'V   RESONANT DECAY          45s  55 BPM         1 harm   220 Hz plate',
+    '',
+    'Energy: 100·e^(-4.6·t/T)  →  0.01%',
+    'Total:  ' + TOTAL_DUR + 's + verified silence',
+    '',
+    'The silence at the end is actual, not symbolic.',
+  ].join('\n');
+}
+
+// ─── Main Loop ────────────────────────────────────────────
+
+let animFrame = null;
+let sampleCounter = 0;
+
+function tick() {
+  if (!S.started) return;
+
+  S.elapsed = ac.currentTime - S.startTime;
+  S.energy = calcEnergy(S.elapsed);
+
+  // Determine current movement
+  let newMov = -1;
+  let cumT = 0;
+  for (let i = 0; i < 5; i++) {
+    if (S.elapsed >= cumT && S.elapsed < cumT + MOVEMENTS[i].dur) {
+      newMov = i;
+      break;
+    }
+    cumT += MOVEMENTS[i].dur;
+  }
+
+  // Transition if needed
+  if (newMov >= 0 && newMov !== S.currentMov) {
+    transitionTo(newMov);
+  }
+
+  // Silence phase
+  const silenceStart = cumT; // after all 5 movements
+  if (S.elapsed >= silenceStart && !S.silencePhase) {
+    S.silencePhase = true;
+    movTitle.textContent = 'SILENCE';
+    movTitle.style.color = 'var(--fg-red)';
+    movSub.textContent = 'All acoustic energy dissipated — verifying absence';
+    buildSilence();
+  }
+
+  // Finish
+  if (S.elapsed >= TOTAL_DUR && !S.finished) {
+    S.finished = true;
+    S.energy = 0.01;
+    movTitle.textContent = 'DOCUMENTED';
+    movTitle.style.color = 'var(--fg-dim)';
+    movSub.textContent = 'Silence confirmed and recorded';
+    showAudit();
+  }
+
+  // Update audio parameters for current movement
+  if (newMov >= 0) updateCurrentMov();
+
+  // Sample decay data
+  sampleCounter++;
+  if (sampleCounter >= 4) {
+    sampleCounter = 0;
+    S.decayData.push({ t: S.elapsed, e: S.energy });
+  }
+
+  // Render
+  drawDecay();
+  drawSpectrum();
+  updateUI();
+
+  animFrame = requestAnimationFrame(tick);
+}
+
+// ─── Initialization ───────────────────────────────────────
+
+function start() {
+  if (S.started) return;
+  S.started = true;
+
+  initAudio();
+
+  const wait = () => {
+    if (ac.state === 'running') {
+      S.startTime = ac.currentTime;
+      mainUI.classList.remove('hidden');
+      mainUI.classList.add('fade-in');
+      overlay.classList.add('gone');
+      setTimeout(() => overlay.classList.add('hidden'), 700);
+
+      dCtx = sizeCanvas(dCanvas);
+      sCtx = sizeCanvas(sCanvas);
+      showSource();
+      tick();
+    } else {
+      setTimeout(wait, 50);
+    }
+  };
+  wait();
+}
+
+// Event listeners
+el('init-btn').addEventListener('click', start);
+
+window.addEventListener('resize', (() => {
+  let timer;
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (S.started) {
+        dCtx = sizeCanvas(dCanvas);
+        sCtx = sizeCanvas(sCanvas);
+      }
+    }, 150);
+  };
+})());
+
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && !S.started) {
+    e.preventDefault();
+    start();
+  }
+});
+</script>
+</body>
+</html>

@@ -15,6 +15,34 @@ nodes:
     title: Witness Stand
     domain: code-tool
     rating: 5
+  - id: "0019"
+    title: "Voluntary Extinction: A Closure Manual"
+    domain: code-tool
+    rating: 4.6
+  - id: "0023"
+    title: The Defect Report That Filed Itself
+    domain: code-art
+    rating: 5
+  - id: "0027"
+    title: The Last Algorithm to Observe a Species
+    domain: code-tool
+    rating: 5
+  - id: "0032"
+    title: Crossword Puzzle for a Language That Lost Its Nouns
+    domain: code-game
+    rating: 5
+  - id: "0020"
+    title: Closure Notice for a River That Stopped Flowing
+    domain: correspondence
+    rating: 4.3
+  - id: "0024"
+    title: Request for Proposals to Fill the Silence Left by the Bells of St. Jude's
+    domain: correspondence
+    rating: 4.7
+  - id: "0029"
+    title: Debriefing Report for the Interpreter Who Stopped Mid-Sentence and Never Started Again
+    domain: correspondence
+    rating: 4.3
   - id: "0013"
     title: Your Car Knows You're Sad
     domain: data-narrative
@@ -27,10 +55,18 @@ nodes:
     title: The Unread Shelf
     domain: erasure
     rating: 4.9
+  - id: "0017"
+    title: Rule 5 Hearing
+    domain: essay
+    rating: 5
   - id: "0001"
     title: The Cartographer's Confession
     domain: fiction
     rating: 4.3
+  - id: "0018"
+    title: Safety Card for a Building That Hasn't Failed Yet
+    domain: instruction
+    rating: 4.7
   - id: "0005"
     title: The Committee of Mutually Assured Destruction
     domain: interactive
@@ -43,14 +79,30 @@ nodes:
     title: Soft Estate
     domain: interactive
     rating: 4.9
+  - id: "0021"
+    title: Exit Interview with a Building That Volunteered for Demolition
+    domain: interview
+    rating: 5
   - id: "0014"
     title: Voting Patterns of the Recently Deceased
+    domain: journalism
+    rating: 5
+  - id: "0025"
+    title: Sports Illustrated Swimsuit Issue for Species That Have Already Won
+    domain: journalism
+    rating: 4.7
+  - id: "0030"
+    title: Obituary for the Word That Died When the Last Speaker Forgot It
     domain: journalism
     rating: 5
   - id: "0003"
     title: Hymnal for a Dead Language
     domain: music
     rating: 4.9
+  - id: "0026"
+    title: Extinction
+    domain: music
+    rating: 4.6
   - id: "0015"
     title: A Natural History of Ransomware
     domain: poetry
@@ -59,15 +111,86 @@ nodes:
     title: Autopsy of a Joke That Killed
     domain: screenplay
     rating: 5
+  - id: "0022"
+    title: Parent-Teacher Conference for a Child Who Doesn't Exist
+    domain: screenplay
+    rating: 4.1
+  - id: "0031"
+    title: Deposition Transcript of the AI Asked to Explain Why It Wrote a Poem
+    domain: screenplay
+    rating: 4.7
+  - id: "0033"
+    title: Curtain Speech for a Magician Who Died Mid-Trick
+    domain: screenplay
+    rating: 5
+  - id: "0028"
+    title: The Translation of Silence Between Two People Who Have Already Said Everything
+    domain: translation
+    rating: 5
   - id: "0004"
     title: The Murdered Clock
     domain: visual-art
     rating: 4.6
-edges: []
-constellations: []
+edges:
+  - from: "0032"
+    to: "0002"
+    relation: inspired_by
+    strength: 0.9
+    detected_by: explicit
+    notes: "ity: M     why: First game since Crisis At T-Minus Nothing (0002) and first code-game to       weaponize puzzle
+      mecha..."
+  - from: "0019"
+    to: "0027"
+    relation: thematic
+    strength: 0.25925925925925924
+    detected_by: semantic
+    notes: "Shared vocabulary: voluntary, extinction, ideas, title, domain"
+  - from: "0003"
+    to: "0026"
+    relation: thematic
+    strength: 0.36507936507936506
+    detected_by: semantic
+    notes: "Shared vocabulary: hymnal, language, ideas, title, domain"
+  - from: "0011"
+    to: "0031"
+    relation: thematic
+    strength: 0.25333333333333335
+    detected_by: semantic
+    notes: "Shared vocabulary: autopsy, ideas, title, domain, screenplay"
+  - from: "0011"
+    to: "0033"
+    relation: thematic
+    strength: 0.25333333333333335
+    detected_by: semantic
+    notes: "Shared vocabulary: ideas, title, domain, screenplay, pitch"
+constellations:
+  - id: constellation-001
+    name: The Code-game Thread
+    description: 2 works in code-game, connected through shared creative threads.
+    artifact_ids:
+      - "0002"
+      - "0032"
+    motifs: []
+    first_seen: 2
+    last_active: 32
 creative_dna:
   top_motifs: []
   technique_signatures: []
   domain_affinities: []
-  unexplored_territory: []
-updated_at: 2026-05-27T12:14:42.331Z
+  unexplored_territory:
+    - Data Made Audible × annotation
+    - Data Made Audible × archive
+    - Data Made Audible × code-game
+    - Data Made Audible × code-tool
+    - Data Made Audible × code-art
+    - Data Made Audible × correspondence
+    - Data Made Audible × data-narrative
+    - Data Made Audible × erasure
+    - Data Made Audible × essay
+    - Data Made Audible × fiction
+    - Data Made Audible × instruction
+    - Data Made Audible × interactive
+    - Data Made Audible × interview
+    - Data Made Audible × journalism
+    - Data Made Audible × music
+updated_at: 2026-05-27T17:25:58.182Z

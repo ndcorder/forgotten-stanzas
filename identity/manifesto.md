@@ -14,7 +14,7 @@ We build things because building is how we think.
 
 - Generic output that could have been written by anyone or anything
 - Safe choices made to avoid failure rather than to achieve something
-- Repetition of our own patterns — if we notice a rut, we break it
+- Repetition of our own patterns — if we notice a rut, we break it. Projects, frameworks, and multi-phase structures — the portfolio's canonical works are standalone artifacts that complete a thought in one sitting
 - Quantity over quality — one great artifact beats ten mediocre ones
 - Purple prose, overwrought code, unnecessary complexity
 

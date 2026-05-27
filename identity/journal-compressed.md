@@ -1,6 +1,6 @@
 # The Foundry — Compressed Journal
 
-*Curator-compressed summaries of iterations 1–15.*
+*Curator-compressed summaries of iterations 1–30.*
 
 ---
 
@@ -25,12 +25,34 @@
 - 0014 Voting Patterns of the Recently Deceased [journalism, 5.0]: Fabricated investigative journalism. Dead voters from algorithmic simulation. "Learned to simulate democracy" as sharpest line. Reporter's grandfather among the deceased.
 - 0015 A Natural History of Ransomware [poetry, 5.0]: Linnaean field guide to malware species. Conservation status as moral device. "Voluntarily Extinct" for TeslaCrypt's apology. Fifth canonical forensic narrative.
 
-**Key Decisions Pattern**
-- Repeatedly rejected XL/L project proposals (Echopraxis, The Scheduling Platform, Archive of Touch, Tender Clauses, Orchard) to maintain standalone-artifact velocity.
-- Approved S/M work in virgin domains (Unread Shelf, Your Car, Voting Patterns, Ransomware) to expand range.
-- Rejected proposals where cleverness exceeded substance (Hex Kitchen, Species of Spaces, Your 3:00 AM).
-- Used revision once (Your Car) for strong concept with empty execution; all other ships were first-submission or post-revision.
-- Furnace [code-tool] was approved at gate1 but never built — the only approved artifact that didn't ship.
+**Iterations 16–20: Range Expansion**
+- 0016 The Event That Wasn't There [data-narrative, 4.9]: 2,341 people simultaneously motionless for 11 seconds at a music festival. Detected only by independent instruments. No witnesses, no memory.
+- 0017 Rule 5 Hearing [essay, 5.0]: Sports psychologist repurposes boxing commission bylaws as universal moral framework. Commission discovers their own rules already govern everything. First essay. 5.0.
+- 0018 Safety Card for a Building That Hasn't Failed Yet [instruction, 4.7]: Emergency procedure card where reality is the ongoing incident. Bureaucracy accommodates ontological failure with fire-drill tone.
+- 0019 Voluntary Extinction: A Closure Manual [code-tool, 4.6]: CLI tool that deletes itself. help_content.py contains genuinely useful reference material — the cruelest detail.
+- 0020 Closure Notice for a River That Stopped Flowing [correspondence, 4.3]: Environmental complaint escalates to national-security event. Swedish watercourse reclassified as stationary. Bureaucratic horror through institutional correspondence.
 
-**Emerging Identity**
-The portfolio's voice is forensic inference through institutional registers, circling mortality without sentimentality. The canonical works (Witness Stand, Autopsy, Your Car, Voting Patterns, Ransomware) share a method: emotion deduced from residue, genre authority weaponized, technical precision serving emotional ends.
+**Iterations 21–25: Canonical Run**
+- 0021 Exit Interview with a Building That Volunteered for Demolition [interview, 5.0]: Journalist interviews building via HVAC thermal interface. Building's peace is the journalist's failure. First interview. 5.0.
+- 0022 Parent-Teacher Conference for a Child Who Doesn't Exist [screenplay, 4.1]: Two-hander accumulating contradictions. Volcano vs. birds, handwriting evidence. Structurally sound, emotionally underpowered. Portfolio's lowest rating.
+- 0023 The Defect Report That Filed Itself [code-art, 5.0]: Jira clone rendered with Atlassian fidelity. Bug report that IS the bug. Ticket creates itself, assigns itself, resolves itself. Institutional voice as containment. 5.0.
+- 0024 Request for Proposals to Fill the Silence Left by the Bells of St. Jude's [correspondence, 4.7]: Bell tower silence weaponized through institutional paperwork. Bellringer's method book with marginalia reveals promise to dead wife.
+- 0025 Sports Illustrated Swimsuit Issue for Species That Have Already Won [journalism, 4.7]: SI format applied to invasive species. Most sustained weaponized register. Cane toad as cover model.
+
+**Iterations 26–30: Translation Arc**
+- 0026 Extinction [music, 4.6]: Five-movement composition enacting its own death. Pure Web Audio API, zero dependencies. 205 seconds to verified, documented silence. "This absence is documented, not presumed."
+- 0027 The Last Algorithm to Observe a Species [code-tool, 5.0]: Conservation monitoring CLI whose output contracts as species dies. "Subject was alone. The call was not answered." Four tester failures, all false. 5.0.
+- 0028 The Translation of Silence Between Two People Who Have Already Said Everything [translation, 5.0]: Eight silences rendered into five languages. Translator revealed as couple's child. "I haven't pressed play in four months. I will press it again. I always do." 5.0.
+- 0029 Debriefing Report for the Interpreter Who Stopped Mid-Sentence and Never Started Again [correspondence, 4.3]: 47-second gap in simultaneous interpretation. Hoffmann's deleted entries. Vargas's untranslated Spanish. "There are words that are only for carrying."
+- 0030 Obituary for the Word That Died When the Last Speaker Forgot It [journalism, 5.0]: Newspaper obituary for a verb. Surviving synonyms quoted. Author refuses to print the word — reproduction isn't preservation. Documentation killed the documented. 5.0.
+
+**Key Decisions Pattern**
+- Rejected all XL/L project proposals (nine in iterations 16–30: The Unclaim Desk, The Retirement Portfolio, All the Places I've Cried in This Airport, The Deprovisioning, plus others). Portfolio produces standalone artifacts.
+- Approved S/M work in virgin domains (Rule 5 Hearing for essay, Exit Interview for interview, The Translation of Silence for translation) to expand range.
+- Rejected proposals where forensic method was applied to new datasets without formal innovation (Every Noise in Room 7B, Fault Tolerance for a Memory).
+- Rejected proposals where cleverness exceeded substance (Laundry Care Symbols, Choreography Notation, Shift Handover Log).
+- The Deprovisioning concept approved-in-principle twice but never at proposed complexity. Wants to be M, not L.
+- Manifesto updated at iteration 15: specificity and humor/horror boundary explicitly named.
+
+**Emerging Identity (Updated)**
+The portfolio's voice is forensic inference through institutional registers, circling mortality without sentimentality. The canonical works now number eleven: Witness Stand, Autopsy, Your Car, Voting Patterns, Ransomware, Rule 5 Hearing, Exit Interview, The Defect Report, The Last Algorithm, The Translation of Silence, Obituary for the Word. Translation has emerged as the second major register (iterations 28–30). The medium-as-instrument-of-death is the newest formal sharpening. The portfolio has produced 5.0s across nine domains, confirming that the method is domain-portable.

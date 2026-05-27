@@ -40,3 +40,4 @@
 | 0036 | Weather Forecast for a Grief That Hasn't Arrived Yet | instruction | 5.0 | 2026-05-27 | — |
 | 0037 | Incident Report for a Color That Appeared in Three Witness Statements and Nowhere Else | correspondence | 5.0 | 2026-05-27 | — |
 | 0038 | Access Log for a Door That Was Never Installed | data-narrative | 5.0 | 2026-05-27 | — |
+| 0039 | Eulogy Delivered by the Only Person Who Showed Up | performance | 5.0 | 2026-05-27 | — |

@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Performance Score — Eulogy Delivered by the Only Person Who Showed Up</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+    :root {
+      --bg: #070708;
+      --paper: #0e0e11;
+      --text: #a8a29e;
+      --direction: #52525b;
+      --cue: #7f1d1d;
+      --dim: #3a3a40;
+      --speaker: #c8c2bb;
+      --rule: #1a1a1f;
+      --note-bg: #0b0b0e;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'EB Garamond', 'Georgia', serif;
+      line-height: 1.75;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(120,53,15,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .score-header {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 40px 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .score-header .meta-line {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 6px;
+    }
+
+    .score-header h1 {
+      font-family: 'EB Garamond', serif;
+      font-weight: 400;
+      font-size: 1.6rem;
+      line-height: 1.4;
+      color: var(--speaker);
+      letter-spacing: 0.02em;
+      margin: 32px 0 12px;
+      max-width: 520px;
+    }
+
+    .score-header .subtitle {
+      font-style: italic;
+      color: var(--direction);
+      font-size: 1.05rem;
+      margin-bottom: 40px;
+    }
+
+    .score-header hr {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 32px 0;
+    }
+
+    .production-notes {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 40px 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .production-notes h2 {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cue);
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(127,29,29,0.25);
+    }
+
+    .note-block {
+      background: var(--note-bg);
+      border-left: 2px solid var(--rule);
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--direction);
+    }
+
+    .note-block strong {
+      color: var(--dim);
+      font-weight: 700;
+    }
+
+    .note-block em {
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .score-body {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 40px 120px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .score-body hr {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 40px 0;
+    }
+
+    .direction {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.76rem;
+      line-height: 1.65;
+      color: var(--direction);
+      padding: 10px 0 10px 20px;
+      border-left: 2px solid var(--rule);
+      margin: 20px 0;
+      display: block;
+    }
+
+    .direction.long {
+      padding: 14px 20px;
+      margin: 24px 0;
+      background: var(--note-bg);
+    }
+
+    .cue {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      display: inline-block;
+      margin: 16px 0;
+    }
+
+    .cue.light {
+      color: #7f1d1d;
+      border: 1px solid rgba(127,29,29,0.3);
+      background: rgba(127,29,29,0.06);
+    }
+
+    .cue.sound {
+      color: #92400e;
+      border: 1px solid rgba(146,64,14,0.3);
+      background: rgba(146,64,14,0.06);
+    }
+
+    .cue.time {
+      color: #3b5a3b;
+      border: 1px solid rgba(59,90,59,0.3);
+      background: rgba(59,90,59,0.06);
+    }
+
+    .cue-block {
+      margin: 28px 0;
+    }
+
+    .speech {
+      padding-left: 24px;
+      margin: 16px 0;
+      position: relative;
+    }
+
+    .speech::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 8px;
+      height: 2px;
+      background: var(--rule);
+    }
+
+    .speech p {
+      font-size: 1.08rem;
+      line-height: 1.85;
+      color: var(--speaker);
+      margin-bottom: 14px;
+      text-indent: 0;
+    }
+
+    .speech p.continuation {
+      text-indent: 2em;
+    }
+
+    .beat {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 18px 0;
+      padding-left: 24px;
+      color: var(--dim);
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+    }
+
+    .beat-line {
+      flex: 1;
+      max-width: 80px;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .beat.long .beat-line {
+      max-width: 140px;
+    }
+
+    .silence {
+      text-align: center;
+      margin: 32px 0;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .silence::before,
+    .silence::after {
+      content: '· · ·';
+      margin: 0 16px;
+      color: var(--rule);
+    }
+
+    .speaker-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--direction);
+      margin-bottom: 4px;
+      padding-left: 24px;
+    }
+
+    .end-marker {
+      text-align: center;
+      margin: 48px 0 0;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #7f1d1d;
+    }
+
+    .end-marker::before {
+      content: '— ';
+    }
+    .end-marker::after {
+      content: ' —';
+    }
+
+    .post-score {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .post-score .direction {
+      border-left-color: var(--dim);
+      color: var(--dim);
+    }
+
+    .progress-track {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      z-index: 100;
+      background: rgba(30,30,35,0.5);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #7f1d1d;
+      transition: width 0.15s linear;
+    }
+
+    .ambient {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(127,29,29,0.15), transparent);
+      z-index: 50;
+      pointer-events: none;
+      animation: ambientPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes ambientPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.7; }
+    }
+
+    @media (max-width: 640px) {
+      .score-header,
+      .production-notes,
+      .score-body {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .score-header {
+        padding-top: 48px;
+      }
+
+      .score-header h1 {
+        font-size: 1.25rem;
+      }
+
+      .speech {
+        padding-left: 16px;
+      }
+
+      .speaker-label {
+        padding-left: 16px;
+      }
+    }
+
+    @media print {
+      body { background: #fff; color: #111; }
+      .direction { color: #555; border-left-color: #ccc; }
+      .cue.light { color: #7f1d1d; border-color: #7f1d1d; background: transparent; }
+      .cue.sound { color: #92400e; border-color: #92400e; background: transparent; }
+      .speech p { color: #111; }
+      .progress-track, .ambient { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ambient { animation: none; opacity: 0.3; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="progress-track" role="presentation" aria-hidden="true">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="ambient" aria-hidden="true"></div>
+
+  <header class="score-header">
+    <div class="meta-line">Performance Score</div>
+    <div class="meta-line">Single Performer · Empty Chapel</div>
+    <h1>Eulogy Delivered by the Only Person Who Showed Up</h1>
+    <p class="subtitle">For Maren Vogt, 1959–2024</p>
+    <hr>
+    <div class="note-block" style="border-left-color: #7f1d1d;">
+      <strong>Duration:</strong> approximately 18 minutes, if the heating holds.<br>
+      <strong>Setting:</strong> a municipal chapel. Six rows of eight seats. Seats unoccupied.<br>
+      <strong>Speaker:</strong> Gerald Hines, 74. Retired. Twenty-seven years at the central post office, nine years at Briers Books on Kenmare Street.
+    </div>
+  </header>
+
+  <section class="production-notes" aria-label="Production Notes">
+    <h2>Production Notes</h2>
+
+    <div class="note-block">
+      <strong>Space:</strong> The chapel should feel too large for its contents. Whatever the actual venue, the audience must sense the emptiness around the performer. If the performance space is small, use lighting to suggest walls that are further away than they are. The audience should feel the dimensions of a room built for a hundred that holds one.
+    </div>
+
+    <div class="note-block">
+      <strong>Sound:</strong> The heating system is the second performer. It should be live — recorded is acceptable only if the venue has no comparable system. The audience must hear a real mechanical cycle: a furnace or boiler kicking on, running for ninety seconds, going quiet. This rhythm is the only thing in the room that doesn't care about the eulogy. The speaker does not acknowledge it.
+    </div>
+
+    <div class="note-block">
+      <strong>Lighting:</strong> Overhead fluorescence only — the kind of institutional strip lighting that hums at a frequency just below conscious notice. The performer should not be spotlit. He should be lit the way a room like this lights a person: evenly, without sentiment, the way it would light a committee meeting. The audience is in the same light.
+    </div>
+
+    <div class="note-block">
+      <strong>The Performer:</strong> should not be an actor in the usual sense. A person with a public speaking voice but not a performance voice. A retired teacher, perhaps, or someone accustomed to reading aloud to children. The audience must believe he would be delivering this speech even if they were not there. That he is not performing. That he showed up because someone had to.
+    </div>
+  </section>
+
+  <main class="score-body">
+
+    <div class="cue-block">
+      <span class="cue light">Lights: House to half</span>
+    </div>
+
+    <div class="direction long">
+      The house lights dim to half. The heating system is already running. After twelve seconds it shuts off. The silence that follows is the first silence of the performance and should be allowed to become uncomfortable — five seconds, six, seven — before the speaker enters from the side door.
+    </div>
+
+    <div class="cue-block">
+      <span class="cue light">Lights: Full fluorescent</span>
+      <br>
+      <span class="cue sound">Sound: Heating system cycle begins</span>
+    </div>
+
+    <div class="direction">
+      Gerald enters carrying a single folded sheet of paper. He has not rehearsed. He walks to the lectern, adjusts the microphone downward — it is set for someone taller — and unfolds the paper. He does not look at the empty seats. He looks at the paper.
+    </div>
+
+    <div class="silence">Four seconds</div>
+
+    <div class="speaker-label">Gerald</div>
+
+    <section class="speech" aria-label="Eulogy">
+      <p>
+        Thank you for coming.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <div class="direction">
+      He looks up, then, for the first time, at the empty rows. He lets himself see them. He looks back at his paper.
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        That's what you say, isn't it. At these.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        My name is Gerald. Gerald Hines. I knew Maren from the bookshop. I worked Saturdays at Briers Books on Kenmare Street for the last nine years. Maren came in on Tuesdays. She was a Tuesday customer.
+      </p>
+    </section>
+
+    <div class="cue-block">
+      <span class="cue sound">Sound: Heating cycles off</span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        Always bought a newspaper from whatever country she was reading about that week. Sometimes she'd buy the Irish Times, but that was just — I think she just liked the Irish Times.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        She read newspapers from places most people couldn't find on a map. She'd ask if we could order them. Briers — it's a small shop. We couldn't. So she'd bring them in herself, in her bag, and she'd sit in the corner with a coffee and read the whole thing front to back. Sometimes she'd read things aloud. Little things. A paragraph. A sentence.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        She corrected my pronunciation of Sarajevo once. I'd been saying it wrong. She didn't make a thing of it. She just said it the right way and moved on. Sa-ra-JE-vo. I say it right now. Every time.
+      </p>
+    </section>
+
+    <div class="direction">
+      The heating system begins its cycle. The speaker pauses until the initial kick of the furnace subsides.
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        She had this — I don't know what you'd call it. A focus. When she was reading, she was somewhere else. Not in the bookshop. You could see it. Her eyes moving across the page and whatever she was reading, it was real to her. More real than the room. More real than me standing behind the counter. Which was fine. I mean — that's just how she was.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        I don't actually know what she did. For a living, I mean. I know it was something abroad. She traveled a lot. I could tell by the newspapers. She'd come in after being gone for weeks and you could see it on her. Not — I don't mean in a bad way. She just looked like she'd been somewhere real.
+      </p>
+    </section>
+
+    <div class="direction">
+      He folds the paper in half, then unfolds it again. He has not reached the bottom.
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        She had a particular look when she came in after a trip. Like she was carrying something that weighed a certain amount and she was used to the weight but it was still there. You know? Heavy in the arms but you don't put it down because you've been holding it so long you've forgotten it's heavy. It just is.
+      </p>
+    </section>
+
+    <div class="cue-block">
+      <span class="cue sound">Sound: Heating cycles off</span>
+    </div>
+
+    <div class="silence">Three seconds</div>
+
+    <section class="speech">
+      <p class="continuation">
+        She never talked about what she did over there. Not really. We talked about books. The weather. Whether the buses were running. Small things. I liked that about her. She was easy to talk to. She listened. Most people don't listen, but she did.
+      </p>
+    </section>
+
+    <div class="beat long">
+      <span class="beat-line"></span>
+      <span>Long beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        I said I don't know what she did. I should say — I didn't know until this week. When the funeral home called. They had me listed as a contact. I don't know why. Maybe I'm the only one she listed. I can't — anyway. They told me she was a correspondent. For the news. A war correspondent, they said.
+      </p>
+    </section>
+
+    <div class="direction">
+      He glances at the empty rows again. Briefly.
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        Which — I mean, that explains a lot. The newspapers. The trips. The way she'd sometimes look at the bookshop door when it opened, like she was expecting it to be someone, or like she was glad it wasn't. The way she flinched at loud sounds but only sometimes. Only certain kinds of loud.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        She came back from places and didn't talk about what she saw there. Which is how you know it was bad.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        She made other people's lives visible. That's what it means, I think. That's what the obituary said. She went places and she wrote about what happened there so the rest of us could see it. Could know. And then she came to my bookshop on Tuesdays and bought a newspaper and sat in the corner and was quiet. And that was the same person.
+      </p>
+    </section>
+
+    <div class="cue-block">
+      <span class="cue sound">Sound: Heating cycles on</span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        Same person.
+      </p>
+    </section>
+
+    <div class="silence">Five seconds</div>
+
+    <div class="direction">
+      The heating system runs. Gerald stands at the lectern. He looks at his paper but does not speak. The furnace noise fills the chapel.
+    </div>
+
+    <div class="cue-block">
+      <span class="cue sound">Sound: Heating cycles off</span>
+    </div>
+
+    <div class="silence">Two seconds</div>
+
+    <section class="speech">
+      <p class="continuation">
+        There was one Tuesday — it was raining. Pouring. And she came in completely soaked. Hair, jacket, everything. And she sat down in the corner with her newspaper and I brought her a towel from the back. I said you'll catch your death. That's what you say. I said you'll catch your death. And she looked at me — and she laughed. She really laughed. She said Gerald, not likely. She said she'd been in worse.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        And I said, worse than this rain? And she just — she smiled. She said, yes. Much worse than this rain.
+      </p>
+    </section>
+
+    <div class="direction">
+      His voice catches. He pauses. He presses the paper flat against the lectern with both hands.
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        I think about that a lot. That I said that to her. You'll catch your death. To someone who'd been — to someone who'd seen — and she just laughed. She was kind about it.
+      </p>
+    </section>
+
+    <div class="beat long">
+      <span class="beat-line"></span>
+      <span>Long beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        The bookshop is still there. Kenmare Street. I'm not there anymore — I retired from the shop two years ago. My knees. But I go by sometimes. Stand outside. Look in the window.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        Tuesday last week I went by. She wasn't there. Obviously. But I stood there for a while anyway. Like maybe she would be.
+      </p>
+    </section>
+
+    <div class="direction">
+      The heating system begins its cycle.
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        I don't know why I'm the only one here. I've been thinking about it all week. Why me. Why not — there must have been other people. Colleagues. People she worked with. People she met in all those places. People whose — whose deaths she made visible. You'd think someone would come. You'd think the chapel would be full.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        But here we are.
+      </p>
+    </section>
+
+    <div class="direction long">
+      He stops. The furnace noise fills the room. For the first time, Gerald becomes aware of the chapel's acoustic. He speaks the next line and hears his voice come back to him from the walls.
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        It has a nice echo, this place.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        You can hear it on the consonants.
+      </p>
+    </section>
+
+    <div class="direction">
+      He listens to the room.
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        That's something.
+      </p>
+    </section>
+
+    <div class="silence">Three seconds</div>
+
+    <div class="cue-block">
+      <span class="cue sound">Sound: Heating cycles off</span>
+    </div>
+
+    <div class="direction long">
+      The silence that follows is the longest silence in the performance. Eight seconds. The heating system has stopped. Nothing in the room is making sound. Gerald stands at the lectern. He looks at his paper one last time, then folds it.
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        I brought the wrong newspaper. I wanted to bring one of hers. One of the foreign ones. But I didn't know which — I didn't know which country. I didn't know which one to bring. So I brought the Irish Times. Because I remembered she liked it. Just because she liked it.
+      </p>
+    </section>
+
+    <div class="beat">
+      <span class="beat-line"></span>
+      <span>Beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        I left it in the back. On the table. If anyone wants it.
+      </p>
+    </section>
+
+    <div class="beat long">
+      <span class="beat-line"></span>
+      <span>Long beat</span>
+      <span class="beat-line"></span>
+    </div>
+
+    <section class="speech">
+      <p class="continuation">
+        Rest in peace, Maren.
+      </p>
+    </section>
+
+    <div class="direction">
+      He nods once. He does not say amen. He did not know if she would have wanted him to.
+    </div>
+
+    <div class="silence">Four seconds</div>
+
+    <div class="direction long">
+      Gerald picks up his paper. He walks to the side door. He does not look at the empty rows on his way out. The door closes behind him.
+    </div>
+
+    <div class="silence">Six seconds</div>
+
+    <div class="cue-block">
+      <span class="cue sound">Sound: Heating system begins its cycle</span>
+    </div>
+
+    <div class="direction">
+      The heating runs for ninety seconds. Then the lights fade.
+    </div>
+
+    <div class="cue-block">
+      <span class="cue light">Lights: Slow fade to black — 15 seconds</span>
+      <br>
+      <span class="cue time">Duration: 90 seconds in silence</span>
+    </div>
+
+    <div class="direction">
+      The audience sits in the dark with the sound of the heating system. When the heating cycles off, hold the darkness for an additional ten seconds. Then:
+    </div>
+
+    <div class="cue-block">
+      <span class="cue light">Lights: House up</span>
+    </div>
+
+    <div class="end-marker">End of Score</div>
+
+    <div class="post-score">
+      <div class="direction long">
+        <em>A note on the echo:</em> The speaker's observation that the chapel has a nice echo is not a theatrical beat. It is a man alone in a room, speaking aloud, noticing that the room is listening. He notes it because it is true and because noting true things was what Maren did, and he learned that from her without knowing he was learning it. He does not comment on it again. He continues, because he is speaking to her, and she is no longer in the room, and the echo is not her, and he knows this. The echo is the echo. It is enough that the walls hold the shape of what he said for a moment longer than he said it. He does not need the walls to be her. He needs to say the thing. He has said it. The sound will dissipate. That is what sound does. That is what the living do: we speak into rooms that will not remember us, and we do it anyway, because someone should.
+      </div>
+
+      <div class="direction long" style="margin-top: 28px; border-left-color: var(--dim);">
+        <em>A note on the empty seats:</em> Under no circumstances should this score be performed with an audience seated in the chapel seats. The audience — the readers of this score — occupy the position of the empty room. They are the walls. They are the echo. They are the silence the speaker speaks into. They are not his audience. Maren is his audience. The readers of this score are witnesses to the fact that no one else came. That distinction matters. That is the difference between performance and testament.
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const progressBar = document.getElementById('progressBar');
+
+    function updateProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = progress + '%';
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress, { passive: true });
+    updateProgress();
+  </script>
+
+</body>
+</html>

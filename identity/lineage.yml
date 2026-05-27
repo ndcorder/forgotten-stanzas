@@ -123,6 +123,10 @@ nodes:
     title: Extinction
     domain: music
     rating: 4.6
+  - id: "0039"
+    title: Eulogy Delivered by the Only Person Who Showed Up
+    domain: performance
+    rating: 5
   - id: "0015"
     title: A Natural History of Ransomware
     domain: poetry
@@ -171,6 +175,12 @@ edges:
     strength: 0.36507936507936506
     detected_by: semantic
     notes: "Shared vocabulary: hymnal, language, ideas, title, domain"
+  - from: "0003"
+    to: "0039"
+    relation: thematic
+    strength: 0.25396825396825395
+    detected_by: semantic
+    notes: "Shared vocabulary: ideas, title, domain, pitch, piece"
   - from: "0011"
     to: "0031"
     relation: thematic
@@ -196,7 +206,10 @@ constellations:
 creative_dna:
   top_motifs: []
   technique_signatures: []
-  domain_affinities: []
+  domain_affinities:
+    - from_domain: music
+      to_domain: performance
+      count: 1
   unexplored_territory:
     - Data Made Audible × annotation
     - Data Made Audible × archive
@@ -213,4 +226,4 @@ creative_dna:
     - Data Made Audible × interview
     - Data Made Audible × journalism
     - Data Made Audible × music
-updated_at: 2026-05-27T19:10:34.993Z
+updated_at: 2026-05-27T19:16:25.945Z

@@ -1,9 +1,9 @@
 axes:
   exploratory: 0
   playful: 0
-  restless: 0.032
+  restless: 0.01
   bold: 0
-  collaborative: 0.487
+  collaborative: 0.496
 dominant_mood: collaborative
 creative_nudge: A project is calling — pick up where you left off or start one that spans multiple iterations.
 influences:
@@ -11,5 +11,5 @@ influences:
     axis: collaborative
     direction: 0.5
     weight: 0.6
-iteration: 4
-updated_at: 2026-05-27T08:20:06.339Z
+iteration: 5
+updated_at: 2026-05-27T08:38:10.017Z

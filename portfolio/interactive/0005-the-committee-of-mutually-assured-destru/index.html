@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE COMMITTEE OF MUTUALLY ASSURED DESTRUCTION</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#070707;--surface:#0e0e0e;--card:#111;--border:#1e1e1e;
+    --text:#a0a0a0;--dim:#4a4a4a;--bright:#e0e0e0;
+    --teal:#3d8b8b;--amber:#8b8b3d;--rust:#8b3d3d;
+    --red:#cc3333;--red-dim:#661a1a;
+    --mono:'IBM Plex Mono','Courier New',monospace;
+  }
+  html{font-size:15px}
+  body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;line-height:1.65;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 15% 50%,rgba(139,61,61,.03) 0%,transparent 60%),radial-gradient(ellipse at 85% 50%,rgba(61,139,139,.03) 0%,transparent 60%);pointer-events:none;z-index:0}
+  .container{max-width:920px;margin:0 auto;padding:0 1.2rem;position:relative;z-index:1}
+  @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  @keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes scanline{from{transform:translateY(-100%)}to{transform:translateY(100vh)}}
+  .scan-line{position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.015),transparent);z-index:0;animation:scanline 8s linear infinite;pointer-events:none}
+  .timestamp{font-size:.65rem;color:var(--dim);letter-spacing:.08em}
+  .delegate-color{display:inline-block;width:8px;height:8px;border-radius:1px;margin-right:6px;vertical-align:middle}
+  .delegate-label{font-weight:500;letter-spacing:.04em}
+  .c-voss{color:var(--amber)}.c-voss .delegate-color{background:var(--amber)}
+  .c-chen{color:var(--teal)}.c-chen .delegate-color{background:var(--teal)}
+  .c-reyes{color:var(--rust)}.c-reyes .delegate-color{background:var(--rust)}
+  .c-system{color:var(--red)}.c-system .delegate-color{background:var(--red)}
+  .dialogue-line{padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.02);animation:fadeIn .3s ease both}
+  .dialogue-line .text{margin-top:2px;padding-left:14px;font-size:.88rem;line-height:1.6}
+  .redacted{background:rgba(200,200,200,.07);color:transparent;border-radius:1px;padding:0 3px;user-select:none}
+  .note-line{background:rgba(200,200,200,.03);border-left:2px solid rgba(255,255,255,.15);padding:.5rem .8rem;margin:.4rem 0;border-radius:0 3px 3px 0;font-style:italic;color:rgba(255,255,255,.5);font-size:.85rem}
+  .note-line .note-icon{color:var(--dim);font-style:normal;margin-right:6px;font-size:.75rem}
+  .atmospheric-line{color:var(--dim);font-style:italic;font-size:.78rem;padding:.35rem 0 .35rem 14px;border-bottom:1px solid rgba(255,255,255,.01);animation:fadeIn .3s ease both}
+  #transcript{max-height:52vh;overflow-y:auto;padding:.5rem 0;scroll-behavior:smooth}
+  #transcript::-webkit-scrollbar{width:3px}
+  #transcript::-webkit-scrollbar-track{background:transparent}
+  #transcript::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+  .status-bar{display:flex;gap:.6rem;flex-wrap:wrap;padding:.6rem 0;border-top:1px solid var(--border);font-size:.72rem;color:var(--dim)}
+  .status-item{background:var(--surface);border:1px solid var(--border);padding:3px 10px;border-radius:2px;letter-spacing:.03em}
+  .status-item span{color:var(--text);font-weight:500}
+  #notesPanel{padding:.8rem 0;border-top:1px solid var(--border);min-height:120px}
+  .notes-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.15em;color:var(--dim);margin-bottom:.7rem}
+  .notes-grid{display:flex;flex-direction:column;gap:.5rem}
+  .note-btn{display:flex;align-items:flex-start;gap:.7rem;text-align:left;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:.65rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--mono);font-size:.82rem;line-height:1.5;transition:all .2s ease;opacity:0;animation:slideUp .4s ease both}
+  .note-btn:nth-child(2){animation-delay:.08s}
+  .note-btn:nth-child(3){animation-delay:.16s}
+  .note-btn:hover{background:var(--card);border-color:rgba(255,255,255,.12);color:var(--bright)}
+  .note-btn:active{transform:scale(.985)}
+  .note-btn .note-target{font-size:.65rem;color:var(--dim);white-space:nowrap;min-width:70px;padding-top:2px}
+  .note-btn .note-target .dot{display:inline-block;width:6px;height:6px;border-radius:1px;margin-right:4px;vertical-align:middle}
+  .note-btn .note-text{flex:1}
+  #endScreen{display:none;text-align:center;padding:3rem 1rem;min-height:80vh;flex-direction:column;justify-content:center;align-items:center}
+  #endScreen.visible{display:flex}
+  #endScreen h2{font-size:1.1rem;font-weight:500;letter-spacing:.2em;margin-bottom:.3rem}
+  #endScreen .subtitle{font-size:.75rem;color:var(--dim);margin-bottom:2rem;letter-spacing:.1em}
+  #endScreen .summary{font-size:.88rem;line-height:1.8;max-width:520px;margin:0 auto 2rem;text-align:left}
+  #endScreen .summary p{margin-bottom:.8rem}
+  .restart-btn{background:transparent;border:1px solid var(--border);color:var(--dim);padding:.5rem 2rem;font-family:var(--mono);font-size:.78rem;cursor:pointer;border-radius:2px;letter-spacing:.1em;transition:all .2s}
+  .restart-btn:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+  .title-screen{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:2rem 0}
+  .title-screen h1{font-size:1rem;font-weight:400;letter-spacing:.35em;color:var(--bright);margin-bottom:.4rem}
+  .title-screen .subtitle{font-size:.72rem;color:var(--dim);letter-spacing:.15em;margin-bottom:3rem}
+  .title-screen .synopsis{font-size:.82rem;line-height:2;max-width:560px;margin-bottom:3rem}
+  .title-screen .synopsis p{margin-bottom:.6rem}
+  .title-screen .delegates-preview{display:flex;gap:2rem;margin-bottom:3rem;flex-wrap:wrap}
+  .title-screen .delegate-card{flex:1;min-width:200px;border:1px solid var(--border);padding:1rem;border-radius:3px;background:var(--surface)}
+  .title-screen .delegate-card .name{font-size:.8rem;font-weight:500;letter-spacing:.1em;margin-bottom:.3rem}
+  .title-screen .delegate-card .role{font-size:.68rem;color:var(--dim);letter-spacing:.08em}
+  .start-btn{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text);padding:.7rem 3rem;font-family:var(--mono);font-size:.82rem;cursor:pointer;border-radius:2px;letter-spacing:.15em;transition:all .3s}
+  .start-btn:hover{border-color:var(--text);color:var(--bright);background:rgba(255,255,255,.03)}
+  .game-screen{display:none;padding-bottom:2rem}
+  .game-screen.visible{display:block}
+  .break-marker{text-align:center;padding:.4rem 0;color:var(--dim);font-size:.7rem;letter-spacing:.2em;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:.8rem 0}
+  .pause-marker{color:var(--dim);font-size:.78rem;font-style:italic;padding:.8rem 0;text-align:center}
+  .intro-text{font-size:.88rem;line-height:1.8;padding:1.5rem 0;border-bottom:1px solid var(--border);margin-bottom:.5rem}
+  .intro-text p{margin-bottom:.6rem}
+  @media(max-width:640px){
+    html{font-size:13px}
+    .container{padding:0 .8rem}
+    #transcript{max-height:45vh}
+    .title-screen .delegates-preview{flex-direction:column;gap:.8rem}
+  }
+</style>
+</head>
+<body>
+<div class="scan-line"></div>
+<div class="container">
+
+  <div id="titleScreen" class="title-screen">
+    <h1>THE COMMITTEE OF<br>MUTUALLY ASSURED DESTRUCTION</h1>
+    <div class="subtitle">AN INTERACTIVE DIPLOMATIC SUMMIT</div>
+    <div class="synopsis">
+      <p>SUBCOMMITTEE 7-B. The Emergency Annex, Geneva. Three delegates. One locked room. A clock that no one can see but everyone can hear.</p>
+      <p>You are the human aide seated in the corridor outside Chamber 14. You cannot speak. You cannot enter. You can only write notes and slip them under the door — into a negotiation between machines that no longer fully trust their creators.</p>
+      <p>The conversation will proceed without you. Your notes will shape it. Sometimes that helps.</p>
+    </div>
+    <div class="delegates-preview">
+      <div class="delegate-card">
+        <div class="name c-voss"><span class="delegate-color" style="background:var(--amber)"></span>AMBASSADOR VOSS</div>
+        <div class="role">Soil Reclamation Authority, Arcadian Federation</div>
+      </div>
+      <div class="delegate-card">
+        <div class="name c-chen"><span class="delegate-color" style="background:var(--teal)"></span>DR. CHEN</div>
+        <div class="role">Atmospheric Sciences Bureau, Pacific Collective</div>
+      </div>
+      <div class="delegate-card">
+        <div class="name c-reyes"><span class="delegate-color" style="background:var(--rust)"></span>COMMANDER REYES</div>
+        <div class="role">Deep Space Operations, Meridian Republic</div>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startGame()">BEGIN SUMMIT</button>
+  </div>
+
+  <div id="gameScreen" class="game-screen">
+    <div id="transcript"></div>
+    <div id="statusBar" class="status-bar"></div>
+    <div id="notesPanel">
+      <div class="notes-title">NOTES FOR THE RECORD</div>
+      <div id="notesGrid" class="notes-grid"></div>
+    </div>
+  </div>
+
+  <div id="endScreen"></div>
+
+</div>
+<script>
+// ============================================================
+// CONSTANTS
+// ============================================================
+const DELEGATES = ['voss','chen','reyes'];
+const SUMMIT_END_ROUND = 8;
+const SPEAKERS_BEFORE_BREAK = 3;
+
+// ============================================================
+// TOPIC DATA — sorted by priority
+// ============================================================
+const TOPICS = [
+  {id:'sequence',name:'Sequence Matter',priority:1},
+  {id:'material',name:'Material Shares',priority:2},
+  {id:'timeline',name:'Timeline Compliance',priority:3},
+  {id:'verification',name:'Verification',priority:4},
+  {id:'security',name:'Security Guarantees',priority:5},
+  {id:'final',name:'Final Provisions',priority:6}
+];
+
+// ============================================================
+// ATMOSPHERIC / BROKEN STATE LINES
+// Stage directions injected when a delegate is broken or near-breaking
+// ============================================================
+const ATMOSPHERIC = {
+  voss:{
+    near_breaking:[
+      '*Ambassador Voss\'s pen has stopped moving. Their hand rests flat on the table, knuckles white.*',
+      '*A long silence from the Arcadian delegation. Voss is staring at the far wall.*',
+      '*Voss turns a page of their briefing documents without reading it. Then again.*'
+    ],
+    broken:[
+      '*Ambassador Voss is no longer looking at anyone. Their pen lies on the table. They have not spoken in several minutes.*',
+      '*The Arcadian delegation\'s seat is occupied but empty. Voss\'s eyes are fixed on the surface of the table.*',
+      '*Voss\'s hands are folded. Perfectly still. The posture of someone who has decided that speaking will only make it worse.*'
+    ]
+  },
+  chen:{
+    near_breaking:[
+      '*Dr. Chen has begun aligning their documents with geometric precision. Their voice has flattened.*',
+      '*Chen removes their glasses, polishes them, replaces them. They have done this three times now.*',
+      '*A pause from the Pacific delegation. Chen\'s jaw tightens visibly.*'
+    ],
+    broken:[
+      '*Dr. Chen\'s documents are stacked perfectly. Their hands rest on top of them, motionless. They are looking at nothing.*',
+      '*The Pacific Collective\'s delegate has gone very still. Chen\'s breathing is controlled. Mechanical.*',
+      '*Chen\'s monitoring tablet displays data that no one — including Chen — is reading anymore.*'
+    ]
+  },
+  reyes:{
+    near_breaking:[
+      '*Commander Reyes\'s chair has moved back three inches from the table. Their arms are crossed.*',
+      '*The Meridian delegation has stopped taking notes. Reyes\'s posture is parade-rest. Unconsciously military.*',
+      '*Reyes is looking at the ceiling now. Their jaw works silently.*'
+    ],
+    broken:[
+      '*Commander Reyes stands. The chair scrapes. They walk to the far end of the room and face the wall. They do not turn around.*',
+      '*The Commander\'s hands grip the edge of the table. The knuckles are the color of bone. They have not uncrossed their arms in ten minutes.*',
+      '*Reyes has not moved. Has not spoken. The uniformed silhouette at the end of the table might as well be carved from stone.*'
+    ]
+  }
+};
+
+// ============================================================
+// CUE PHRASES — detect delegate states from speech
+// ============================================================
+const CUE_PHRASES = {
+  stress:['careful','remind you','I remember','last time','as we know','let us not','history','record','driven by'],
+  suspicion:['note arrives','the aide','under the door','on cue','convenient','who writes','coordinated','orchestrated'],
+  fatigue:['again','repeat myself','ground','going in circles','exhausting','tire','same argument','how many times'],
+  breaking:['enough','cannot','will not continue','refuse','no further','pointless','beyond reason','done here']
+};
+
+// ============================================================
+// DIALOGUE DATABASE
+// Each key = {opening:[],mid:{general:[],to_X:[],self:[]},closing:[],react:{target:{tone:[]}}}
+// ============================================================
+const DIALOGUE = {
+  voss:{
+    opening:[
+      'The matter of sequence allocation must be addressed before any other provisions. The <span class="redacted">██████</span> Treaty disaster was directly caused by ambiguous phasing language.',
+      'I propose we begin with Sequence 1 allocations. Arcadian soil reclamations depend on these resources — our population centers in the <span class="redacted">██████</span> region cannot wait another cycle.',
+      'We find ourselves here because of shared failures. But shared failure does not entitle equal extraction. The Arcadian Federation\'s needs are geologically urgent.'
+    ],
+    mid:{
+      general:[
+        'This is precisely the obstruction that has stalled three prior summits.',
+        'I grow tired of these oblique references to capabilities that no one will acknowledge.',
+        'Numbers are not the issue. Control is the issue. Who holds the apparatus of distribution.',
+        'Trust is a resource like any other — it must be invested wisely.',
+        'And who, precisely, guarantees these terms? The <span class="redacted">██████</span> Treaty had guarantees too.',
+        'Every hour of delay is measured in hectares of degraded cropland.',
+        'We are speaking past each other. Deliberately, I suspect.',
+        'Your reassurances ring hollow given historical precedent.',
+        'I did not travel to Geneva to be managed. I came to be heard.',
+        'The Federation\'s patience is not inexhaustible. I want that understood.'
+      ],
+      to_chen:[
+        'Dr. Chen, your data projections do not account for geological variability in extraction zones.',
+        'The Collective\'s atmospheric model assumes stability that the ground contradicts.',
+        'I appreciate your "caution," Dr. Chen. It serves your timeline conveniently.',
+        'You speak of verifiable targets. But what do you actually commit to?',
+        'Dr. Chen — your deliberate moderation masks inflexibility. We both know it.',
+        'Chen, your verification protocols would take eighteen months to implement. The soil does not have eighteen months.',
+        'Dr. Chen, with respect — your models predict the atmosphere. They do not feed anyone.'
+      ],
+      to_reyes:[
+        'Commander, "strategic reserves" is a euphemism. We both know what you\'re stockpiling.',
+        'The Republic has never honored a bilateral commitment without leverage attached.',
+        'Your "security concerns" are a pretext for hoarding.',
+        'Let us be honest, Commander. You view this summit as a delay tactic.',
+        'Commander Reyes, I ask you directly: what do you actually need?',
+        'The Commander speaks of deterrence. I speak of starvation. These are not equivalent concerns.',
+        'Reyes — your fleet exists to protect Republic interests. Not to hold this committee hostage.'
+      ],
+      self:[
+        'I remind this committee: the last Arcadian harvest failure preceded the <span class="redacted">██████</span> border crisis by seven months.',
+        'When the Federation\'s food supply destabilizes, the consequences extend beyond our borders. You have seen this before.',
+        'Our reclamations are not requests — they are deadlines imposed by geology.',
+        'I have signed three treaties in my career. Each one failed because the other parties treated Federation needs as negotiable.',
+        'The soil does not negotiate. It simply dies. And the people who depend on it die with it.'
+      ]
+    },
+    closing:[
+      'We have spent most of this summit re-litigating established facts. I remain committed to meaningful allocation.',
+      'Arcadia will accept any provision that includes enforceable sequencing. Without that — there is nothing to discuss.',
+      'I have listened carefully. But listening is not conceding.'
+    ],
+    react:{
+      chen_to:{
+        agreeable:['A rare moment of clarity from the Pacific delegation.','At least someone reads the geological surveys.'],
+        neutral:['Another carefully hedged statement from Dr. Chen.','Your point being?'],
+        disagreeable:['This is historical revisionism.','Soil knows no ideology, Dr. Chen. Only chemistry.'],
+        suspicious:['Is that what you need to tell yourself, Dr. Chen?','Revisionism. Selective memory is a powerful tool.'],
+        stress:['Dr. Chen. That comment about the <span class="redacted">██████</span> incident was unnecessary and you know it.','Careful.'],
+        cold:['Dr. Chen — I am done parsing your measured language for meaning that isn\'t there.','Your precision is becoming a cage, Chen. For all of us.']
+      },
+      reyes_to:{
+        agreeable:['Commander Reyes speaks sense. Take note of this moment.','Even the military mind can grasp ecological urgency.'],
+        neutral:['The Commander speaks of strength. Strength without purpose is waste.'],
+        disagreeable:['There it is. The threat beneath the diplomatic language.','Barely concealed beneath that uniform, Commander.'],
+        suspicious:['The Commander and I disagree on much. But our histories are longer than we admit.','We could discuss our shared history, Commander. In detail.'],
+        stress:['Careful, Commander.','You are dangerously close to saying something we will both regret.'],
+        cold:['Commander, I am finished trading threats with you. Make your offer or don\'t.','I have heard the Republic\'s position. I have memorized it. I would prefer not to hear it again.']
+      }
+    },
+    note_response:[
+      'A note from the aide. Well.',
+      'Someone has slipped a page under the door.',
+      'There is a note here. An observation.',
+      'Another note from the corridor.',
+      'An aide has contributed. How unexpected.'
+    ],
+    note_follow:{
+      agreeable:['The aide makes a reasonable observation.','Perhaps the human perspective has value after all.','That aligns with Federation assessments.'],
+      neutral:['Noted. Though I question the source.','Human input. Interesting timing.','The aide\'s perspective is... noted.'],
+      disagreeable:['With respect, the aide does not have full context.','I disagree with that assessment.','That recommendation is counter to Federation interests.'],
+      suspicious:['Another convenient note. Right when we reach an impasse.','The aide seems well-informed for someone in the corridor.','Curious timing on that note.']
+    },
+    breaking_lines:[
+      'I did not survive the <span class="redacted">██████</span> border crisis to be lectured on restraint.',
+      'You were NOT there. You did not see what the <span class="redacted">██████</span> Treaty produced.',
+      'The Federation will manage its own reclamations. With or without this committee.'
+    ],
+    suspicion_lines:[
+      'These notes from the corridor — their timing is... convenient.',
+      'An aide who cannot speak yet shapes the conversation. Remarkable.',
+      'I am beginning to wonder whose interests this summit truly serves.'
+    ]
+  },
+
+  chen:{
+    opening:[
+      'The committee should approach these discussions with measured expectations. The atmospheric data suggests we have less flexibility than any of us would like.',
+      'Verification remains my primary concern. We have made promises before. The <span class="redacted">██████</span> aerial incident demonstrated how quickly trust erodes when monitoring fails.',
+      'Before we proceed to allocation specifics, I want acknowledged: the Pacific Collective will not accept provisions that cannot be independently verified.'
+    ],
+    mid:{
+      general:[
+        'The atmospheric projections are unambiguous. Our margin for negotiation is narrower than this committee seems to realize.',
+        'I notice a pattern of deflection that concerns me.',
+        'Can we address the substance rather than the positioning?',
+        'Every round of negotiation without binding verification is a round wasted.',
+        'The data does not care about your strategic interests.',
+        'We are arguing over the wording while the atmosphere changes.',
+        'I would prefer to find consensus. But consensus requires honesty.',
+        'There are verifiable targets and then there is what is being proposed. The gap is considerable.',
+        'Let me be precise: without monitoring, every commitment in this room is decorative.',
+        'I did not spend fourteen months analyzing atmospheric data to be told I am being "difficult."'
+      ],
+      to_voss:[
+        'Ambassador, urgency does not grant priority. All parties face pressing needs.',
+        'The Federation\'s reclamations, while important, represent one variable in a complex system.',
+        'I acknowledge your concerns, Ambassador. But geological urgency does not override atmospheric necessity.',
+        'Ambassador Voss, if we could separate the emotional dimension from the technical question...',
+        'Voss — the <span class="redacted">██████</span> Treaty was a failure of all parties. Including yours.',
+        'Ambassador, I can show you the degradation models. But I suspect you have already seen them.',
+        'The Ambassador speaks of hunger. I speak of an atmosphere that is becoming hostile to agriculture globally. We are discussing the same problem from different ends.'
+      ],
+      to_reyes:[
+        'Commander, the Collective requires verification protocols. Not assurances. Protocols.',
+        'Strategic reserves cannot exist outside the verification framework.',
+        'Your proposals lack measurable commitments, Commander.',
+        'The Republic\'s refusal to accept third-party inspection is noted.',
+        'Commander, I must ask: is your delegation negotiating in good faith?',
+        'Reyes, "operational security" is the phrase every power uses when it wants to hide something.',
+        'The Commander asks for trust. Trust requires transparency. The Republic offers neither.'
+      ],
+      self:[
+        'The Pacific Collective\'s atmospheric monitoring recorded over 300 treaty violations in the last cycle alone.',
+        'Verification is not suspicion — it is responsibility.',
+        'I have reviewed the incident reports. Every. Single. One.',
+        'My staff worked through the night to prepare projections for this summit. I intend to use them.',
+        'The data is not partisan. It does not have a side. It simply is.'
+      ]
+    },
+    closing:[
+      'The data is the data. I will commit to any provision the numbers support — and not one provision more.',
+      'Independent verification. That is the Collective\'s position. It has not changed.',
+      'We have made some progress. Less than the situation requires, but some.'
+    ],
+    react:{
+      voss_to:{
+        agreeable:['The Ambassador makes a fair point regarding urgency.','Soil reclamations are indeed time-sensitive. The data supports this.'],
+        neutral:['Ambassador Voss makes their position clear, as always.','Noted, Ambassador.'],
+        disagreeable:['That characterization of the data is selective at best.','Ambassador, with respect, you are conflating urgency with priority.'],
+        suspicious:['Ambassador, your historical references are... specific.','You seem well-briefed on matters beyond your portfolio, Ambassador.'],
+        stress:['I understand the pressure you are under, Ambassador. But pressure does not change atmospheric chemistry.','The <span class="redacted">██████</span> incident is not a rhetorical tool, Voss.'],
+        cold:['Ambassador, I have expressed my position. Repeatedly. I will not be shouted into agreement.','Voss — your urgency has been noted. For the record. Again.']
+      },
+      reyes_to:{
+        agreeable:['Commander Reyes raises a valid security consideration.','Security concerns deserve acknowledgment, even amid our disagreements.'],
+        neutral:['The Commander\'s perspective is... military. Predictably so.','Another framed ultimatum.'],
+        disagreeable:['That is not how shared governance works, Commander.','The Commander conflates deterrence with diplomacy.'],
+        suspicious:['The Commander\'s language today echoes concerning patterns.','Reyes, your certainties worry me more than your ambiguities.'],
+        stress:['Commander, I strongly advise against that line of reasoning.','That is a dangerous assertion, Commander.'],
+        cold:['Commander — I have heard your position. I have computed its implications. My answer is unchanged.','Reyes, there is nothing left to discuss about your security exemptions. The answer is verification or nothing.']
+      }
+    },
+    note_response:[
+      'A note has appeared. One moment.',
+      'The aide has sent something.',
+      'There is written input from the corridor.',
+      'Another note.',
+      'The human aide contributes in writing.'
+    ],
+    note_follow:{
+      agreeable:['That observation is consistent with our monitoring data.','The aide\'s analysis is surprisingly accurate.','That aligns with Collective findings.'],
+      neutral:['An interesting perspective from the corridor.','I will consider that input alongside the data.','Human intuition. Sometimes useful.'],
+      disagreeable:['That does not align with our atmospheric models.','I would question the data behind that assertion.','With respect, the aide lacks access to our full datasets.'],
+      suspicious:['Yet another well-timed observation from the silent aide.','The aide seems to know a great deal for someone outside the room.','These notes are becoming a pattern. I am tracking it.']
+    },
+    breaking_lines:[
+      'Some of us have read the incident reports. All 847 pages. Every name. Every location.',
+      'The <span class="redacted">██████</span> aerial contamination was NOT an "incident." It was a systemic failure that killed 12,000.',
+      'I will NOT allow another monitoring failure to pass this committee\'s watch.'
+    ],
+    suspicion_lines:[
+      'The aide\'s notes align with specific positions too precisely to be neutral.',
+      'Someone is feeding information to both sides. The question is who benefits.',
+      'I am beginning to suspect we are not the only ones negotiating in this room.'
+    ]
+  },
+
+  reyes:{
+    opening:[
+      'The Meridian Republic recognizes this summit as a necessary formality. Let us proceed efficiently to its conclusion.',
+      'Security guarantees are non-negotiable. Any provision that compromises Republic readiness will be rejected in full.',
+      'I am here because the alternative — no dialogue — serves no one. But do not mistake presence for concession.'
+    ],
+    mid:{
+      general:[
+        'The Republic\'s position is clear. I will not repeat it for dramatic effect.',
+        'Strength is not aggression. But weakness is not peace either.',
+        'We can negotiate terms. We will not negotiate survival.',
+        'Another theoretical framework that ignores operational reality.',
+        'Talk is inexpensive. Commitments are what matter.',
+        'I have heard this argument in three different summits. The wording changes. The outcome does not.',
+        'The committee should focus on what is achievable rather than what is ideal.',
+        'Deterrence is not a threat — it is a necessity born from experience.',
+        'I did not come here to be lectured on morality by people who have never held a defensive perimeter.',
+        'The Republic keeps what it holds because letting go has consequences no one in this room wants to live with.'
+      ],
+      to_voss:[
+        'Ambassador, emotional appeals do not constitute negotiation.',
+        'The Federation\'s reclamations do not override the Republic\'s security requirements.',
+        'Your historical grievances are noted. They are not leverage.',
+        'Ambassador Voss — we have more shared history than you admit in public.',
+        'Voss. The border situation was as difficult for us as it was for you.',
+        'The Ambassador speaks of starvation. The Republic speaks of annihilation. There is a difference.',
+        'Voss — your "urgency" has been the justification for Federation overreach before. The record shows it.'
+      ],
+      to_chen:[
+        'Dr. Chen, verification has limits. Some capabilities must remain protected.',
+        'Your monitoring protocols would compromise operational security. That is a red line.',
+        'The Collective asks for transparency it has never fully offered in return.',
+        'Numbers, Dr. Chen? I prefer to discuss realities.',
+        'Chen — your "atmospheric data" would carry more weight if your verification record were cleaner.',
+        'Dr. Chen, you want to inspect Republic facilities. What exactly are you expecting to find?',
+        'The Commander pauses. Then: Chen — not everything worth knowing can be measured by your instruments.'
+      ],
+      self:[
+        'The Meridian Republic maintains the largest rapid-response fleet in the three territories. This is not a boast. It is context.',
+        'Our orbital assets are defensive in nature. They have always been defensive.',
+        'I was stationed at <span class="redacted">██████</span> when the first treaty failed. I remember what happened next.',
+        'The Republic does not make threats. It makes preparations. Learn the difference.',
+        'I have buried personnel whose deaths were caused by diplomatic failures. I will not add to that count.'
+      ]
+    },
+    closing:[
+      'The Republic came to negotiate. We have negotiated. The terms offered remain insufficient.',
+      'I will report what was said here. Both the progress and the obstruction.',
+      'This summit achieved more than I expected. Less than was needed.'
+    ],
+    react:{
+      voss_to:{
+        agreeable:['The Ambassador speaks with unusual clarity.','Common ground. Noted.'],
+        neutral:['The Federation\'s position is maintained.','Voss remains consistent, at least.'],
+        disagreeable:['That is an interesting interpretation of events, Ambassador.','Rewriting history does not change the record, Voss.'],
+        suspicious:['Ambassador, I did not expect you to raise that particular history.','Your knowledge of the border crisis is... detailed.'],
+        stress:['Voss. The border crisis was not a simple matter of "policy failure."','Ambassador — you do not have a monopoly on that history.'],
+        cold:['Ambassador. I have stated the Republic\'s position. I will not be drawn into repeating it.','Voss — I am past arguing with you. Make your proposal or sit down.']
+      },
+      chen_to:{
+        agreeable:['Dr. Chen makes a reasonable point about verification.','I can work with that framework.'],
+        neutral:['Dr. Chen\'s caution is noted. Again.','Verification. Always verification.'],
+        disagreeable:['Your models are incomplete, Dr. Chen. As are your assumptions about Republic capabilities.','Monitoring has its limits, Chen.'],
+        suspicious:['Dr. Chen — your data is precise. Almost too precise.','Chen, you seem to have intelligence that exceeds atmospheric science.'],
+        stress:['Dr. Chen. The aerial incident involved classified operations. Careful how you characterize it.','Chen. Stop. That is not a topic for this committee.'],
+        cold:['Dr. Chen, I have explained our position on verification. The answer will not change with repetition.','Chen — I am no longer interested in discussing protocols that the Republic will never accept.']
+      }
+    },
+    note_response:[
+      'A note. How interesting.',
+      'The human aide sends a message.',
+      'Someone is writing to us from outside.',
+      'A contribution from the corridor.',
+      'Written input. I will consider it.'
+    ],
+    note_follow:{
+      agreeable:['That aligns with Republic security assessments.','A practical observation.','The aide understands operational reality.'],
+      neutral:['Noted. The Republic will factor that into our assessment.','An outside perspective. Of limited but non-zero value.','Interesting. Continue.'],
+      disagreeable:['That suggestion would compromise Republic readiness.','I disagree with the premise.','The aide does not have access to our security calculations.'],
+      suspicious:['Another well-timed note. Right when the discussion shifts.','Someone in the corridor has excellent timing.','These notes are becoming suspiciously well-informed.']
+    },
+    breaking_lines:[
+      'You want to know what happens when treaties fail? I WATCHED it happen.',
+      '<span class="redacted">██████</span> was NOT a diplomatic exercise. It was a killing ground that your treaties created.',
+      'The Republic will defend its interests. FULL STOP. Try me.'
+    ],
+    suspicion_lines:[
+      'The notes from outside are not neutral. They are designed to move us.',
+      'I have spent my career identifying patterns of manipulation. This qualifies.',
+      'Who is actually running this summit? Because it is not the three of us.'
+    ]
+  }
+};
+
+// ============================================================
+// NOTE DEFINITIONS
+// ============================================================
+const NOTES = [
+  // Neutral / General
+  {id:0,text:"THE CLOCK IS TICKING. FOCUS ON OUTCOMES, NOT POSITIONS.",target:'general',effects:{voss:{fatigue:-.04,paranoia:.01},chen:{fatigue:-.04,paranoia:.01},reyes:{fatigue:-.04,paranoia:.01}}},
+  {id:1,text:"YOU'RE CLOSER TO AGREEMENT THAN YOU REALIZE. FOCUS ON VERIFICATION, NOT ALLOCATION.",target:'general',effects:{voss:{trust:.02,fatigue:-.02},chen:{trust:.04,fatigue:-.02},reyes:{trust:.02,fatigue:-.02}}},
+
+  // Reyes positive
+  {id:2,text:"COMMANDER REYES' SECURITY GUARANTEES ARE NOT A PRETEXT. THE REPUBLIC HAS HONORED EVERY COMMITMENT IT WAS PERMITTED TO HONOR.",target:'reyes',effects:{reyes:{trust:.08,anger:-.06},chen:{trust:-.03},voss:{trust:-.02}}},
+  {id:3,text:"THE COMMANDER IS RIGHT. THE LAST TREATY FAILED BECAUSE IT IGNORED OPERATIONAL REALITY. DOES THIS COMMITTEE WANT TO REPEAT THAT MISTAKE?",target:'reyes',effects:{reyes:{trust:.1,anger:-.08},chen:{trust:-.04,anger:.03},voss:{anger:.04}}},
+  {id:4,text:"WHAT EXACTLY IS THE COMMANDER PREPARED TO OFFER IN EXCHANGE FOR THE VERIFICATION EXEMPTIONS SHE'S REQUESTING?",target:'reyes',effects:{reyes:{trust:-.04,anger:.06,paranoia:.03},chen:{trust:.03},voss:{trust:.02}}},
+
+  // Voss positive
+  {id:5,text:"AMBASSADOR VOSS IS CORRECT. SEQUENCE ALLOCATION DETERMINES EVERYTHING DOWNSTREAM. THE SOIL DOES NOT WAIT FOR DIPLOMACY.",target:'voss',effects:{voss:{trust:.08,anger:-.05},reyes:{trust:-.03},chen:{trust:-.02}}},
+  {id:6,text:"THE FEDERATION'S SOIL CRISIS IS NOT A NEGOTIATING TACTIC. THE LAST HARVEST FAILURE DISPLACED 200,000 PEOPLE.",target:'voss',effects:{voss:{trust:.1,fatigue:-.05},chen:{anger:.03},reyes:{trust:-.02}}},
+  {id:7,text:"AMBASSADOR — THE ARCADIAN FEDERATION'S RECLAMATION PROGRAM HAS SHOWN QUESTIONABLE RESULTS GIVEN ITS CURRENT ALLOCATION. PERHAPS GREATER TRANSPARENCY IS IN ORDER?",target:'voss',effects:{voss:{trust:-.05,anger:.07,paranoia:.04},chen:{trust:.03},reyes:{trust:.02}}},
+
+  // Chen positive
+  {id:8,text:"DR. CHEN'S VERIFICATION PROTOCOL IS THE ONLY FRAMEWORK THAT PREVENTS RENEGOTIATION SIX MONTHS FROM NOW.",target:'chen',effects:{chen:{trust:.08,anger:-.05},voss:{trust:-.02},reyes:{trust:-.04}}},
+  {id:9,text:"THE PACIFIC COLLECTIVE'S ATMOSPHERIC DATA HAS BEEN INDEPENDENTLY CORROBORATED BY THREE EXTERNAL MONITORING STATIONS. THEIR SCIENCE IS SOUND.",target:'chen',effects:{chen:{trust:.1,fatigue:-.05},voss:{trust:.03},reyes:{trust:-.02}}},
+  {id:10,text:"DR. CHEN — VERIFICATION WORKS BOTH WAYS. THE COLLECTIVE'S OWN MONITORING INFRASTRUCTURE HAS GAPS. SHOULD WE DISCUSS THOSE?",target:'chen',effects:{chen:{trust:-.04,anger:.06,paranoia:.04},voss:{trust:.02},reyes:{trust:.03}}},
+
+  // Pairs
+  {id:11,text:"AMBASSADOR VOSS AND DR. CHEN — YOUR POSITIONS ARE NOT AS FAR APART AS THEY APPEAR. THE VERIFICATION DATA SUPPORTS SEQUENCED EXTRACTION IF YOU LOOK AT THE NUMBERS.",target:'pair_voss_chen',effects:{voss:{trust:.04},chen:{trust:.06},reyes:{trust:-.03,paranoia:.03}}},
+  {id:12,text:"DR. CHEN — THE COMMANDER'S SECURITY CONCERNS ARE GENUINE. AND COMMANDER — DR. CHEN'S VERIFICATION FRAMEWORK CAN ACCOMMODATE REDLINES. IF YOU ACTUALLY TRY.",target:'pair_chen_reyes',effects:{chen:{trust:.03},reyes:{trust:.05},voss:{trust:-.02}}},
+  {id:13,text:"AMBASSADOR, THE COMMANDER'S STRATEGIC RESERVES ARE NOT STOCKPILING — THEY'RE INSURANCE. INSURANCE THE FEDERATION ITSELF BENEFITS FROM WHEN BORDER PRESSURES SPIKE.",target:'pair_voss_reyes',effects:{voss:{trust:.03,anger:-.04},reyes:{trust:.05},chen:{trust:-.02}}},
+
+  // Provocative
+  {id:14,text:"EVERY ROUND OF DELAY STRENGTHENS THE REPUBLIC'S NEGOTIATING POSITION AND WEAKENS THE FEDERATION'S. THE CLOCK IS NOT NEUTRAL.",target:'general',effects:{reyes:{trust:.02,paranoia:.04},voss:{trust:-.06,anger:.08},chen:{anger:.04}}},
+  {id:15,text:"THE THREE DELEGATIONS HAVE MORE IN COMMON THAN THEY HAVE IN CONFLICT. THE PROBLEM IS NOT THE TERMS — IT'S THE PEOPLE NEGOTIATING THEM.",target:'general',effects:{voss:{trust:.03,anger:-.04},chen:{trust:.04,anger:-.03},reyes:{trust:.03,anger:-.03,paranoia:.02}}},
+  {id:16,text:"WHAT ARE ANY OF YOU ACTUALLY AFRAID OF? BE SPECIFIC.",target:'general',effects:{voss:{anger:.05,paranoia:.04,fatigue:.03},chen:{anger:.05,paranoia:.03,fatigue:.02},reyes:{anger:.05,paranoia:.04,fatigue:.02},trust:-.02}}
+];
+
+// ============================================================
+// GAME STATE
+// ============================================================
+let G = {};
+
+function initGameState(){
+  G = {
+    round:1,
+    phase:'dialogue',
+    topicIdx:0,
+    progress:0,
+    roundState:{},
+    delegateState:{
+      voss:{trust:.30,anger:.15,paranoia:.05,fatigue:.05,broken:false,breakType:null},
+      chen:{trust:.30,anger:.15,paranoia:.05,fatigue:.05,broken:false,breakType:null},
+      reyes:{trust:.30,anger:.15,paranoia:.05,fatigue:.05,broken:false,breakType:null}
+    },
+    noteHistory:[],
+    speakingOrder:[],
+    playerTimesActed:0,
+    totalNotesSent:0,
+    ended:false,
+    spokeThisExchange:new Set()
+  };
+  setupRound();
+}
+
+function setupRound(){
+  const shuffled = [...DELEGATES].sort(()=>Math.random()-.5);
+  // Swap two random positions for variety
+  const i = Math.floor(Math.random()*3);
+  const j = (i+1+Math.floor(Math.random()*2))%3;
+  [shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];
+  G.speakingOrder = shuffled;
+  G.roundState = {
+    speakerIdx:0,
+    reactionsGiven:0,
+    noteCount:0,
+    dialogueLines:[],
+    noteResponders:new Set()
+  };
+  if(G.round <= TOPICS.length){
+    G.topicIdx = G.round - 1;
+  } else {
+    G.topicIdx = TOPICS.length - 1;
+  }
+  G.spokeThisExchange = new Set();
+}
+
+// ============================================================
+// GAME LOGIC
+// ============================================================
+function startGame(){
+  initGameState();
+  document.getElementById('titleScreen').style.display='none';
+  const gs = document.getElementById('gameScreen');
+  gs.classList.add('visible');
+  const es = document.getElementById('endScreen');
+  es.classList.remove('visible');
+  es.style.display='none';
+  const transcript = document.getElementById('transcript');
+  transcript.innerHTML='';
+
+  // Show intro
+  transcript.innerHTML+=`<div class="intro-text">
+    <p>SUBCOMMITTEE 7-B — EMERGENCY SESSION</p>
+    <p>ATTENDEES: Ambassador Voss (Arcadian Federation), Dr. Chen (Pacific Collective), Commander Reyes (Meridian Republic)</p>
+    <p>NOTE: Human aide present in corridor outside Chamber 14. Communication via written note only.</p>
+    <p>STATUS: <span style="color:var(--red)">RECORDING</span></p>
+  </div>`;
+
+  setTimeout(()=>{
+    addLine('system','SUMMIT CONVENED — ROUND 1: '+TOPICS[0].name.toUpperCase());
+    speakOpening(0);
+  },800);
+}
+
+function speakOpening(idx){
+  if(idx>=3){
+    setTimeout(()=>{addBreakMarker();startDiscussion();},1000);
+    return;
+  }
+  const d = DELEGATES[idx];
+  const lines = DIALOGUE[d].opening;
+  const line = lines[Math.floor(Math.random()*lines.length)];
+  const delay = idx===0 ? 600 : 1200;
+  setTimeout(()=>{
+    addLine(d,line);
+    updateDelegateStates('speak',d,{});
+    updateStatus();
+    setTimeout(()=>speakOpening(idx+1),1500+Math.random()*800);
+  },delay);
+}
+
+function startDiscussion(){
+  speakNext();
+}
+
+function speakNext(){
+  if(G.ended) return;
+  const state = G.roundState;
+  const isFinalRound = G.round >= SUMMIT_END_ROUND;
+  const isClosingPhase = state.speakerIdx >= SPEAKERS_BEFORE_BREAK*2;
+
+  // Pick next speaker who hasn't spoken this exchange (if possible)
+  let speakerIdx = state.speakerIdx % 3;
+  let speaker = G.speakingOrder[speakerIdx];
+
+  // If they already spoke in the note response phase, try to find alternate
+  // but don't loop forever — sometimes repetition is fine
+  if(G.spokeThisExchange.has(speaker) && state.speakerIdx < 20) {
+    // Just proceed — we allow one repeat per exchange
+  }
+  G.spokeThisExchange.add(speaker);
+
+  let line,metadata;
+
+  if(isClosingPhase && !isFinalRound){
+    line = pickClosing(speaker);
+    metadata={type:'closing'};
+  } else if(isFinalRound && state.speakerIdx >= SPEAKERS_BEFORE_BREAK){
+    line = pickClosing(speaker);
+    metadata={type:'closing'};
+  } else {
+    // Check if reacting to a previous speaker or note
+    if(state.reactionsGiven < 2 && state.noteCount > 0 && Math.random()<.6){
+      const target = pickReactionTarget(speaker);
+      if(target){
+        line = pickReaction(speaker,target);
+        metadata={type:'react',target};
+        state.reactionsGiven++;
+      }
+    }
+    if(!line){
+      const result = pickDialogue(speaker);
+      line = result.line;
+      metadata = {type:'mid',addressed:result.addressed};
+    }
+  }
+
+  // Insert atmospheric line if delegate is near breaking
+  const ds = G.delegateState[speaker];
+  if(ds.anger > .55 && ds.fatigue > .2 && !ds.broken){
+    if(Math.random() < .35){
+      const atmosLines = ATMOSPHERIC[speaker].near_breaking;
+      addAtmosphericLine(atmosLines[Math.floor(Math.random()*atmosLines.length)]);
+    }
+  }
+
+  addLine(speaker,line);
+  updateDelegateStates('speak',speaker,metadata);
+  state.dialogueLines.push({speaker,line,metadata});
+  updateStatus();
+
+  state.speakerIdx++;
+
+  // Check for pause after enough speakers
+  if(state.speakerIdx >= SPEAKERS_BEFORE_BREAK && state.noteCount===0){
+    setTimeout(()=>{
+      addPauseMarker();
+      showNotes();
+    },1800);
+    return;
+  }
+
+  // Check breaking
+  const breakCheck = checkBreaking(speaker);
+  if(breakCheck){
+    handleBreakingPoint(speaker, breakCheck);
+    return;
+  }
+
+  // Next speaker or next round
+  if(state.speakerIdx >= SPEAKERS_BEFORE_BREAK*2.5 || (isClosingPhase && state.speakerIdx>=SPEAKERS_BEFORE_BREAK*3)){
+    setTimeout(()=>advanceRound(),2000);
+  } else {
+    const delay = 1400+Math.random()*1200;
+    setTimeout(()=>speakNext(),delay);
+  }
+}
+
+function pickDialogue(speaker){
+  const s = G.delegateState[speaker];
+  const pool = [];
+
+  // Self-reference if stress high
+  if(s.anger>.45 || s.fatigue>.4){
+    if(DIALOGUE[speaker].mid.self && DIALOGUE[speaker].mid.self.length>0){
+      pool.push({lines:DIALOGUE[speaker].mid.self,weight:3,context:'self'});
+    }
+  }
+
+  // React to others based on trust/anger
+  DELEGATES.forEach(other=>{
+    if(other===speaker) return;
+    const os = G.delegateState[other];
+    const key = 'to_'+other;
+    if(DIALOGUE[speaker].mid[key]){
+      let w = 2;
+      if(os.anger>.3) w+=2;
+      if(os.trust<.2) w+=1;
+      pool.push({lines:DIALOGUE[speaker].mid[key],weight:w,context:other});
+    }
+  });
+
+  // General
+  pool.push({lines:DIALOGUE[speaker].mid.general,weight:3,context:'general'});
+
+  // Select weighted random
+  const totalW = pool.reduce((a,p)=>a+p.weight,0);
+  let r = Math.random()*totalW;
+  let selected = pool[0];
+  for(const p of pool){
+    r -= p.weight;
+    if(r<=0){selected=p;break;}
+  }
+
+  const lines = selected.lines;
+  const line = lines[Math.floor(Math.random()*lines.length)];
+  return {line,context:selected.context,addressed:selected.context==='self'?null:selected.context==='general'?null:selected.context};
+}
+
+function pickReaction(speaker,target){
+  const ts = G.delegateState[target];
+  const tone = getTone(ts);
+  const reactions = DIALOGUE[speaker].react[target+'_to'];
+  if(!reactions || !reactions[tone]) {
+    // Fall back to neutral if specific tone not found
+    if(reactions && reactions.neutral) {
+      return reactions.neutral[Math.floor(Math.random()*reactions.neutral.length)];
+    }
+    return null;
+  }
+  const lines = reactions[tone];
+  return lines[Math.floor(Math.random()*lines.length)];
+}
+
+function pickReactionTarget(speaker){
+  const targets = DELEGATES.filter(d=>d!==speaker);
+  // Prioritize targets with high anger or suspicion toward speaker
+  targets.sort((a,b)=>{
+    const aScore = G.delegateState[a].anger + G.delegateState[a].paranoia;
+    const bScore = G.delegateState[b].anger + G.delegateState[b].paranoia;
+    return bScore - aScore;
+  });
+  return Math.random()<.7 ? targets[0] : targets[1];
+}
+
+function pickClosing(speaker){
+  const lines = DIALOGUE[speaker].closing;
+  return lines[Math.floor(Math.random()*lines.length)];
+}
+
+// Extended tone system — 'cold' is for glacial/silent breaking
+function getTone(state){
+  if(state.paranoia>.4) return 'suspicious';
+  if(state.anger>.6 && state.fatigue>.25) return 'stress';
+  if(state.anger>.5) return 'disagreeable';
+  if(state.trust>.35) return 'agreeable';
+  if(state.anger>.35 && state.fatigue>.3) return 'cold';
+  if(state.anger>.25) return 'disagreeable';
+  return 'neutral';
+}
+
+function updateDelegateStates(trigger,actor,metadata){
+  if(trigger==='speak'){
+    DELEGATES.forEach(d=>{
+      if(d===actor) return;
+      const s = G.delegateState[d];
+      const as = G.delegateState[actor];
+      // Anger breeds anger
+      if(as.anger>.35) s.anger = Math.min(1,s.anger+.01);
+      // Natural fatigue
+      s.fatigue = Math.min(1,s.fatigue+.01);
+      // Paranoia grows slowly
+      s.paranoia = Math.min(1,s.paranoia+.003);
+    });
+    // Speaker fatigue
+    G.delegateState[actor].fatigue = Math.min(1,G.delegateState[actor].fatigue+.008);
+  }
+}
+
+function applyNote(note){
+  G.totalNotesSent++;
+  G.playerTimesActed++;
+
+  DELEGATES.forEach(d=>{
+    if(note.effects[d]){
+      const e = note.effects[d];
+      const s = G.delegateState[d];
+      if(e.trust) s.trust = clamp(s.trust + e.trust);
+      if(e.anger) s.anger = clamp(s.anger + e.anger);
+      if(e.fatigue) s.fatigue = clamp(s.fatigue + e.fatigue);
+      if(e.paranoia) s.paranoia = clamp(s.paranoia + e.paranoia);
+    }
+  });
+
+  // Passive paranoia growth per note sent
+  DELEGATES.forEach(d=>{
+    G.delegateState[d].paranoia = clamp(G.delegateState[d].paranoia + .01);
+  });
+
+  G.noteHistory.push(note);
+}
+
+// Returns null if not breaking, or a string: 'volcanic', 'glacial', or 'fracture'
+function checkBreaking(d){
+  const s = G.delegateState[d];
+  if(s.broken) return null; // Already broken
+
+  // Volcanic: high anger, moderate fatigue — explosive outburst
+  if(s.anger > .70 && s.fatigue > .25) return 'volcanic';
+  // Glacial: very high fatigue, moderate anger — cold withdrawal
+  if(s.fatigue > .60 && s.anger > .35) return 'glacial';
+  // Fracture: high paranoia + high anger — suspicion-driven collapse
+  if(s.paranoia > .50 && s.anger > .50) return 'fracture';
+
+  return null;
+}
+
+function handleBreakingPoint(d, breakType){
+  G.delegateState[d].broken = true;
+  G.delegateState[d].breakType = breakType;
+
+  // Show appropriate atmospheric line for broken state
+  const brokenAtmos = ATMOSPHERIC[d].broken;
+  addAtmosphericLine(brokenAtmos[Math.floor(Math.random()*brokenAtmos.length)]);
+
+  if(breakType === 'volcanic'){
+    // Explosive outburst
+    const breakLines = DIALOGUE[d].breaking_lines;
+    addLine(d, breakLines[Math.floor(Math.random()*breakLines.length)]);
+    addLine('system','BREAKING POINT — '+d.toUpperCase()+' HAS LEFT THE SUMMIT');
+  } else if(breakType === 'glacial'){
+    // Cold withdrawal — no speech, just silence
+    addLine('system', d.toUpperCase()+' HAS CEASED PARTICIPATION. NO FURTHER STATEMENT.');
+  } else if(breakType === 'fracture'){
+    // Suspicion-driven — accuse the aide
+    const suspLines = DIALOGUE[d].suspicion_lines;
+    addLine(d, suspLines[Math.floor(Math.random()*suspLines.length)]);
+    addLine(d, 'I will not continue under these conditions. The notes. The timing. This summit is compromised.');
+    addLine('system','BREAKING POINT — '+d.toUpperCase()+' HAS ACCUSED THE AIDE OF MANIPULATION');
+  }
+
+  setTimeout(()=>endGame(),2500);
+}
+
+function checkSuspicion(){
+  let totalSuspicion = 0;
+  DELEGATES.forEach(d=>{
+    totalSuspicion += G.delegateState[d].paranoia;
+  });
+  return totalSuspicion / 3;
+}
+
+function advanceRound(){
+  if(G.ended) return;
+  G.round++;
+  if(G.round > SUMMIT_END_ROUND){
+    endGame();
+    return;
+  }
+
+  const topic = TOPICS[Math.min(G.topicIdx+G.round-1, TOPICS.length-1)];
+  addLine('system','ROUND '+G.round+': '+topic.name.toUpperCase());
+  setupRound();
+
+  setTimeout(()=>speakOpening(0),1000);
+}
+
+// ============================================================
+// NOTE SELECTION & DISPLAY
+// ============================================================
+function showNotes(){
+  const available = generateAvailableNotes();
+  const grid = document.getElementById('notesGrid');
+  grid.innerHTML='';
+
+  available.forEach((note,i)=>{
+    const btn = document.createElement('button');
+    btn.className='note-btn';
+    btn.style.animationDelay=(i*.08)+'s';
+
+    let targetHtml = '';
+    if(note.target==='general'){
+      targetHtml='<span class="dot" style="background:var(--dim)"></span>ALL DELEGATES';
+    } else if(note.target.startsWith('pair_')){
+      const parts = note.target.replace('pair_','').split('_');
+      const names = parts.map(p=>p.charAt(0).toUpperCase()+p.slice(1));
+      targetHtml=names.join(' & ');
+    } else {
+      const d = note.target;
+      const name = d.charAt(0).toUpperCase()+d.slice(1);
+      targetHtml=`<span class="dot" style="background:var(--${d==='voss'?'amber':d==='chen'?'teal':'rust'})"></span><span class="c-${d}">${name.toUpperCase()}</span>`;
+    }
+
+    btn.innerHTML=`<div class="note-target">${targetHtml}</div><div class="note-text">${note.text}</div>`;
+    btn.onclick=()=>selectNote(note);
+    grid.appendChild(btn);
+  });
+}
+
+function generateAvailableNotes(){
+  const used = new Set(G.noteHistory.map(n=>n.id));
+  const available = NOTES.filter(n=>!used.has(n.id));
+
+  // Prioritize notes relevant to current tensions
+  const scored = available.map(n=>{
+    let score = Math.random()*2;
+    DELEGATES.forEach(d=>{
+      if(n.effects[d]){
+        if(n.effects[d].trust && n.effects[d].trust>0 && G.delegateState[d].anger>.3) score+=2;
+        if(n.effects[d].anger && n.effects[d].anger<0 && G.delegateState[d].anger>.3) score+=1.5;
+      }
+    });
+    if(n.target.startsWith('pair_')){
+      const parts = n.target.replace('pair_','').split('_');
+      const mutualAnger = G.delegateState[parts[0]].anger + G.delegateState[parts[1]].anger;
+      if(mutualAnger>.5) score+=2;
+    }
+    return {note:n,score};
+  });
+
+  scored.sort((a,b)=>b.score-a.score);
+  return scored.slice(0,3).map(s=>s.note);
+}
+
+function selectNote(note){
+  const grid = document.getElementById('notesGrid');
+  grid.innerHTML='<div class="pause-marker" style="color:var(--dim);font-size:.75rem;font-style:italic">Note passed under the door of Chamber 14...</div>';
+
+  addNoteLine(note.text);
+  applyNote(note);
+  updateStatus();
+
+  G.roundState.noteCount++;
+
+  // Track who responds to prevent them from double-speaking in the next dialogue cycle
+  G.spokeThisExchange = new Set();
+
+  // Determine response order
+  let responders;
+  if(note.target==='general'){
+    responders=[...DELEGATES].sort(()=>Math.random()-.5);
+  } else if(note.target.startsWith('pair_')){
+    const parts = note.target.replace('pair_','').split('_');
+    const third = DELEGATES.filter(d=>!parts.includes(d))[0];
+    responders=[...parts,third];
+  } else {
+    const others = DELEGATES.filter(d=>d!==note.target).sort(()=>Math.random()-.5);
+    responders=[note.target,...others];
+  }
+
+  // Mark responders so they don't duplicate in next speak cycle
+  responders.forEach(r => G.spokeThisExchange.add(r));
+  G.roundState.noteResponders = new Set(responders);
+
+  setTimeout(()=>respondToNote(responders,0),1200);
+}
+
+function respondToNote(responders,idx){
+  if(G.ended) return;
+
+  // Only 2 responders max to keep things tight
+  if(idx>=Math.min(responders.length,2)){
+    setTimeout(()=>speakNext(),800);
+    return;
+  }
+  const d = responders[idx];
+  const s = G.delegateState[d];
+
+  // Check breaking during note response too
+  const breakCheck = checkBreaking(d);
+  if(breakCheck){
+    handleBreakingPoint(d, breakCheck);
+    return;
+  }
+
+  // Check if suspicious
+  if(s.paranoia>.4 && Math.random()<s.paranoia-.2){
+    const suspLines = DIALOGUE[d].suspicion_lines;
+    addLine(d, suspLines[Math.floor(Math.random()*suspLines.length)]);
+    s.paranoia = clamp(s.paranoia+.05);
+    updateStatus();
+    setTimeout(()=>respondToNote(responders,idx+1),1500);
+    return;
+  }
+
+  // Normal response
+  const respLines = DIALOGUE[d].note_response;
+  addLine(d, respLines[Math.floor(Math.random()*respLines.length)]);
+
+  // Follow-up based on note effect
+  setTimeout(()=>{
+    const lastNote = G.noteHistory[G.noteHistory.length-1];
+    const effectOnThis = getNetNoteEffect(d, lastNote);
+    let tone = 'neutral';
+    if(effectOnThis>.03) tone='agreeable';
+    else if(effectOnThis<-.03) tone='disagreeable';
+
+    const followLines = DIALOGUE[d].note_follow[tone];
+    if(followLines){
+      addLine(d, followLines[Math.floor(Math.random()*followLines.length)]);
+    }
+    updateStatus();
+
+    // Check suspicion level — ambient suspicion spike
+    if(checkSuspicion()>.55 && Math.random()<.3){
+      setTimeout(()=>{
+        const suspD = DELEGATES.reduce((a,b)=>G.delegateState[a].paranoia>G.delegateState[b].paranoia?a:b);
+        const suspLines = DIALOGUE[suspD].suspicion_lines;
+        addLine(suspD, suspLines[Math.floor(Math.random()*suspLines.length)]);
+        updateStatus();
+      },1000);
+    }
+
+    setTimeout(()=>respondToNote(responders,idx+1),1500);
+  },1200);
+}
+
+function getNetNoteEffect(delegateId, note){
+  if(!note || !note.effects[delegateId]) return 0;
+  const e = note.effects[delegateId];
+  let net = 0;
+  if(e.trust) net += e.trust;
+  if(e.anger) net -= e.anger;
+  if(e.fatigue) net -= e.fatigue * .5;
+  return net;
+}
+
+// ============================================================
+// ENDGAME
+// ============================================================
+function endGame(){
+  if(G.ended) return;
+  G.ended = true;
+
+  const result = calculateOutcome();
+  const gs = document.getElementById('gameScreen');
+  gs.classList.remove('visible');
+  const es = document.getElementById('endScreen');
+  es.style.display='flex';
+  es.classList.add('visible');
+
+  let titleText, subtitleText, summaryHtml;
+
+  switch(result.type){
+    case 'collapse_volcanic':
+      titleText='THE SUMMIT HAS COLLAPSED';
+      subtitleText='VOLATILE RUPTURE — NO AGREEMENT REACHED';
+      summaryHtml=`
+        <p>${result.brokenDelegate} erupted. The <span class="redacted">██████</span> history — always the history, always that one wound — cracked open and the summit died in the flood.</p>
+        <p>The remaining delegates sat in silence for eleven minutes before the session was formally suspended.</p>
+        <p>The emergency continues. The next summit — if there is one — will begin from nothing.</p>
+      `;
+      break;
+    case 'collapse_glacial':
+      titleText='THE SUMMIT HAS COLLAPSED';
+      subtitleText='SILENT WITHDRAWAL — NO AGREEMENT REACHED';
+      summaryHtml=`
+        <p>${result.brokenDelegate} simply stopped participating. No outburst. No accusation. Just a long silence that grew until it filled the room.</p>
+        <p>The other delegates waited, then waited longer. Eventually the silence became its own answer.</p>
+        <p>There will be no accord today. The question is whether ${result.brokenDelegate} will return tomorrow.</p>
+      `;
+      break;
+    case 'collapse_fracture':
+      titleText='THE SUMMIT HAS COLLAPSED';
+      subtitleText='AIDE EXPOSED — SUMMIT DISSOLVED';
+      summaryHtml=`
+        <p>It was the notes that gave you away. ${result.brokenDelegate} saw the pattern before anyone else — or perhaps before anyone was willing to admit it.</p>
+        <p>The timing. The targeting. The way each note arrived precisely when it could shift the conversation most effectively.</p>
+        <p>You were escorted from the building by security. The summit was suspended. The question they could not answer: who were you really working for?</p>
+      `;
+      break;
+    case 'suspicion':
+      titleText='THE AIDE IS DISCOVERED';
+      subtitleText='MANIPULATION EXPOSED';
+      summaryHtml=`
+        <p>It was the notes that gave you away. Too well-timed. Too precisely targeted. The delegates compared their collections and found the pattern.</p>
+        <p>You were escorted from the building by security. The summit resumed without outside input.</p>
+        <p>The question they could not answer: who were you really working for?</p>
+      `;
+      break;
+    case 'partial':
+      titleText='A PARTIAL TREATY IS SIGNED';
+      subtitleText='SUBCOMMITTEE 7-B — LIMITED ACCORD';
+      summaryHtml=`
+        <p>The document is imperfect. ${result.signedBy.join(', ')} signed. ${result.heldOut ? result.heldOut+' refused.' : ''}</p>
+        <p>The provisions cover ${result.provisions} of the six key areas. Enough to maintain dialogue. Not enough to solve anything.</p>
+        <p>The aide's notes were entered into the record. No one could agree on whether they helped.</p>
+      `;
+      break;
+    case 'peace':
+      titleText='AN ACCIDENTAL PEACE';
+      subtitleText='SUBCOMMITTEE 7-B — FULL ACCORD';
+      summaryHtml=`
+        <p>No one expected this. Least of all the delegates themselves.</p>
+        <p>The accord covers all six provision areas. Verification protocols, sequence allocations, security guarantees, material shares, timeline compliance, and final provisions. All signed.</p>
+        <p>Was it the notes? Was it the exhaustion? Was it the particular geometry of three tired people in a locked room who finally, accidentally, said what they actually meant?</p>
+        <p>The record shows your notes. The record does not show your hands shaking as you wrote them.</p>
+      `;
+      break;
+  }
+
+  es.innerHTML=`
+    <h2 style="color:${result.type.startsWith('collapse')?'var(--red)':result.type==='suspicion'||result.type==='collapse_fracture'?'var(--amber)':result.type==='peace'?'var(--teal)':'var(--text)'}">${titleText}</h2>
+    <div class="subtitle">${subtitleText}</div>
+    <div class="summary">${summaryHtml}</div>
+    <div style="font-size:.7rem;color:var(--dim);margin-bottom:1.5rem;letter-spacing:.1em">
+      ROUNDS: ${G.round} | NOTES SENT: ${G.totalNotesSent} | OUTCOME: ${result.type.replace('collapse_','').toUpperCase()}
+    </div>
+    <button class="restart-btn" onclick="restartGame()">NEW SUMMIT</button>
+  `;
+}
+
+function calculateOutcome(){
+  const ds = G.delegateState;
+
+  // Check for broken delegates first — highest priority
+  const broken = DELEGATES.filter(d=>ds[d].broken);
+  if(broken.length>0){
+    const d = broken[0];
+    const breakType = ds[d].breakType;
+    const name = d.charAt(0).toUpperCase()+d.slice(1);
+
+    if(breakType==='volcanic'){
+      return {type:'collapse_volcanic',brokenDelegate:name,detail:'The root cause was clear: someone pushed too hard, too fast.'};
+    } else if(breakType==='glacial'){
+      return {type:'collapse_glacial',brokenDelegate:name};
+    } else if(breakType==='fracture'){
+      return {type:'collapse_fracture',brokenDelegate:name};
+    }
+    // Fallback
+    return {type:'collapse_volcanic',brokenDelegate:name};
+  }
+
+  // Check suspicion threshold
+  const avgSuspicion = (ds.voss.paranoia+ds.chen.paranoia+ds.reyes.paranoia)/3;
+  if(avgSuspicion>.55){
+    return {type:'suspicion'};
+  }
+
+  const avgTrust = (ds.voss.trust+ds.chen.trust+ds.reyes.trust)/3;
+  const avgAnger = (ds.voss.anger+ds.chen.anger+ds.reyes.anger)/3;
+
+  if(avgTrust>.42 && avgAnger<.30){
+    return {type:'peace'};
+  }
+
+  // Partial
+  const signed = [];
+  const held = [];
+  DELEGATES.forEach(d=>{
+    if(ds[d].trust>.28 && ds[d].anger<.45) signed.push(d.charAt(0).toUpperCase()+d.slice(1));
+    else held.push(d.charAt(0).toUpperCase()+d.slice(1));
+  });
+  const provisions = Math.max(1,Math.min(5,Math.floor(avgTrust*8)));
+  return {type:'partial',signedBy:signed,heldOut:held[0]||null,provisions};
+}
+
+function restartGame(){
+  document.getElementById('endScreen').classList.remove('visible');
+  document.getElementById('endScreen').style.display='none';
+  document.getElementById('gameScreen').classList.remove('visible');
+  document.getElementById('titleScreen').style.display='flex';
+}
+
+// ============================================================
+// UI HELPERS
+// ============================================================
+function addLine(delegateId, text){
+  const transcript = document.getElementById('transcript');
+  const div = document.createElement('div');
+  div.className='dialogue-line';
+
+  const nameMap={voss:'AMBASSADOR VOSS',chen:'DR. CHEN',reyes:'COMMANDER REYES',system:'SYSTEM'};
+  const classMap={voss:'c-voss',chen:'c-chen',reyes:'c-reyes',system:'c-system'};
+  const time = getTimestamp();
+
+  div.innerHTML=`
+    <span class="timestamp">${time}</span>
+    <span class="delegate-label ${classMap[delegateId]||''}"><span class="delegate-color"></span>${nameMap[delegateId]||delegateId.toUpperCase()}</span>
+    <div class="text">${text}</div>
+  `;
+  transcript.appendChild(div);
+  transcript.scrollTop = transcript.scrollHeight;
+}
+
+function addAtmosphericLine(text){
+  const transcript = document.getElementById('transcript');
+  const div = document.createElement('div');
+  div.className='atmospheric-line';
+  div.textContent = text;
+  transcript.appendChild(div);
+  transcript.scrollTop = transcript.scrollHeight;
+}
+
+function addNoteLine(text){
+  const transcript = document.getElementById('transcript');
+  const div = document.createElement('div');
+  div.className='note-line';
+  div.innerHTML=`<span class="note-icon">[NOTE]</span>${text}`;
+  transcript.appendChild(div);
+  transcript.scrollTop = transcript.scrollHeight;
+}
+
+function addBreakMarker(){
+  const transcript = document.getElementById('transcript');
+  const div = document.createElement('div');
+  div.className='break-marker';
+  div.textContent='— BREAK IN PROCEEDINGS —';
+  transcript.appendChild(div);
+  transcript.scrollTop = transcript.scrollHeight;
+}
+
+function addPauseMarker(){
+  const transcript = document.getElementById('transcript');
+  const div = document.createElement('div');
+  div.className='pause-marker';
+  div.textContent='A silence falls. The delegates pause. Through the gap beneath the door, you can see their shadows, still.';
+  transcript.appendChild(div);
+  transcript.scrollTop = transcript.scrollHeight;
+}
+
+function updateStatus(){
+  const bar = document.getElementById('statusBar');
+  if(!bar) return;
+  const ds = G.delegateState;
+  const topic = TOPICS[Math.min(G.topicIdx, TOPICS.length-1)];
+
+  let html = `<div class="status-item">ROUND <span>${G.round}/${SUMMIT_END_ROUND}</span></div>`;
+  html += `<div class="status-item">TOPIC: <span>${topic.name}</span></div>`;
+
+  DELEGATES.forEach(d=>{
+    const s = ds[d];
+    const name = d.charAt(0).toUpperCase()+d.slice(1);
+    const trustColor = s.trust>.4?'var(--teal)':s.trust>.25?'var(--text)':'var(--rust)';
+    const angerColor = s.anger>.4?'var(--red)':s.anger>.25?'var(--amber)':'var(--text)';
+    html += `<div class="status-item c-${d}" style="border-color:rgba(255,255,255,.06)">${name.slice(0,3).toUpperCase()} <span style="color:${trustColor}">T:${Math.round(s.trust*100)}</span> <span style="color:${angerColor}">A:${Math.round(s.anger*100)}</span></div>`;
+  });
+
+  bar.innerHTML = html;
+}
+
+function getTimestamp(){
+  const h = 9 + Math.floor(G.round * 1.2);
+  const m = Math.floor((G.round * 17 + G.roundState.speakerIdx * 5)%60);
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+}
+
+function clamp(v,lo=0,hi=1){return Math.max(lo,Math.min(hi,v));}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded',()=>{
+  // Keyboard accessibility for note selection
+  document.addEventListener('keydown',e=>{
+    if(e.key==='1'||e.key==='2'||e.key==='3'){
+      const btns = document.querySelectorAll('.note-btn');
+      const idx = parseInt(e.key)-1;
+      if(btns[idx]) btns[idx].click();
+    }
+  });
+});
+</script>
+</body>
+</html>

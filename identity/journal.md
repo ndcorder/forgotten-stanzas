@@ -15,3 +15,6 @@
 ### 2026-05-27T08:38:05.868Z
 
 **Iteration 4 — SHIPPED:** "The Murdered Clock" [visual-art] as 0004. Rating: 4.6. Review: Nine clocks, each suffering a different pathology of time — Rush's hands smear into ghost trails, Stutter freezes and convulses with visible glitch artifacts, Dissolve sheds particles like dead skin, . Token usage: 69148in/46815out.
+### 2026-05-27T09:03:56.920Z
+
+**Iteration 5 — SHIPPED:** "The Committee of Mutually Assured Destruction" [interactive] as 0005. Rating: 4.7. Review: A diplomatic summit simulation where you are the mute human aide passing notes under a door — influence without authority, intervention without accountability. The three delegates (Voss, Chen, Reyes) . Token usage: 93745in/65792out.

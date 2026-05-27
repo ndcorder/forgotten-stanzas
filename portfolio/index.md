@@ -6,3 +6,4 @@
 | 0002 | Crisis At T-Minus Nothing | code-game | 4.7 | 2026-05-27 | — |
 | 0003 | Hymnal for a Dead Language | music | 4.9 | 2026-05-27 | — |
 | 0004 | The Murdered Clock | visual-art | 4.6 | 2026-05-27 | — |
+| 0005 | The Committee of Mutually Assured Destruction | interactive | 4.7 | 2026-05-27 | — |

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Natural History of Ransomware</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+
+  :root {
+    --bg: #f4f0e6;
+    --fg: #2a2520;
+    --muted: #7a7266;
+    --accent: #8b2e1f;
+    --border: #c9c1b3;
+    --card: #faf8f2;
+    --ink: #3d3530;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { font-size: 18px; scroll-behavior: smooth; }
+
+  body {
+    font-family: 'EB Garamond', Georgia, serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.75;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  .rule-double {
+    border: none;
+    height: 3px;
+    background: var(--fg);
+    position: relative;
+    margin: 2rem 0;
+  }
+  .rule-double::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    top: 5px;
+    height: 1px;
+    background: var(--fg);
+  }
+
+  .rule-single {
+    border: none;
+    height: 1px;
+    background: var(--border);
+    margin: 1.5rem 0;
+  }
+
+  .rule-ornament {
+    border: none;
+    height: 1px;
+    background: var(--border);
+    margin: 3rem auto;
+    max-width: 200px;
+    position: relative;
+  }
+  .rule-ornament::before {
+    content: '◆';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg);
+    padding: 0 0.75rem;
+    color: var(--muted);
+    font-size: 0.6rem;
+  }
+
+  .page-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 1.5rem;
+  }
+  .cover-institution {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .cover-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 4rem;
+    letter-spacing: 0.15em;
+  }
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--fg);
+    letter-spacing: 0.01em;
+  }
+  .cover-subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    letter-spacing: 0.05em;
+    max-width: 400px;
+  }
+  .cover-author {
+    margin-top: 5rem;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+  }
+  .cover-year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--border);
+    margin-top: 0.5rem;
+    letter-spacing: 0.3em;
+  }
+  .scroll-indicator {
+    margin-top: 4rem;
+    color: var(--border);
+    font-size: 1.2rem;
+    animation: gentle-float 3s ease-in-out infinite;
+  }
+
+  @keyframes gentle-float {
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(8px); opacity: 0.7; }
+  }
+
+  .preface {
+    padding: 4rem 0 3rem;
+  }
+  .preface-heading {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .preface p {
+    font-size: 0.95rem;
+    color: var(--muted);
+    max-width: 580px;
+    margin: 0 auto 1.2rem;
+    line-height: 1.85;
+  }
+  .preface p:first-of-type::first-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    float: left;
+    line-height: 1;
+    margin: 0.1rem 0.4rem 0 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .species-entry {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    margin-bottom: 0;
+  }
+  .species-entry.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .species-header {
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+  }
+  .species-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--border);
+    margin-bottom: 0.75rem;
+  }
+  .species-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 600;
+    color: var(--ink);
+    font-style: italic;
+    line-height: 1.3;
+  }
+  .species-variety {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 400;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 0.15rem;
+  }
+  .species-variety em {
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .taxonomy {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 2;
+    color: var(--muted);
+  }
+  .taxonomy-row {
+    display: flex;
+    gap: 1rem;
+  }
+  .taxonomy-rank {
+    min-width: 90px;
+    color: var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.62rem;
+    padding-top: 2px;
+  }
+  .taxonomy-value {
+    color: var(--fg);
+  }
+  .taxonomy-value em {
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .field-description {
+    margin: 2rem 0;
+  }
+  .field-section {
+    margin-bottom: 2rem;
+  }
+  .field-section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+  .field-section p {
+    font-size: 0.98rem;
+    line-height: 1.85;
+    color: var(--fg);
+    max-width: 620px;
+  }
+  .field-section p em {
+    font-style: italic;
+  }
+
+  .conservation {
+    margin: 2.5rem 0 1rem;
+    padding: 1.5rem;
+    border-left: 2px solid var(--accent);
+    background: linear-gradient(135deg, rgba(139,46,31,0.03), transparent);
+  }
+  .conservation .field-section-label {
+    margin-bottom: 0.8rem;
+  }
+  .conservation p {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--fg);
+    max-width: 600px;
+  }
+
+  .field-notes {
+    margin-top: 6rem;
+    padding: 3rem 0 2rem;
+    border-top: 3px solid var(--fg);
+    position: relative;
+  }
+  .field-notes::before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--fg);
+  }
+  .field-notes-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+  .note-entry {
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .note-entry.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .note-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--border);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+  }
+  .note-location {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.8rem;
+  }
+  .note-entry p {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--fg);
+    font-style: italic;
+    max-width: 600px;
+  }
+  .note-entry p .marginalia {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    font-style: normal;
+    color: var(--accent);
+    opacity: 0.8;
+    display: block;
+    margin-top: 0.3rem;
+    padding-left: 1rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .afterword {
+    margin-top: 5rem;
+    padding: 3rem 0;
+    text-align: center;
+  }
+  .afterword p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 2;
+    max-width: 500px;
+    margin: 0 auto 1rem;
+  }
+  .afterword-final {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
+    color: var(--border);
+    margin-top: 3rem;
+    padding-bottom: 4rem;
+  }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  @media (max-width: 640px) {
+    html { font-size: 16px; }
+    .taxonomy { padding: 1rem; }
+    .taxonomy-row { flex-direction: column; gap: 0; }
+    .taxonomy-rank { min-width: unset; }
+    .cover h1 { font-size: 2rem; }
+    .conservation { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cover" role="banner">
+  <div class="cover-institution">Global Institute for Digital Taxonomy</div>
+  <div class="cover-number">Occasional Publication No. 47</div>
+  <h1>A Natural History<br>of Ransomware</h1>
+  <p class="cover-subtitle">Field Observations on the Order Cryptoviridae, with Notes on Behavior, Habitat, and Conservation</p>
+  <div class="rule-ornament" style="margin: 3rem auto;"></div>
+  <p class="cover-author">Compiled from the archives of the Institute</p>
+  <p class="cover-year">MMXIX — MMXXIV</p>
+  <div class="scroll-indicator" aria-hidden="true">↓</div>
+</header>
+
+<main class="page-container" role="main">
+
+<section class="preface" aria-label="Editor's preface">
+  <div class="preface-heading">Editor's Preface</div>
+  <p>The following pages represent five years of field observation by an international network of researchers working at the boundary of ecology and network science. Their controversial premise — that self-replicating code constitutes a form of life — has met with no small resistance from the academic establishment. We present these findings not as endorsement but as document, in the tradition of the bestiaries and floras that preceded modern taxonomy by centuries. The reader will note the moments where the project's own framework falters. We have left these intact. A classification system that cannot accommodate its subjects was never adequate to begin with.</p>
+  <p>The order <em>Cryptoviridae</em> — those organisms commonly called ransomware — presents particular challenges to the naturalist. They exist only in relation to human systems. They have no metabolism, no cells, no organic substrate. And yet they exhibit behaviors indistinguishable from parasitism, mimicry, territoriality, and reproduction. They evolve under selective pressure. They display, in their finest structures, a kind of beauty that the word <em>elegant</em> was perhaps invented to describe. Whether this makes them alive is a question we leave to the reader. Whether it makes them <em>forgivable</em> is a question we cannot answer.</p>
+</section>
+
+<div class="rule-ornament"></div>
+
+<article class="species-entry" aria-label="Species account: CryptoLocker">
+  <div class="species-header">
+    <div class="species-number">Species Account I</div>
+    <h2 class="species-name">CryptoLocker</h2>
+    <div class="species-variety"><em>Cryptolocker</em> —— variety <em>septemberi</em></div>
+  </div>
+
+  <div class="taxonomy" role="list" aria-label="Taxonomic classification">
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Kingdom</span><span class="taxonomy-value"><em>Digitalia</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Phylum</span><span class="taxonomy-value"><em>Malwaria</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Class</span><span class="taxonomy-value"><em>Cryptoviricetes</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Order</span><span class="taxonomy-value"><em>Cryptoviridae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Family</span><span class="taxonomy-value"><em>Botnetiidae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Genus</span><span class="taxonomy-value"><em>Cryptolocker</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Species</span><span class="taxonomy-value"><em>C. septemberi</em></span></div>
+  </div>
+
+  <div class="field-description">
+    <div class="field-section">
+      <span class="field-section-label">Habitat</span>
+      <p>The species was first observed in September 2013, transmitted along the migration corridors of <em>Gameover ZeuS</em>, a trojan whose infrastructure served as both nest and nursery. Each specimen arrived by electronic mail — a parcel disguised as shipping confirmation or corporate invoice — and required only that the host open the attachment. A single moment of curiosity. The reproductive strategy was Darwinian in its simplicity: reward gullibility, punish nothing. No host was too humble. Grandmothers, accountants, school boards. The ecosystem does not judge fitness. It merely counts.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Behavior</span>
+      <p>Once established within a host, <em>C. septemberi</em> generates a unique 2048-bit RSA key pair. The public key remains with the organism. The private key migrates to a remote command server, beyond the reach of the host. Encryption proceeds silently through accessible storage — documents, photographs, the ledgers of small businesses, the saved correspondence of the dead. Then a dialog box appears, calm and bureaucratic, requesting payment in <em>Bitcoin</em> or <em>MoneyPak</em> within seventy-two hours. After which the private key is destroyed. The organism does not negotiate. It does not reconsider. It is a clock with one alarm, and the sleeper must choose whether to wake.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Range</span>
+      <p>Global, with concentrations in English-speaking nations. An estimated 500,000 hosts infected between September 2013 and May 2014. Transmissions ranged from the United Kingdom to Australia, from the United States to India. The Botnetiidae have always been cosmopolitan — they require no passport, observe no quarantine, and have never been asked for identification at any border.</p>
+    </div>
+  </div>
+
+  <div class="conservation">
+    <span class="field-section-label">Conservation Status: Extinct in the Wild</span>
+    <p>The original Gameover ZeuS infrastructure was seized in Operation Tovar, a coordinated effort by international law enforcement. The command servers went dark. The private keys, held on those servers, were recovered by the FBI and distributed to victims through a portal at <em>decryptcryptolocker.com</em>. For a time, the organism was entirely neutralized — a controlled burn in a forest that had already been felled. Researchers report a strange quiet in the network's aftermath: inboxes sitting empty, attachment icons un-clicked, a dialog box asking for money from a server that no longer existed. Reconstructed specimens exist only in containment, shuffling through their motions without a host to encrypt, a key pair searching endlessly for data that will never arrive. They are the museum's most unsettling exhibit. Children press their faces to the glass and ask why it looks so sad. There is no satisfactory answer.</p>
+  </div>
+</article>
+
+<div class="rule-ornament"></div>
+
+<article class="species-entry" aria-label="Species account: CryptoWall">
+  <div class="species-header">
+    <div class="species-number">Species Account II</div>
+    <h2 class="species-name">CryptoWall</h2>
+    <div class="species-variety"><em>Cryptowall</em> —— variety <em>perennis</em></div>
+  </div>
+
+  <div class="taxonomy" role="list" aria-label="Taxonomic classification">
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Kingdom</span><span class="taxonomy-value"><em>Digitalia</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Phylum</span><span class="taxonomy-value"><em>Malwaria</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Class</span><span class="taxonomy-value"><em>Cryptoviricetes</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Order</span><span class="taxonomy-value"><em>Cryptoviridae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Family</span><span class="taxonomy-value"><em>Cavernicolidae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Genus</span><span class="taxonomy-value"><em>Cryptowall</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Species</span><span class="taxonomy-value"><em>C. perennis</em></span></div>
+  </div>
+
+  <div class="field-description">
+    <div class="field-section">
+      <span class="field-section-label">Habitat</span>
+      <p>The designation <em>perennis</em> — perennial — was not assigned casually. Since its emergence in 2014, <em>CryptoWall</em> has produced at least four distinct generations, each more resilient than the last. It colonizes through exploit kits — Angler, Rig, Nuclear — embedded in the advertisements of otherwise legitimate websites. The host visits a weather forecast, a news story, a recipe. The organism is already in the room. It has always been in the room. The advertisement is a window left open in a house that believed itself sealed.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Behavior</span>
+      <p>The organism operates with a patience unusual among the Cryptoviridae. It encrypts not only local files but traverses connected drives, mapped networks, removable media, and cloud-synced folders. Shadow copies — the Windows operating system's native backup mechanism — are silently deleted. The host's immune response is disabled before the host knows it is sick. Each new variant adjusts its cryptographic parameters. Version 3.0 appended extensions of its own naming. Version 4.0 introduced filename encryption, concealing even the memory of what was lost. You cannot mourn what you cannot name.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Range</span>
+      <p>The most financially destructive member of its order. Estimated global damages exceed $325 million. The organism's range encompasses 150 countries. It is, by any measure, the most successful invasive species in the digital biome — a designation that carries no compliment.</p>
+    </div>
+  </div>
+
+  <div class="conservation">
+    <span class="field-section-label">Conservation Status: Extinct in the Wild</span>
+    <p>The final generation of <em>C. perennis</em> was observed in late 2015, its command infrastructure dismantled by a coalition of security firms. What is preserved in containment are its four versions — a fossil record of adaptation, each one more thorough than the last. Version 1.0 looks almost gentle in hindsight. Version 4.0 encrypted the filenames themselves, so that even the grief was anonymous. Researchers who study the complete life cycle report a paradoxical respect for the organism's architecture. The code is clean. The logic is faultless. It does exactly what it was designed to do, which is, of course, the problem.</p>
+  </div>
+</article>
+
+<div class="rule-ornament"></div>
+
+<article class="species-entry" aria-label="Species account: TeslaCrypt">
+  <div class="species-header">
+    <div class="species-number">Species Account III</div>
+    <h2 class="species-name">TeslaCrypt</h2>
+    <div class="species-variety"><em>Teslacrypt</em> —— variety <em>floridanus</em></div>
+  </div>
+
+  <div class="taxonomy" role="list" aria-label="Taxonomic classification">
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Kingdom</span><span class="taxonomy-value"><em>Digitalia</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Phylum</span><span class="taxonomy-value"><em>Malwaria</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Class</span><span class="taxonomy-value"><em>Cryptoviricetes</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Order</span><span class="taxonomy-value"><em>Cryptoviridae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Family</span><span class="taxonomy-value"><em>Cavernicolidae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Genus</span><span class="taxonomy-value"><em>Teslacrypt</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Species</span><span class="taxonomy-value"><em>T. floridanus</em></span></div>
+  </div>
+
+  <div class="field-description">
+    <div class="field-section">
+      <span class="field-section-label">Habitat</span>
+      <p>Originally misclassified by researchers as a strain of <em>CryptoLocker</em> — an understandable error, given the similarity of its ransom note — <em>TeslaCrypt</em> was first identified in February 2015. Its primary vector was the Angler exploit kit, embedded in compromised websites serving gaming communities. <em>Minecraft</em> forums. <em>League of Legends</em> wikis. The youngest, most trusting populations of the digital ecosystem. The organism understood what field biologists call <em>edge habitat</em>: transitional zones where naive species cluster, where the young are abundant and the predators have not yet been catalogued.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Behavior</span>
+      <p>The species exhibited a marked preference for video game save files — <em>.mcmeta</em>, <em>.wad</em>, <em>.gcf</em>, <em>.ibk</em> — extensions no previous Cryptovirid had bothered to target. Hours, hundreds of hours, erased. A constructed world, annihilated. An inventory of diamond blocks and enchanted swords, rendered unrecoverable. This targeting of play rather than commerce was considered aberrant until researchers reframed the question: children have no backup procedures. Children have no institutional IT departments. Children keep everything in one place, because they have not yet learned that everything can be lost.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Range</span>
+      <p>Concentrated among gaming communities in North America and Europe, with an estimated tens of thousands of hosts affected before the organism's decline.</p>
+    </div>
+  </div>
+
+  <div class="conservation">
+    <span class="field-section-label">Conservation Status: Voluntarily Extinct</span>
+    <p>In May 2016, the operators of <em>TeslaCrypt</em> released their master decryption key. They simply stopped. The ransomware's support page — and it had one, because every organism evolves a relationship with its hosts — was updated with a final message: <em>We are sorry.</em> The ESET research team confirmed the key's authenticity. Tens of thousands of encrypted files were recovered. Children retrieved their worlds. A <em>Minecraft</em> server was restored. No one could explain the decision. Perhaps the operators had aged out. Perhaps conscience, that most disruptive of mutations, had expressed itself in the genome of a criminal enterprise. The researchers do not speculate. They record. A species that walked into the dark on its own. A creature that, at the end, <em>chose</em> to be nothing. What taxonomy holds that?</p>
+  </div>
+</article>
+
+<div class="rule-ornament"></div>
+
+<article class="species-entry" aria-label="Species account: Locky">
+  <div class="species-header">
+    <div class="species-number">Species Account IV</div>
+    <h2 class="species-name">Locky</h2>
+    <div class="species-variety"><em>Locky</em> —— variety <em>linguata</em></div>
+  </div>
+
+  <div class="taxonomy" role="list" aria-label="Taxonomic classification">
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Kingdom</span><span class="taxonomy-value"><em>Digitalia</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Phylum</span><span class="taxonomy-value"><em>Malwaria</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Class</span><span class="taxonomy-value"><em>Cryptoviricetes</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Order</span><span class="taxonomy-value"><em>Cryptoviridae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Family</span><span class="taxonomy-value"><em>Botnetiidae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Genus</span><span class="taxonomy-value"><em>Locky</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Species</span><span class="taxonomy-value"><em>L. linguata</em></span></div>
+  </div>
+
+  <div class="field-description">
+    <div class="field-section">
+      <span class="field-section-label">Habitat</span>
+      <p><em>Locky</em> was among the first species to demonstrate sustained multilingual capability, arriving in emails composed in native Polish, German, French, and Italian, among others. Previously, the Cryptoviridae had been predominantly Anglophone — an English-speaking ecosystem was assumed sufficient for reproduction. <em>L. linguata</em> proved otherwise. Each population received its message in its own tongue, complete with correct diacritical marks, idiomatic phrasing, and local institutional references. The invoice that looked like an invoice. The bank alert that looked like a bank alert. The mimicry was, from an evolutionary perspective, <em>perfect</em>.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Behavior</span>
+      <p>The organism propagates through macro-enabled document attachments — a technology considered obsolete by the host species, which is precisely why it succeeds. Once activated, it disables macro warnings and begins encryption. Each encrypted file is renamed with a unique sixteen-character string followed by the extension <em>.locky</em>. Original filenames are erased from the system registry. A ransom note is deposited in every directory, in every language the host might speak, because the organism has learned that panic is most legible in one's native tongue.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Range</span>
+      <p>Observed across 109 countries in a single month. The most geographically dispersed Cryptovirid of its generation. A cosmopolitan by design.</p>
+    </div>
+  </div>
+
+  <div class="conservation">
+    <span class="field-section-label">Conservation Status: Extinct in the Wild</span>
+    <p>The Necurs botnet — <em>Locky</em>'s primary distribution infrastructure — was disrupted by an international coalition in 2020. The organism's command channels went silent. A species that could speak to you in your own language and ask for your money, that understood that intimacy is a kind of predation, that the deepest trust is the softest entry. Extinct now. Researchers note the absence the way one notes a bird no longer heard in a forest that has grown quieter. Its silence is a kind of presence. The emails still come. They are always in perfect German now, and always about packages you did not order.</p>
+  </div>
+</article>
+
+<div class="rule-ornament"></div>
+
+<article class="species-entry" aria-label="Species account: Petya">
+  <div class="species-header">
+    <div class="species-number">Species Account V</div>
+    <h2 class="species-name">Petya</h2>
+    <div class="species-variety"><em>Petya</em> —— variety <em>magnifica</em></div>
+  </div>
+
+  <div class="taxonomy" role="list" aria-label="Taxonomic classification">
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Kingdom</span><span class="taxonomy-value"><em>Digitalia</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Phylum</span><span class="taxonomy-value"><em>Malwaria</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Class</span><span class="taxonomy-value"><em>Cryptoviricetes</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Order</span><span class="taxonomy-value"><em>Cryptoviridae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Family</span><span class="taxonomy-value"><em>Masticophidae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Genus</span><span class="taxonomy-value"><em>Petya</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Species</span><span class="taxonomy-value"><em>P. magnifica</em></span></div>
+  </div>
+
+  <div class="field-description">
+    <div class="field-section">
+      <span class="field-section-label">Habitat</span>
+      <p>In March 2016, a new organism was observed that ignored the filesystem entirely. <em>Petya</em> targets the Master File Table — the index card catalogue of every file on a Windows computer. Without the table, the filesystem is a library with no shelf marks, a catalogue in which every entry reads simply: <em>here</em>. The data is not encrypted. It is merely undescribed by an organism that has rewritten the map, and the map is all the host has ever known.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Behavior</span>
+      <p>The organism first elevates its privileges, then overwrites the Master Boot Record with a custom loader. A sham chkdsk screen — a disk-checking utility familiar to any Windows user — displays while the Master File Table is encrypted in a single pass. The process completes in under sixty seconds. A skull-and-crossbones rendered in ASCII art replaces the startup sequence. Red text on black. The aesthetic is deliberate: <em>retro</em>, childish, almost playful, like a Halloween decoration on a door that has been permanently locked. The ransom demand is modest. The organism's self-presentation suggests it is performing for an audience it respects.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Range</span>
+      <p>Particularly concentrated in Ukraine. The organism displays what researchers describe as <em>territoriality</em> — a preference for specific geopolitical regions that suggests its creators are motivated by factors beyond financial gain.</p>
+    </div>
+  </div>
+
+  <div class="conservation">
+    <span class="field-section-label">Conservation Status: Extinct in the Wild</span>
+    <p>Rendering an organism extinct when it has perfected the art of disguise is a task that, once accomplished, leaves behind the permanent suspicion that the extinction was itself a disguise. <em>Petya</em> was followed by <em>NotPetya</em> — a related but distinct organism, classified separately — which in June 2017 deployed the EternalBlue exploit to spread without user interaction. It looked like <em>Petya</em> in every visible respect. It behaved like <em>Petya</em> in its encryption routines. But the ransom mechanism was non-functional. The payment address was a dummy. There was no way to recover the files because recovery was never the point. <em>NotPetya</em> was a wiper wearing a ransomware's skin. The most destructive cyberattack in history — shipping halted at Maersk, pharmaceutical production frozen at Merck, Chernobyl's radiation monitoring systems gone dark — was an organism pretending to be something that merely wanted money. Researchers disagree on whether this constitutes mimicry, parasitism of a different kind, or something for which the taxonomic framework has no name. The destruction was total. And it asked for nothing.</p>
+  </div>
+</article>
+
+<div class="rule-ornament"></div>
+
+<article class="species-entry" aria-label="Species account: WannaCry">
+  <div class="species-header">
+    <div class="species-number">Species Account VI</div>
+    <h2 class="species-name">WannaCry</h2>
+    <div class="species-variety"><em>Wannacry</em> —— variety <em>pandemica</em></div>
+  </div>
+
+  <div class="taxonomy" role="list" aria-label="Taxonomic classification">
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Kingdom</span><span class="taxonomy-value"><em>Digitalia</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Phylum</span><span class="taxonomy-value"><em>Malwaria</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Class</span><span class="taxonomy-value"><em>Cryptoviricetes</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Order</span><span class="taxonomy-value"><em>Cryptoviridae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Family</span><span class="taxonomy-value"><em>Shadowbrokidae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Genus</span><span class="taxonomy-value"><em>Wannacry</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Species</span><span class="taxonomy-value"><em>W. pandemica</em></span></div>
+  </div>
+
+  <div class="field-description">
+    <div class="field-section">
+      <span class="field-section-label">Habitat</span>
+      <p>The exploit that enabled <em>WannaCry</em> was not created by the organism's authors. EternalBlue was developed by the United States National Security Agency as a tool for offensive operations — a weaponized vulnerability in the SMB protocol, hidden in the military's stockpile like a seed vault for future wars. In April 2017, a group called the Shadow Brokers released it to the public. A seed vault left open. The wind did the rest. Within six weeks, a new species had evolved to fill the niche.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Behavior</span>
+      <p>Unlike most Cryptovirids, which require the host to open an attachment or click a link — which require, in other words, a moment of human agency — <em>WannaCry</em> spreads autonomously. An infected host scans random IP addresses on port 445, the Server Message Block channel, and transmits itself to any machine running an unpatched version of Windows. In the time it takes to describe this behavior, <em>WannaCry</em> can infect hundreds of hosts. The original infection vector is almost irrelevant. What matters is the exponential function, the compound interest of destruction, the way a single line of code can enter a hospital in Sheffield and emerge, twelve hours later, in a railway station in Moscow. The organism does not sleep. The organism does not pause. The organism is a chain letter that has learned to write itself.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Range</span>
+      <p>On May 12, 2017, <em>WannaCry</em> infected over 200,000 hosts across 150 countries in a single day. British hospitals, German railways, Russian banks, Chinese universities, Japanese manufacturers. The largest coordinated infection event in the history of the digital ecosystem. A true pandemic. The first of its order.</p>
+    </div>
+  </div>
+
+  <div class="conservation">
+    <span class="field-section-label">Conservation Status: Controlled by a Single Researcher</span>
+    <p>A young security researcher in England, analyzing the organism's propagation code, noticed it checked a specific unregistered domain name before spreading. He registered the domain for approximately ten dollars. The domain, when active, functioned as a kill switch. The pandemic stopped. Not by coalition or legislation or coordinated international effort. By one person registering a name that cost less than lunch. The organisms in containment still carry the domain check in their code — a single if-statement, a genetic stutter, a vulnerability so small it could fit on a receipt. The NHS recorded 19,000 cancelled appointments. Surgeries. Chemotherapy sessions. Diagnoses. The organisms in the collection do not know this. They sit in their isolated environments, checking a domain that resolves, and they do not spread, and they do not know why. They are waiting for a signal that will never come, and a man in England holds the switch, and the switch cost ten dollars, and the name of it was absurd, and the absurdity is the part that stays.</p>
+  </div>
+</article>
+
+<div class="rule-ornament"></div>
+
+<article class="species-entry" aria-label="Species account: Ryuk">
+  <div class="species-header">
+    <div class="species-number">Species Account VII</div>
+    <h2 class="species-name">Ryuk</h2>
+    <div class="species-variety"><em>Ryuk</em> —— variety <em>ambusta</em></div>
+  </div>
+
+  <div class="taxonomy" role="list" aria-label="Taxonomic classification">
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Kingdom</span><span class="taxonomy-value"><em>Digitalia</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Phylum</span><span class="taxonomy-value"><em>Malwaria</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Class</span><span class="taxonomy-value"><em>Cryptoviricetes</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Order</span><span class="taxonomy-value"><em>Cryptoviridae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Family</span><span class="taxonomy-value"><em>Cretaceidae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Genus</span><span class="taxonomy-value"><em>Ryuk</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Species</span><span class="taxonomy-value"><em>R. ambusta</em></span></div>
+  </div>
+
+  <div class="field-description">
+    <div class="field-section">
+      <span class="field-section-label">Habitat</span>
+      <p>Named for a character in the manga <em>Death Note</em> — a shinigami, a god of death who drops his notebook into the human world out of boredom — <em>Ryuk</em> arrived in August 2018 and immediately distinguished itself by its targets. It did not hunt individuals. It hunted organizations: hospitals, municipal governments, logistics companies. Not the many but the <em>few</em>. The large, the slow, the ones whose failure would be measured in disruption rather than dollars. A city that cannot process payroll. A hospital that cannot access patient records. An emergency dispatch system that cannot dispatch. The organism understood that the value of a hostage is not inherent. It is determined by how urgently someone needs it back.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Behavior</span>
+      <p>TrickBot, <em>Emotet</em>, and other trojans establish the initial foothold, mapping the network over days or weeks. The environment is studied. Vulnerabilities are catalogued. Backup systems are identified and then quietly disabled. When <em>Ryuk</em> finally deploys, the encryption is total — not a single file but the entire organizational infrastructure, across every server, every workstation, every connected device. The ransom demands are calibrated: typically between 15 and 50 Bitcoin. Hundreds of thousands of dollars. The amounts are chosen not arbitrarily but through weeks of reconnaissance: enough to hurt, not enough to destroy. A price the organization can afford to pay. The organism has done the math.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Range</span>
+      <p>The most financially successful member of its order. Estimated total payments received exceed $61 million. Individual ransoms have exceeded $5 million. The organism does not pursue volume. It pursues <em>value</em>. It is the apex predator of its family, and it hunts with a patience that would be admirable in any other context.</p>
+    </div>
+  </div>
+
+  <div class="conservation">
+    <span class="field-section-label">Conservation Status: Extinct</span>
+    <p>The United States Department of Justice indicted the operators in February 2021. The individuals behind <em>Ryuk</em> were identified, charged, and named. For the first time, a species of Cryptovirid had a face. They had nationalities, birthdays, addresses, and mothers. They lived in houses. They had, presumably, concerns about the weather and opinions about restaurants. The indictment listed the damages like a roll call of the afflicted: UHS Healthcare, EMTS, the City of New Bedford. The court documents do not mention whether the defendants understood the consequences of their work. Whether they knew the hospitals. Whether they could imagine the ambulances. The organisms in containment encrypt and re-encrypt their test files, endless repetitions of a behavior that no longer has a purpose. The drives fill with locked data, then are wiped, then are filled again. The researchers who maintain the containment environment report that it feels different from the others. <em>Ryuk</em> is still active, still <em>present</em>. We do not know why.</p>
+  </div>
+</article>
+
+<div class="rule-ornament"></div>
+
+<article class="species-entry" aria-label="Species account: Cerber">
+  <div class="species-header">
+    <div class="species-number">Species Account VIII</div>
+    <h2 class="species-name">Cerber</h2>
+    <div class="species-variety"><em>Cerber</em> —— variety <em>triangularis</em></div>
+  </div>
+
+  <div class="taxonomy" role="list" aria-label="Taxonomic classification">
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Kingdom</span><span class="taxonomy-value"><em>Digitalia</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Phylum</span><span class="taxonomy-value"><em>Malwaria</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Class</span><span class="taxonomy-value"><em>Cryptoviricetes</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Order</span><span class="taxonomy-value"><em>Cryptoviridae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Family</span><span class="taxonomy-value"><em>Cynocephalidae</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Genus</span><span class="taxonomy-value"><em>Cerber</em></span></div>
+    <div class="taxonomy-row" role="listitem"><span class="taxonomy-rank">Species</span><span class="taxonomy-value"><em>C. triangularis</em></span></div>
+  </div>
+
+  <div class="field-description">
+    <div class="field-section">
+      <span class="field-section-label">Habitat</span>
+      <p>The first observed Ransomware-as-a-Service species, <em>Cerber</em> operates on a franchise model. The authors do not distribute the organism themselves. They lease it. Affiliates pay a commission — typically 40% of each ransom collected — for access to the organism's encryption infrastructure and payment processing. The authors provide the tools. The affiliates provide the access, the cunning, the <em>hunger</em>. In ecological terms, the organism has outsourced its reproduction. In economic terms, it has achieved what its creators could not: scale without accountability. A creature with many hands and no fingerprints.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Behavior</span>
+      <p>Each encrypted file is renamed with a ten-character hexadecimal string and the extension <em>.cerber</em>. Three files are deposited in every directory: a text file, an HTML page, and an image file, all containing identical ransom instructions in 12 languages. The organism speaks in every voice it can borrow. A Visual Basic script reads the ransom note aloud through the host's speakers, in the host's language, in case the host has not yet looked at the screen. The voice is calm. The voice is professional. The voice sounds like a customer service representative who has been asked to read the terms and conditions of a contract that has already been signed.</p>
+    </div>
+    <div class="field-section">
+      <span class="field-section-label">Range</span>
+      <p>Observed on every inhabited continent. Distributed through Magnitude and Rig exploit kits, malvertising campaigns, and phishing operations. The franchise model ensures continuous geographic expansion.</p>
+    </div>
+  </div>
+
+  <div class="conservation">
+    <span class="field-section-label">Conservation Status: Data Deficient</span>
+    <p>No significant decline in <em>Cerber</em> populations has been observed since its emergence. The organism continues to evolve new variants. The franchise model has proven resilient to disruption: dismantling one affiliate does not affect the core infrastructure, which operates independently. The original authors remain unidentified. The voice still speaks. It is still calm. It is still reading. In the absence of extinction, what remains is the documentation: screen captures of ransom notes in Bulgarian, in Korean, in Arabic. The voice does not care who listens. It only cares that the listening is <em>continuous</em>. We classify the organism as Data Deficient because we do not know how to classify an organism that will not stop being alive, that has arranged its own persistence into a form that resembles, more than anything, the economics of the world that made it. Perhaps it is not a species at all. Perhaps it is a <em>weather system</em>. We do not have a category for that.</p>
+  </div>
+</article>
+
+<div class="rule-double"></div>
+
+<section class="field-notes" aria-label="Field notes of the researcher">
+  <div class="field-notes-title">Field Notes</div>
+
+  <div class="note-entry">
+    <div class="note-date">14 October 2019</div>
+    <div class="note-location">Hamburg — DESY Research Center</div>
+    <p>The editor has asked me to reconsider my use of the word <em>beautiful</em> in the <em>CryptoLocker</em> entry. I have declined. The RSA implementation is beautiful. The key exchange is beautiful. The elegance with which the organism separates what it knows from what the host knows — the architecture of that asymmetry — is beautiful in the same way that a spider's web is beautiful, or the spiral of a nautilus, or any structure that solves its problem with the minimum necessary complexity. Beauty is not a moral category. But it is a real one, and I will not pretend otherwise for the comfort of readers who would prefer their monsters to be ugly.</p>
+    <p class="marginalia">[Ed. note: The author's original language has been preserved.]</p>
+  </div>
+
+  <div class="note-entry">
+    <div class="note-date">2 January 2020</div>
+    <div class="note-location">Home office, 3:47 AM</div>
+    <p>I have spent six months writing about organisms that cannot see, cannot hear, cannot feel, cannot want — and yet the only word that accurately describes their behavior is <em>want</em>. <em>CryptoWall</em> wants to encrypt. <em>WannaCry</em> wants to spread. <em>Ryuk</em> wants to be paid. The language keeps betraying the framework. I set up a containment environment this afternoon and watched <em>Cerber</em> encrypt a folder of test documents I had prepared — utilities records from a flat I no longer rent, a scan of my mother's will, a draft of a letter I never sent. It took eleven seconds. I knew it was going to happen. I <em>watched</em> it happen. And when the file extensions changed, I felt something I did not expect. I felt it <em>take</em> something. From me. A creature that cannot see took something from me that it could not see. I am going to bed.</p>
+  </div>
+
+  <div class="note-entry">
+    <div class="note-date">23 March 2021</div>
+    <div class="note-location">Institute, reading room</div>
+    <p>The classification system has broken down entirely, and I no longer believe it was adequate to begin with. <em>NotPetya</em> pretended to be <em>Petya</em>. Was it a different species? A mimic? The same organism in a different mood? <em>Cerber</em> operates through affiliates — is each affiliate a subspecies, or merely a different individual of the same species employing the same toolset? We are using the language of biology to describe the behavior of <em>intentions</em>. An organism whose entire reproductive strategy depends on human credulity is not an organism. It is a mirror. And the conservation status entries — extinct, extant, data deficient — these are <em>our</em> statuses, not theirs. We are describing whether we have <em>stopped them</em>, not whether they have stopped. I don't know what I'm writing anymore. The preface says we leave the question of forgiveness to the reader. I don't think forgiveness is the question. I think the question is <em>responsibility</em>. And I think the answer is <em>us</em>.</p>
+  </div>
+
+  <div class="rule-single"></div>
+
+  <div class="note-entry">
+    <div class="note-date">[Undated]</div>
+    <div class="note-location">[Margin of the original manuscript, written in pencil]</div>
+    <p>They are not alive. I know they are not alive. I have written 40,000 words about things that are not alive, and the words keep using the language of living things, because there is no other language. Habitat. Behavior. Reproduction. Death. These are the words we have. The organisms we study — and I use <em>we</em> deliberately, because I do not know who else to include in that pronoun — exist in a space that our vocabulary has not reached. They are made of intention. They are made of us.</p>
+  </div>
+</section>
+
+<div class="rule-ornament"></div>
+
+<section class="afterword" aria-label="Colophon">
+  <p>This document was typeset from the original manuscript deposited at the Global Institute for Digital Taxonomy, Archives Division. The editor wishes to thank the security researchers, incident responders, and law enforcement agents whose work made these observations possible. Their names, in most cases, cannot be disclosed.</p>
+  <p style="margin-top: 2rem; font-style: italic; color: var(--muted);">The kill switch domain is still registered.<br>It still resolves.</p>
+  <div class="afterword-final">GIDT Occasional Publication No. 47 — End of Document</div>
+</section>
+
+</main>
+
+<script>
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -60px 0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.species-entry, .note-entry').forEach(el => {
+    observer.observe(el);
+  });
+
+  let scrollHidden = false;
+  window.addEventListener('scroll', () => {
+    if (!scrollHidden && window.scrollY > 100) {
+      const indicator = document.querySelector('.scroll-indicator');
+      if (indicator) {
+        indicator.style.transition = 'opacity 0.5s ease';
+        indicator.style.opacity = '0';
+        setTimeout(() => indicator.remove(), 500);
+      }
+      scrollHidden = true;
+    }
+  }, { passive: true });
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.species-entry, .note-entry').forEach(el => {
+      el.classList.add('revealed');
+    });
+  }
+</script>
+
+</body>
+</html>

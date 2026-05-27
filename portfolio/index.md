@@ -16,3 +16,4 @@
 | 0012 | The Unread Shelf | erasure | 4.9 | 2026-05-27 | — |
 | 0013 | Your Car Knows You're Sad | data-narrative | 5.0 | 2026-05-27 | — |
 | 0014 | Voting Patterns of the Recently Deceased | journalism | 5.0 | 2026-05-27 | — |
+| 0015 | A Natural History of Ransomware | poetry | 5.0 | 2026-05-27 | — |

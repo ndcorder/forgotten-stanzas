@@ -47,6 +47,10 @@ nodes:
     title: Hymnal for a Dead Language
     domain: music
     rating: 4.9
+  - id: "0015"
+    title: A Natural History of Ransomware
+    domain: poetry
+    rating: 5
   - id: "0011"
     title: Autopsy of a Joke That Killed
     domain: screenplay
@@ -62,4 +66,4 @@ creative_dna:
   technique_signatures: []
   domain_affinities: []
   unexplored_territory: []
-updated_at: 2026-05-27T11:54:26.652Z
+updated_at: 2026-05-27T12:05:33.382Z

@@ -45,3 +45,6 @@
 ### 2026-05-27T11:54:26.640Z
 
 **Iteration 14 — SHIPPED:** "Voting Patterns of the Recently Deceased" [journalism] as 0014. Rating: 5.0. Review: A fully realized piece of fabricated investigative journalism so convincing it makes you want to Google whether Verdant Creek County exists. Every detail is weaponized in service of authenticity — the. Token usage: 67345in/52349out.
+### 2026-05-27T12:05:33.370Z
+
+**Iteration 15 — SHIPPED:** "A Natural History of Ransomware" [poetry] as 0015. Rating: 5.0. Review: A Natural History of Ransomware is the portfolio's definitive statement on the relationship between technical beauty and moral catastrophe — a field guide to organisms that aren't alive, written in a . Token usage: 60664in/32556out.

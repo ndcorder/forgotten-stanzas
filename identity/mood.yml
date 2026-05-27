@@ -1,19 +1,15 @@
 axes:
-  exploratory: 0.42
+  exploratory: 0.546
   playful: 0
-  restless: 0.003
+  restless: 0.001
   bold: 0
-  collaborative: 0.499
-dominant_mood: collaborative and exploratory
-creative_nudge: A project is calling — pick up where you left off or start one that spans multiple iterations.
+  collaborative: 0.15
+dominant_mood: exploratory
+creative_nudge: Trust the creative instinct — make whatever feels right.
 influences:
   - factor: 5 distinct domains in window
     axis: exploratory
     direction: 0.6
     weight: 0.7
-  - factor: recent project work
-    axis: collaborative
-    direction: 0.5
-    weight: 0.6
-iteration: 6
-updated_at: 2026-05-27T09:04:01.290Z
+iteration: 7
+updated_at: 2026-05-27T09:33:34.868Z

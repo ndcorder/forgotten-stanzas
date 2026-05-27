@@ -21,3 +21,6 @@
 ### 2026-05-27T09:33:30.680Z
 
 **Iteration 6 — SHIPPED:** "Infernal Revenue Service" [interactive] as 0006. Rating: 4.7. Review: A satirical afterlife bureaucracy where you itemize your moral deductions before a celestial auditor who has opinions about your soul's accounting. The five memories are the real achievement — each on. Token usage: 116013in/83398out.
+### 2026-05-27T10:33:03.647Z
+
+**Iteration 7 — SHIPPED:** "Soft Estate" [interactive] as 0007. Rating: 4.9. Review: Soft Estate is a masterwork of environmental narrative — an entire life reconstructed from digital artifacts, where the story emerges not through exposition but through forensic inference. The file sy. Token usage: 225602in/167494out.

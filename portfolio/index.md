@@ -38,3 +38,4 @@
 | 0034 | Last Will and Testament of the User Who Opted Out of Everything | correspondence | 4.3 | 2026-05-27 | — |
 | 0035 | Operating Manual for the Emotion That Doesn't Have a Name Yet | instruction | 5.0 | 2026-05-27 | — |
 | 0036 | Weather Forecast for a Grief That Hasn't Arrived Yet | instruction | 5.0 | 2026-05-27 | — |
+| 0037 | Incident Report for a Color That Appeared in Three Witness Statements and Nowhere Else | correspondence | 5.0 | 2026-05-27 | — |

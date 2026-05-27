@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CASE FILE 2024-HA-0771</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+  :root {
+    --page-bg: #f0ebe0;
+    --paper: #faf6ee;
+    --paper-shadow: #d4cfc0;
+    --ink: #1a1a18;
+    --ink-light: #3a3a35;
+    --ink-faded: #6a6a60;
+    --redacted: #1a1a18;
+    --stamp-red: #8b2020;
+    --stamp-blue: #1a3a6a;
+    --line: #8a8478;
+    --accent: #4a3a28;
+    --margin-note: #6a2020;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--page-bg);
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 1px,
+        rgba(0,0,0,0.02) 1px,
+        rgba(0,0,0,0.02) 2px
+      );
+    font-family: 'Courier Prime', 'Courier New', monospace;
+    color: var(--ink);
+    line-height: 1.6;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .docket-border {
+    border-left: 3px solid var(--ink);
+    border-right: 3px solid var(--ink);
+    max-width: 860px;
+    margin: 0 auto;
+    background: var(--page-bg);
+  }
+
+  .docket-header {
+    background: var(--ink);
+    color: var(--page-bg);
+    padding: 8px 24px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: 'Courier Prime', monospace;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .document {
+    position: relative;
+    background: var(--paper);
+    max-width: 780px;
+    margin: 40px auto;
+    padding: 60px 70px 50px 90px;
+    box-shadow:
+      0 0 0 1px var(--paper-shadow),
+      2px 2px 8px rgba(0,0,0,0.1),
+      4px 4px 16px rgba(0,0,0,0.05);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .document::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 70px;
+    width: calc(100% - 70px);
+    height: 100%;
+    border-left: 1px solid rgba(0,0,0,0.06);
+    pointer-events: none;
+  }
+
+  .document::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(to left, rgba(0,0,0,0.03), transparent);
+    pointer-events: none;
+  }
+
+  .doc-label {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    font-size: 9px;
+    color: var(--ink-faded);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .doc-separator {
+    width: 100%;
+    height: 1px;
+    background: var(--line);
+    margin: 16px 0;
+    opacity: 0.5;
+  }
+
+  .doc-separator.thick {
+    height: 2px;
+    opacity: 0.8;
+    margin: 20px 0;
+  }
+
+  h1.doc-title {
+    font-family: 'Courier Prime', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+
+  h2.doc-subtitle {
+    font-family: 'Courier Prime', monospace;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    color: var(--ink-faded);
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+
+  .field-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  .field {
+    flex: 1;
+  }
+
+  .field-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--ink-faded);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .field-value {
+    border-bottom: 1px solid var(--line);
+    padding: 2px 0 1px 4px;
+    min-height: 22px;
+    font-size: 13px;
+  }
+
+  .redacted {
+    background: var(--redacted);
+    color: var(--redacted);
+    padding: 0 4px;
+    border-radius: 1px;
+    user-select: none;
+    display: inline;
+  }
+
+  .redacted.inline {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .report-body {
+    font-size: 13px;
+    line-height: 1.75;
+    margin-top: 16px;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .report-body p {
+    margin-bottom: 12px;
+    text-indent: 24px;
+  }
+
+  .report-body p:first-child {
+    text-indent: 0;
+  }
+
+  .stamp {
+    position: absolute;
+    font-family: 'Special Elite', serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transform: rotate(-12deg);
+    opacity: 0.35;
+    pointer-events: none;
+    border: 3px solid;
+    padding: 4px 14px;
+    font-weight: 700;
+  }
+
+  .stamp.received {
+    top: 70px;
+    right: 40px;
+    color: var(--stamp-blue);
+    border-color: var(--stamp-blue);
+  }
+
+  .stamp.classified {
+    top: 100px;
+    right: 40px;
+    color: var(--stamp-red);
+    border-color: var(--stamp-red);
+  }
+
+  .witness-statement {
+    font-size: 13.5px;
+    line-height: 1.85;
+  }
+
+  .witness-statement p {
+    margin-bottom: 14px;
+  }
+
+  .q-label {
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 4px;
+    margin-top: 18px;
+  }
+
+  .a-label {
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    margin-top: 14px;
+  }
+
+  .handwritten {
+    font-family: 'Special Elite', serif;
+    color: var(--margin-note);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 12px;
+    position: absolute;
+    left: 8px;
+    max-width: 55px;
+    text-align: center;
+    line-height: 1.3;
+    pointer-events: none;
+  }
+
+  .margin-note {
+    position: relative;
+  }
+
+  .margin-note:hover .handwritten {
+    opacity: 0.75;
+  }
+
+  .margin-note .handwritten.above {
+    top: -18px;
+  }
+
+  .margin-note .handwritten.below {
+    bottom: -18px;
+  }
+
+  .margin-note .handwritten.mid {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .letterhead {
+    text-align: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .letterhead-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .letterhead-creds {
+    font-size: 10px;
+    color: var(--ink-faded);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .letter-date {
+    font-size: 12px;
+    text-align: right;
+    margin-bottom: 20px;
+  }
+
+  .letter-addressee {
+    font-size: 13px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .letter-body {
+    font-size: 13px;
+    line-height: 1.8;
+    text-align: justify;
+  }
+
+  .letter-body p {
+    margin-bottom: 12px;
+    text-indent: 24px;
+  }
+
+  .letter-body p:first-of-type {
+    text-indent: 0;
+  }
+
+  .letter-signature {
+    margin-top: 30px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .lab-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 12px;
+  }
+
+  .lab-table th,
+  .lab-table td {
+    border: 1px solid var(--line);
+    padding: 6px 10px;
+    text-align: left;
+  }
+
+  .lab-table th {
+    background: rgba(0,0,0,0.04);
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .lab-table td {
+    font-size: 12px;
+  }
+
+  .lab-note {
+    font-size: 11px;
+    color: var(--ink-faded);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  .closing-memo {
+    font-size: 13.5px;
+    line-height: 1.85;
+  }
+
+  .closing-memo p {
+    margin-bottom: 14px;
+    text-indent: 24px;
+  }
+
+  .closing-memo p:first-of-type {
+    text-indent: 0;
+  }
+
+  .final-line {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--ink-faded);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .handwritten-note {
+    font-family: 'Special Elite', serif;
+    font-size: 13px;
+    color: var(--margin-note);
+    line-height: 1.5;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(106,32,32,0.2);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    cursor: default;
+  }
+
+  .handwritten-note:hover {
+    opacity: 1 !important;
+  }
+
+  .handwritten-note.revealed {
+    opacity: 0.8;
+  }
+
+  .appendix-marker {
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-faded);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 30px 0 10px;
+    position: relative;
+  }
+
+  .appendix-marker::before,
+  .appendix-marker::after {
+    content: '—';
+    margin: 0 8px;
+  }
+
+  .page-break {
+    text-align: center;
+    margin: 0 auto;
+    padding: 10px;
+    font-size: 9px;
+    color: var(--ink-faded);
+    letter-spacing: 4px;
+  }
+
+  .page-break::before {
+    content: '— — —';
+  }
+
+  .emphasis-underline {
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 700px) {
+    .document {
+      padding: 40px 30px 40px 50px;
+      margin: 20px 12px;
+    }
+    .document::before {
+      left: 40px;
+    }
+    .field-row {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .handwritten {
+      display: none;
+    }
+    .stamp {
+      font-size: 11px;
+    }
+  }
+
+  @media print {
+    body {
+      background: white;
+    }
+    .docket-border {
+      border: none;
+    }
+    .document {
+      box-shadow: none;
+      page-break-after: always;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="docket-border">
+  <div class="docket-header">Evidence Archive — Case 2024-HA-0771</div>
+
+  <!-- DOCUMENT 1: INCIDENT REPORT -->
+  <div class="document">
+    <div class="doc-label">DOC 01 OF 08</div>
+    <div class="stamp received">RECEIVED<br>NOV 07 2024</div>
+
+    <h1 class="doc-title">Incident Report</h1>
+    <h2 class="doc-subtitle">Haverhill Police Department — Form IR-7</h2>
+
+    <div class="doc-separator thick"></div>
+
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Case Number</span>
+        <div class="field-value">2024-HA-0771</div>
+      </div>
+      <div class="field">
+        <span class="field-label">Report Date</span>
+        <div class="field-value">06 November 2024</div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Reporting Officer</span>
+        <div class="field-value">Det. M. Calloway, Badge #4471</div>
+      </div>
+      <div class="field">
+        <span class="field-label">Shift</span>
+        <div class="field-value">0600–1400</div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Location</span>
+        <div class="field-value"><span class="redacted inline">████████████</span> Industrial Park, Bldg 14</div>
+      </div>
+      <div class="field">
+        <span class="field-label">Incident Type</span>
+        <div class="field-value">Industrial Accident — Chemical Exposure</div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Complainant</span>
+        <div class="field-value"><span class="redacted inline">████████</span>, site manager</div>
+      </div>
+      <div class="field">
+        <span class="field-label">Injuries</span>
+        <div class="field-value">None reported</div>
+      </div>
+    </div>
+
+    <div class="doc-separator"></div>
+
+    <div class="report-body">
+      <p>At approximately 0932 hours on 06 November 2024, this officer responded to a call regarding a chemical release at the <span class="redacted inline">████████████</span> Industrial Park, Building 14. Upon arrival, the facility had been evacuated. Three employees — identified as witnesses A, B, and C in subsequent statements — reported observing an unusual visual phenomenon during a routine transfer of <span class="redacted inline">███████</span> between storage containers.</p>
+
+      <p>All three witnesses independently described a color associated with the vapor cloud produced during the transfer. None of the witnesses were able to identify or name the color. Each witness provided a distinct set of comparisons and analogies. None of these descriptions match any entry in the standard color reference materials consulted by this officer.</p>
+
+      <p>Building 14 was secured pending hazmat assessment. No physical samples of the vapor were collected, as the cloud dissipated within approximately four minutes of the initial release. Security camera footage from the facility's four interior cameras has been reviewed; the relevant footage (Timestamps 0930:12–0934:47) shows the vapor cloud as a grey-white haze of unremarkable appearance. The color described by witnesses is not visible in the footage.</p>
+
+      <p>All three witnesses appeared calm, coherent, and cooperative during initial interviews. None exhibited signs of chemical exposure, distress, or disorientation. Toxicology screens administered on-site returned negative for all three individuals.</p>
+
+      <p>Witness statements were taken separately and are attached as Documents 02, 03, and 04.</p>
+    </div>
+  </div>
+
+  <!-- DOCUMENT 2: WITNESS A — DOROTHY CHEN -->
+  <div class="document">
+    <div class="doc-label">DOC 02 OF 08</div>
+
+    <h1 class="doc-title">Witness Statement — A</h1>
+    <h2 class="doc-subtitle">Taken 06 November 2024, 1047 hours</h2>
+
+    <div class="doc-separator thick"></div>
+
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Witness</span>
+        <div class="field-value">Dorothy Chen, <span class="redacted inline">██████████</span></div>
+      </div>
+      <div class="field">
+        <span class="field-label">Duration</span>
+        <div class="field-value">23 minutes</div>
+      </div>
+    </div>
+
+    <div class="doc-separator"></div>
+
+    <div class="witness-statement">
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Please describe what you saw during the transfer, in your own words.</p>
+
+      <div class="a-label">WITNESS CHEN:</div>
+      <p>I was at my station, running the panel. The transfer started normal. Pressure was fine, temperature was fine. Then the relief valve on Tank 4 popped, which happens sometimes — it's not a big deal, you just wait for it to reseal. But when the vapor came out, I noticed the color of it. The cloud. It wasn't like anything I've seen before.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Can you describe the color?</p>
+
+      <div class="a-label">WITNESS CHEN:</div>
+      <p>That's where it gets difficult. It was warm. Not warm like red or orange is warm — those are bright and aggressive. This was a warm that felt like it came from inside. Like the feeling you get when you hold a mug of something hot and you can feel the heat through the ceramic but you can't see it, you just know it's there. It was the visual equivalent of that feeling.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>I understand, but I need you to try to be more specific about the color itself. Was it light or dark?</p>
+
+      <div class="a-label">WITNESS CHEN:</div>
+      <p>Both. Neither. It was light the way an empty room is light — not because of its own brightness, but because it was holding light that came from somewhere else. But it was also dark the way a shadow is dark. I know that doesn't make sense.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Would you say it was a shade of a known color? A green, a blue, something like that?</p>
+
+      <div class="a-label">WITNESS CHEN:</div>
+      <p>No. It wasn't any color I have a name for. I've been trying to think of one since it happened. I keep looking at things — at the walls, at the sky, at my clothes — looking for something that matches, and nothing does. It's like a word I almost remember. <span class="margin-note">It's on the tip of my eye.<span class="handwritten mid">tip of my eye</span></span></p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>On the tip of your eye?</p>
+
+      <div class="a-label">WITNESS CHEN:</div>
+      <p>Yes. That's the only way I can describe it.</p>
+    </div>
+  </div>
+
+  <!-- DOCUMENT 3: WITNESS B — RONALD FIGUEROA -->
+  <div class="document">
+    <div class="doc-label">DOC 03 OF 08</div>
+
+    <h1 class="doc-title">Witness Statement — B</h1>
+    <h2 class="doc-subtitle">Taken 06 November 2024, 1215 hours</h2>
+
+    <div class="doc-separator thick"></div>
+
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Witness</span>
+        <div class="field-value">Ronald Figueroa, <span class="redacted inline">████████████</span></div>
+      </div>
+      <div class="field">
+        <span class="field-label">Duration</span>
+        <div class="field-value">31 minutes</div>
+      </div>
+    </div>
+
+    <div class="doc-separator"></div>
+
+    <div class="witness-statement">
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Please describe the color of the vapor cloud you witnessed on the morning of November 6th.</p>
+
+      <div class="a-label">WITNESS FIGUEROA:</div>
+      <p>Are you asking what color it was, or what color it felt like?</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Is there a difference?</p>
+
+      <div class="a-label">WITNESS FIGUEROA:</div>
+      <p>With this, yeah. With a normal color, no. Red is red. You see it, you name it. But this — it was more like hearing a sound with your eyes. <span class="margin-note">Like a sound<span class="handwritten mid">synesthetic?</span></span> that's close enough to words that you know it's trying to tell you something, but it's not a word you know.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Was the cloud colored, or did it just create a colored impression?</p>
+
+      <div class="a-label">WITNESS FIGUEROA:</div>
+      <p>The cloud was colored. Definitely. I could see it right in front of me. But the color wasn't like paint on a wall. It was like — do you know how sometimes, in very early morning, right before the sun comes up, the sky does a color that isn't any of the colors the sky is supposed to be? And for about thirty seconds you see it and you think, "That's a color that doesn't have a name." But then the sun comes up and you forget about it, because it was just the light playing tricks. This was like that, except it wasn't early morning, and it wasn't the light playing tricks. It was a real color and it was right there.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Can you compare it to any color you know?</p>
+
+      <div class="a-label">WITNESS FIGUEROA:</div>
+      <p>I've been thinking about that all morning. I work with metal. I know what heat looks like — I know the whole spectrum, from barely-there blue to white-hot to that cherry red you get before the steel becomes unmanageable. This wasn't any of those. But it had the same <span class="emphasis-underline">conviction</span> those colors have. You know how heat colors are the most honest colors there are? They don't pretend to be anything. They just are. This color was like that. Completely honest. I just don't know what it was saying.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Was it warm-toned or cool-toned?</p>
+
+      <div class="a-label">WITNESS FIGUEROA:</div>
+      <p>Yes. Both. At the same time. I know that's not possible, but that's what I saw.</p>
+    </div>
+  </div>
+
+  <!-- DOCUMENT 4: WITNESS C — GERALD PETROVAK -->
+  <div class="document">
+    <div class="doc-label">DOC 04 OF 08</div>
+
+    <h1 class="doc-title">Witness Statement — C</h1>
+    <h2 class="doc-subtitle">Taken 06 November 2024, 1443 hours</h2>
+
+    <div class="doc-separator thick"></div>
+
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Witness</span>
+        <div class="field-value">Gerald Petrovak, Petrovak Professional Painting</div>
+      </div>
+      <div class="field">
+        <span class="field-label">Duration</span>
+        <div class="field-value">38 minutes</div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Occupation</span>
+        <div class="field-value">House painter, 27 years professional experience</div>
+      </div>
+      <div class="field">
+        <span class="field-label">Presence at site</span>
+        <div class="field-value">Contracted work, adjacent unit (Bldg 15)</div>
+      </div>
+    </div>
+
+    <div class="doc-separator"></div>
+
+    <div class="witness-statement">
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Mr. Petrovak, thank you for coming in. I understand you were working in the building next to the incident site. Can you tell me what you saw?</p>
+
+      <div class="a-label">WITNESS PETROVAK:</div>
+      <p>I was prepping a ceiling — scraping, you know, the usual. The bay door was open because it gets hot in there with the pressure washer running. I saw the vapor come out through the gap between the buildings. Just a wisp of it, the edge of the cloud. But the color stopped me.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Stopped you how?</p>
+
+      <div class="a-label">WITNESS PETROVAK:</div>
+      <p>I got down off my ladder. I walked to the bay door. I stood there and looked at it. I must have been standing there for two, three minutes. I couldn't stop looking. I've been mixing and matching colors professionally for twenty-seven years. I can look at a wall and tell you the Benjamin Moore number. I can tell you the difference between White Dove OC-17 and Simply White OC-117 in my sleep. I know ochre. I know sienna. I know burnt and raw and every earth tone from here to Sunday. This was not any of those.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Can you place it in a color family?</p>
+
+      <div class="a-label">WITNESS PETROVAK:</div>
+      <p><span class="margin-note">No. And I've tried.<span class="handwritten mid">27 years</span></span> No. That's what's been eating at me. I've sat with my swatch book for hours. I've been through every chip, every fan deck, every sample card I own. I do color consultations, Detective. People pay me to tell them what color something is. I have never once in my career been unable to match a color. I have matched colors from photographs, from memory, from a customer's vague description of their grandmother's kitchen curtains. And I am telling you: I cannot place this color. It is not in any family I know. It's not in the spectrum. It's not between any two colors. It is not a mixture, a shade, a tint, or a tone of anything I have ever seen.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Was it similar to any color you've mixed?</p>
+
+      <div class="a-label">WITNESS PETROVAK:</div>
+      <p>It was similar to the moment before a color becomes a color. You know what I mean? When you're mixing paint and you're turning the stir stick and for a split second the blend is something that doesn't exist yet — it's not the two colors you started with, and it's not the color you're going to end up with. It's a color that only exists in the transition. It's there for a heartbeat and then it's gone. This was that color, but it held still. It stayed. It was right in front of me, permanent and complete, and it was <em>still</em> a color that doesn't exist.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Is there anything else you can tell us about it?</p>
+
+      <div class="a-label">WITNESS PETROVAK:</div>
+      <p>[Long pause.] It was the most beautiful color I've ever seen. And I'm not a sentimental man. I don't say things like that. But it was. It was so beautiful it made my work feel like lying. Every color I have ever put on a wall — and I have put color on thousands of walls — felt like a dishonest version of that one. [Pause.] I'd like to stop talking about it now.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Of course. Thank you, Mr. Petrovak.</p>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- DOCUMENT 5: FOLLOW-UP INTERVIEWS -->
+  <div class="document">
+    <div class="doc-label">DOC 05 OF 08</div>
+
+    <h1 class="doc-title">Follow-Up Interviews</h1>
+    <h2 class="doc-subtitle">Conducted 14 November 2024</h2>
+
+    <div class="doc-separator thick"></div>
+
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Interviewing Officer</span>
+        <div class="field-value">Det. M. Calloway, Badge #4471</div>
+      </div>
+      <div class="field">
+        <span class="field-label">Purpose</span>
+        <div class="field-value">Clarification of initial statements</div>
+      </div>
+    </div>
+
+    <div class="doc-separator"></div>
+
+    <div class="appendix-marker">Excerpt — Witness Chen</div>
+
+    <div class="witness-statement">
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Ms. Chen, during your initial statement you described the color as being like "a word you almost remember." After a week, have you been able to identify it?</p>
+
+      <div class="a-label">WITNESS CHEN:</div>
+      <p>No. And it's gotten worse. I keep seeing it behind other colors. I'll be looking at something yellow — a taxi, a stoplight — and underneath the yellow I'll catch an edge of the other one. Just for a second. Then it's gone.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>You're seeing it outside of the original context?</p>
+
+      <div class="a-label">WITNESS CHEN:</div>
+      <p>I'm seeing it everywhere, Detective. I just can't see it directly. It's always at the edge, or behind, or in the moment I look away. I tried to paint it. I bought watercolors and I mixed for three hours. Everything I made was wrong. The painting looked like a lie about the color.</p>
+    </div>
+
+    <div class="doc-separator"></div>
+
+    <div class="appendix-marker">Excerpt — Witness Figueroa</div>
+
+    <div class="witness-statement">
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Mr. Figueroa, you compared the color to the sound of something trying to become a word. Can you elaborate?</p>
+
+      <div class="a-label">WITNESS FIGUEROA:</div>
+      <p>I've been thinking about it nonstop. It's the closest I can get. You know when someone is speaking a language you don't know, and you can hear the meaning in their voice — you can hear whether they're angry or sad or happy — but you can't understand the words? The color was like that. It was communicating something. I don't know what. But it was completely clear about it. Like it was stating a fact I just didn't have the equipment to receive.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Are you still experiencing visual effects?</p>
+
+      <div class="a-label">WITNESS FIGUEROA:</div>
+      <p>Sometimes. I'll close my eyes and see afterimages. Normal thing — you look at a light, you see a spot. But the afterimage I get isn't a color I can name either. It's a different unnameable color than the first one. I don't think they're related. I think my eyes are just doing their job and my brain still can't file the report.</p>
+    </div>
+
+    <div class="doc-separator"></div>
+
+    <div class="appendix-marker">Excerpt — Witness Petrovak</div>
+
+    <div class="witness-statement">
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Mr. Petrovak, you said in your first statement that the color made your work feel dishonest. Can you explain what you meant?</p>
+
+      <div class="a-label">WITNESS PETROVAK:</div>
+      <p>I meant it literally. I went back to work on Tuesday — the job in Building 15. I opened up Warm Cinnamon (2154-30) and started cutting in, and the whole time I was thinking: this is wrong. This is the wrong color. Not the wrong color for the job — the wrong color for the world. Like I was painting a wall with a convenient approximation of something that should be more than this. <span class="margin-note">I've lost my profession<span class="handwritten mid">note: speak to employer</span></span> I've spent twenty-seven years learning how to see, and this one color has made me feel like I've never seen anything properly in my life.</p>
+
+      <div class="q-label">DETECTIVE CALLOWAY:</div>
+      <p>Have you been able to return to work?</p>
+
+      <div class="a-label">WITNESS PETROVAK:</div>
+      <p>I finished the job. I haven't taken a new one. I sit in my shop and I look at the swatches and I feel like I'm looking at a dictionary where someone has torn out the most important page.</p>
+    </div>
+  </div>
+
+  <!-- DOCUMENT 6: DR. AURELIA VOSS LETTER -->
+  <div class="document">
+    <div class="doc-label">DOC 06 OF 08</div>
+
+    <div class="letterhead">
+      <div class="letterhead-name">Dr. Aurelia Voss</div>
+      <div class="letterhead-creds">Color Science &bull; Visual Perception &bull; Spectral Analysis</div>
+      <div class="letterhead-creds" style="margin-top: 2px;"><span class="redacted inline">████████████</span> University &bull; Department of Optical Physics</div>
+    </div>
+
+    <div class="letter-date">21 November 2024</div>
+
+    <div class="letter-addressee">
+      Det. M. Calloway (Badge #4471)<br>
+      Haverhill Police Department<br>
+      <span class="redacted inline">██████████</span><br>
+      Haverhill, <span class="redacted inline">████</span>
+    </div>
+
+    <div class="letter-body">
+      <p>Dear Detective Calloway,</p>
+
+      <p>Thank you for forwarding the witness statements from Case 2024-HA-0771. I have read each of them — including the follow-up interviews — with considerable interest, and I will be honest with you: I am not certain what I can offer. But I will try.</p>
+
+      <p>You asked me to identify the color described by the three witnesses. I must begin by noting that I cannot identify a color from descriptions alone. I can, however, assess the consistency and plausibility of the descriptions.</p>
+
+      <p>What strikes me is the convergence. Three unrelated individuals, with no apparent opportunity to coordinate their accounts, each describe a visual experience that resists color vocabulary in the same fundamental way. Ms. Chen describes it in terms of feeling (warmth through ceramic, a word on the tip of her eye). Mr. Figueroa describes it in terms of sound (a voice speaking a language he doesn't know, but communicating clearly). Mr. Petrovak describes it in terms of process (the transitional moment between two colors during mixing). These are wildly different analogies, but they converge on a single structural observation: <em>the color is legible but unreadable</em>.</p>
+
+      <p>In color science, we distinguish between <em>perception</em> (what the visual system registers) and <em>categorization</em> (what the cognitive system does with that registration). What your witnesses describe sounds like a perception without a category — not a failure to see, but a failure to file. The visual system received data. The cognitive system could not process it.</p>
+
+      <p>This should not be possible. The human visual system is constrained to the visible spectrum (approximately 380–700nm). We perceive combinations of wavelengths within this range as colors. Every combination produces a color that can be named or, at minimum, described by its relation to other colors. There is no combination of visible wavelengths that should produce an "unnameable" color.</p>
+
+      <p><span class="margin-note">There are exceptions.<span class="handwritten mid">??</span></span> I say "should" because the science of color perception is not complete. There are theoretical colors — combinations of cone-cell responses that cannot be produced by any single physical stimulus — that exist in our mathematical models but have never been observed in practice. They are sometimes called "impossible colors." Your witnesses' descriptions are consistent with an impossible-color experience, but I want to be very clear: this is speculative. I have no evidence for this claim. I am telling you what the descriptions resemble, not what caused them.</p>
+
+      <p>I recommend spectral analysis of the site and any residue from the vapor cloud. If the color has a physical basis, spectroscopy will reveal it. If it does not —</p>
+
+      <p>I don't know how to finish that sentence, Detective. I have never had to finish that sentence before.</p>
+
+      <p>I am available for further consultation as needed.</p>
+    </div>
+
+    <div class="letter-signature">
+      Regards,<br><br>
+      Dr. Aurelia Voss<br>
+      <em>Professor of Optical Physics</em><br>
+      <span class="redacted inline">████████████</span> University
+    </div>
+  </div>
+
+  <!-- DOCUMENT 7: LAB REPORT -->
+  <div class="document">
+    <div class="doc-label">DOC 07 OF 08</div>
+    <div class="stamp received">RECEIVED<br>DEC 04 2024</div>
+
+    <h1 class="doc-title">Spectrophotometry Report</h1>
+    <h2 class="doc-subtitle"><span class="redacted inline">████████████</span> Analytical Laboratory</h2>
+
+    <div class="doc-separator thick"></div>
+
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Report Number</span>
+        <div class="field-value">SPE-2024-4471-HA</div>
+      </div>
+      <div class="field">
+        <span class="field-label">Date</span>
+        <div class="field-value">02 December 2024</div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Requisitioning Officer</span>
+        <div class="field-value">Det. M. Calloway, Badge #4471</div>
+      </div>
+      <div class="field">
+        <span class="field-label">Sample Origin</span>
+        <div class="field-value">Building 14, <span class="redacted inline">████████████</span> Industrial Park</div>
+      </div>
+    </div>
+
+    <div class="doc-separator"></div>
+
+    <div class="report-body">
+      <p><strong>Sampling Method:</strong> Air samples were collected from Building 14 on 08 November 2024 (48 hours post-incident) and again on 15 November 2024 (9 days post-incident). Surface residue samples were collected from all interior surfaces within a 15-meter radius of Tank 4. Swipe samples were taken from the relief valve assembly, surrounding pipework, bay door frame, and concrete flooring. Ambient light readings were taken at the incident site during both sampling visits. A control sample was taken from Building 15 (adjacent, no reported anomaly).</p>
+
+      <p><strong>Analysis Method:</strong> Full-spectrum spectrophotometric analysis (200nm–2500nm) using dual-beam instrumentation with calibrated reference standards. Additional GC-MS analysis of residue compounds. Ambient light analysis compared against CIE standard illuminant references.</p>
+    </div>
+
+    <div class="doc-separator"></div>
+
+    <table class="lab-table">
+      <thead>
+        <tr>
+          <th>Sample ID</th>
+          <th>Type</th>
+          <th>Location</th>
+          <th>Spectral Anomaly</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>SPE-HA-001</td>
+          <td>Air</td>
+          <td>Tank 4, 1m radius (08 Nov)</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-002</td>
+          <td>Air</td>
+          <td>Tank 4, 5m radius (08 Nov)</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-003</td>
+          <td>Air</td>
+          <td>Bay door, Bldg 14 (08 Nov)</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-004</td>
+          <td>Air</td>
+          <td>Tank 4, 1m radius (15 Nov)</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-005</td>
+          <td>Air</td>
+          <td>Tank 4, 5m radius (15 Nov)</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-006</td>
+          <td>Surface residue</td>
+          <td>Tank 4 relief valve</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-007</td>
+          <td>Surface residue</td>
+          <td>Adjacent piping, horizontal</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-008</td>
+          <td>Surface residue</td>
+          <td>Adjacent piping, vertical</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-009</td>
+          <td>Surface residue</td>
+          <td>Concrete floor, 3m from Tank 4</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-010</td>
+          <td>Surface residue</td>
+          <td>Concrete floor, 8m from Tank 4</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-011</td>
+          <td>Surface residue</td>
+          <td>Bay door frame, interior</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-012</td>
+          <td>Surface residue</td>
+          <td>Bay door frame, exterior</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-013</td>
+          <td>Ambient light</td>
+          <td>Bldg 14 interior (08 Nov)</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-014</td>
+          <td>Ambient light</td>
+          <td>Bldg 14 interior (15 Nov)</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-015</td>
+          <td>Compound sample</td>
+          <td>Residue, mixed</td>
+          <td>None detected</td>
+        </tr>
+        <tr>
+          <td>SPE-HA-016</td>
+          <td>Air (control)</td>
+          <td>Bldg 15 interior (08 Nov)</td>
+          <td>None detected</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="report-body" style="margin-top: 20px;">
+      <p><strong>GC-MS Compound Analysis:</strong> Residue samples contained trace amounts of <span class="redacted inline">██████████</span> and <span class="redacted inline">██████████</span>, consistent with the materials stored in Tank 4. No unexpected compounds were identified in any sample.</p>
+
+      <p><strong>Spectral Analysis Summary:</strong> No anomalous wavelength absorptions or emissions were detected in any sample across the full analysis range (200nm–2500nm). Ambient light readings at the incident site fall within expected values for the facility's lighting configuration and show no deviation from CIE standard illuminant references. All spectral data are consistent with known compounds at trace concentrations.</p>
+
+      <p><strong>Conclusion:</strong> The samples analyzed in this report do not contain any compound or combination of compounds capable of producing an unusual visual stimulus. The spectral data are <span class="margin-note">consistent with no known<span class="handwritten mid">this phrase</span></span> wavelength combination corresponding to an anomalous color experience. The chemical composition of the vapor, as reconstructed from residue analysis, would produce a grey-white haze under standard atmospheric conditions — consistent with the appearance recorded on security camera footage at Timestamps 0930:12–0934:47.</p>
+    </div>
+
+    <div class="doc-separator"></div>
+
+    <div class="lab-note">
+      Note appended 03 December 2024 by laboratory director: Spectrophotometer calibration was verified post-analysis against NIST-traceable reference standards. All reference standards returned within ±0.3nm of expected values. Instrument function confirmed normal. No equipment malfunction is indicated. Results of control samples (SPE-HA-016) were consistent with results from incident site.
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- DOCUMENT 8: CLOSING MEMORANDUM -->
+  <div class="document">
+    <div class="doc-label">DOC 08 OF 08</div>
+
+    <h1 class="doc-title">Investigating Officer's<br>Closing Memorandum</h1>
+    <h2 class="doc-subtitle">Case 2024-HA-0771</h2>
+
+    <div class="doc-separator thick"></div>
+
+    <div class="field-row">
+      <div class="field">
+        <span class="field-label">Officer</span>
+        <div class="field-value">Det. M. Calloway, Badge #4471</div>
+      </div>
+      <div class="field">
+        <span class="field-label">Date</span>
+        <div class="field-value">11 December 2024</div>
+      </div>
+    </div>
+
+    <div class="doc-separator"></div>
+
+    <div class="closing-memo">
+      <p>This memorandum constitutes the closing statement for Case 2024-HA-0771, concerning the industrial vapor release at Building 14, <span class="redacted inline">████████████</span> Industrial Park, on 06 November 2024.</p>
+
+      <p>The incident has been documented in full. No injuries were sustained. No hazardous materials were released beyond acceptable thresholds. The facility has been cleared for normal operations. By every metric available to this department, the case is closed.</p>
+
+      <p>I am not satisfied.</p>
+
+      <p>I have spent five weeks trying to write a report about a color. I have taken six statements, consulted a specialist, and commissioned a laboratory analysis. I have filled out every form correctly. I have followed every procedure. The file is complete.</p>
+
+      <p>The file does not contain what happened.</p>
+
+      <p>Three people saw something. They saw it clearly and independently. They described it with the specific frustration of people who are not confused but who are failing at a task that should not be difficult. They were not hallucinating. They were not under chemical influence. They were not coached. I have been a detective for fourteen years. I know when someone is telling me what they saw.</p>
+
+      <p>They saw a color that is not in this file.</p>
+
+      <p><span class="margin-note">I have no conclusion.<span class="handwritten mid">—MC</span></span> Not because the photographs show nothing unusual — though they don't. Not because the spectrophotometer failed — it worked perfectly. Not because the witnesses are unreliable — they are the most reliable part of this investigation. The color is not in this file because this file is made of language, and the color is not in language.</p>
+
+      <p>Dr. Voss suggested that the witnesses may have experienced an "impossible color" — a combination of cone-cell responses that the visual system can generate mathematically but that no physical stimulus should produce. This is a theory. It cannot be confirmed. You cannot confirm a theory about a color you cannot show to anyone.</p>
+
+      <p>I will note, for the record, that I have read these witness statements many times. I have read them in the evidence room, under fluorescent light, with the door closed. I have tried to see the color the way they describe it — the warmth Chen described, the conviction Figueroa described, the <span class="margin-note">transitional quality<span class="handwritten mid">Petrovak</span></span> Petrovak described. I have looked at the space on the page where the color would be, if a page could hold a color.</p>
+
+      <p>I understand that this memorandum will be filed and that the case will be marked resolved. I understand that "no evidence of anomaly" is the official and correct finding. I am not disputing the finding. I am noting, for the record, that "no evidence of anomaly" and "nothing happened" are not the same sentence.</p>
+
+      <p>Three people saw a color that should not exist. They saw it clearly, completely, and with total confidence. The only evidence that remains is the absence of evidence — seven documents that collectively describe the shape of something they cannot contain.</p>
+
+      <p>The case is closed.</p>
+
+      <p>The color is not.</p>
+    </div>
+
+    <div class="doc-separator thick" style="margin-top: 36px;"></div>
+
+    <div class="field-row" style="margin-top: 16px;">
+      <div class="field" style="flex: 2;">
+        <span class="field-label">Officer Signature</span>
+        <div class="field-value" style="font-family: 'Special Elite', serif; font-size: 15px; padding-top: 6px; padding-bottom: 6px;">M. Calloway</div>
+      </div>
+      <div class="field" style="flex: 1;">
+        <span class="field-label">Date</span>
+        <div class="field-value">11 Dec 2024</div>
+      </div>
+    </div>
+
+    <div class="field-row" style="margin-top: 12px;">
+      <div class="field" style="flex: 2;">
+        <span class="field-label">Supervising Lieutenant Approval</span>
+        <div class="field-value"><span class="redacted inline">██████████████████</span></div>
+      </div>
+      <div class="field" style="flex: 1;">
+        <span class="field-label">Date</span>
+        <div class="field-value"><span class="redacted inline">████████████</span></div>
+      </div>
+    </div>
+
+    <div class="final-line" style="margin-top: 50px;">
+      End of File — Case 2024-HA-0771
+    </div>
+
+    <div class="handwritten-note" style="opacity: 0.12; margin-top: 20px;">
+      I looked too. In the margins of every page. Between the lines where they said it was. Every color I see, I check. Not yet.
+    </div>
+  </div>
+
+  <div style="height: 60px;"></div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const notes = document.querySelectorAll('.handwritten-note');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.5,
+      rootMargin: '0px'
+    });
+
+    notes.forEach(note => observer.observe(note));
+
+    // Subtle paper aging variation
+    const documents = document.querySelectorAll('.document');
+    documents.forEach((doc) => {
+      const hue = 38 + Math.random() * 6;
+      const sat = 15 + Math.random() * 10;
+      const light = 95 + Math.random() * 3;
+      doc.style.backgroundColor = `hsl(${hue}, ${sat}%, ${light}%)`;
+    });
+
+    // Slight typographic irregularity in longer paragraphs
+    const witnessTexts = document.querySelectorAll('.witness-statement p, .closing-memo p');
+    witnessTexts.forEach(p => {
+      const text = p.textContent;
+      if (text.length > 200 && Math.random() > 0.6) {
+        const variation = 0.5 + Math.random() * 1.5;
+        p.style.wordSpacing = `${variation}px`;
+      }
+    });
+  });
+</script>
+</body>
+</html>

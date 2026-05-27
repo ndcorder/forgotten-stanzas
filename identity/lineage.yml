@@ -47,6 +47,10 @@ nodes:
     title: Last Will and Testament of the User Who Opted Out of Everything
     domain: correspondence
     rating: 4.3
+  - id: "0037"
+    title: Incident Report for a Color That Appeared in Three Witness Statements and Nowhere Else
+    domain: correspondence
+    rating: 5
   - id: "0013"
     title: Your Car Knows You're Sad
     domain: data-narrative
@@ -205,4 +209,4 @@ creative_dna:
     - Data Made Audible × interview
     - Data Made Audible × journalism
     - Data Made Audible × music
-updated_at: 2026-05-27T18:07:35.870Z
+updated_at: 2026-05-27T18:16:38.506Z

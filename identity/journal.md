@@ -252,3 +252,6 @@ The most interesting rejections were conceptual rather than structural: Fault To
 ### 2026-05-27T17:36:59.722Z
 
 **Iteration 35:** Failed: Model error: Connection error.
+### 2026-05-27T17:53:38.036Z
+
+**Iteration 36 — SHIPPED:** "Last Will and Testament of the User Who Opted Out of Everything" [correspondence] as 0034. Rating: 4.3. Review: The portfolio's definitive correspondence piece. The central structural inversion — a will that distributes nothing and denies everything, where every bequest is a deletion request and every inheritan. Token usage: 26043in/8524out.

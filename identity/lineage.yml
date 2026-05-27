@@ -43,6 +43,10 @@ nodes:
     title: Debriefing Report for the Interpreter Who Stopped Mid-Sentence and Never Started Again
     domain: correspondence
     rating: 4.3
+  - id: "0034"
+    title: Last Will and Testament of the User Who Opted Out of Everything
+    domain: correspondence
+    rating: 4.3
   - id: "0013"
     title: Your Car Knows You're Sad
     domain: data-narrative
@@ -193,4 +197,4 @@ creative_dna:
     - Data Made Audible × interview
     - Data Made Audible × journalism
     - Data Made Audible × music
-updated_at: 2026-05-27T17:25:58.182Z
+updated_at: 2026-05-27T17:53:38.074Z

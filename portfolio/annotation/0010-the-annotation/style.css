@@ -1,0 +1,555 @@
+/* ========================================================
+   THE ANNOTATION — style.css
+   A physics textbook page with layered pencil marginalia
+   ======================================================== */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --page-bg: #f2efe6;
+  --ink: #1a1a18;
+  --ink-light: #3d3c38;
+  --pencil-light: #8a8a7e;
+  --pencil-gray: #5a5a52;
+  --pencil-dark: #3a3a32;
+  --pencil-red: #9e3b3b;
+  --rule-color: #c4bfa8;
+}
+
+html { font-size: 10px; }
+
+body {
+  background-color: var(--page-bg);
+  color: var(--ink);
+  font-family: 'Latin Modern Roman', 'STIX Two Text', 'Noto Serif', Georgia, serif;
+  line-height: 1.55;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+/* --- Page Surface --- */
+.page-surface {
+  position: relative;
+  width: 216mm;
+  max-width: 95vw;
+  min-height: 279mm;
+  padding: 18mm 22mm 22mm 26mm;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(0,0,0,0.022) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 85%, rgba(0,0,0,0.018) 0%, transparent 55%),
+    linear-gradient(to right,
+      rgba(160,150,120,0.12) 0%, transparent 3%,
+      transparent 97%, rgba(160,150,120,0.12) 100%),
+    linear-gradient(to bottom,
+      rgba(160,150,120,0.10) 0%, transparent 2%,
+      transparent 98%, rgba(160,150,120,0.14) 100%),
+    var(--page-bg);
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.08),
+    0 6px 20px rgba(0,0,0,0.06),
+    inset 0 0 80px rgba(0,0,0,0.03);
+  overflow: hidden;
+}
+
+/* Toner specks */
+.page-surface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 45px 180px, rgba(0,0,0,0.08) 50%, transparent 50%),
+    radial-gradient(0.8px 0.8px at 312px 78px, rgba(0,0,0,0.06) 50%, transparent 50%),
+    radial-gradient(1.2px 1.2px at 522px 340px, rgba(0,0,0,0.07) 50%, transparent 50%),
+    radial-gradient(0.6px 0.6px at 178px 590px, rgba(0,0,0,0.09) 50%, transparent 50%),
+    radial-gradient(1px 1px at 640px 445px, rgba(0,0,0,0.05) 50%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Paper grain */
+.page-surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+/* --- Page Header --- */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 0.5px solid var(--rule-color);
+  padding-bottom: 4px;
+  margin-bottom: 1.6em;
+  font-family: 'Latin Modern Sans', 'STIX Two Math', sans-serif;
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.page-number {
+  font-variant-numeric: oldstyle-nums;
+  font-style: italic;
+}
+
+/* --- Chapter Title --- */
+.chapter-title-block {
+  text-align: center;
+  margin-bottom: 2.2em;
+  padding-bottom: 1.2em;
+  border-bottom: 1px solid var(--rule-color);
+}
+
+.chapter-number-large {
+  font-family: 'Latin Modern Sans', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 0.5em;
+}
+
+.chapter-title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.35em;
+}
+
+.chapter-subtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink-light);
+}
+
+/* --- Two-Column Text Body --- */
+.text-body {
+  columns: 2;
+  column-gap: 18mm;
+  column-rule: 0.5px solid var(--rule-color);
+  text-align: justify;
+  hyphens: auto;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  position: relative;
+  z-index: 2;
+}
+
+.text-body p {
+  margin-bottom: 0.9em;
+  text-indent: 2em;
+  orphans: 3;
+  widows: 3;
+}
+
+.text-body p.first-para {
+  text-indent: 0;
+}
+
+.section-head {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 1.8em 0 0.8em;
+  text-indent: 0;
+  letter-spacing: 0.03em;
+  text-transform: small-caps;
+}
+
+.text-body em { font-style: italic; }
+
+.text-body strong {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* --- Equations --- */
+.equation {
+  display: block;
+  text-align: center;
+  margin: 1.4em 0;
+  text-indent: 0;
+  font-family: 'Latin Modern Math', 'STIX Two Math', 'Cambria Math', serif;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  break-inside: avoid;
+  position: relative;
+}
+
+.eq-number {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: var(--ink-light);
+}
+
+/* Math helpers */
+.math-var {
+  font-style: italic;
+  font-family: 'Latin Modern Math', 'STIX Two Math', 'Cambria Math', serif;
+}
+
+.math-frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  font-size: 0.85em;
+  line-height: 1.1;
+  margin: 0 0.1em;
+}
+
+.math-frac .num {
+  border-bottom: 1px solid var(--ink);
+  padding: 0 0.3em 0.15em;
+}
+
+.math-frac .den {
+  padding: 0.15em 0.3em 0;
+}
+
+/* --- Footnotes --- */
+.footnotes {
+  margin-top: 2em;
+  padding-top: 0.8em;
+  border-top: 0.5px solid var(--rule-color);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-light);
+  position: relative;
+  z-index: 2;
+}
+
+.footnotes .fn {
+  margin-bottom: 0.5em;
+  padding-left: 2em;
+  text-indent: -2em;
+}
+
+.fn-label {
+  font-size: 0.75rem;
+  vertical-align: super;
+  line-height: 0;
+  margin-right: 0.15em;
+}
+
+/* ========================================================
+   ANNOTATIONS — Pencil marginalia
+   ======================================================== */
+
+.annotation {
+  position: absolute;
+  font-family: 'Architects Daughter', 'Indie Flower', 'Caveat', cursive;
+  line-height: 1.35;
+  z-index: 10;
+  user-select: none;
+}
+
+/* Pencil texture overlay */
+.annotation::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='50'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.4 0.15' numOctaves='3' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='0.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23888' opacity='0.04' filter='url(%23p)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+}
+
+/* --- Stage progression: neat→messy, light→dark --- */
+
+.stage-1 {
+  font-size: 0.85rem;
+  color: var(--pencil-light);
+  opacity: 0.75;
+}
+
+.stage-2 {
+  font-size: 0.9rem;
+  color: var(--pencil-gray);
+  opacity: 0.78;
+}
+
+.stage-3 {
+  font-size: 0.95rem;
+  color: #4a4a42;
+  opacity: 0.82;
+}
+
+.stage-4 {
+  font-size: 1rem;
+  color: var(--pencil-dark);
+  opacity: 0.88;
+  font-weight: 600;
+}
+
+.stage-4.red-pencil {
+  color: var(--pencil-red);
+}
+
+.stage-5 {
+  font-size: 1.05rem;
+  color: #2a2a22;
+  opacity: 0.94;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.stage-5.red-pencil {
+  color: #8b2020;
+  font-weight: 800;
+}
+
+/* Left margin annotations */
+.anno-left {
+  left: 3mm;
+  width: 20mm;
+  text-align: left;
+}
+
+.stage-1.anno-left { transform: rotate(-1.5deg); }
+.stage-2.anno-left { transform: rotate(-2deg); }
+.stage-3.anno-left { transform: rotate(-2.8deg); }
+.stage-4.anno-left { transform: rotate(-3.5deg); }
+.stage-5.anno-left { transform: rotate(-4.2deg); }
+
+/* Right margin annotations */
+.anno-right {
+  right: 3mm;
+  width: 20mm;
+  text-align: right;
+}
+
+.stage-1.anno-right { transform: rotate(1deg); }
+.stage-2.anno-right { transform: rotate(1.8deg); }
+.stage-3.anno-right { transform: rotate(2.5deg); }
+.stage-4.anno-right { transform: rotate(3deg); }
+.stage-5.anno-right { transform: rotate(3.8deg); }
+
+/* Marginal sequence numbers */
+.anno-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3em;
+  height: 1.3em;
+  font-size: 0.65em;
+  font-family: 'Latin Modern Sans', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  margin-right: 0.3em;
+  vertical-align: middle;
+  opacity: 0.5;
+}
+
+/* Underline marks on text */
+.pencil-underline {
+  position: relative;
+  display: inline;
+}
+
+.pencil-underline::after {
+  content: '';
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  height: 1.5px;
+  background: var(--pencil-gray);
+  opacity: 0.6;
+  transform: rotate(-0.5deg);
+}
+
+.pencil-underline.double::after {
+  height: 3px;
+  background:
+    linear-gradient(to bottom,
+      var(--pencil-gray) 0.5px,
+      transparent 0.5px 2px,
+      var(--pencil-gray) 2.5px);
+}
+
+.pencil-underline.red::after {
+  background: var(--pencil-red);
+}
+
+/* Wavy underline (disagreement) */
+.underline-wavy {
+  text-decoration: underline wavy var(--pencil-red);
+  text-underline-offset: 3px;
+}
+
+/* Large marginal scrawls: "WAIT", "NO" */
+.anno-scrawl {
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  opacity: 0.35;
+  line-height: 1;
+}
+
+.anno-scrawl.red {
+  color: var(--pencil-red);
+  opacity: 0.5;
+}
+
+/* Vertical text in margins */
+.anno-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  max-height: 80mm;
+}
+
+/* Pencil drawing container */
+.pencil-drawing {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.pencil-drawing svg {
+  stroke: var(--pencil-gray);
+  stroke-width: 1.2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pencil-drawing.red svg {
+  stroke: var(--pencil-red);
+}
+
+/* ========================================================
+   CONTROLS — Toggle annotations on/off
+   ======================================================== */
+
+.controls-panel {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  background: rgba(242, 239, 230, 0.95);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--rule-color);
+  border-radius: 4px;
+  padding: 0.8rem 1rem;
+  font-family: 'Latin Modern Sans', sans-serif;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.controls-panel h3 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ink-light);
+  margin-bottom: 0.6em;
+  font-weight: 600;
+}
+
+.controls-panel label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.35em;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: var(--ink-light);
+}
+
+.controls-panel input[type="checkbox"] {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--pencil-light);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+
+.controls-panel input[type="checkbox"]:checked {
+  background: var(--pencil-gray);
+  border-color: var(--pencil-gray);
+}
+
+.controls-panel input[type="checkbox"]:checked::after {
+  content: '\2713';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--page-bg);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.controls-panel .divider {
+  height: 1px;
+  background: var(--rule-color);
+  margin: 0.5em 0;
+}
+
+.controls-panel button {
+  width: 100%;
+  padding: 0.4em 0.8em;
+  border: 1px solid var(--rule-color);
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.78rem;
+  color: var(--ink-light);
+  cursor: pointer;
+  border-radius: 3px;
+  letter-spacing: 0.03em;
+}
+
+.controls-panel button:hover {
+  background: var(--ink);
+  color: var(--page-bg);
+}
+
+/* ========================================================
+   RESPONSIVE
+   ======================================================== */
+
+@media (max-width: 900px) {
+  html { font-size: 9px; }
+  .page-surface {
+    margin: 0 1rem;
+    padding: 14mm 16mm 16mm 18mm;
+  }
+}
+
+@media (max-width: 600px) {
+  html { font-size: 8px; }
+  .text-body {
+    columns: 1;
+    column-rule: none;
+  }
+}
+
+/* Print */
+@media print {
+  .controls-panel { display: none; }
+  .page-surface { margin: 0; box-shadow: none; }
+}

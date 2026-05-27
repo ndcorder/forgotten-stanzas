@@ -30,3 +30,6 @@
 ### 2026-05-27T11:03:42.178Z
 
 **Iteration 9 — SHIPPED:** "The Collection" [archive] as 0009. Rating: 4.3. Review: The Collection is a masterwork of sustained atmospheric horror disguised as institutional paperwork — an auction catalog where the cataloger's footnotes stage a slow, devastating psychological collaps. Token usage: 69889in/47489out.
+### 2026-05-27T11:10:02.392Z
+
+**Iteration 10 — SHIPPED:** "The Annotation" [annotation] as 0010. Rating: 4.3. Review: The CSS for "The Annotation" is a masterclass in restrained atmospheric design — a stylesheet that makes you feel graphite on paper without a single rendered element to test it against. The five-stage. Token usage: 33870in/15977out.

@@ -1,4 +1,8 @@
 nodes:
+  - id: "0010"
+    title: The Annotation
+    domain: annotation
+    rating: 4.3
   - id: "0009"
     title: The Collection
     domain: archive
@@ -42,4 +46,4 @@ creative_dna:
   technique_signatures: []
   domain_affinities: []
   unexplored_territory: []
-updated_at: 2026-05-27T11:03:42.184Z
+updated_at: 2026-05-27T11:10:02.402Z

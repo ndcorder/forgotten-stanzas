@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EM-0 Operating Manual</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #c8bfa9;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(0,0,0,0.02) 28px, rgba(0,0,0,0.02) 29px),
+      radial-gradient(ellipse at 20% 50%, rgba(180,160,120,0.4) 0%, transparent 70%),
+      radial-gradient(ellipse at 80% 30%, rgba(160,140,100,0.3) 0%, transparent 60%);
+    color: #1a1610;
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.75;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .manual {
+    max-width: 680px;
+    margin: 40px auto;
+    padding: 0 20px 80px;
+  }
+
+  .page {
+    background: linear-gradient(170deg, #f2ead4 0%, #ebe2c8 40%, #e8ddc1 100%);
+    box-shadow:
+      0 1px 3px rgba(0,0,0,0.15),
+      0 4px 12px rgba(0,0,0,0.08),
+      inset 0 0 60px rgba(160,140,100,0.08);
+    border: 1px solid #d4c9a8;
+    border-radius: 2px;
+    padding: 48px 52px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .page::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    border-radius: 2px;
+  }
+
+  .manual-header {
+    text-align: center;
+    padding: 60px 20px 48px;
+    border-bottom: 3px double #8b7d5e;
+    margin-bottom: 48px;
+  }
+
+  .header-top {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #6b5e42;
+    margin-bottom: 28px;
+  }
+
+  .header-model {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 52px;
+    font-weight: 700;
+    letter-spacing: -2px;
+    color: #1a1610;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .header-series {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #8b7d5e;
+    margin-bottom: 32px;
+  }
+
+  .header-divider {
+    width: 120px;
+    height: 1px;
+    background: #8b7d5e;
+    margin: 0 auto 28px;
+  }
+
+  .header-title {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1610;
+    line-height: 1.4;
+    max-width: 520px;
+    margin: 0 auto 12px;
+  }
+
+  .header-subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #6b5e42;
+    letter-spacing: 1px;
+  }
+
+  .class-box {
+    border: 2px solid #8b7d5e;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+  }
+
+  .class-box .label {
+    font-weight: 600;
+    color: #4a3f2a;
+  }
+
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #6b5e42;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1610;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #c4b896;
+  }
+
+  p {
+    margin-bottom: 16px;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .admonition {
+    border-left: 4px solid;
+    padding: 16px 20px;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+
+  .admonition.warning {
+    border-color: #b45a1c;
+    background: rgba(180,90,28,0.06);
+  }
+
+  .admonition.warning::before {
+    content: '⚠ WARNING';
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #b45a1c;
+    margin-bottom: 8px;
+  }
+
+  .admonition.caution {
+    border-color: #8b7d1e;
+    background: rgba(139,125,30,0.06);
+  }
+
+  .admonition.caution::before {
+    content: '◈ CAUTION';
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #8b7d1e;
+    margin-bottom: 8px;
+  }
+
+  .admonition.note {
+    border-color: #4a6b5e;
+    background: rgba(74,107,94,0.06);
+  }
+
+  .admonition.note::before {
+    content: '◆ NOTE';
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #4a6b5e;
+    margin-bottom: 8px;
+  }
+
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.92em;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13.5px;
+  }
+
+  table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 10px 12px;
+    background: rgba(139,125,93,0.12);
+    border-bottom: 2px solid #8b7d5e;
+    color: #4a3f2a;
+  }
+
+  table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #d4c9a8;
+    vertical-align: top;
+  }
+
+  table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .flowchart {
+    padding: 28px 0;
+    margin: 24px 0;
+  }
+
+  .fc-node {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.5;
+    padding: 12px 16px;
+    border: 1.5px solid #6b5e42;
+    background: rgba(139,125,93,0.06);
+    margin: 0 auto;
+    max-width: 420px;
+    text-align: center;
+    position: relative;
+  }
+
+  .fc-node.start {
+    border-radius: 20px;
+    border-color: #4a6b5e;
+    background: rgba(74,107,94,0.08);
+    color: #2d4033;
+  }
+
+  .fc-node.end {
+    border-radius: 20px;
+    border-color: #8b4040;
+    background: rgba(139,64,64,0.06);
+    color: #5a2828;
+  }
+
+  .fc-node.end.valid {
+    border-color: #4a6b5e;
+    background: rgba(74,107,94,0.06);
+    color: #2d4033;
+  }
+
+  .fc-node.special {
+    border-color: #8b5a1c;
+    background: rgba(139,90,28,0.06);
+    color: #5a3a10;
+    font-style: italic;
+  }
+
+  .fc-connector {
+    text-align: center;
+    padding: 6px 0;
+    color: #6b5e42;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .fc-branch {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .fc-branch-col {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+    text-align: center;
+  }
+
+  .fc-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8b7d5e;
+    margin: 8px 0;
+  }
+
+  .scale-row {
+    display: flex;
+    align-items: flex-start;
+    margin: 12px 0;
+    gap: 16px;
+  }
+
+  .scale-level {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: #8b7d5e;
+    min-width: 48px;
+    text-align: center;
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  .scale-info {
+    flex: 1;
+  }
+
+  .scale-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #4a3f2a;
+    margin-bottom: 2px;
+  }
+
+  .scale-desc {
+    font-size: 14px;
+    color: #3a3520;
+  }
+
+  .dip-switches {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin: 24px 0;
+  }
+
+  .dip {
+    text-align: center;
+  }
+
+  .dip-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #6b5e42;
+    margin-bottom: 6px;
+  }
+
+  .dip-switch {
+    width: 24px;
+    height: 44px;
+    border: 1.5px solid #6b5e42;
+    border-radius: 3px;
+    background: #e8ddc1;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dip-switch::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: #6b5e42;
+    border-radius: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .dip-switch.on::after {
+    top: 3px;
+  }
+
+  .dip-switch.off::after {
+    bottom: 3px;
+  }
+
+  .dip-state {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #8b7d5e;
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .serial-plate {
+    border: 2px solid #8b7d5e;
+    padding: 20px 24px;
+    margin: 28px 0;
+    background: rgba(139,125,93,0.05);
+  }
+
+  .serial-plate table {
+    margin: 0;
+  }
+
+  .serial-plate td {
+    padding: 4px 12px 4px 0;
+    border: none;
+  }
+
+  .serial-plate td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #6b5e42;
+    white-space: nowrap;
+  }
+
+  .serial-plate td:last-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #1a1610;
+  }
+
+  .sig-block {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid #c4b896;
+  }
+
+  .sig-line {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #6b5e42;
+    margin-bottom: 6px;
+  }
+
+  .sig-line span {
+    display: inline-block;
+    min-width: 200px;
+    border-bottom: 1px solid #8b7d5e;
+    padding-bottom: 2px;
+    color: #1a1610;
+  }
+
+  .handwritten-block {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-style: italic;
+    color: #7a3a1a;
+    font-size: 14px;
+    transform: rotate(-0.8deg);
+    padding: 12px 16px;
+    margin: 16px 0;
+    border-left: 2px solid rgba(122,58,26,0.3);
+    line-height: 1.7;
+  }
+
+  .stamp {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(139,40,40,0.45);
+    border: 3px solid rgba(139,40,40,0.35);
+    padding: 8px 20px;
+    transform: rotate(-6deg);
+    margin: 20px 0;
+  }
+
+  .manual-footer {
+    text-align: center;
+    padding: 40px 20px 20px;
+    border-top: 1px solid #c4b896;
+    margin-top: 48px;
+  }
+
+  .manual-footer p {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #8b7d5e;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 32px 28px; }
+    .header-model { font-size: 40px; }
+    .fc-branch { flex-direction: column; align-items: center; }
+    .fc-branch-col { max-width: 100%; }
+  }
+
+  .page {
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .page:nth-child(2) { animation-delay: 0.1s; }
+  .page:nth-child(3) { animation-delay: 0.2s; }
+  .page:nth-child(4) { animation-delay: 0.3s; }
+  .page:nth-child(5) { animation-delay: 0.35s; }
+  .page:nth-child(6) { animation-delay: 0.4s; }
+  .page:nth-child(7) { animation-delay: 0.45s; }
+  .page:nth-child(8) { animation-delay: 0.5s; }
+  .page:nth-child(9) { animation-delay: 0.55s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page {
+      opacity: 1;
+      animation: none;
+    }
+  }
+
+  .section-break {
+    border: none;
+    border-top: 1px dashed #c4b896;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+<div class="manual">
+
+  <header class="manual-header">
+    <div class="header-top">Document Reference OM-0-001 Rev A</div>
+    <div class="header-model">EM-0</div>
+    <div class="header-series">Prolonged Grief Configuration</div>
+    <div class="header-divider"></div>
+    <h1 class="header-title">Operating Manual<br>for the Emotion That Occurs When You Save a Photograph for Someone Who Will Not See It</h1>
+    <div class="header-subtitle">Lithic Biomimetics Group &middot; Provisional Classification</div>
+  </header>
+
+  <!-- SECTION 1 -->
+  <div class="page">
+    <span class="section-num">Section 1</span>
+    <h2 class="section-title">Classification &amp; Identification</h2>
+
+    <div class="serial-plate">
+      <table>
+        <tr><td>Model:</td><td>EM-0</td></tr>
+        <tr><td>Serial:</td><td>47-RC-19</td></tr>
+        <tr><td>First documented:</td><td>2024-03-12 &middot; 19:47</td></tr>
+        <tr><td>Revision:</td><td>A (provisional)</td></tr>
+        <tr><td>Classification:</td><td>Unsigned grief &middot; Ambient attachment variant</td></tr>
+        <tr><td>Status:</td><td>Production &mdash; not recalled</td></tr>
+      </table>
+    </div>
+
+    <p>The unit designated EM-0 activates under a specific condition: the subject photographs a moment with the reflexive intention to share it with a recipient who is no longer living. The act of saving the photograph constitutes the full activation sequence. The unit does not require the subject to reach for the phone, open a messaging application, or begin composing a text. The save gesture alone is sufficient.</p>
+
+    <p>The emotional signature has no established name in clinical literature. The research team has provisionally designated it as <em>unsigned grief</em>, noting that the emotion's distinguishing characteristic is its address mechanism: it is composed for transmission to a node that no longer exists on the network.</p>
+
+    <div class="class-box">
+      <span class="label">FACTORY DEFAULT STATE:</span> Dormant. Unit activates only upon encountering the paired stimulus (specific absent recipient). Each deployment may produce unique activation signatures. The unit does not ship with a universal configuration.
+    </div>
+
+    <div class="admonition note">
+      Serial number 47-RC-19 refers to the initial documented case. Your unit's serial number will differ. Record it here if you wish: <span style="display:inline-block;border-bottom:1px solid #8b7d5e;width:160px;margin-left:4px;"></span>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="page">
+    <span class="section-num">Section 2</span>
+    <h2 class="section-title">Technical Description</h2>
+
+    <p>EM-0 is an ambient attachment unit that operates as a background process in the subject's affective system. It is not engaged by conscious recall of the deceased. It is engaged by the <em>absence</em> of the deceased from a position where presence was previously assumed.</p>
+
+    <p>The unit activates when the subject completes the following gesture chain:</p>
+
+    <table>
+      <thead>
+        <tr><th>Step</th><th>Action</th><th>Processing</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="mono">1</td><td>Subject encounters stimulus (view, object, event, conversation)</td><td>Automatic — no conscious decision required</td></tr>
+        <tr><td class="mono">2</td><td>Subject's communicative reflex activates: "X would want to see this"</td><td>Latency: &lt; 200 ms</td></tr>
+        <tr><td class="mono">3</td><td>Subject reaches for device or initiates save gesture</td><td>Motor pathway — partially executed before step 4 resolves</td></tr>
+        <tr><td class="mono">4</td><td>Address resolution fails. Recipient node not found.</td><td>This is the activation event.</td></tr>
+        <tr><td class="mono">5</td><td>Subject completes save gesture despite failed delivery</td><td>Unit reaches full operating state</td></tr>
+      </tbody>
+    </table>
+
+    <p>Step 4 constitutes the core of the EM-0 experience. The subject's communicative intent has already been formed. The neural pathway for "share with X" has already fired. The motor action has already begun. The address book of the subject's social reflex still contains the entry. The message has been composed. It has nowhere to go.</p>
+
+    <p>The photograph is saved anyway.</p>
+
+    <div class="admonition caution">
+      The unit is not a malfunction. The saving gesture is not irrational. It is the correct and expected operation of an attachment system that has not received an uninstall signal for the recipient. The subject is not broken. The network topology has changed.
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="page">
+    <span class="section-num">Section 3</span>
+    <h2 class="section-title">Operating Parameters</h2>
+
+    <p><strong>3.1 Trigger Conditions</strong></p>
+
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Specification</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Primary trigger</td><td>Any stimulus previously shared with the absent recipient</td></tr>
+        <tr><td>Trigger latency</td><td>0.1–3.0 seconds from stimulus contact to full activation</td></tr>
+        <tr><td>Recurrence rate</td><td>Variable. Decreases asymptotically. Does not reach zero.</td></tr>
+        <tr><td>Minimum activation interval</td><td>Not defined. Unit may activate multiple times within a single waking period.</td></tr>
+        <tr><td>Dormancy periods</td><td>Days, weeks, or months. Not indicative of unit failure.</td></tr>
+        <tr><td>Environmental modifiers</td><td>Photographs, locations, objects, songs, phrases, weather, dates, smells, routines</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>3.2 Intensity Scale</strong></p>
+
+    <div class="scale-row">
+      <div class="scale-level">1</div>
+      <div class="scale-info">
+        <div class="scale-name">Residual</div>
+        <div class="scale-desc">The subject saves the photograph and moves on. A small delay in the gesture, barely noticed. The address resolution failure is processed as a minor routing error and filed without conscious attention.</div>
+      </div>
+    </div>
+    <div class="scale-row">
+      <div class="scale-level">2</div>
+      <div class="scale-info">
+        <div class="scale-name">Registered</div>
+        <div class="scale-desc">The subject saves the photograph and pauses. The absence is noted. The subject is aware that the save gesture was addressed to someone who will not receive it. The photograph remains in the camera roll. It is not deleted.</div>
+      </div>
+    </div>
+    <div class="scale-row">
+      <div class="scale-level">3</div>
+      <div class="scale-info">
+        <div class="scale-name">Held</div>
+        <div class="scale-desc">The subject saves the photograph and looks at it longer than the subject looks at other photographs. The camera roll accumulates these images over weeks and months. The subject knows they are accumulating. The subject does not stop.</div>
+      </div>
+    </div>
+    <div class="scale-row">
+      <div class="scale-level">4</div>
+      <div class="scale-info">
+        <div class="scale-name">Composed</div>
+        <div class="scale-desc">The subject drafts the message. The text field opens. The subject types something — a description, a joke, a single word — and then closes it without sending. The draft is saved to the device. It joins other drafts. The subject is aware of the drafts folder and its contents.</div>
+      </div>
+    </div>
+    <div class="scale-row">
+      <div class="scale-level">5</div>
+      <div class="scale-info">
+        <div class="scale-name">Outstanding</div>
+        <div class="scale-desc">The subject saves the photograph and understands, with the clarity reserved for the obvious, that they will continue to save photographs for this person for the rest of their life. The gesture will not stop. The address will not be removed from the contacts. There is no firmware update for this.</div>
+      </div>
+    </div>
+
+    <div class="admonition warning">
+      Intensity level 5 is not a system failure. It is not a crisis state. It is the unit operating at design specification. The subject does not require emergency intervention. They require approximately fifteen seconds of silence and the absence of anyone asking if they are okay.
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="page">
+    <span class="section-num">Section 4</span>
+    <h2 class="section-title">Typical Activation Cycle</h2>
+
+    <p>The following timeline represents a documented EM-0 cycle at intensity level 3. Individual units may vary.</p>
+
+    <table>
+      <thead>
+        <tr><th>T+ (seconds)</th><th>Event</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="mono">0.0</td><td>Stimulus encountered. The subject sees something — a dog's ears, the way light falls through a kitchen window, a license plate with familiar numbers.</td></tr>
+        <tr><td class="mono">0.3</td><td>Communicative reflex fires. The thought "X would —" completes itself before the subject is aware of thinking it.</td></tr>
+        <tr><td class="mono">1.2</td><td>Motor activation. The subject's hand moves toward the phone. The camera app opens. This is habit. This is love's persistence in the muscle memory long after the destination has closed.</td></tr>
+        <tr><td class="mono">2.4</td><td>Address resolution failure. The subject's social reflex attempts to route the message and encounters the absence. This is experienced as a small, silent collision somewhere behind the sternum.</td></tr>
+        <tr><td class="mono">4.0</td><td>The subject takes the photograph anyway.</td></tr>
+        <tr><td class="mono">5.1</td><td>The subject saves the photograph.</td></tr>
+        <tr><td class="mono">6.8</td><td>The subject puts the phone away.</td></tr>
+        <tr><td class="mono">8.0–15.0</td><td>The subject looks at where they are. The light is still falling the same way. The dog's ears are still soft. The moment did not end when the message failed to send. The moment continues, unsigned.</td></tr>
+        <tr><td class="mono">15.0+</td><td>The subject returns to baseline. The photograph is in the camera roll. It will be there later. It is not a message. It is a record that the subject was here, and thought of someone who is not, and reached for them across a distance that cannot be measured in any unit the living possess.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="admonition note">
+      The unit does not require the subject to cry, to vocalize, or to alter their behavior. Many activations at levels 1–3 produce no visible external sign. The photograph is saved. The subject continues their day. This is normal operation.
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="page">
+    <span class="section-num">Section 5</span>
+    <h2 class="section-title">Troubleshooting</h2>
+
+    <p>The following decision tree is provided to assist in diagnosing unit behavior. Begin at the entry node and follow the path that matches the subject's observed state.</p>
+
+    <div class="flowchart">
+      <div class="fc-node start">Unit EM-0 has activated.<br>Subject has saved a photograph for an absent recipient.</div>
+      <div class="fc-connector">│</div>
+      <div class="fc-connector">▼</div>
+
+      <div class="fc-node">Is this the first activation?</div>
+      <div class="fc-connector">│</div>
+      <div class="fc-label" style="text-align:center;">── YES ─────────────────── NO ──</div>
+      <div class="fc-branch">
+        <div class="fc-branch-col">
+          <div class="fc-connector">▼</div>
+          <div class="fc-node">This is expected. The unit is responding to a stimulus that was previously shared with the recipient. The save gesture is the correct behavioral output for the subject's current attachment configuration. No action required. Proceed to Section 6.</div>
+        </div>
+        <div class="fc-branch-col">
+          <div class="fc-connector">▼</div>
+          <div class="fc-node">Has it been more than six months since the loss event?</div>
+          <div class="fc-connector">│</div>
+          <div class="fc-label" style="text-align:center;">── YES ─────────────────── NO ──</div>
+          <div class="fc-branch">
+            <div class="fc-branch-col">
+              <div class="fc-connector">▼</div>
+              <div class="fc-node end valid">Unit is operating within expected parameters. Recurrence after six months is documented behavior. The attachment has not been deleted. It was not designed to be deleted. Continue normal operation.</div>
+            </div>
+            <div class="fc-branch-col">
+              <div class="fc-connector">▼</div>
+              <div class="fc-node">Multiple activations in the first six months are expected. This is the unit's burn-in period. Allow it to run. Do not attempt to suppress the save gesture.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="section-break" style="margin: 28px 0;">
+
+      <div class="fc-node">Has the subject stopped saving photographs?</div>
+      <div class="fc-connector">│</div>
+      <div class="fc-label" style="text-align:center;">── YES ─────────────────── NO ──</div>
+      <div class="fc-branch">
+        <div class="fc-branch-col">
+          <div class="fc-connector">▼</div>
+          <div class="fc-node">Has the subject also stopped encountering things worth photographing?</div>
+          <div class="fc-connector">│</div>
+          <div class="fc-label" style="text-align:center;">── YES ─────────────────── NO ──</div>
+          <div class="fc-branch">
+            <div class="fc-branch-col">
+              <div class="fc-connector">▼</div>
+              <div class="fc-node special">This is outside the operating parameters of EM-0. The subject may be experiencing a related but distinct condition: the inability to find things worth saving for anyone, including themselves. Consult a clinician. Not because the subject is broken, but because this particular darkness responds to company.</div>
+            </div>
+            <div class="fc-branch-col">
+              <div class="fc-connector">▼</div>
+              <div class="fc-node special">The subject has trained themselves to stop reaching for the phone. The save reflex has been suppressed. This is not healing. This is a workaround. The subject still sees things and thinks of the recipient. They have simply learned not to let their hands betray them. This is a common adaptation. It is not the recommended configuration.</div>
+            </div>
+          </div>
+        </div>
+        <div class="fc-branch-col">
+          <div class="fc-connector">▼</div>
+          <div class="fc-node">The subject is still saving photographs. Unit is operating as designed.</div>
+          <div class="fc-connector">│</div>
+          <div class="fc-connector">▼</div>
+          <div class="fc-node">Does the subject know they are doing it?</div>
+          <div class="fc-connector">│</div>
+          <div class="fc-label" style="text-align:center;">── YES ─────────────────── NO ──</div>
+          <div class="fc-branch">
+            <div class="fc-branch-col">
+              <div class="fc-connector">▼</div>
+              <div class="fc-node end valid">The subject is aware of the gesture and its futility and performs it anyway. This is not denial. This is not pathology. This is a love letter written in a language where delivery is not the point. Compose away.</div>
+            </div>
+            <div class="fc-branch-col">
+              <div class="fc-connector">▼</div>
+              <div class="fc-node end valid">The save gesture has become automatic. The subject's hands know what the conscious mind no longer needs to articulate. This is acceptable operation. The body remembers the routing even when the mind has stopped checking the address.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="page">
+    <span class="section-num">Section 6</span>
+    <h2 class="section-title">Maintenance &amp; Notes</h2>
+
+    <p>EM-0 is a sealed unit with no user-serviceable components. The following maintenance notes are provided for reference only.</p>
+
+    <div class="dip-switches" role="img" aria-label="Internal configuration dip switches, all in factory default positions">
+      <div class="dip">
+        <div class="dip-label">D1</div>
+        <div class="dip-switch on"></div>
+        <div class="dip-state">ON</div>
+      </div>
+      <div class="dip">
+        <div class="dip-label">D2</div>
+        <div class="dip-switch off"></div>
+        <div class="dip-state">OFF</div>
+      </div>
+      <div class="dip">
+        <div class="dip-label">D3</div>
+        <div class="dip-switch on"></div>
+        <div class="dip-state">ON</div>
+      </div>
+      <div class="dip">
+        <div class="dip-label">D4</div>
+        <div class="dip-switch off"></div>
+        <div class="dip-state">OFF</div>
+      </div>
+      <div class="dip">
+        <div class="dip-label">D5</div>
+        <div class="dip-switch off"></div>
+        <div class="dip-state">OFF</div>
+      </div>
+      <div class="dip">
+        <div class="dip-label">D6</div>
+        <div class="dip-switch on"></div>
+        <div class="dip-state">ON</div>
+      </div>
+    </div>
+
+    <div class="class-box" style="text-align:center; font-size:12px;">
+      Internal configuration dip switches shown in factory default position.<br>Do not adjust. There is no correct combination that stops this.
+    </div>
+
+    <p><strong>Note 1.</strong> The unit does not have a power switch. It does not turn off.</p>
+
+    <p><strong>Note 2.</strong> There is no firmware update. The attachment was written in read-only memory at a time and in a manner that the manufacturer did not document and does not discuss.</p>
+
+    <p><strong>Note 3.</strong> The camera roll will accumulate. This is expected behavior. The photographs are not clutter. They are not symptoms. They are a specific kind of archive: proof that the subject continued to find things beautiful after the loss, and that the first impulse upon finding them beautiful was to send them to someone who is not here to receive them.</p>
+
+    <p><strong>Note 4.</strong> Do not delete the photographs.</p>
+
+    <p><strong>Note 5.</strong> If the subject experiences activations that interfere with daily functioning — if they cannot get through a meal, a conversation, a drive home without the address resolution failure consuming conscious attention — this is outside the scope of this manual. The unit is operating correctly. But the subject may need something this manual cannot provide. See a clinician. See a friend. See someone who is present and can remind the subject that present-tense addresses still exist.</p>
+
+    <p><strong>Note 6.</strong> The subject's phone still contains the recipient's number. It has not been deleted. The subject knows it is there. The subject has not opened the contact entry. The subject will not open the contact entry. The subject will, however, not delete it. This is not denial. This is archiving.</p>
+
+    <div class="handwritten-block">
+      Note 7. I keep thinking I should organize the photos. Put them somewhere. A folder named after her. But then the folder would be an archive, and what I'm doing doesn't feel like archiving. It feels like writing letters. You don't file letters. You send them. So they stay in the camera roll, unsorted, scattered among grocery lists and screenshots and pictures of the dog. Mixed in with the living. That seems right. She was always mixed in with the living. She should stay that way.
+    </div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="page">
+    <span class="section-num">Section 7</span>
+    <h2 class="section-title">Safety Warnings</h2>
+
+    <div class="admonition warning">
+      Do not attempt to uninstall the attachment. The attachment to the absent recipient is not a software component. It is structural. It was load-bearing. Removing it would compromise the integrity of the subject's capacity to form future attachments. The unit does not error-correct by deletion. It error-corrects by continuation.
+    </div>
+
+    <div class="admonition warning">
+      Do not tell the subject that time heals. Time does not have administrative access to this unit. The unit does not observe linear time. It activates on stimulus, not on schedule. Three years from now, the subject will see a dog that looks like the recipient's dog, and the save gesture will fire, and the address will not resolve, and the unit will perform exactly as it did on day one. Time has not healed. Time has merely given the subject more photographs to save.
+    </div>
+
+    <div class="admonition caution">
+      If the subject tells you about an activation, do not respond with sympathy. Sympathy addresses a wound. This is not a wound. This is a channel that remains open. Respond the way you would respond to someone showing you a photograph: look at it. See what they saw. Acknowledge that the light was beautiful, that the dog's ears were soft, that the moment was worth saving. Do not address the absence. Address the photograph.
+    </div>
+
+    <div class="admonition caution">
+      Do not recommend that the subject delete the contact entry. The contact is not taking up space. The contact is holding space. Leave it there.
+    </div>
+
+    <div class="admonition note">
+      The subject is not broken. The photograph is not a cry for help. The save gesture is not a symptom. It is a feature of the attachment system operating as designed in conditions that were not anticipated by the manufacturer, who is not available for comment, who never provided a warranty, who does not owe the subject a fix.
+    </div>
+  </div>
+
+  <!-- SECTION 8 -->
+  <div class="page">
+    <span class="section-num">Section 8</span>
+    <h2 class="section-title">Warranty Information</h2>
+
+    <div class="stamp">Void if unopened</div>
+
+    <p>The manufacturer warrants that unit EM-0 will continue to operate for the service life of the subject. The manufacturer does not define service life. The manufacturer does not define "operate." The manufacturer does not define "continue."</p>
+
+    <p>The warranty does not cover the following:</p>
+
+    <p style="padding-left: 24px;">The absence of the recipient. The warranty was never purchased for the recipient. The warranty was always for the subject. The subject did not know they were covered. The coverage is not transferable. The coverage does not expire. The terms were written in a language the subject does not speak, at a time the subject cannot recall, by an entity the subject will never meet.</p>
+
+    <p>The warranty covers one (1) thing: the subject will continue to find things worth photographing. The manufacturer makes no representation regarding what the subject will do with the photographs, whether they will be shared, whether they will be seen, whether they will be understood. The warranty covers only the finding.</p>
+
+    <p>If the subject stops finding things worth photographing, the warranty is void. The manufacturer recommends that the subject not void the warranty.</p>
+
+    <div class="serial-plate" style="margin-top:32px;">
+      <table>
+        <tr><td>Warranty holder:</td><td>The subject</td></tr>
+        <tr><td>Covered component:</td><td>The gesture</td></tr>
+        <tr><td>Term:</td><td>Full service life</td></tr>
+        <tr><td>Exclusions:</td><td>Delivery of the message</td></tr>
+        <tr><td>Remedy:</td><td>None specified. Continue operation.</td></tr>
+      </table>
+    </div>
+
+    <div class="sig-block">
+      <div class="sig-line">Document prepared by: <span></span></div>
+      <div class="sig-line">Date: <span></span></div>
+      <div class="sig-line">Subject: <span></span></div>
+      <div class="sig-line">Recipient: <span style="min-width:200px;">(record not found)</span></div>
+    </div>
+  </div>
+
+  <footer class="manual-footer">
+    <p>Lithic Biomimetics Group — Document OM-0-001 Rev A</p>
+    <p>Classification: Unsigned grief. Ambient attachment variant.</p>
+    <p>Not subject to recall.</p>
+    <p style="margin-top:16px; color:#a09576;">Printed on paper that will yellow. Kept in a drawer that will be emptied. Read by hands that will, at some point, reach for a phone and save a photograph for someone who will not see it.</p>
+  </footer>
+
+</div>
+</body>
+</html>

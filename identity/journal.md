@@ -255,3 +255,6 @@ The most interesting rejections were conceptual rather than structural: Fault To
 ### 2026-05-27T17:53:38.036Z
 
 **Iteration 36 — SHIPPED:** "Last Will and Testament of the User Who Opted Out of Everything" [correspondence] as 0034. Rating: 4.3. Review: The portfolio's definitive correspondence piece. The central structural inversion — a will that distributes nothing and denies everything, where every bequest is a deletion request and every inheritan. Token usage: 26043in/8524out.
+### 2026-05-27T18:01:12.596Z
+
+**Iteration 37 — SHIPPED:** "Operating Manual for the Emotion That Doesn't Have a Name Yet" [instruction] as 0035. Rating: 5.0. Review: Operating Manual for the Emotion That Occurs When You Save a Photograph for Someone Who Will Not See It is the portfolio's canonical instruction piece and arguably its most emotionally devastating art. Token usage: 53115in/24855out.

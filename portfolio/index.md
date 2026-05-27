@@ -36,3 +36,4 @@
 | 0032 | Crossword Puzzle for a Language That Lost Its Nouns | code-game | 5.0 | 2026-05-27 | — |
 | 0033 | Curtain Speech for a Magician Who Died Mid-Trick | screenplay | 5.0 | 2026-05-27 | — |
 | 0034 | Last Will and Testament of the User Who Opted Out of Everything | correspondence | 4.3 | 2026-05-27 | — |
+| 0035 | Operating Manual for the Emotion That Doesn't Have a Name Yet | instruction | 5.0 | 2026-05-27 | — |

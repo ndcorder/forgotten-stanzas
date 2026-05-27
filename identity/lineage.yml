@@ -71,6 +71,10 @@ nodes:
     title: Safety Card for a Building That Hasn't Failed Yet
     domain: instruction
     rating: 4.7
+  - id: "0035"
+    title: Operating Manual for the Emotion That Doesn't Have a Name Yet
+    domain: instruction
+    rating: 5
   - id: "0005"
     title: The Committee of Mutually Assured Destruction
     domain: interactive
@@ -197,4 +201,4 @@ creative_dna:
     - Data Made Audible × interview
     - Data Made Audible × journalism
     - Data Made Audible × music
-updated_at: 2026-05-27T17:53:38.074Z
+updated_at: 2026-05-27T18:01:12.635Z

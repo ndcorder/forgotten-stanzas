@@ -39,6 +39,10 @@ nodes:
     title: Soft Estate
     domain: interactive
     rating: 4.9
+  - id: "0014"
+    title: Voting Patterns of the Recently Deceased
+    domain: journalism
+    rating: 5
   - id: "0003"
     title: Hymnal for a Dead Language
     domain: music
@@ -58,4 +62,4 @@ creative_dna:
   technique_signatures: []
   domain_affinities: []
   unexplored_territory: []
-updated_at: 2026-05-27T11:34:30.501Z
+updated_at: 2026-05-27T11:54:26.652Z

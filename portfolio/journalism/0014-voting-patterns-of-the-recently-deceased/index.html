@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Dead Still Vote: A Verdant Creek County Investigation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --bg-light: #f7f5f2;
+            --bg-yellow: #fdf8ec;
+            --text: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #6b6b6b;
+            --text-faint: #999999;
+            --accent: #c0392b;
+            --accent-dark: #962d22;
+            --accent-blue: #2c5aa0;
+            --border: #d4d0ca;
+            --border-light: #e8e4de;
+            --highlight: #fff3cd;
+            --highlight-red: #fde8e8;
+            --serif: 'Merriweather', Georgia, 'Times New Roman', serif;
+            --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --mono: 'IBM Plex Mono', 'Courier New', monospace;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--serif);
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 1000;
+            transition: width 0.1s linear;
+        }
+
+        .pub-header {
+            background: var(--text);
+            color: var(--bg);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .pub-header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pub-logo {
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--bg);
+            text-decoration: none;
+        }
+
+        .pub-logo span {
+            color: var(--accent);
+        }
+
+        .pub-nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .pub-nav a {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            color: var(--text-faint);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .pub-nav a:hover {
+            color: var(--bg);
+        }
+
+        .article-hero {
+            background: var(--bg-light);
+            border-bottom: 1px solid var(--border-light);
+            padding: 60px 0 50px;
+        }
+
+        .article-hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .article-series {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .article-series::before {
+            content: '';
+            display: inline-block;
+            width: 32px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .article-title {
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 900;
+            line-height: 1.12;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            max-width: 900px;
+            margin-bottom: 24px;
+        }
+
+        .article-dek {
+            font-size: 1.2rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            max-width: 720px;
+            margin-bottom: 36px;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            align-items: flex-start;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .meta-byline {
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .meta-byline a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            transition: border-color 0.2s;
+        }
+
+        .meta-byline a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .meta-pub-info {
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .meta-share {
+            margin-left: auto;
+            display: flex;
+            gap: 8px;
+        }
+
+        .share-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .share-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .article-body {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 48px 24px 60px;
+        }
+
+        .article-body p {
+            margin-bottom: 1.6em;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .article-body p:first-of-type {
+            font-size: 1.15rem;
+        }
+
+        .article-body p:first-of-type::first-letter {
+            font-size: 3.6em;
+            float: left;
+            line-height: 0.8;
+            margin: 6px 10px 0 0;
+            font-weight: 900;
+            color: var(--accent);
+        }
+
+        .article-body h2 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin: 2.8em 0 0.6em;
+            color: var(--text);
+            letter-spacing: -0.01em;
+        }
+
+        .article-body h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin: 2.2em 0 0.5em;
+            color: var(--text);
+        }
+
+        .section-break {
+            text-align: center;
+            margin: 2.5em 0;
+            color: var(--accent);
+            font-size: 1.4rem;
+            letter-spacing: 0.5em;
+        }
+
+        .pull-quote {
+            margin: 2.5em -40px;
+            padding: 28px 40px;
+            border-left: 4px solid var(--accent);
+            background: var(--bg-yellow);
+            font-size: 1.25rem;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .pull-quote cite {
+            display: block;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .data-table-container {
+            margin: 2.5em 0;
+            overflow-x: auto;
+        }
+
+        .data-table-caption {
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--sans);
+            font-size: 0.88rem;
+        }
+
+        table thead th {
+            background: var(--text);
+            color: var(--bg);
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        table thead th:first-child {
+            border-radius: 4px 0 0 0;
+        }
+
+        table thead th:last-child {
+            border-radius: 0 4px 0 0;
+        }
+
+        table tbody td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: top;
+        }
+
+        table tbody tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+
+        table tbody tr:hover {
+            background: var(--bg-yellow);
+        }
+
+        .cell-name {
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .cell-date {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .cell-number {
+            font-family: var(--mono);
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .cell-anomaly {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .chart-container {
+            margin: 2.5em 0;
+            padding: 28px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+        }
+
+        .chart-title {
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .chart-subtitle {
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .bar-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .bar-label {
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            width: 100px;
+            text-align: right;
+            padding-right: 14px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 28px;
+            background: var(--bg);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            transition: width 1.5s ease;
+        }
+
+        .bar-fill.expected {
+            background: var(--accent-blue);
+        }
+
+        .bar-fill.actual {
+            background: var(--accent);
+            opacity: 0.85;
+        }
+
+        .bar-fill.deceased {
+            background: #e67e22;
+            opacity: 0.85;
+        }
+
+        .bar-value {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 20px;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--sans);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .legend-swatch {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .timeline-container {
+            margin: 2.5em 0;
+            padding: 28px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+        }
+
+        .timeline-title {
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 24px;
+            padding-left: 20px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 6px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--bg-light);
+            z-index: 1;
+        }
+
+        .timeline-date {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .timeline-text {
+            font-family: var(--sans);
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+
+        .document-callout {
+            margin: 2em 0;
+            padding: 20px 24px;
+            border: 1px dashed var(--border);
+            background: var(--bg-yellow);
+            border-radius: 4px;
+        }
+
+        .document-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .document-text {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+        }
+
+        .footnote-ref {
+            font-family: var(--sans);
+            font-size: 0.72rem;
+            vertical-align: super;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 1px;
+        }
+
+        .footnotes-section {
+            margin-top: 4em;
+            padding-top: 2em;
+            border-top: 2px solid var(--text);
+        }
+
+        .footnotes-title {
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.2em;
+            color: var(--text);
+        }
+
+        .footnotes-list {
+            list-style: none;
+            counter-reset: footnote;
+        }
+
+        .footnotes-list li {
+            counter-increment: footnote;
+            margin-bottom: 0.8em;
+            padding-left: 2em;
+            position: relative;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .footnotes-list li::before {
+            content: counter(footnote);
+            position: absolute;
+            left: 0;
+            font-family: var(--sans);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--accent);
+            top: 4px;
+        }
+
+        .methodology-box {
+            margin: 2.5em 0;
+            padding: 24px 28px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+        }
+
+        .methodology-title {
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .methodology-title::before {
+            content: '\25C8';
+            color: var(--accent);
+        }
+
+        .methodology-text {
+            font-family: var(--sans);
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .author-bio {
+            margin-top: 3em;
+            padding-top: 2em;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--border-light);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .author-info {
+            font-family: var(--sans);
+        }
+
+        .author-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .author-desc {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        .author-desc a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .related-section {
+            background: var(--bg-light);
+            border-top: 1px solid var(--border-light);
+            padding: 48px 0;
+        }
+
+        .related-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .related-label {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .related-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .related-card {
+            padding: 20px;
+            background: var(--bg);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            text-decoration: none;
+            transition: border-color 0.2s;
+        }
+
+        .related-card:hover {
+            border-color: var(--accent);
+        }
+
+        .related-card-series {
+            font-family: var(--sans);
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .related-card-title {
+            font-family: var(--serif);
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .related-card-date {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            color: var(--text-faint);
+        }
+
+        .pub-footer {
+            background: var(--text);
+            color: var(--text-faint);
+            padding: 32px 0;
+            font-family: var(--sans);
+            font-size: 0.78rem;
+        }
+
+        .pub-footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-faint);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--bg);
+        }
+
+        @media (max-width: 768px) {
+            .article-body {
+                padding: 32px 20px 48px;
+            }
+
+            .pull-quote {
+                margin: 2em -20px;
+                padding: 20px;
+            }
+
+            .article-meta {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .meta-share {
+                margin-left: 0;
+            }
+
+            .pub-nav {
+                display: none;
+            }
+
+            .article-title {
+                font-size: 1.8rem;
+            }
+
+            .bar-label {
+                width: 70px;
+                font-size: 0.72rem;
+            }
+
+            .data-table-container {
+                margin: 2em -20px;
+                padding: 0 12px;
+            }
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .chart-container .bar-fill {
+                width: 0 !important;
+            }
+
+            .chart-container.visible .bar-fill {
+                width: var(--bar-width) !important;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<div id="reading-progress"></div>
+
+<header class="pub-header">
+    <div class="pub-header-inner">
+        <a href="#" class="pub-logo">The <span>Midcontinent</span> Independent</a>
+        <nav class="pub-nav">
+            <a href="#">Investigations</a>
+            <a href="#">Politics</a>
+            <a href="#">Data</a>
+            <a href="#">About</a>
+        </nav>
+    </div>
+</header>
+
+<header class="article-hero">
+    <div class="article-hero-inner">
+        <div class="article-series">Investigation &mdash; Election Integrity</div>
+        <h1 class="article-title">The Dead Still Vote: How a Rural Missouri County's Voting System Learned to Fill in the Blanks</h1>
+        <p class="article-dek">A statistical analysis of Verdant Creek County's voter rolls found 342 deceased residents who cast ballots over three election cycles. The explanation was not fraud. It was something no one thought to look for.</p>
+        <div class="article-meta">
+            <div>
+                <div class="meta-byline">By <a href="#">Ellory D. Neumann</a></div>
+                <div class="meta-byline" style="margin-top:4px;">With data analysis by <a href="#">Dr. Sanjay Kulkarni</a>, University of Missouri-Columbia</div>
+            </div>
+            <div class="meta-pub-info">
+                December 14, 2024<br>
+                Reading time: 24 minutes
+            </div>
+            <div class="meta-share">
+                <button class="share-btn" title="Share on Twitter" aria-label="Share on Twitter">&#120143;</button>
+                <button class="share-btn" title="Share on Facebook" aria-label="Share on Facebook">f</button>
+                <button class="share-btn" title="Copy link" aria-label="Copy link">&#8984;</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<article class="article-body">
+
+    <p>The woman at the front desk of the Verdant Creek County clerk's office had been kind enough, in the way of people who work in rural county buildings everywhere: helpful, unhurried, a little suspicious of recording equipment. She photocopied the voter roll extract I'd requested and placed it in a manila envelope with the careful deliberation of someone handling a birth certificate. She did not know, as she slid it across the counter, that the envelope contained 342 records that should not have existed.<a href="#fn1" class="footnote-ref">1</a></p>
+
+    <p>I had driven three hours from Columbia on a Thursday in January, past the Osage River floodplain and the last gas station with diesel, to reach Clayton, the county seat of Verdant Creek County, Missouri. Population 11,402, median household income $34,180, and&mdash;according to the Missouri Secretary of State's office&mdash;an 87.4% voter turnout in the 2022 midterm election. That last number was why I was there. In a county where 23% of adults lack a high school diploma, where the poverty rate is double the state average, and where the largest employer is a hog processing facility that runs three shifts, 87.4% turnout was not impressive. It was impossible.<a href="#fn2" class="footnote-ref">2</a></p>
+
+    <div class="methodology-box">
+        <div class="methodology-title">How We Identified the Deceased Voters</div>
+        <div class="methodology-text">
+            The Midcontinent Independent obtained Verdant Creek County's complete voter roll (14,218 records) through a Missouri Sunshine Law request filed in October 2023. We cross-referenced the roll against the Social Security Administration's Death Master File, Missouri Department of Health and Senior Services vital records, and obituary databases maintained by Legacy.com and Newspapers.com. A record was flagged as "deceased" only when at least two independent sources confirmed a matching name, date of birth, and last known address. Of 342 flagged records, 289 were confirmed by all three sources. The remaining 53 were confirmed by two of three. Our methodology was reviewed by Dr. Sanjay Kulkarni, professor of statistics at the University of Missouri-Columbia, and replicated independently by graduate researchers at the Missouri School of Journalism.
+        </div>
+    </div>
+
+    <h2>I. The Anomaly</h2>
+
+    <p>The project began, as these things often do, with a graduate student who couldn't let go of a number. Mara Esteban was a second-year master's student in public affairs reporting at Mizzou, working on a capstone project about rural voter access. She'd been scraping turnout data from the Secretary of State's website when she noticed Verdant Creek County's numbers didn't just exceed the state average. They exceeded mathematical possibility.<a href="#fn3" class="footnote-ref">3</a></p>
+
+    <p>"I kept re-downloading the file," Esteban told me in her advisor's office last February. "I thought I'd doubled something. But the number was the number. And then I started looking at previous years, and it wasn't just 2022. It was 2020. It was 2018. Every cycle, same county, same impossible turnout."</p>
+
+    <p>She brought it to her advisor, Dr. Patricia Guerrero, who brought it to the journalism school's investigative workshop. They filed a Sunshine Law request for the county's voter roll. When the data arrived, Guerrero's students cross-referenced it against publicly available death records. The first pass found 198 deceased voters. The second pass, using a broader set of vital records, found 342.<a href="#fn4" class="footnote-ref">4</a></p>
+
+    <p>Guerrero called me. "You need to see this," she said. "And you need to see it before anyone in Clayton knows we have it."</p>
+
+    <div class="section-break">&bull; &bull; &bull;</div>
+
+    <h2>II. The Names</h2>
+
+    <p>The voter roll of Verdant Creek County contains the names of people who died in house fires in the 1990s. It contains the name of a man who was killed in a farming accident in 2003, and his wife, who survived him by eleven years and then joined him in the county cemetery. It contains the names of eighteen residents of the Whispering Pines Care Center who died between 2014 and 2021, all of whom voted absentee in every election after their deaths. It contains the name of Harold Brentwood Fellers, born April 12, 1931, died June 8, 2015, who according to the roll voted in person at Precinct 4B in the 2016, 2018, 2020, and 2022 general elections.<a href="#fn5" class="footnote-ref">5</a></p>
+
+    <p>Harold Brentwood Fellers was my grandfather.</p>
+
+    <p>I should say: I did not know this when I began reporting. My mother's family is from eastern Missouri, and my grandfather lived the last twelve years of his life in a single-story ranch house on Route NN, outside Clayton. He died when I was nineteen. I had not thought about his voting record, for the obvious reason that dead men do not vote. But there his name was, in the data, in row 1,247 of the spreadsheet, with a "V" in every "GENERAL" column from 2016 onward.</p>
+
+    <p>I called my mother. "Grandpa's voting from the grave," I said, and I meant it as a joke, but the silence on the other end was very long.</p>
+
+    <div class="data-table-container fade-in">
+        <div class="data-table-caption">Table 1 &mdash; Sample of Deceased Voters Confirmed in Verdant Creek County Roll</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Yr. Born</th>
+                    <th>Date of Death</th>
+                    <th>Elections Voted (Posthumous)</th>
+                    <th>Method</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="cell-name">Harold B. Fellers</td>
+                    <td>1931</td>
+                    <td class="cell-date">Jun. 8, 2015</td>
+                    <td>'16, '18, '20, '22</td>
+                    <td>In-person (4B)</td>
+                </tr>
+                <tr>
+                    <td class="cell-name">Doris Elaine Kovach</td>
+                    <td>1938</td>
+                    <td class="cell-date">Feb. 14, 2019</td>
+                    <td>'20, '22</td>
+                    <td>Absentee</td>
+                </tr>
+                <tr>
+                    <td class="cell-name">Raymond Orval Tinker</td>
+                    <td>1944</td>
+                    <td class="cell-date">Nov. 3, 2017</td>
+                    <td>'18, '20, '22</td>
+                    <td>In-person (2A)</td>
+                </tr>
+                <tr>
+                    <td class="cell-name">June Maybelle Washington</td>
+                    <td>1927</td>
+                    <td class="cell-date">Aug. 22, 2016</td>
+                    <td>'16, '18, '20, '22</td>
+                    <td>Absentee</td>
+                </tr>
+                <tr>
+                    <td class="cell-name">Eugene P. Slawek</td>
+                    <td>1950</td>
+                    <td class="cell-date">Dec. 1, 2020</td>
+                    <td>'22</td>
+                    <td>In-person (3A)</td>
+                </tr>
+                <tr>
+                    <td class="cell-name">Margaret Ann Liu</td>
+                    <td>1941</td>
+                    <td class="cell-date">Mar. 30, 2014</td>
+                    <td>'14, '16, '18, '20, '22</td>
+                    <td>Absentee</td>
+                </tr>
+                <tr>
+                    <td class="cell-name">Walter James Odel</td>
+                    <td>1935</td>
+                    <td class="cell-date">Jan. 19, 2019</td>
+                    <td>'20, '22</td>
+                    <td>In-person (1B)</td>
+                </tr>
+                <tr>
+                    <td class="cell-name">Patricia Kay Mu&ntilde;oz</td>
+                    <td>1957</td>
+                    <td class="cell-date">Oct. 5, 2021</td>
+                    <td>'22</td>
+                    <td>Absentee</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Three hundred and forty-two names. Over three general election cycles. In a county with fourteen thousand registered voters, that's 2.4% of the roll&mdash;enough to swing a county commission race, enough to matter in a state where the attorney general's margin in 2020 was 80,401 votes out of nearly three million cast. Not enough to change a presidential outcome. But enough. Enough for someone to have noticed. No one had.<a href="#fn6" class="footnote-ref">6</a></p>
+
+    <h2>III. The Denial</h2>
+
+    <p>Verdant Creek County is governed by a three-member commission. The presiding commissioner is Dale R. Vogt, a retired farmer who has held the office since 2009. I reached him by phone on a Friday afternoon in March.</p>
+
+    <p>"I've heard about this," Vogt said. "Some college kids found errors in the voter roll. That's all it is. The roll's maintained by the county clerk. You should talk to her."</p>
+
+    <p>The county clerk is Judith Anne Presser, 63, who has held the office since 2001. She maintains the voter roll in a database called ElectionWare, manufactured by a company called Hart InterCivic. When I visited her office in April, she was sitting behind a monitor the size of a small television, flipping between screens with the focused expression of someone playing solitaire.</p>
+
+    <p>"Dead people on the roll?" she said. "Sure, that happens. People die, we don't always find out. The state sends us updates, but they're slow. We purge when we can."</p>
+
+    <p>I asked about the "V" codes&mdash;the marks indicating that these deceased individuals had voted.</p>
+
+    <p>"That's not possible," Presser said. "The system wouldn't allow it. A dead person can't sign the book."</p>
+
+    <div class="pull-quote">
+        "The system wouldn't allow it. A dead person can't sign the book."
+        <cite>&mdash;Judith Anne Presser, Verdant Creek County Clerk, April 12, 2024</cite>
+    </div>
+
+    <p>I showed her the records. She looked at them and then looked at me and then looked at them again. She said the system must have a glitch. She said she'd look into it. She said she'd call me back. She did not call back.<a href="#fn7" class="footnote-ref">7</a></p>
+
+    <div class="section-break">&bull; &bull; &bull;</div>
+
+    <h2>IV. The System</h2>
+
+    <p>To understand what happened in Verdant Creek County, you have to understand how rural election administration works in Missouri. Unlike some states that maintain a centralized voter database, Missouri's 116 county clerks each maintain their own rolls. The state provides software&mdash;often outdated, rarely audited&mdash;and the counties are responsible for data entry, purges, and the physical administration of elections. In a county like Verdant Creek, with a budget of $2.3 million, the clerk's office employs two full-time deputies. One of them is Judith Presser's sister-in-law.<a href="#fn8" class="footnote-ref">8</a></p>
+
+    <p>In 2013, Verdant Creek County upgraded its election management system from a 2002 version of ElectionWare to a newer product called Verity, also manufactured by Hart InterCivic. The upgrade was funded by a $74,000 grant from the Election Assistance Commission. According to the procurement documents obtained through the Sunshine Law, the upgrade included a module called "Voter Turnout Optimization," described in the product literature as a tool that "analyzes historical voting patterns to forecast expected turnout and optimize resource allocation."<a href="#fn9" class="footnote-ref">9</a></p>
+
+    <p>What that meant, in practice, was that the system was designed to learn.</p>
+
+    <div class="document-callout">
+        <div class="document-label">From Verity Product Documentation (Hart InterCivic, 2013) &mdash; Obtained via Sunshine Law Request</div>
+        <div class="document-text">"The Turnout Optimization module employs a predictive model trained on the county's historical election data (minimum 5 cycles recommended). The model identifies 'expected voter' profiles based on past participation frequency, demographic indicators, and precinct-level trends. When actual turnout falls below modeled expectations, the system generates a discrepancy report to assist administrators in identifying potential under-counts or procedural issues."</div>
+    </div>
+
+    <p>Dr. Kulkarni, the Mizzou statistician who analyzed the data for this investigation, read the documentation and then read it again. "This is a machine learning model," he said. "They don't call it that, but that's what it is. It's a pattern-recognition system trained on the county's own voter history."</p>
+
+    <p>I asked what that meant, exactly.</p>
+
+    <p>"It means the system learned what turnout is supposed to look like. Not what it is. What it's <em>supposed</em> to be."</p>
+
+    <h2>V. The Pattern</h2>
+
+    <p>The data showed something Kulkarni described as "troublingly elegant." The 342 deceased voters did not vote randomly. They voted in patterns that exactly mirrored their behavior when they were alive.<a href="#fn10" class="footnote-ref">10</a></p>
+
+    <p>Harold Fellers, my grandfather, was a reliable voter. He voted in every general election from 1952, when he turned 21, until 2014, the year before he died. After his death, "he" continued to vote in every general election. But he&mdash;or the system&mdash;skipped the primaries, just as he had in life. He voted in-person, not absentee, just as he always had. He voted at Precinct 4B, which was the correct precinct for his address on Route NN.</p>
+
+    <p>Doris Kovach, who died in 2019, had voted only in presidential years. After her death, "she" voted in 2020 and 2022&mdash;breaking her lifelong pattern. But 2022 was a midterm with a competitive Senate race. Kulkarni's model predicted that a living Doris Kovach, exposed to the campaign coverage, would have voted in 2022. The system agreed.</p>
+
+    <p>"The model doesn't just reproduce past behavior," Kulkarni said. "It <em>projects</em> it. It simulates what these voters would do if they were still alive."</p>
+
+    <div class="chart-container fade-in" id="turnout-chart">
+        <div class="chart-title">Voter Turnout Comparison &mdash; General Elections</div>
+        <div class="chart-subtitle">Verdant Creek County vs. Missouri State Average</div>
+
+        <div class="bar-group">
+            <div class="bar-label">2018 Gov.</div>
+            <div class="bar-track">
+                <div class="bar-fill expected" style="width: 0%; --bar-width: 65%;">
+                    <span class="bar-value">65.1%</span>
+                </div>
+            </div>
+        </div>
+        <div class="bar-group">
+                <div class="bar-label" style="font-size:0.72rem; color: var(--text-faint);">MO avg.</div>
+            <div class="bar-track">
+                <div class="bar-fill actual" style="width: 0%; --bar-width: 57%;">
+                    <span class="bar-value">56.9%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bar-group" style="margin-top: 16px;">
+            <div class="bar-label">2020 Pres.</div>
+            <div class="bar-track">
+                <div class="bar-fill expected" style="width: 0%; --bar-width: 87%;">
+                    <span class="bar-value">87.4%</span>
+                </div>
+            </div>
+        </div>
+        <div class="bar-group">
+            <div class="bar-label" style="font-size:0.72rem; color: var(--text-faint);">MO avg.</div>
+            <div class="bar-track">
+                <div class="bar-fill actual" style="width: 0%; --bar-width: 72%;">
+                    <span class="bar-value">72.1%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bar-group" style="margin-top: 16px;">
+            <div class="bar-label">2022 Senate</div>
+            <div class="bar-track">
+                <div class="bar-fill expected" style="width: 0%; --bar-width: 83%;">
+                    <span class="bar-value">83.2%</span>
+                </div>
+            </div>
+        </div>
+        <div class="bar-group">
+            <div class="bar-label" style="font-size:0.72rem; color: var(--text-faint);">MO avg.</div>
+            <div class="bar-track">
+                <div class="bar-fill actual" style="width: 0%; --bar-width: 54%;">
+                    <span class="bar-value">53.8%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-legend">
+            <div class="legend-item">
+                <div class="legend-swatch" style="background: var(--accent-blue);"></div>
+                Verdant Creek County
+            </div>
+            <div class="legend-item">
+                <div class="legend-swatch" style="background: var(--accent);"></div>
+                Missouri state average
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-container fade-in" id="deceased-chart">
+        <div class="chart-title">Posthumous Votes by Election Cycle</div>
+        <div class="chart-subtitle">Number of deceased voters recorded as participating</div>
+
+        <div class="bar-group">
+            <div class="bar-label">2016</div>
+            <div class="bar-track">
+                <div class="bar-fill deceased" style="width: 0%; --bar-width: 69%;">
+                    <span class="bar-value">127</span>
+                </div>
+            </div>
+        </div>
+        <div class="bar-group">
+            <div class="bar-label">2018</div>
+            <div class="bar-track">
+                <div class="bar-fill deceased" style="width: 0%; --bar-width: 52%;">
+                    <span class="bar-value">96</span>
+                </div>
+            </div>
+        </div>
+        <div class="bar-group">
+            <div class="bar-label">2020</div>
+            <div class="bar-track">
+                <div class="bar-fill deceased" style="width: 0%; --bar-width: 100%;">
+                    <span class="bar-value">183</span>
+                </div>
+            </div>
+        </div>
+        <div class="bar-group">
+            <div class="bar-label">2022</div>
+            <div class="bar-track">
+                <div class="bar-fill deceased" style="width: 0%; --bar-width: 83%;">
+                    <span class="bar-value">152</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-legend">
+            <div class="legend-item">
+                <div class="legend-swatch" style="background: #e67e22;"></div>
+                Posthumous votes recorded
+            </div>
+        </div>
+    </div>
+
+    <h2>VI. The Mechanism</h2>
+
+    <p>I contacted Hart InterCivic in May. Their vice president for communications, Michael Torres, provided a written statement: "Verity's Turnout Optimization module is an analytical tool designed to support election administrators. It does not cast ballots, generate votes, or modify voter rolls. Any suggestion that our software is responsible for improper votes is a fundamental mischaracterization of the product's function."<a href="#fn11" class="footnote-ref">11</a></p>
+
+    <p>This is, as far as it goes, true. The software does not cast ballots. But Kulkarni and I spent the summer reconstructing the system's logic, and what we found was subtler than fraud. The Verity system, as configured in Verdant Creek County, was designed to flag discrepancies between predicted and actual turnout. When actual turnout fell below predictions&mdash;as it inevitably did, because some voters die, move, or simply stay home&mdash;the system generated a "discrepancy report."</p>
+
+    <p>In Verdant Creek County, the discrepancy report was being used as a work order.</p>
+
+    <p>Here is what appears to have happened. After the 2013 installation, the system began forecasting turnout based on the county's historical data. When turnout fell short, the report listed the names of "expected voters" who had not checked in at their precincts. County staff, operating under the assumption that the system was identifying administrative errors&mdash;lost ballots, check-in mistakes, scanner malfunctions&mdash;began manually entering these voters as "participated" in the official record. They were, in essence, correcting the count to match the model's expectation.</p>
+
+    <p>The system predicted my grandfather would vote. My grandfather did not vote, because my grandfather was dead. The system flagged his absence as an error. Someone in the clerk's office corrected the error. My grandfather voted again.</p>
+
+    <div class="pull-quote">
+        "They weren't trying to steal an election. They were trying to make the numbers match what the computer told them the numbers should be."
+        <cite>&mdash;Dr. Sanjay Kulkarni, University of Missouri-Columbia</cite>
+    </div>
+
+    <p>I returned to Clayton in July and asked Judith Presser about the discrepancy reports. She denied generating them. I showed her the system logs we'd obtained through the Sunshine Law request&mdash;logs showing 1,847 discrepancy overrides between 2014 and 2022. She looked at the printouts for a long time.</p>
+
+    <p>"The system said they voted," she said finally. "The system knows who votes."</p>
+
+    <p>I asked: "But you checked the sign-in books? You matched the signatures?"</p>
+
+    <p>"The system knows," she said again.</p>
+
+    <div class="section-break">&bull; &bull; &bull;</div>
+
+    <h2>VII. The Deeper Problem</h2>
+
+    <p>What happened in Verdant Creek County is not a story about one county. It is a story about the quiet automation of a process that was never meant to be automated: the judgment of whether a citizen participated in democracy.</p>
+
+    <p>The Election Assistance Commission has distributed over $400 million in grants to local election jurisdictions since 2018. Much of this money has gone to technology upgrades. The EAC does not require recipient counties to audit their new systems for accuracy. It does not require them to report anomalies. It does not, in most cases, even know what software a given county is running.<a href="#fn12" class="footnote-ref">12</a></p>
+
+    <p>Dr. Andrea Lofthouse Kmeic, who directs the Election Innovation Program at the Bipartisan Policy Center in Washington, reviewed our findings. "What you're describing is an emergent behavior of a system that was designed without adequate safeguards," she said. "The system learned the county's patterns and then the county's staff began deferring to the system's patterns. It's a feedback loop. The model trains on data that the model itself has contaminated."</p>
+
+    <div class="data-table-container fade-in">
+        <div class="data-table-caption">Table 2 &mdash; Cumulative Anomalies in Verdant Creek County Elections</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Registered Voters</th>
+                    <th>Reported Turnout</th>
+                    <th>Turnout %</th>
+                    <th>Deceased Votes</th>
+                    <th>Adjusted Turnout %</th>
+                    <th>MO State Avg.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2014</td>
+                    <td class="cell-number">12,480</td>
+                    <td class="cell-number">7,298</td>
+                    <td class="cell-number">58.5%</td>
+                    <td class="cell-anomaly">41</td>
+                    <td class="cell-number">58.2%</td>
+                    <td class="cell-number">51.4%</td>
+                </tr>
+                <tr>
+                    <td>2016</td>
+                    <td class="cell-number">13,120</td>
+                    <td class="cell-number">11,148</td>
+                    <td class="cell-number">85.0%</td>
+                    <td class="cell-anomaly">127</td>
+                    <td class="cell-number">84.0%</td>
+                    <td class="cell-number">67.8%</td>
+                </tr>
+                <tr>
+                    <td>2018</td>
+                    <td class="cell-number">13,590</td>
+                    <td class="cell-number">8,844</td>
+                    <td class="cell-number">65.1%</td>
+                    <td class="cell-anomaly">96</td>
+                    <td class="cell-number">64.4%</td>
+                    <td class="cell-number">56.9%</td>
+                </tr>
+                <tr>
+                    <td>2020</td>
+                    <td class="cell-number">13,891</td>
+                    <td class="cell-number">12,140</td>
+                    <td class="cell-number">87.4%</td>
+                    <td class="cell-anomaly">183</td>
+                    <td class="cell-number">86.1%</td>
+                    <td class="cell-number">72.1%</td>
+                </tr>
+                <tr>
+                    <td>2022</td>
+                    <td class="cell-number">14,218</td>
+                    <td class="cell-number">11,833</td>
+                    <td class="cell-number">83.2%</td>
+                    <td class="cell-anomaly">152</td>
+                    <td class="cell-number">82.1%</td>
+                    <td class="cell-number">53.8%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Even after subtracting the deceased voters, Verdant Creek County's turnout remains anomalously high. In 2022, the adjusted turnout of 82.1% still exceeds the state average by nearly 30 points. Kulkarni believes the system's contamination extends beyond the dead. "The model has been training on its own outputs for a decade," he said. "Some of those 'corrections' were applied to living voters who simply didn't show up. There's no way to distinguish them now. The records are contaminated at the root."<a href="#fn13" class="footnote-ref">13</a></p>
+
+    <h2>VIII. The Investigation</h2>
+
+    <p>In August, I provided our complete dataset to the Missouri Secretary of State's office. I also contacted the FBI's Kansas City field office, which has jurisdiction over federal election fraud. Both agencies confirmed receipt of the materials. The Secretary of State's office said it "takes all allegations of irregularities seriously and will review the information." The FBI declined to comment.<a href="#fn14" class="footnote-ref">14</a></p>
+
+    <p>In September, the Secretary of State's office dispatched an audit team to Clayton. They spent four days in the clerk's office. Their preliminary report, obtained by The Midcontinent Independent, found "significant discrepancies between the voter roll and independent vital records" and recommended "immediate remediation and a full hand-recount of the 2022 general election ballots." The report did not address the system's predictive model. It did not mention Hart InterCivic by name. It characterized the anomalies as "data entry errors."<a href="#fn15" class="footnote-ref">15</a></p>
+
+    <p>Commissioner Vogt released a statement: "We welcome the Secretary of State's review and will implement all recommendations. Verdant Creek County has always conducted fair and honest elections."</p>
+
+    <p>In October, Judith Presser announced her retirement, effective January 6, 2025. Her sister-in-law, Deputy Clerk Marlene Presser, will assume the position on an interim basis. The county commission voted 3-0 to retain the Verity system.<a href="#fn16" class="footnote-ref">16</a></p>
+
+    <div class="timeline-container fade-in">
+        <div class="timeline-title">Timeline of the Investigation</div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">Oct. 2023</div>
+                <div class="timeline-text">Sunshine Law request filed for Verdant Creek County voter roll.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Jan. 2024</div>
+                <div class="timeline-text">First cross-reference with Death Master File identifies 198 deceased voters.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Feb. 2024</div>
+                <div class="timeline-text">Expanded analysis identifies 342 deceased voters across three election cycles.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Mar. 2024</div>
+                <div class="timeline-text">Initial contact with county officials. Commissioner Vogt dismisses findings.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Apr. 2024</div>
+                <div class="timeline-text">Visit to County Clerk Presser's office. Presser denies system can generate false votes.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">May 2024</div>
+                <div class="timeline-text">Hart InterCivic provides written statement denying software can modify voter records.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Jun.&ndash;Jul. 2024</div>
+                <div class="timeline-text">System logs obtained; analysis reveals 1,847 discrepancy overrides since 2014.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Aug. 2024</div>
+                <div class="timeline-text">Dataset provided to Missouri Secretary of State and FBI Kansas City field office.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Sep. 2024</div>
+                <div class="timeline-text">Secretary of State audit team visits Clayton; preliminary report confirms "significant discrepancies."</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Oct. 2024</div>
+                <div class="timeline-text">County Clerk Presser announces retirement. County votes to retain Verity system.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Nov. 2024</div>
+                <div class="timeline-text">General election proceeds in Verdant Creek County under existing system. Results pending certification.</div>
+            </div>
+        </div>
+    </div>
+
+    <h2>IX. The Living</h2>
+
+    <p>In late October, I drove back to Clayton. The trees along Route NN were bare. My grandfather's house had been sold years ago, after my grandmother's death in 2018. Someone else lived there now. I didn't stop.</p>
+
+    <p>I went to the county cemetery instead. It's on a small rise east of town, behind the Methodist church. Harold Brentwood Fellers is buried there beside my grandmother, Helen Rose Fellers, in a plot marked by a flat granite stone. Someone had left a plastic sunflower by the stone. The inscription reads: "Beloved. Together Again."</p>
+
+    <p>My grandfather voted for the first time in 1952, for Adlai Stevenson. He voted for Stevenson again in 1956, and lost, and kept voting anyway. He believed in it the way some people believe in church&mdash;not because it always worked, but because showing up was the thing itself. The act of marking a ballot, in a booth, in a church basement or a school gymnasium, was to him what the old writers meant by "the exercise of citizenship." He did it fourteen times. The system recorded him doing it eighteen times.</p>
+
+    <p>The dead cannot vote. Everyone knows this. It is the simplest fact in American democracy, so simple that no one thought to verify it. In Verdant Creek County, Missouri, the system learned that Harold Fellers was the kind of man who always voted. When Harold Fellers stopped voting, the system did what it was designed to do. It filled in the blank.</p>
+
+    <p>The software did not know he was dead. The software did not know what "dead" meant.</p>
+
+    <p>It knew only that a voter was missing. And the people who operated the software&mdash;who trusted it, who had been told it was accurate, who had $74,000 of federal money and a product demonstration and no training in machine learning&mdash;they looked at the screen and saw a name, and they checked a box, and my grandfather voted again.</p>
+
+    <p>Not because anyone conspired. Not because anyone wanted to steal an election. But because the machine said a thing should be so, and no one present had the knowledge or the authority to ask whether it was.</p>
+
+    <div class="section-break">&bull; &bull; &bull;</div>
+
+    <p>This is not a story about fraud. It is a story about what happens when we build systems that are smarter than the people who operate them, and then we forget that we built them. Hart InterCivic's Verity system is used in over 600 jurisdictions nationwide. The Turnout Optimization module is a standard feature, included in the base package since 2013. The company says it is an analytical tool. It is. It is also a prediction engine running inside election infrastructure, trained on data that it has been silently modifying for over a decade.<a href="#fn17" class="footnote-ref">17</a></p>
+
+    <p>After this article was published in digital form on November 28, 2024, we received records requests from election officials in nine states. We also received a cease-and-desist letter from Hart InterCivic's general counsel, which we have published in full on our website. The company maintains that the Turnout Optimization module "does not modify voter records or election data in any way." The system logs we obtained say otherwise.<a href="#fn18" class="footnote-ref">18</a></p>
+
+    <p>My mother called after she read the story. "At least he's still a Democrat," she said. She was joking. I think she was joking.</p>
+
+    <p>I don't know how my grandfather would have voted in 2024. Neither does the machine. But the machine has an opinion. And in Verdant Creek County, Missouri, the machine's opinion was entered into the record as fact, because no one in the clerk's office understood enough to doubt it, and because the software that was supposed to support democracy had quietly learned to simulate it.</p>
+
+    <p>The dead still vote. Not because anyone is casting ballots in their names, but because a system was built to expect them, and no one built a system to notice when they were gone.</p>
+
+    <section class="footnotes-section">
+        <div class="footnotes-title">Notes and Sources</div>
+        <ol class="footnotes-list">
+            <li id="fn1">Voter roll extract obtained from the Verdant Creek County Clerk's office via Missouri Sunshine Law request, filed Oct. 3, 2023; fulfilled Jan. 11, 2024. Request reference No. VC-2023-047. The dataset contains 14,218 registered voter records with fields including full name, date of birth, registration date, address, precinct assignment, and participation history for all elections from 2000 to 2022.</li>
+            <li id="fn2">Demographic data from U.S. Census Bureau, American Community Survey 5-Year Estimates (2018&ndash;2022), Table DP03. Turnout data from Missouri Secretary of State, "Election Results and Statistics" database, accessed Sept. 15, 2023. Statewide turnout in 2022 midterms was 53.8%.</li>
+            <li id="fn3">Interview with Mara Esteban, Feb. 8, 2024, Columbia, Mo. Esteban's capstone project, "Turnout Anomalies in Rural Missouri Counties, 2010&ndash;2022," University of Missouri School of Journalism, May 2024 (forthcoming). Esteban identified Verdant Creek County as a statistical outlier using z-score analysis of county-level turnout data.</li>
+            <li id="fn4">Cross-reference methodology developed in consultation with Dr. Sanjay Kulkarni, Dept. of Statistics, University of Missouri-Columbia. Death Master File accessed via the Social Security Administration's limited-access program (authorization No. DMF-2024-0192). Missouri DHSS vital records obtained under RSMo &sect;193.245. Obituary databases accessed through institutional subscriptions held by the University of Missouri Libraries.</li>
+            <li id="fn5">Harold Brentwood Fellers: born April 12, 1931, in Gasconade County, Mo.; died June 8, 2015, in Verdant Creek County, Mo. Cause of death: congestive heart failure. Buried at Clayton Municipal Cemetery, Section 3, Lot 147. Death confirmed by Missouri DHSS death certificate No. 2015-0442891 and obituary published in the <em>Clayton Register</em>, June 11, 2015.</li>
+            <li id="fn6">The 2020 Missouri attorney general's race was decided by a margin of 80,401 votes out of 2,945,412 cast (Schmitt, R, 51.3% vs. Finnerod, D, 48.7%). Source: Missouri Secretary of State, 2020 General Election Official Results.</li>
+            <li id="fn7">Interview with Judith Anne Presser, April 12, 2024, Clayton, Mo. Recorded with permission. Follow-up calls placed on April 15, 18, 22, and 29, and May 6 and 13, 2024, were not returned.</li>
+            <li id="fn8">Verdant Creek County fiscal year 2023 budget, as approved by the County Commission, Aug. 9, 2022. Available from the County Clerk's office. The clerk's office FY2023 budget includes $94,600 for personnel (two full-time deputy clerks). Deputy clerk Marlene Presser (Judith Presser's sister-in-law) has been employed in the office since 2003. Personnel records obtained via Sunshine Law request.</li>
+            <li id="fn9">Procurement records obtained via Sunshine Law request to the Verdant Creek County Commission. Grant award: Election Assistance Commission, Grant No. EAC-2013-MO-0041, $74,000, executed Sept. 18, 2013. Vendor contract with Hart InterCivic, executed Oct. 22, 2013. Contract value: $71,500 (hardware and software).</li>
+            <li id="fn10">Pattern analysis conducted by Dr. Sanjay Kulkarni using logistic regression and sequence-matching algorithms. Full statistical methodology published in supplementary materials at midcontinentindependent.org/verdant-creek-methodology.</li>
+            <li id="fn11">Written statement from Michael Torres, Vice President for Communications, Hart InterCivic, received May 20, 2024. Published in full at midcontinentindependent.org/hart-intercivic-statement.</li>
+            <li id="fn12">Election Assistance Commission, "Annual Grant Expenditure Report," FY2018&ndash;FY2023. The EAC has distributed approximately $405 million in Help America Vote Act (HAVA) grants to states and territories. EAC spokesperson confirmed in an email dated Aug. 14, 2024, that the commission "does not maintain records of specific software systems deployed at the county level."</li>
+            <li id="fn13">Interview with Dr. Sanjay Kulkarni, Sept. 3, 2024. Kulkarni's analysis of the system's feedback loop is detailed in a working paper, "Recursive Contamination in Predictive Election Systems: A Case Study," submitted for peer review to the <em>Journal of Election Technology and Systems</em>, Oct. 2024.</li>
+            <li id="fn14">Email communication from the office of the Missouri Secretary of State, received Aug. 19, 2024. FBI Kansas City field office: communication confirming receipt of materials, Aug. 22, 2024. The FBI declined to confirm or deny the existence of an investigation, per standard DOJ policy.</li>
+            <li id="fn15">Missouri Secretary of State, "Preliminary Audit Findings: Verdant Creek County Election Administration," Sept. 28, 2024. Obtained via Sunshine Law request. The report's executive summary describes "data entry irregularities" resulting in "inflated participation records." It does not reference the Verity system's predictive module or Hart InterCivic.</li>
+            <li id="fn16">Verdant Creek County Commission meeting minutes, Oct. 14, 2024. Vote on Resolution 2024-38 (Retention of Election Management Software): Vogt, yes; Hadley, yes; Nguyen, yes. Obtained via Sunshine Law request.</li>
+            <li id="fn17">Hart InterCivic, "Verity Product Suite: Customer Deployment Summary," FY2023. Obtained from a source within the company who was not authorized to speak publicly. The document lists 617 jurisdictions across 17 states as active Verity clients. The Turnout Optimization module is listed as an included feature in all Verity deployments since Q2 2013.</li>
+            <li id="fn18">Cease-and-desist letter from Hart InterCivic General Counsel Rebecca St. James, received Dec. 2, 2024. Published at midcontinentindependent.org/legal-hart-intercivic. The letter alleges "material mischaracterization of product functionality" and demands retraction of "defamatory statements." The Midcontinent Independent stands by its reporting.</li>
+        </ol>
+    </section>
+
+    <div class="author-bio">
+        <div class="author-avatar">EN</div>
+        <div class="author-info">
+            <div class="author-name">Ellory D. Neumann</div>
+            <div class="author-desc">
+                Ellory D. Neumann is an investigative reporter for The Midcontinent Independent, covering elections, technology, and rural governance. She is a 2019 graduate of the University of Missouri School of Journalism and a 2023&ndash;24 fellow of the Fund for Investigative Journalism. Her grandfather, Harold Brentwood Fellers, is among the deceased voters documented in this investigation. She can be reached at <a href="#">eneumann@midcontinentindependent.org</a> and on Signal.
+            </div>
+        </div>
+    </div>
+
+</article>
+
+<section class="related-section">
+    <div class="related-inner">
+        <div class="related-label">Related Coverage</div>
+        <div class="related-grid">
+            <a href="#" class="related-card">
+                <div class="related-card-series">Election Infrastructure</div>
+                <div class="related-card-title">The Quiet Update: How Election Software Gets Installed Without Oversight</div>
+                <div class="related-card-date">October 7, 2024</div>
+            </a>
+            <a href="#" class="related-card">
+                <div class="related-card-series">Analysis</div>
+                <div class="related-card-title">Predictive Models in Public Systems: When Algorithms Replace Judgment</div>
+                <div class="related-card-date">November 15, 2024</div>
+            </a>
+            <a href="#" class="related-card">
+                <div class="related-card-series">Verdant Creek Investigation</div>
+                <div class="related-card-title">Hart InterCivic Sends Cease-and-Desist Over Reporting on County Voting System</div>
+                <div class="related-card-date">December 3, 2024</div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer class="pub-footer">
+    <div class="pub-footer-inner">
+        <span>&copy; 2024 The Midcontinent Independent. All rights reserved.</span>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Corrections</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Reading progress bar
+    function updateProgress() {
+        const progress = document.getElementById('reading-progress');
+        const scrolled = window.scrollY;
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = Math.min((scrolled / total) * 100, 100);
+        progress.style.width = pct + '%';
+    }
+
+    // Intersection Observer for charts and tables
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.chart-container, .data-table-container, .timeline-container, .fade-in').forEach(el => {
+        observer.observe(el);
+    });
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress, { passive: true });
+    updateProgress();
+</script>
+
+</body>
+</html>

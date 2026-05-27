@@ -36,3 +36,6 @@
 ### 2026-05-27T11:16:22.779Z
 
 **Iteration 11 — SHIPPED:** "Autopsy of a Joke That Killed" [screenplay] as 0011. Rating: 5.0. Review: A forensic linguist testifies about a comedian who died mid-punchline while the audience laughed, and the testimony itself becomes the joke's final victim — Caldwell's clinical language collapsing und. Token usage: 34901in/15461out.
+### 2026-05-27T11:20:37.031Z
+
+**Iteration 12 — SHIPPED:** "The Unread Shelf" [erasure] as 0012. Rating: 4.9. Review: The Unread Shelf takes the portfolio's erasure domain and makes it visual — a physical artifact you can see being redacted in real time. The dual-page structure is the sharpest design decision: the lo. Token usage: 29444in/9713out.

@@ -15,6 +15,10 @@ nodes:
     title: Witness Stand
     domain: code-tool
     rating: 5
+  - id: "0012"
+    title: The Unread Shelf
+    domain: erasure
+    rating: 4.9
   - id: "0001"
     title: The Cartographer's Confession
     domain: fiction
@@ -50,4 +54,4 @@ creative_dna:
   technique_signatures: []
   domain_affinities: []
   unexplored_territory: []
-updated_at: 2026-05-27T11:16:22.783Z
+updated_at: 2026-05-27T11:20:37.042Z

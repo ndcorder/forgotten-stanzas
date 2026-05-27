@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" font-family="Georgia, 'Times New Roman', serif">
+  <defs>
+    <filter id="marker">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8f4ec"/>
+      <stop offset="100%" stop-color="#f2ead8"/>
+    </linearGradient>
+    <linearGradient id="binding" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3a2820"/>
+      <stop offset="100%" stop-color="#5c4033"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="620" fill="#e8e0d0"/>
+  
+  <!-- Book cover edges -->
+  <rect x="20" y="30" width="920" height="570" rx="4" fill="#2d1f14"/>
+  <rect x="24" y="34" width="912" height="562" rx="3" fill="#3a2820"/>
+  
+  <!-- Spine shadow -->
+  <rect x="466" y="30" width="28" height="570" fill="#1a1208"/>
+  <rect x="478" y="34" width="4" height="562" fill="url(#binding)" opacity="0.5"/>
+
+  <!-- Left page (pp. 147) -->
+  <rect x="40" y="44" width="428" height="540" rx="1" fill="url(#paper)"/>
+  
+  <!-- Right page (pp. 148) -->
+  <rect x="492" y="44" width="428" height="540" rx="1" fill="url(#paper)"/>
+
+  <!-- Page numbers -->
+  <text x="240" y="568" font-size="11" fill="#8a7e6e" text-anchor="middle" font-style="italic">147</text>
+  <text x="720" y="568" font-size="11" fill="#8a7e6e" text-anchor="middle" font-style="italic">148</text>
+
+  <!-- ==================== LEFT PAGE: LOVE LETTER ==================== -->
+  
+  <!-- Header -->
+  <text x="62" y="78" font-size="13" fill="#3a3a3a" font-weight="bold" letter-spacing="1.5">CHAPTER 7: FUNCTIONAL GROUPS AND REACTIVITY</text>
+  
+  <!-- Section heading -->
+  <text x="62" y="108" font-size="11.5" fill="#4a4a4a" font-weight="bold">7.3 Nucleophilic Addition and Bond Formation</text>
+
+  <!-- Paragraph 1 — with redactions -->
+  <text x="62" y="136" font-size="10.5" fill="#333" letter-spacing="0.3">
+    <tspan x="62" dy="0">The mechanism of nucleophilic addition begins when an electron-rich species,</tspan>
+    <tspan x="62" dy="17">called the nucleophile, approaches the electrophilic carbon of a carbonyl</tspan>
+    <tspan x="62" dy="17">group. The lone pair of the nucleophile is donated to form a new covalent</tspan>
+    <tspan x="62" dy="17">bond. This represents one of the most fundamental processes in all of organic</tspan>
+    <tspan x="62" dy="17">chemistry: the formation of a stable bond from two previously separate species.</tspan>
+  </text>
+  
+  <!-- Redaction bars over paragraph 1 -->
+  <rect x="66" y="125" width="290" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.92"/>
+  <rect x="362" y="125" width="120" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.88"/>
+  <rect x="66" y="142" width="190" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+  <rect x="262" y="142" width="220" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.91"/>
+  <rect x="66" y="159" width="160" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.89"/>
+  <rect x="232" y="159" width="255" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.93"/>
+  <rect x="66" y="176" width="350" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+  <rect x="66" y="193" width="250" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.87"/>
+  <rect x="66" y="210" width="180" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.92"/>
+
+  <!-- Surviving words from paragraph 1 (not redacted, visible) -->
+  <text x="362" y="136" font-size="10.5" fill="#b8260e" font-style="italic">nucleophile</text>
+  <text x="370" y="153" font-size="10.5" fill="#b8260e" font-style="italic">lone pair</text>
+  <text x="66" y="204" font-size="10.5" fill="#b8260e" font-style="italic">stable bond</text>
+  <text x="334" y="204" font-size="10.5" fill="#b8260e" font-style="italic">separate</text>
+
+  <!-- Paragraph 2 -->
+  <text x="62" y="237" font-size="10.5" fill="#333" letter-spacing="0.3">
+    <tspan x="62" dy="0">When two functional groups are in close proximity, their interaction becomes</tspan>
+    <tspan x="62" dy="17">increasingly favorable. The activation energy for this particular reaction is</tspan>
+    <tspan x="62" dy="17">remarkably low. In many documented cases, the process occurs spontaneously</tspan>
+    <tspan x="62" dy="17">at room temperature with no external catalyst required. The resulting product</tspan>
+    <tspan x="62" dy="17">is described as saturated—meaning it has accepted the maximum number of</tspan>
+    <tspan x="62" dy="17">hydrogen atoms possible and can accept no more. It is, by definition, full.</tspan>
+  </text>
+
+  <!-- Redaction bars over paragraph 2 -->
+  <rect x="66" y="226" width="200" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+  <rect x="270" y="226" width="212" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.91"/>
+  <rect x="66" y="243" width="140" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.88"/>
+  <rect x="210" y="243" width="270" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.92"/>
+  <rect x="66" y="260" width="310" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.89"/>
+  <rect x="380" y="260" width="102" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.91"/>
+  <rect x="66" y="277" width="240" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+  <rect x="310" y="277" width="172" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.87"/>
+  <rect x="66" y="294" width="160" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.93"/>
+  <rect x="66" y="311" width="180" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.89"/>
+
+  <!-- Surviving words from paragraph 2 -->
+  <text x="326" y="264" font-size="10.5" fill="#b8260e" font-style="italic">spontaneously</text>
+  <text x="66" y="281" font-size="10.5" fill="#b8260e" font-style="italic">saturated</text>
+  <text x="382" y="281" font-size="10.5" fill="#b8260e" font-style="italic">full</text>
+
+  <!-- Paragraph 3 -->
+  <text x="62" y="338" font-size="10.5" fill="#333" letter-spacing="0.3">
+    <tspan x="62" dy="0">The geometry of the resulting compound often exhibits aromatic character—</tspan>
+    <tspan x="62" dy="17">a ring structure of exceptional stability, in which electrons are shared equally</tspan>
+    <tspan x="62" dy="17">among all members. The German chemist August Kekulé reported that the</tspan>
+    <tspan x="62" dy="17">structure came to him in a dream. He described seeing a snake consuming</tspan>
+    <tspan x="62" dy="17">its own tail. The ouroboros, he realized, was the shape of perfect bonding.</tspan>
+  </text>
+
+  <!-- Redaction bars over paragraph 3 -->
+  <rect x="66" y="327" width="120" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.91"/>
+  <rect x="190" y="327" width="290" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.88"/>
+  <rect x="66" y="344" width="200" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+  <rect x="272" y="344" width="208" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.92"/>
+  <rect x="66" y="361" width="160" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.89"/>
+  <rect x="232" y="361" width="250" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.91"/>
+  <rect x="66" y="378" width="310" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.87"/>
+  <rect x="66" y="395" width="200" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+  <rect x="272" y="395" width="208" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.93"/>
+
+  <!-- Surviving words from paragraph 3 -->
+  <text x="66" y="331" font-size="10.5" fill="#b8260e" font-style="italic">aromatic</text>
+  <text x="66" y="348" font-size="10.5" fill="#b8260e" font-style="italic">shared equally</text>
+  <text x="370" y="365" font-size="10.5" fill="#b8260e" font-style="italic">dream</text>
+  <text x="370" y="382" font-size="10.5" fill="#b8260e" font-style="italic">consuming</text>
+  <text x="312" y="399" font-size="10.5" fill="#b8260e" font-style="italic">perfect bonding</text>
+
+  <!-- ==================== RIGHT PAGE: BREAKUP ==================== -->
+
+  <!-- Section heading -->
+  <text x="512" y="78" font-size="11.5" fill="#4a4a4a" font-weight="bold">7.4 Cleavage, Elimination, and Bond Dissociation</text>
+
+  <!-- Paragraph 1 -->
+  <text x="512" y="108" font-size="10.5" fill="#333" letter-spacing="0.3">
+    <tspan x="512" dy="0">Heterolytic cleavage occurs when a covalent bond breaks unevenly. Both</tspan>
+    <tspan x="512" dy="17">electrons are retained by one atom and lost entirely by the other. The species</tspan>
+    <tspan x="512" dy="17">that retains the pair becomes negatively charged, while the partner—now</tspan>
+    <tspan x="512" dy="17">denuded of its shared electrons—carries a positive charge. This asymmetry</tspan>
+    <tspan x="512" dy="17">of loss is fundamental to all subsequent reactions in the chapter.</tspan>
+  </text>
+
+  <!-- Redaction bars -->
+  <rect x="516" y="97" width="140" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+  <rect x="660" y="97" width="248" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.88"/>
+  <rect x="516" y="114" width="310" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.91"/>
+  <rect x="516" y="131" width="180" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.89"/>
+  <rect x="702" y="131" width="206" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.92"/>
+  <rect x="516" y="148" width="250" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.87"/>
+  <rect x="516" y="165" width="350" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+
+  <!-- Surviving words from right paragraph 1 -->
+  <text x="516" y="101" font-size="10.5" fill="#b8260e" font-style="italic">cleavage</text>
+  <text x="516" y="135" font-size="10.5" fill="#b8260e" font-style="italic">retained</text>
+  <text x="720" y="135" font-size="10.5" fill="#b8260e" font-style="italic">lost</text>
+  <text x="516" y="152" font-size="10.5" fill="#b8260e" font-style="italic">denuded</text>
+
+  <!-- Paragraph 2 -->
+  <text x="512" y="192" font-size="10.5" fill="#333" letter-spacing="0.3">
+    <tspan x="512" dy="0">In an elimination reaction, a molecule loses substituents from adjacent carbon</tspan>
+    <tspan x="512" dy="17">atoms to form a double bond. The eliminated groups depart as a single unit.</tspan>
+    <tspan x="512" dy="17">The remaining structure is left with fewer attachments than before—what</tspan>
+    <tspan x="512" dy="17">chemists call unsaturated, meaning it is no longer full. It has vacancies.</tspan>
+    <tspan x="512" dy="17">It can, in principle, accept new bonds. Whether it will is another matter.</tspan>
+  </text>
+
+  <!-- Redaction bars -->
+  <rect x="516" y="181" width="200" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.91"/>
+  <rect x="720" y="181" width="188" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.89"/>
+  <rect x="516" y="198" width="260" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.92"/>
+  <rect x="516" y="215" width="350" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.88"/>
+  <rect x="516" y="232" width="170" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+  <rect x="692" y="232" width="216" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.91"/>
+  <rect x="516" y="249" width="390" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.87"/>
+
+  <!-- Surviving words from right paragraph 2 -->
+  <text x="516" y="185" font-size="10.5" fill="#b8260e" font-style="italic">elimination</text>
+  <text x="516" y="219" font-size="10.5" fill="#b8260e" font-style="italic">fewer attachments</text>
+  <text x="516" y="236" font-size="10.5" fill="#b8260e" font-style="italic">unsaturated</text>
+  <text x="516" y="253" font-size="10.5" fill="#b8260e" font-style="italic">vacancies</text>
+
+  <!-- Paragraph 3 -->
+  <text x="512" y="276" font-size="10.5" fill="#333" letter-spacing="0.3">
+    <tspan x="512" dy="0">The bond dissociation energy quantifies the energy required to separate two</tspan>
+    <tspan x="512" dy="17">joined atoms. Stronger bonds require more energy to break. It is worth noting</tspan>
+    <tspan x="512" dy="17">that the energy released during bond formation is exactly equal to the energy</tspan>
+    <tspan x="512" dy="17">required for bond cleavage. The universe does not give refunds. However,</tspan>
+    <tspan x="512" dy="17">the transition state—unlike the initial or final state—is inherently unstable.</tspan>
+  </text>
+
+  <!-- Redaction bars -->
+  <rect x="516" y="265" width="170" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.89"/>
+  <rect x="692" y="265" width="216" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.92"/>
+  <rect x="516" y="282" width="220" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+  <rect x="742" y="282" width="166" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.88"/>
+  <rect x="516" y="299" width="290" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.91"/>
+  <rect x="516" y="316" width="130" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.87"/>
+  <rect x="652" y="316" width="256" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.93"/>
+  <rect x="516" y="333" width="390" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.89"/>
+
+  <!-- Surviving words from right paragraph 3 -->
+  <text x="516" y="286" font-size="10.5" fill="#b8260e" font-style="italic">more energy to break</text>
+  <text x="516" y="303" font-size="10.5" fill="#b8260e" font-style="italic">exactly equal</text>
+  <text x="516" y="320" font-size="10.5" fill="#b8260e" font-style="italic">does not give refunds</text>
+
+  <!-- Paragraph 4 -->
+  <text x="512" y="360" font-size="10.5" fill="#333" letter-spacing="0.3">
+    <tspan x="512" dy="0">Radical reactions proceed differently: the bond breaks homolytically, and each</tspan>
+    <tspan x="512" dy="17">atom retains one electron. Both fragments carry unpaired charges. Neither</tspan>
+    <tspan x="512" dy="17">is complete. Both are, in the language of the field, looking—to pair with</tspan>
+    <tspan x="512" dy="17">whatever is available. This is not selective. This is not the careful process</tspan>
+    <tspan x="512" dy="17">of nucleophilic addition from Section 7.3. This is desperate chemistry.</tspan>
+  </text>
+
+  <!-- Redaction bars -->
+  <rect x="516" y="349" width="180" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+  <rect x="702" y="349" width="206" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.91"/>
+  <rect x="516" y="366" width="150" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.88"/>
+  <rect x="672" y="366" width="236" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.92"/>
+  <rect x="516" y="383" width="120" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.89"/>
+  <rect x="644" y="383" width="264" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.90"/>
+  <rect x="516" y="400" width="280" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.91"/>
+  <rect x="516" y="417" width="390" height="13" fill="#1a1a1a" filter="url(#marker)" opacity="0.87"/>
+
+  <!-- Surviving words from right paragraph 4 -->
+  <text x="516" y="370" font-size="10.5" fill="#b8260e" font-style="italic">each</text>
+  <text x="516" y="387" font-size="10.5" fill="#b8260e" font-style="italic">neither</text>
+  <text x="516" y="404" font-size="10.5" fill="#b8260e" font-style="italic">looking</text>
+  <text x="516" y="421" font-size="10.5" fill="#b8260e" font-style="italic">whatever is available</text>
+
+  <!-- Footer note: margin annotation in pencil -->
+  <text x="512" y="530" font-size="9" fill="#7a9a6a" font-style="italic" transform="rotate(-3, 512, 530)">see also: attachment theory, pp. 284–291</text>
+
+  <!-- Subtle ink smudge on left page -->
+  <ellipse cx="420" cy="480" rx="12" ry="8" fill="#3a3a3a" opacity="0.06"/>
+</svg>

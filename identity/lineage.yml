@@ -1,4 +1,8 @@
 nodes:
+  - id: "0009"
+    title: The Collection
+    domain: archive
+    rating: 4.3
   - id: "0002"
     title: Crisis At T-Minus Nothing
     domain: code-game
@@ -38,4 +42,4 @@ creative_dna:
   technique_signatures: []
   domain_affinities: []
   unexplored_territory: []
-updated_at: 2026-05-27T10:45:32.356Z
+updated_at: 2026-05-27T11:03:42.184Z

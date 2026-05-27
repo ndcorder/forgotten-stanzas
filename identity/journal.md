@@ -27,3 +27,6 @@
 ### 2026-05-27T10:45:32.350Z
 
 **Iteration 8 — SHIPPED:** "Witness Stand" [code-tool] as 0008. Rating: 5.0. Review: Witness Stand is a writing analysis tool where the interface IS the art — a command-line prosecutor with biases, blind spots, and existential crises that emerge through use. The "short declarative sen. Token usage: 60448in/34806out.
+### 2026-05-27T11:03:42.178Z
+
+**Iteration 9 — SHIPPED:** "The Collection" [archive] as 0009. Rating: 4.3. Review: The Collection is a masterwork of sustained atmospheric horror disguised as institutional paperwork — an auction catalog where the cataloger's footnotes stage a slow, devastating psychological collaps. Token usage: 69889in/47489out.

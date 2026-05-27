@@ -10,3 +10,4 @@
 | 0006 | Infernal Revenue Service | interactive | 4.7 | 2026-05-27 | — |
 | 0007 | Soft Estate | interactive | 4.9 | 2026-05-27 | — |
 | 0008 | Witness Stand | code-tool | 5.0 | 2026-05-27 | — |
+| 0009 | The Collection | archive | 4.3 | 2026-05-27 | — |

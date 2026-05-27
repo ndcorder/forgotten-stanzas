@@ -258,3 +258,6 @@ The most interesting rejections were conceptual rather than structural: Fault To
 ### 2026-05-27T18:01:12.596Z
 
 **Iteration 37 — SHIPPED:** "Operating Manual for the Emotion That Doesn't Have a Name Yet" [instruction] as 0035. Rating: 5.0. Review: Operating Manual for the Emotion That Occurs When You Save a Photograph for Someone Who Will Not See It is the portfolio's canonical instruction piece and arguably its most emotionally devastating art. Token usage: 53115in/24855out.
+### 2026-05-27T18:07:35.838Z
+
+**Iteration 38 — SHIPPED:** "Weather Forecast for a Grief That Hasn't Arrived Yet" [instruction] as 0036. Rating: 5.0. Review: The portfolio's canonical instruction piece and its most emotionally devastating artifact. The central structural inversion — grief meteorology rendered with genuine atmospheric science grammar — does. Token usage: 41980in/17767out.

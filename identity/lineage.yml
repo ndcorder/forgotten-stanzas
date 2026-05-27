@@ -75,6 +75,10 @@ nodes:
     title: Operating Manual for the Emotion That Doesn't Have a Name Yet
     domain: instruction
     rating: 5
+  - id: "0036"
+    title: Weather Forecast for a Grief That Hasn't Arrived Yet
+    domain: instruction
+    rating: 5
   - id: "0005"
     title: The Committee of Mutually Assured Destruction
     domain: interactive
@@ -201,4 +205,4 @@ creative_dna:
     - Data Made Audible × interview
     - Data Made Audible × journalism
     - Data Made Audible × music
-updated_at: 2026-05-27T18:01:12.635Z
+updated_at: 2026-05-27T18:07:35.870Z

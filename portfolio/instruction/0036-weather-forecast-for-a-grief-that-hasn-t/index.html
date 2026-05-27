@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEWS - Zone Forecast for Sector 4B-117</title>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #ffffff;
+            color: #1a1a1a;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .gov-banner {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gov-banner svg {
+            width: 22px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .header {
+            border-bottom: 2px solid #003366;
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .header-left h1 {
+            font-size: 20px;
+            color: #003366;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .header-left p {
+            font-size: 13px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .header-right {
+            font-size: 12px;
+            color: #666;
+            text-align: right;
+        }
+
+        .product {
+            border: 1px solid #003366;
+            margin-bottom: 24px;
+        }
+
+        .product-header {
+            background: #003366;
+            color: #ffffff;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .product-header h2 {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .product-header .urgency {
+            background: #cc0000;
+            color: #fff;
+            padding: 3px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-radius: 2px;
+        }
+
+        .product-body {
+            padding: 16px 20px;
+        }
+
+        .product-body section {
+            margin-bottom: 18px;
+        }
+
+        .product-body section:last-child {
+            margin-bottom: 0;
+        }
+
+        .product-body h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #003366;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            border-bottom: 1px solid #d0d0d0;
+            padding-bottom: 4px;
+            margin-bottom: 10px;
+        }
+
+        .product-body p {
+            margin-bottom: 10px;
+            hyphens: auto;
+        }
+
+        .product-body ul {
+            margin: 8px 0 12px 20px;
+        }
+
+        .product-body li {
+            margin-bottom: 6px;
+        }
+
+        .forecast-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .forecast-table th {
+            background: #e8e8e8;
+            text-align: left;
+            padding: 8px 10px;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border: 1px solid #ccc;
+        }
+
+        .forecast-table td {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .forecast-table tr:nth-child(even) td {
+            background: #f8f8f8;
+        }
+
+        .sws-header {
+            background: #cc0000;
+            color: #ffffff;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sws-header h2 {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .sws-header .urgency {
+            background: #fff;
+            color: #cc0000;
+            padding: 3px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-radius: 2px;
+        }
+
+        .advisory-box {
+            border: 2px solid #cc6600;
+            background: #fff8f0;
+            padding: 14px 16px;
+            margin: 12px 0;
+        }
+
+        .advisory-box h4 {
+            font-size: 13px;
+            color: #cc6600;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .advisory-box p {
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .footer {
+            border-top: 1px solid #ccc;
+            padding-top: 16px;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        .footnote {
+            font-size: 12px;
+            color: #777;
+            border-top: 1px dotted #ccc;
+            padding-top: 8px;
+            margin-top: 10px;
+        }
+
+        .sidenote {
+            font-style: italic;
+            color: #555;
+        }
+
+        .pressure-change {
+            color: #003366;
+            font-weight: 600;
+        }
+
+        .pressure-dropping {
+            color: #cc6600;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+                font-size: 14px;
+            }
+            .forecast-table {
+                font-size: 12px;
+            }
+            .forecast-table th, .forecast-table td {
+                padding: 6px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-right {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gov-banner">
+        <svg viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="22" height="8" fill="#002664"/>
+            <rect y="8" width="22" height="8" fill="#B22234"/>
+            <rect y="7" width="22" height="2" fill="#FFFFFF"/>
+        </svg>
+        <span>An official product of the National Emotional Weather Service. This information is provided as a public service and carries no actionable certainty.</span>
+    </div>
+
+    <div class="header">
+        <div class="header-left">
+            <h1>National Emotional Weather Service</h1>
+            <p>Region 4 — Interior Plains and Memory Systems</p>
+        </div>
+        <div class="header-right">
+            <p>Issued: November 7, 2024 — 5:47 PM CST</p>
+            <p>Valid Through: November 14, 2024</p>
+            <p>Product ID: NE4-2024-1107-117B</p>
+        </div>
+    </div>
+
+    <div class="product">
+        <div class="product-header">
+            <h2>Zone Forecast for Sector 4B-117 — Anticipatory Grief System</h2>
+            <span class="urgency">In Effect</span>
+        </div>
+        <div class="product-body">
+
+            <section>
+                <h3>1. Current Conditions</h3>
+                <p>A broad high-pressure system — characterized by prolonged periods of functioning normally and believing this is manageable — continues to dominate the region. Surface readings indicate the subject has spoken about the situation in the present tense for eleven consecutive days. Observed barometric pressure at the time of the last normal phone call (November 3, 6:22 PM, duration 4 minutes 17 seconds, topic: whether the mail had come) was 1021.3 hPa, within seasonal norms. <span class="pressure-change">Pressure has since fallen 8.4 hPa.</span></p>
+                <p>The subject reports normal sleep architecture with known underreporting bias. Self-assessment instruments administered covertly during routine conversation indicate stable suppression with measurable tremor at frequencies below conversational threshold.</p>
+                <p>Concurrent observations from adjacent sectors (4B-118 through 4B-123) report no secondary systems developing. The grief remains localized to the single subject. Colleagues at work have noted nothing unusual. This is consistent with prolonged prodromal phase modeling.</p>
+            </section>
+
+            <section>
+                <h3>2. Synoptic Discussion</h3>
+                <p>A deep low-pressure system is forecast to develop over the next several days as the subject's mother entered hospice care on October 29. This system has been tracking along the northern boundary of Sector 4B-117 since that date, with the center of lowest pressure currently located approximately 203 km to the northwest, which is to say the room where she is, which is to say the room where she is dying.</p>
+                <p>The grief system is expected to intensify as frontal boundaries — the physiological recognition of what hospice means, the administrative tasks that require selecting "POWER OF ATTORNEY" from phone menus — continue to encroach from the northwest. Warm air advection ahead of the system has produced intermittent, unseasonable tenderness during otherwise routine interactions: the way his father's voice sounds now, the dog that won't leave her bed, the specific quality of afternoon light in the kitchen she will not see again.</p>
+                <p>Cold air damming along the emotional ridgeline — the mechanism by which the subject continues to perform office tasks, eat meals, and say "I'm fine" — is expected to hold through midweek. However, numerical models indicate this ridge will erode as the low deepens and the subject encounters what forecasters are calling a "cascade trigger event," defined as any stimulus that causes the present tense to fail.</p>
+                <p>Model guidance from the GFS (Grief Forecasting System) and the ECMWF (Emotional Center for Medium-range Weather Forecasting) are in general agreement regarding timing, though the ECMWF suggests a slightly earlier onset of organized weeping. The Canadian model has been excluded from consensus due to persistent over-prediction of emotional resolution in the 10–14 day range, a bias well-documented in the literature and colloquially known among forecasters as the "it gets easier" artifact.</p>
+            </section>
+
+            <section>
+                <h3>3. Regional Forecast</h3>
+
+                <p><strong>Today (November 7, Evening):</strong> Functioning normal. Barometric pressure stable at 1012.9 hPa. Subject completed a full day of work. Cooked dinner. Called hospice nurse for status update and used clinical language ("How is her pain management?") with only minor vocal modulation detected. Low-level grief fog expected to settle after 10 PM, coinciding with the time he usually called to say goodnight. He did not call tonight. He will lie in bed and think about why he didn't call. No accumulation expected. <span class="pressure-change">Chance of composure: 94%.</span></p>
+
+                <p><strong>Tomorrow (November 8):</strong> Partly functioning. A weak disturbance will move through during the morning commute as the subject passes the hospital exit on Highway 12 and does not take it. A sharp but brief pressure drop is expected between 8:15 AM and 8:19 AM as he drives past and holds the steering wheel harder than necessary. Recovery to baseline by 8:31 AM when a work email requires his attention. <span class="pressure-dropping">Chance of precipitation: 12%.</span> Afternoon clearing as administrative tasks and meetings provide structural support. Evening lows in the chest region.</p>
+
+                <p><strong>Friday, November 9:</strong> A shortwave trough — a text from his father containing a photo of his mother sleeping — will move through the region around 2:45 PM. The photo will show her hand resting on the dog's back, her wedding ring loose around a finger that has thinned. He will put the phone face-down on his desk and stare at his monitor for approximately ninety seconds without reading what is on it. He will zoom in on the photo later, alone, to study her hand. He will not tell anyone he did this. <span class="pressure-dropping">Chance of precipitation: 38%.</span> Scattered periods of feeling nothing at all, which is a different kind of weather and should not be confused with calm. He will call his father at 7:30 PM and they will talk about the dog.</p>
+
+                <p><strong>Saturday, November 10 — Sunday, November 11 (Weekend):</strong> The subject will visit. The system will intensify. Driving northwest on Highway 12, the landscape — flat, agricultural, late autumn — will register differently than it did two weeks ago. Every barn and silo a landmark on the route to a place he does not want to go. He will arrive. He will sit in the room where she is. The room where the hospice bed has been placed where the dining table used to be. He will hold her hand and it will feel like a hand and it will also feel like something already leaving. His father will offer him coffee three times. He will say no three times. He will accept on the fourth offer because he needs something to do with his hands. <span class="pressure-dropping">Barometric pressure expected to drop below 996 hPa.</span> Accumulation of grief: 2–4 inches over previously stable emotional ground. He will drive home Sunday afternoon and the landscape will look the same and completely different. Chance of precipitation during the drive: 71%. Chance of pulling over: 43%. Chance of calling someone: 8%.</p>
+
+                <p><strong>Monday, November 12:</strong> Return to work. Cold high pressure — numbness, productivity, a performance of normalcy so thorough it nearly becomes genuine — will build in behind the weekend system. The subject will answer "How was your weekend?" eleven times. He will say "fine" eleven times. Nine of these answers will be to people who do not know. Two will be to people who do. All eleven answers will sound the same. <span class="pressure-change">Chance of composure: 97%.</span></p>
+
+                <p><strong>Tuesday, November 13 — Wednesday, November 14:</strong> Extended analysis indicates continued prodromal phase. High pressure holds. The system has stalled but has not dissipated. It will not dissipate. This is not the kind of weather that dissipates. It is the kind of weather that arrives.</p>
+            </section>
+
+            <div class="product" style="margin: 18px 0;">
+                <div class="sws-header">
+                    <h2>Special Weather Statement</h2>
+                    <span class="urgency">Targeted Alert</span>
+                </div>
+                <div class="product-body">
+                    <p><strong>Product Code:</strong> SWS-4B-2024-1108-001</p>
+                    <p><strong>Issued:</strong> November 7, 2024 — 5:47 PM CST</p>
+                    <p><strong>Valid:</strong> November 8, 2024 — 3:17 PM CST</p>
+                    <p style="margin-top: 12px;">At approximately 3:17 PM tomorrow, November 8, the subject will enter a CVS pharmacy located at 44th Street and Lakeland Avenue to purchase a birthday card. The overhead speakers will play "You've Got a Friend" by Carole King (1971). His mother used to sing this song — only the chorus, and slightly off-key, and every morning when she drove him to school in the blue Dodge Caravan with the rust spot on the passenger door, every morning from September 1989 until June 1997, and then she stopped, because he could drive himself, and the singing stopped, and he did not notice it had stopped until this moment, standing in a CVS pharmacy, holding a birthday card, at 3:17 PM on a Thursday.</p>
+                    <p>This is not a severe weather event. This is a localized, rapid-onset precipitation event with duration of 90–180 seconds. <span class="pressure-dropping">Expected barometric pressure at time of event: 982.4 hPa</span> — the lowest reading in Sector 4B-117 since the date of the hospice admission. Visibility may be temporarily reduced. The subject will remain in the greeting card aisle. He will select a card without reading it. He will purchase it. He will drive home. The precipitation will end by the time he turns onto his street. The driveway will be dry. The birthday card will be wrong. He will mail it anyway.</p>
+                    <p class="footnote">The National Emotional Weather Service does not issue advisories for precipitation events of this magnitude. It is below severe criteria. It is within normal parameters. It is, statistically speaking, the kind of weather you should expect.</p>
+                </div>
+            </div>
+
+            <section>
+                <h3>4. Hazardous Weather Outlook</h3>
+                <p>The primary system — the death itself, the call that comes at 3 AM or 11 AM or during a Tuesday meeting, the phone that lights up with his father's name — is not yet within the reliable forecast window. Extended guidance suggests formation somewhere in the November 15–30 window, though confidence decreases after November 23. The exact timing of this event cannot be predicted. The subject has asked the hospice nurse about timing. The hospice nurse used the word "weeks."</p>
+                <p>When this system develops, it will intensify rapidly. Modeled pressure falls exceed 40 hPa in a 12-hour period. Frontal passage will be accompanied by sustained winds — the kind of crying that becomes a physical event, that involves the whole body, that the subject has not experienced since age seven when his grandfather died, which is the only historical analog available for calibration and which occurred before he understood what dying was and which, this forecast notes with characteristic detachment, he still does not understand.</p>
+                <p>The grief system, once developed, will modify all existing weather in Sector 4B-117. It will change the way food tastes for a period of 4–8 weeks. It will alter the sleep cycle for 6–12 weeks. It will embed itself in previously neutral stimuli — the smell of her kitchen, a particular brand of hand lotion, the sound of a phone ringing in the next room, Christmas — with persistence extending well beyond the operational forecast period. The bureau notes this is not a forecast of recovery. This is a forecast of transformation.</p>
+            </section>
+
+            <section>
+                <h3>5. Climatological Summary — Sector 4B-117</h3>
+                <p><strong>Event Class:</strong> Parental loss, mother, hospice-anticipated</p>
+                <p><strong>Subclassification:</strong> Son, geographic separation (203 km), high-frequency phone contact (mean 4.2 calls per week, decreasing to 2.8 per week over the final month due to subject's avoidance pattern)</p>
+                <p><strong>Historical Averages for This Classification:</strong></p>
+                <ul>
+                    <li>Prodromal phase duration: 14–42 days (Sector 4B-117 currently at Day 9, tracking <span class="pressure-dropping">12% ahead of mean accumulation</span>)</li>
+                    <li>Peak intensity duration: 4–14 days</li>
+                    <li>Secondary peak (anniversary/holiday-triggered): Days 180–400</li>
+                    <li>Time to functional baseline: 6–18 months</li>
+                    <li>Time to integration (subject will report thinking of her without crying): highly variable, typically 18–36 months</li>
+                    <li>Residual effects: permanent</li>
+                </ul>
+                <p>The subject's current grief system is tracking <span class="pressure-dropping">slightly ahead of historical averages</span> for the "mother-son, hospice, 200 km separation" event class. Specifically, anticipatory accumulation measurements exceed the 30-year mean by 8.3%, suggesting the actual event may produce peak readings in the 90th–95th percentile for this classification.</p>
+                <p>The bureau notes this without comment. The bureau does not issue opinions. The bureau issues forecasts.</p>
+                <p>30-year return period analysis indicates this system will re-intensify annually around late October, coinciding with the admittance date. Secondary maxima are modeled for Mother's Day, her birthday (March 14), and the subject's birthday (August 2), which she always remembered, even when she could not remember what day it was, even near the end, she could remember his birthday, and this datum — this datum the bureau did not request — is now part of the climatological record for Sector 4B-117.</p>
+            </section>
+
+            <section>
+                <h3>6. Extended Outlook — Three to Thirty Months</h3>
+                <table class="forecast-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 160px;">Period</th>
+                            <th style="width: 80px;">Conditions</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Weeks 1–4</td>
+                            <td>Severe</td>
+                            <td>The active mourning period. Ground-level conditions will be unstable. Surviving family members will operate in the same low-pressure system, producing complex interference patterns. Holidays will be particularly volatile. The subject will eat food that other people bring and he will not taste it. He will say "thank you for coming" and mean it, but the words will arrive from a very long distance away, the way radio waves from dead stars still reach us, still register on our instruments, precise and measurable and completely empty of the heat that produced them.</td>
+                        </tr>
+                        <tr>
+                            <td>Months 2–6</td>
+                            <td>Moderate</td>
+                            <td>A gradually stabilizing pattern. The subject will return to baseline functionality, though barometric pressure will remain chronically depressed by 3–5 hPa relative to pre-event readings. Frequent localized disturbances triggered by environmental stimuli: seeing a woman who resembles her at the grocery store, finding a card in her handwriting, hearing a voice with the same rhythm. He will stop calling the hospice nurse, then call once more, then delete the number. He will keep her number in his phone. It will route to no one. He will not delete it.</td>
+                        </tr>
+                        <tr>
+                            <td>Months 6–18</td>
+                            <td>Mild</td>
+                            <td>Extended clearing periods interspersed with sudden, brief low-pressure intrusions. The subject will go weeks without thinking of her, then think of her suddenly and completely, usually at an inconvenient time, usually while driving, usually because of a smell or a quality of light that cannot be anticipated or prepared for. He will pull over. He will not cry every time. He will sit in the car. The car will run. The heat will be on. He will sit and the weather will move through him and then it will pass and he will drive home.</td>
+                        </tr>
+                        <tr>
+                            <td>Months 18–30</td>
+                            <td>Variable</td>
+                            <td>A gradual transition from acute to integrated conditions. The system does not dissipate. The bureau wishes to be clear about this. The system does not dissipate. But the subject will develop what meteorologists call "climatological normals" — a new baseline that incorporates the weather event as a permanent feature of the landscape rather than a disturbance. He will think of her without crying, though not always. He will cook something she used to make and get the recipe wrong and try again and it will taste close, which is to say it will taste like memory, which is to say it will taste like something that is no longer present but has not left.</td>
+                        </tr>
+                        <tr>
+                            <td>By Late 2027</td>
+                            <td>Mostly Clear</td>
+                            <td>Extended outlook shows clearing. The bureau defines "clearing" as follows: the subject will be able to think of her without the barometric pressure changing at all. He will hear the Carole King song and smile. He will not need to pull over. The birthday cards will be right. The phone number will still be in his phone. The weather will have been worth living through. And the bureau notes, with characteristic and perhaps insufficient restraint, that this is not a forecast the bureau is qualified to make, but the historical record — all 30 years, all 14,235 logged events in this classification — suggests that eventually the sky clears, and what remains is not absence but atmosphere: the medium through which all weather moves, the air that was hers and his and ours, the air that goes on.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <div class="advisory-box">
+                <h4>Advisory — Bureau Note</h4>
+                <p>The National Emotional Weather Service does not issue advisories for localized precipitation events occurring in greeting card aisles. The bureau does not forecast whether the subject will call in sick the day after. The bureau does not predict the rate at which grief accumulates in the body, though current models suggest the body has no maximum accumulation capacity, which is to say the body can hold all of it, which is to say the body holds everything we were not designed to hold, which is to say the body holds it anyway.</p>
+                <p>But the bureau has been asked — in 14,235 logged events, in letters that arrive and are not answered, in the quiet between forecast cycles — the bureau has been asked, implicitly, by every subject in every sector: how long. How long does this weather last.</p>
+                <p>The bureau's answer, based on the full climatological record, is: longer than you want. Not as long as you fear. And different, at the end, than it was at the beginning. The weather changes. That is what weather does. That is the only thing the bureau can promise.</p>
+                <p style="margin-top: 10px; font-style: italic; color: #777;">— Senior Forecaster L. Whitfield, Region 4, Evening Shift</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>National Emotional Weather Service — Region 4 — Sector 4B-117</p>
+        <p>This product is generated automatically based on observed and forecast conditions. Confidence levels decrease with range.</p>
+        <p>The bureau does not guarantee the accuracy of emotional forecasts. The bureau does not issue refunds. The bureau does not answer letters asking why the weather is what it is.</p>
+        <p style="margin-top: 10px; font-size: 11px; color: #aaa;">Product ID: NE4-2024-1107-117B — Next Scheduled Update: November 14, 2024 — 5:47 PM CST</p>
+    </div>
+
+</body>
+</html>

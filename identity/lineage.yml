@@ -11,6 +11,10 @@ nodes:
     title: The Committee of Mutually Assured Destruction
     domain: interactive
     rating: 4.7
+  - id: "0006"
+    title: Infernal Revenue Service
+    domain: interactive
+    rating: 4.7
   - id: "0003"
     title: Hymnal for a Dead Language
     domain: music
@@ -26,4 +30,4 @@ creative_dna:
   technique_signatures: []
   domain_affinities: []
   unexplored_territory: []
-updated_at: 2026-05-27T09:03:56.928Z
+updated_at: 2026-05-27T09:33:30.689Z

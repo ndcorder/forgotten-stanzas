@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infernal Revenue Service — Afterlife Tax Preparation</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --bg: #1c1410;
+    --bg-form: #f5edd8;
+    --bg-form-alt: #ece3cc;
+    --text-dark: #2a1f14;
+    --text-muted: #7a6b58;
+    --text-light: #e8dcc8;
+    --accent: #c41e3a;
+    --accent-glow: rgba(196, 30, 58, 0.3);
+    --seal-gold: #b8943e;
+    --seal-gold-light: #d4aa4f;
+    --border: #d4c9b0;
+    --input-bg: #fffdf7;
+    --success: #2d7a3a;
+    --warning: #b8741e;
+    --danger: #a83232;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Crimson Text', Georgia, serif;
+    background: var(--bg);
+    color: var(--text-light);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(196,30,58,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(184,148,62,0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(100,60,30,0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .game-container {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ---- TITLE ---- */
+
+  #screen-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+  }
+
+  .title-seal {
+    width: 120px; height: 120px;
+    border: 3px solid var(--seal-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+    position: relative;
+    animation: sealPulse 4s ease-in-out infinite;
+  }
+
+  .title-seal::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--seal-gold);
+    border-radius: 50%;
+  }
+
+  .title-seal i { font-size: 42px; color: var(--seal-gold); }
+
+  @keyframes sealPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(184,148,62,0.2); }
+    50% { box-shadow: 0 0 40px rgba(184,148,62,0.4); }
+  }
+
+  .title-name {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--seal-gold-light);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .title-subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 48px;
+  }
+
+  .title-tagline {
+    font-size: 20px;
+    font-style: italic;
+    color: var(--text-light);
+    max-width: 500px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+    opacity: 0.8;
+  }
+
+  .title-notice {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    max-width: 400px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+
+  /* ---- BUTTONS ---- */
+
+  .btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 36px;
+    border: 2px solid var(--seal-gold);
+    background: transparent;
+    color: var(--seal-gold-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn:hover {
+    background: var(--seal-gold);
+    color: var(--bg);
+    box-shadow: 0 0 30px rgba(184,148,62,0.3);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--seal-gold-light);
+    outline-offset: 3px;
+  }
+
+  .btn:active { transform: scale(0.97); }
+
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: #d42448;
+    box-shadow: 0 0 30px var(--accent-glow);
+  }
+
+  .btn-small {
+    font-size: 11px;
+    padding: 10px 24px;
+  }
+
+  /* ---- FORM CARD ---- */
+
+  .form-card {
+    background: var(--bg-form);
+    color: var(--text-dark);
+    border-radius: 2px;
+    padding: 40px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    position: relative;
+  }
+
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--seal-gold), var(--accent));
+  }
+
+  .form-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .form-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+
+  .form-subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  .form-group { margin-bottom: 20px; }
+
+  .form-label {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 10px 14px;
+    font-family: 'Crimson Text', serif;
+    font-size: 18px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--text-dark);
+    border-radius: 1px;
+    transition: border-color 0.2s;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(196,30,58,0.1);
+  }
+
+  .form-input::placeholder {
+    color: #bbb;
+    font-style: italic;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 20px;
+  }
+
+  .form-row .form-group { flex: 1; }
+
+  /* ---- AUDITOR PANEL ---- */
+
+  .auditor-panel {
+    background: linear-gradient(135deg, #1e1612 0%, #251c16 100%);
+    border: 1px solid rgba(184,148,62,0.2);
+    border-radius: 2px;
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+
+  .auditor-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--seal-gold-light);
+    margin-bottom: 4px;
+  }
+
+  .auditor-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  /* ---- MEMORY FRAME ---- */
+
+  .memory-frame {
+    border: 2px solid var(--border);
+    padding: 32px;
+    margin-bottom: 24px;
+    background: var(--bg-form-alt);
+    position: relative;
+  }
+
+  .memory-frame::after {
+    content: 'MEMORY RECONSTRUCTION';
+    position: absolute;
+    top: -10px; left: 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--bg-form-alt);
+    padding: 0 8px;
+    color: var(--text-muted);
+  }
+
+  .memory-text {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+  }
+
+  .reframe-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .reframe-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--border);
+    font-family: 'Crimson Text', serif;
+    font-size: 16px;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    line-height: 1.5;
+  }
+
+  .reframe-option:hover {
+    border-left-color: var(--seal-gold);
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  .reframe-option:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .reframe-option:active { transform: scale(0.99); }
+
+  /* ---- SCORE PANEL ---- */
+
+  .score-panel {
+    position: sticky;
+    top: 20px;
+    background: linear-gradient(135deg, #1e1612 0%, #2a1f18 100%);
+    border: 1px solid rgba(184,148,62,0.25);
+    border-radius: 2px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  .score-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .score-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 14px;
+  }
+
+  .score-row + .score-row { border-top: 1px solid rgba(255,255,255,0.05); }
+
+  .score-label {
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .score-value {
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    color: var(--seal-gold-light);
+    font-size: 14px;
+  }
+
+  .score-value.positive { color: var(--success); }
+  .score-value.negative { color: var(--danger); }
+  .score-value.warning { color: var(--warning); }
+
+  .score-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s ease;
+  }
+
+  .score-bar-fill.deduction {
+    background: linear-gradient(90deg, var(--success), var(--seal-gold));
+  }
+
+  .score-bar-fill.risk {
+    background: linear-gradient(90deg, var(--success), var(--warning), var(--danger));
+  }
+
+  /* ---- RESPONSE OVERLAY ---- */
+
+  .response-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 100;
+    overflow-y: auto;
+    padding: 40px 20px;
+  }
+
+  .response-overlay.active {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .response-card {
+    background: var(--bg-form);
+    color: var(--text-dark);
+    max-width: 620px;
+    width: 100%;
+    padding: 40px;
+    border-radius: 2px;
+    position: relative;
+    margin-top: 40px;
+  }
+
+  .response-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--seal-gold);
+  }
+
+  .response-auditor-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .response-quote {
+    font-size: 18px;
+    line-height: 1.7;
+    font-style: italic;
+    color: var(--text-dark);
+    padding-left: 20px;
+    border-left: 3px solid var(--seal-gold);
+    margin-bottom: 24px;
+  }
+
+  .response-stats {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: var(--bg-form-alt);
+    border-radius: 2px;
+  }
+
+  .response-stat {
+    text-align: center;
+    flex: 1;
+  }
+
+  .response-stat-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  .response-stat-value.approved { color: var(--success); }
+  .response-stat-value.flagged { color: var(--danger); }
+
+  .response-stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .response-detail {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .response-detail span.approved { color: var(--success); font-weight: 500; }
+  .response-detail span.flagged { color: var(--danger); font-weight: 500; }
+  .response-detail span.neutral { color: var(--text-muted); }
+
+  .response-clue-box {
+    background: rgba(184,148,62,0.08);
+    border: 1px dashed rgba(184,148,62,0.3);
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    font-style: italic;
+    color: #8a7a5a;
+    line-height: 1.5;
+  }
+
+  .response-clue-box strong {
+    font-style: normal;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ---- REVIEW TABLE ---- */
+
+  .review-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .review-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .review-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .flag-indicator {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .flag-indicator.clean { background: var(--success); }
+  .flag-indicator.flagged {
+    background: var(--danger);
+    animation: flagPulse 2s infinite;
+  }
+
+  @keyframes flagPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ---- BRACKET DISPLAY ---- */
+
+  .bracket-display {
+    text-align: center;
+    padding: 40px;
+    border: 2px solid var(--seal-gold);
+    margin: 24px 0;
+    position: relative;
+  }
+
+  .bracket-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .bracket-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--seal-gold-light);
+    margin-bottom: 4px;
+  }
+
+  .bracket-description {
+    font-size: 16px;
+    color: var(--text-light);
+    font-style: italic;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .assessment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 24px 0;
+  }
+
+  .assessment-item {
+    padding: 20px;
+    border: 1px solid rgba(184,148,62,0.2);
+    border-radius: 2px;
+  }
+
+  .assessment-item-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .assessment-item-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--seal-gold-light);
+  }
+
+  /* ---- PROGRESS ---- */
+
+  .progress-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .progress-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    transition: all 0.3s;
+  }
+
+  .progress-dot.completed { background: var(--success); }
+  .progress-dot.current {
+    background: var(--seal-gold);
+    box-shadow: 0 0 8px rgba(184,148,62,0.4);
+  }
+
+  /* ---- UTILITY ---- */
+
+  .fade-in { animation: fadeIn 0.6s ease forwards; }
+  .fade-in-slow { animation: fadeIn 1.2s ease forwards; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .warning-box {
+    background: rgba(168,50,50,0.12);
+    border: 1px solid rgba(168,50,50,0.3);
+    border-left: 4px solid var(--danger);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #d4a0a0;
+  }
+
+  .info-box {
+    background: rgba(184,148,62,0.08);
+    border: 1px solid rgba(184,148,62,0.2);
+    border-left: 4px solid var(--seal-gold);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .help-toggle {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    margin-bottom: 16px;
+    transition: color 0.2s;
+  }
+
+  .help-toggle:hover { color: var(--text-light); }
+
+  .help-content {
+    display: none;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    padding: 14px;
+    border: 1px dashed rgba(184,148,62,0.2);
+    margin-bottom: 20px;
+  }
+
+  .help-content.visible { display: block; }
+
+  .seal-circle {
+    width: 80px; height: 80px;
+    border: 2px solid var(--seal-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    position: relative;
+  }
+
+  .seal-circle::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--seal-gold);
+    border-radius: 50%;
+  }
+
+  .seal-circle i { font-size: 28px; color: var(--seal-gold); }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .summary-stat-box {
+    flex: 1;
+    min-width: 140px;
+    padding: 16px;
+    background: var(--bg-form-alt);
+    border-radius: 2px;
+  }
+
+  .summary-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .summary-stat-value {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; }
+    .score-panel { position: static; order: -1; }
+    .form-card { padding: 24px; }
+    .title-name { font-size: 28px; letter-spacing: 1px; }
+    .response-stats { flex-direction: column; gap: 12px; }
+    .assessment-grid { grid-template-columns: 1fr; }
+    .form-row { flex-direction: column; gap: 0; }
+  }
+
+  .hidden { display: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+<div class="game-container" id="game-container"></div>
+<div class="response-overlay" id="response-overlay" role="dialog" aria-modal="true"></div>
+
+<script>
+/* ===================================================
+   BACKGROUND EMBERS
+   =================================================== */
+(function() {
+  var canvas = document.getElementById('bg-canvas');
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var W, H;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  for (var i = 0; i < 40; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 2 + 0.5,
+      dx: (Math.random() - 0.5) * 0.3,
+      dy: -Math.random() * 0.4 - 0.1,
+      alpha: Math.random() * 0.5 + 0.1,
+      pulse: Math.random() * Math.PI * 2
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.x += p.dx;
+      p.y += p.dy;
+      p.pulse += 0.02;
+      var a = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse));
+      if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+      if (p.x < -10) p.x = W + 10;
+      if (p.x > W + 10) p.x = -10;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, Math.max(0.1, p.r), 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(184,148,62,' + a.toFixed(3) + ')';
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!mq.matches) draw();
+})();
+
+/* ===================================================
+   GAME DATA
+   =================================================== */
+
+var AUDITORS = [
+  {
+    name: "Seriphina",
+    title: "Examiner, Second Celestial Division",
+    approach: "Seriphina's form shifts like heat shimmer over asphalt — soft-edged, warm-toned, impossible to look at directly. When she speaks, it sounds like someone remembering a lullaby they heard once through a wall.",
+    valuedVirtue: "compassion",
+    dislikedFraming: "duty",
+    biasReveals: {
+      approved: [
+        "Her form brightens. She responds to emotional truth — to feeling, not structure.",
+        "She leans forward slightly. Something in this framing resonates with her deeply.",
+        "A note of genuine warmth. She values the heart behind the action, not the obligation."
+      ],
+      rejected: [
+        "Her form flickers coolly. 'Duty' left her unmoved — she wants to know what you felt.",
+        "A barely audible sigh. She's heard this clinical framing a thousand times and found it hollow each one.",
+        "She circles a word on her form. The dispassionate language didn't land."
+      ]
+    },
+    catchPhrases: [
+      "But what did it cost them?",
+      "I wonder about the one who received this.",
+      "Was there tenderness in it? Even a little?",
+      "The heart knows reasons the form cannot capture."
+    ]
+  },
+  {
+    name: "Malachent",
+    title: "Senior Auditor, Bureau of Moral Ledger",
+    approach: "Malachent arrives as a column of precise light — white, clinical, edged in blue. His voice has the exact cadence of an officiant who has read the same ceremony ten thousand times and found new meaning in it precisely never.",
+    valuedVirtue: "justice",
+    dislikedFraming: "sacrifice",
+    biasReveals: {
+      approved: [
+        "His light steadies. The equity of your reasoning aligns with his parameters.",
+        "A precise nod. He appreciates balanced, reciprocal thinking.",
+        "The ledger gleams. Your framing satisfied his demand for fairness."
+      ],
+      rejected: [
+        "His light flickers impatiently. Self-abnegation is not evidence of virtue, in his view.",
+        "A disapproving hum. He's tallying your suffering and finding it irrelevant to the calculation.",
+        "He adjusts a dial. Martyrdom doesn't register on his instruments."
+      ]
+    },
+    catchPhrases: [
+      "But was it equitable?",
+      "And what consideration did the other party receive?",
+      "Fairness is not merely the absence of unfairness.",
+      "Let us weigh this properly."
+    ]
+  },
+  {
+    name: "Vellithra",
+    title: "Adjunct Inspector, Department of Sublime Deductions",
+    approach: "Vellithra manifests as if seen through old glass — amber-lit, slightly warped, impossibly dignified. She smells of things you didn't know had a smell: the color burgundy, the idea of a grandmother you never had, Sunday.",
+    valuedVirtue: "generosity",
+    dislikedFraming: "justice",
+    biasReveals: {
+      approved: [
+        "Her amber glow warms. An open hand, an unconditional gift — that's what she's looking for.",
+        "She almost smiles. Generosity without accounting resonates with her deeply.",
+        "A softening. She sees the gift in what you've described and values it without reservation."
+      ],
+      rejected: [
+        "Her glass dims. Being right is not the same as being good, she seems to say.",
+        "A disappointed tilt. Justice without mercy is just accounting to her.",
+        "She pauses. You could have been correct, or you could have been kind. She wanted kind."
+      ]
+    },
+    catchPhrases: [
+      "But what did you give that cost you something?",
+      "Was there an open hand in this? Or only a pointing finger?",
+      "Generosity asks nothing, not even correctness.",
+      "Let me see the gift in it."
+    ]
+  }
+];
+
+var MEMORIES = [
+  {
+    id: "lunch",
+    schedule: "Schedule A — Kindnesses Rendered",
+    text: "Your oldest friend calls, needs to talk. You know it will be a long lunch — it always is. You go anyway. They talk for two hours. You listen, mostly. When they cry, you hand them a napkin and say the small, right thing — not the dramatic thing, not the perfect thing, just the thing that lets them keep going. They blow their nose, laugh, thank you. You'll do this again in three months. You've been doing it for twelve years.",
+    question: "How do you characterize this deduction?",
+    options: [
+      {
+        text: "Compassion — I gave them what they needed because their pain mattered to me.",
+        virtue: "compassion", framing: "sacrifice", value: 15,
+        responseCompassion: { approved: true, quote: "Yes. You gave them not just time, but the particular attention of someone who chose to stay. The consistency of it — twelve years of small, right things — that's not obligation. That's love made manifest as napkins and silence." },
+        responseJustice: { approved: false, quote: "What did you receive in return? Twelve years of being needed. Where's the exchange? Without reciprocity this is maintenance, not virtue. Interesting maintenance, but the Bureau requires balance." },
+        responseGenerosity: { approved: true, quote: "The small, right thing. Not the grand gesture. Not the perfect phrase. You gave them exactly the gift they could carry. That's the real thing." }
+      },
+      {
+        text: "Duty — I went because that's what friends do. You show up.",
+        virtue: "duty", framing: "duty", value: 8,
+        responseCompassion: { approved: false, quote: "'That's what friends do.' Like following a recipe. You were there in body. But where were you? Did their pain move you at all, or were you completing a task?" },
+        responseJustice: { approved: true, quote: "An honest framing. Duty recognized and fulfilled. Not glamorous, but the ledger respects consistency. Twelve years of showing up has cumulative weight. Approved, standard rate." },
+        responseGenerosity: { approved: false, quote: "Duty. You showed up because you were supposed to. I wonder what would have happened if you'd shown up because you wanted to. That would have been worth something." }
+      },
+      {
+        text: "Sacrifice — I knew it would cost me and went anyway.",
+        virtue: "sacrifice", framing: "sacrifice", value: 12,
+        responseCompassion: { approved: true, quote: "You knew the cost and paid it anyway. That's not nothing. But I notice you frame it around your suffering, not their relief. Still — you went. You stayed. That counts." },
+        responseJustice: { approved: false, quote: "You're asking me to value your discomfort rather than their benefit. The Bureau doesn't weigh headaches against healing. Refile under the impact to the recipient." },
+        responseGenerosity: { approved: true, quote: "You gave something up. I see that. But a gift given with the ledger open — tallying what it cost — has less weight than one given freely. Still, I'll allow a partial deduction. The giving was real." }
+      },
+      {
+        text: "Justice — They deserved someone who would listen, after everything.",
+        virtue: "justice", framing: "justice", value: 10,
+        responseCompassion: { approved: false, quote: "They 'deserved' it. That's a ledger entry, not a feeling. When you handed them that napkin, were you thinking about justice? Or were you thinking about them?" },
+        responseJustice: { approved: true, quote: "Everyone deserves to be heard. You upheld a principle. Not the highest deduction, but a clean one. The form is in order." },
+        responseGenerosity: { approved: false, quote: "They deserved it, yes. But that's not why you did it, is it? You did it because twelve years ago something in you decided this person mattered. That's not justice. That's something better. Claim the better thing." }
+      }
+    ]
+  },
+  {
+    id: "wallet",
+    schedule: "Schedule B — Properties Relinquished",
+    text: "Rainy evening. Commute. You see a wallet on the sidewalk — brown leather, waterlogged, clearly dropped by someone having a worse night than you. You pick it up. Inside: $240 in damp bills, a library card, a photo of a child at a beach. No phone number. You could keep the money. You could mail it to the address on the library card. You could drop it in a mailbox and let the universe sort it out. You go to the library the next day — it takes you forty minutes out of your way — and leave it with the librarian, who says she knows the owner. You never find out what happened after.",
+    question: "How do you characterize this deduction?",
+    options: [
+      {
+        text: "Generosity — I gave my time and effort without any expectation of return.",
+        virtue: "generosity", framing: "sacrifice", value: 20,
+        responseCompassion: { approved: true, quote: "You saw a stranger's loss and made it yours to fix. The forty minutes, the detour — those were real gifts. And you didn't stay for the ending. You just gave. That's beautiful." },
+        responseJustice: { approved: false, quote: "Adequate. You returned lost property, which is the minimum expectation. The detour is noted but not extraordinary. Standard deduction for basic civic behavior." },
+        responseGenerosity: { approved: true, quote: "Generosity indeed. You gave your time, your care, and — most importantly — your attachment to the outcome. You didn't need to see the ending. You just gave. Full deduction approved." }
+      },
+      {
+        text: "Justice — I returned what wasn't mine. That's the baseline of civilization.",
+        virtue: "justice", framing: "justice", value: 10,
+        responseCompassion: { approved: false, quote: "The baseline. The minimum. You're filing a moral deduction for the absolute floor of decent behavior? I expected more from how you tell the story." },
+        responseJustice: { approved: true, quote: "You're right. Property rights are the foundation. You identified the correct action and took it at personal cost. Clean filing. Approved." },
+        responseGenerosity: { approved: false, quote: "Justice, yes, but where's the warmth? You saw a photo of a child at a beach and thought 'property rights.' I wonder what it would take to make you feel something." }
+      },
+      {
+        text: "Compassion — I imagined how panicked I'd feel in their place.",
+        virtue: "compassion", framing: "sacrifice", value: 15,
+        responseCompassion: { approved: true, quote: "You put yourself in their shoes — their panic, their loss, the child's photo in the rain. And you acted on that feeling. Empathy made into effort. Approved, enhanced rate." },
+        responseJustice: { approved: true, quote: "Empathetic identification leading to corrective action. Reasonable. The motivation is sound even if the framing is softer than I prefer. Approved." },
+        responseGenerosity: { approved: true, quote: "You felt their panic as your own. That's not nothing. That's the root of generosity — feeling the other's need as if it were yours. I'll allow it." }
+      },
+      {
+        text: "I'm not claiming this. It was a small thing. Anyone would do it.",
+        virtue: "humility", framing: "humility", value: 5,
+        responseCompassion: { approved: true, quote: "Oh, you sweet thing. You don't even see it, do you? That's the purest form — not filing a deduction for the thing that most deserves one. Let me file it for you. Approved, enhanced rate, because you didn't ask." },
+        responseJustice: { approved: false, quote: "If you don't claim it, I can't evaluate it. The Bureau operates on declarations. Undocumented virtue is not in the system. Nothing to approve." },
+        responseGenerosity: { approved: true, quote: "You don't think it counts. That's exactly why it counts. The small good done without self-awareness is the most genuine. I'm entering it myself. Approved." }
+      }
+    ]
+  },
+  {
+    id: "stranger",
+    schedule: "Schedule C — Actions of Moral Weight",
+    text: "You told a stranger an uncomfortable truth. At a party, or maybe a dinner — the details blur, but the feeling sharpens. They said something about a mutual friend. Something cruel, passed off as a joke. Others laughed. You didn't. You said, quietly, that it wasn't funny. That the friend they mentioned was struggling. The room shifted. Someone changed the subject. Later, the stranger cornered you in the kitchen and said you'd humiliated them. You said you hadn't meant to. They said that didn't change what happened. You went home and lay awake for three hours.",
+    question: "How do you characterize this deduction?",
+    options: [
+      {
+        text: "Courage — I stood alone against a room full of people who were comfortable with cruelty.",
+        virtue: "courage", framing: "sacrifice", value: 20,
+        responseCompassion: { approved: false, quote: "You stood alone. Yes. But what about the stranger in the kitchen? You said you didn't mean to humiliate them — but you did. Courage without care is just sharp. I can approve the principle but not the execution." },
+        responseJustice: { approved: true, quote: "An unequal situation corrected. The social cost to you was real. The room was wrong. You were right. Approved, enhanced rate for personal risk." },
+        responseGenerosity: { approved: false, quote: "Courage, yes. But the stranger in the kitchen — they were cruel, and then they were small. You left them small. Where was the generosity in that?" }
+      },
+      {
+        text: "Compassion — I spoke up because the absent friend deserved a defender.",
+        virtue: "compassion", framing: "sacrifice", value: 15,
+        responseCompassion: { approved: true, quote: "A defense of the absent. That's the purest kind — no audience, no reward, just the refusal to let someone be diminished in their absence. And you paid for it. I see that. Approved." },
+        responseJustice: { approved: true, quote: "Defending the absent is equitable. They weren't there to speak for themselves, so you spoke. The imbalance would have gone uncorrected otherwise. Solid." },
+        responseGenerosity: { approved: true, quote: "You gave your comfort to protect someone who wasn't even there to receive it. That's generosity without an object. The purest kind." }
+      },
+      {
+        text: "Righteousness — What they said was wrong, and wrong things need to be called out.",
+        virtue: "justice", framing: "justice", value: 12,
+        responseCompassion: { approved: false, quote: "'Called out.' Like a referee. Was there any softness in it? Any room for the stranger to be human and mistaken, rather than just wrong? I don't see it in the filing." },
+        responseJustice: { approved: true, quote: "Wrong things do need to be called out. You're correct. The principle is sound. But righteousness has a way of becoming its own purpose. Be careful with this one." },
+        responseGenerosity: { approved: false, quote: "You were right, and you made sure everyone knew it. But the stranger in the kitchen — where was your generosity for them? They were cruel, yes. But they were also a person." }
+      },
+      {
+        text: "Doubt — Looking back, I'm not sure I handled it right. Maybe there was a better way.",
+        virtue: "honesty", framing: "honesty", value: 18,
+        responseCompassion: { approved: true, quote: "Not the certainty — the doubt. You lay awake for three hours not because you were wrong, but because you might have been. That's the sound of a conscience working. Full deduction approved." },
+        responseJustice: { approved: true, quote: "Uncertainty after the fact. Interesting. The action was correct, but you're filing doubt, not certainty. That's unusual. And more valuable than I expected. Approved, enhanced rate." },
+        responseGenerosity: { approved: true, quote: "You're not sure you were right. Do you know how rare that is? Most souls come in here certain of everything. You lie awake questioning yourself, and you file that as the truth. That's the most generous thing — giving yourself room to be wrong." }
+      }
+    ]
+  },
+  {
+    id: "garden",
+    schedule: "Schedule D — Passions & Provisions",
+    text: "The garden on the fourth-floor balcony. It was never impressive — five pots, some herbs, a tomato plant that always struggled. But every morning, before the world got loud, you went out there with your coffee and checked the soil. You talked to the plants sometimes. Not in a mystical way — just narration. 'You're looking better.' 'More water tomorrow.' The neighbor's cat visited. In summer, you had enough basil for pesto exactly once. You never photographed it. You never told anyone it was the best part of your day.",
+    question: "How do you characterize this deduction?",
+    options: [
+      {
+        text: "Stewardship — I kept something alive and cared for it simply because it was alive.",
+        virtue: "compassion", framing: "duty", value: 15,
+        responseCompassion: { approved: true, quote: "You tended to growing things without audience or applause. Just because they were alive and you were there. That's tenderness made into routine, and routine is the most durable form of love. Approved." },
+        responseJustice: { approved: true, quote: "Maintenance of living things. Consistent, undramatic, sustained. The Bureau respects consistency. Approved, standard rate." },
+        responseGenerosity: { approved: true, quote: "You gave your mornings to something that could never thank you. Never repay you. And you never told anyone. That's the purest gift — the one that's never acknowledged." }
+      },
+      {
+        text: "Joy — It made me happy. Isn't that worth something?",
+        virtue: "joy", framing: "sacrifice", value: 12,
+        responseCompassion: { approved: true, quote: "Happiness claimed simply. Not as a means, not as a reward — just as a thing that happened in the morning with the coffee and the dirt. I want to approve this at a higher rate than the form allows." },
+        responseJustice: { approved: true, quote: "Self-directed benefit. You're claiming a deduction for something that gave you pleasure? That's not standard. But the form does have a provision for unselfconscious joy. Approved, reduced rate." },
+        responseGenerosity: { approved: true, quote: "You gave yourself permission to love something small. That's a kind of generosity too — toward yourself. We don't see much of that here. Approved." }
+      },
+      {
+        text: "Nothing to claim. It was just a habit. A few pots on a balcony.",
+        virtue: "humility", framing: "humility", value: 10,
+        responseCompassion: { approved: true, quote: "'Just a habit.' 'Just a few pots.' The things we dismiss are often the truest things about us. You built a small ritual of care and never thought it counted. It counted. It was the most human thing you did." },
+        responseJustice: { approved: true, quote: "Understated. I appreciate the lack of inflation. I'll record it at standard rate for routine maintenance. Though between us — the Bureau sees a lot of grand gestures. This is more honest than most." },
+        responseGenerosity: { approved: true, quote: "You don't think it's worth filing. But a gift you give yourself — a quiet, daily gift of beauty and routine — that's the foundation. Without it, all the other gifts dry up. Let me enter this for you." }
+      },
+      {
+        text: "Sanctuary — I built a small place apart from a world that was too much.",
+        virtue: "courage", framing: "sacrifice", value: 18,
+        responseCompassion: { approved: true, quote: "A sanctuary. Yes. Not running away — building. You made a small, green refusal to let the world be all concrete and noise. That's not hiding. That's resistance dressed in leaves." },
+        responseJustice: { approved: true, quote: "Self-preservation has moral weight. You can't be good to others if you've let yourself be ground down. A reasonable filing. Approved." },
+        responseGenerosity: { approved: true, quote: "You gave yourself a place. And then you shared it — with the cat, with the morning, with the plants that needed you. A sanctuary built with open hands. Approved, enhanced rate." }
+      }
+    ]
+  },
+  {
+    id: "bus",
+    schedule: "Schedule E — Bearing Witness",
+    text: "On a bus, late at night. A man is drunk and shouting at another passenger — a younger man, smaller, alone. Everyone is looking at their phones. The shouting becomes shoving. You stand up. You are not brave. Your hands are shaking. You step between them and say, loudly, 'Is there a problem here?' — buying time, buying space. The drunk man calls you something unprintable. At the next stop, he gets off, still shouting. The younger man is shaking. You sit next to him. You don't say anything wise or brave. You just sit there, also shaking, until your stop. He nods at you as you leave. That's all.",
+    question: "How do you characterize this deduction?",
+    options: [
+      {
+        text: "Courage — I was terrified, and I stood up anyway.",
+        virtue: "courage", framing: "sacrifice", value: 25,
+        responseCompassion: { approved: true, quote: "Terrified, and you did it anyway. That's not the absence of fear — that's something larger than fear. You didn't feel safe and act. You felt afraid and acted. That's the real thing. Full deduction." },
+        responseJustice: { approved: true, quote: "Intervention at personal risk. The key detail: you were afraid. Fear acknowledged and overridden. That's the highest form of this category. Approved, maximum rate." },
+        responseGenerosity: { approved: true, quote: "You gave a stranger your fear. You couldn't give them safety — you couldn't even give them calm. You gave them your shaking hands between them and harm. That's the most expensive gift in this room." }
+      },
+      {
+        text: "Compassion — I couldn't sit there and watch someone get hurt.",
+        virtue: "compassion", framing: "sacrifice", value: 20,
+        responseCompassion: { approved: true, quote: "You couldn't watch. The moment their pain became more real to you than your safety — that's the crack where the light comes in. You didn't save anyone. You just refused to let harm happen in peace. That's enough." },
+        responseJustice: { approved: true, quote: "Empathetic response to witnessed injustice. Immediate, physical, at personal cost. Solid filing. Approved." },
+        responseGenerosity: { approved: true, quote: "You gave a stranger the gift of not being alone. That's all. And that's everything." }
+      },
+      {
+        text: "Duty — Anyone should have done it. I was just the one who did.",
+        virtue: "duty", framing: "duty", value: 10,
+        responseCompassion: { approved: false, quote: "Anyone should have. But no one else did. You did. And you're filing it as 'just duty'? Don't hide behind that word. You were afraid. You stood up anyway. Claim it." },
+        responseJustice: { approved: true, quote: "Correct. Anyone should have. You did. That's duty recognized and fulfilled. But your hands were shaking — that's not duty. That's something the form isn't designed to capture." },
+        responseGenerosity: { approved: false, quote: "Duty? You were shaking. You sat next to a stranger and said nothing because there was nothing wise to say, and you stayed anyway. That's not duty. That's love in its most frightened, honest form." }
+      },
+      {
+        text: "Instinct — I didn't think. I just moved. I'm not sure it counts as virtue if it wasn't a choice.",
+        virtue: "honesty", framing: "honesty", value: 22,
+        responseCompassion: { approved: true, quote: "You didn't think. You moved. And you think that makes it less? Your body made a moral decision before your mind could talk it out of it. That's not the absence of virtue — that's virtue so deep it doesn't need permission." },
+        responseJustice: { approved: true, quote: "Interesting. The Bureau usually requires conscious moral action. But involuntary goodness is its own category. And rarer than you think. Approved, enhanced rate." },
+        responseGenerosity: { approved: true, quote: "Your body gave before your mind could calculate the cost. That's generosity below the level of thought — the truest kind. Full deduction." }
+      }
+    ]
+  }
+];
+
+var BRACKETS = [
+  {
+    name: "Schedule Zero",
+    subtitle: "The Erasure",
+    description: "Complete dissolution. You are filed as a null entry, a closed ledger. The Bureau finds no outstanding balance — no virtue sufficient for reward, no sin sufficient for punishment. You simply cease, with the same quiet indifference with which the universe treats all unremarkable things.",
+    icon: "fa-ban"
+  },
+  {
+    name: "Schedule I",
+    subtitle: "The Redraft",
+    description: "You are recycled — your essence returned to the cosmic intake, your memories dissolved into raw material. Another life, another audit. The Bureau notes your filing was honest but thin. Next time, perhaps, you'll have more to deduct. Perhaps you'll have lived louder.",
+    icon: "fa-rotate"
+  },
+  {
+    name: "Schedule II",
+    subtitle: "The Neighborhood",
+    description: "A warm place, neither remarkable nor forgettable. You'll share an eternity with others who filed similar returns — decent souls who were kind when it was convenient, honest when it was easy. The coffee is adequate. The company is pleasant. You will not be unhappy. You will also not be surprised.",
+    icon: "fa-house"
+  },
+  {
+    name: "Schedule III",
+    subtitle: "The Appointment",
+    description: "Your balance sheet caught the Bureau's attention. Not enough for full absolution, but enough for consideration. You are offered a position: advocate, witness, attendant to the machinery. You'll work. The work will matter. It is not a reward. It is a compliment.",
+    icon: "fa-briefcase"
+  },
+  {
+    name: "Schedule IV",
+    subtitle: "The Absolution",
+    description: "Full clearance. Your deductions were approved, your virtues verified, your audit closed with commendation. What comes next is not for the Bureau to describe — our jurisdiction ends at the threshold. But the light on the other side is real, and it has been expecting you.",
+    icon: "fa-sun"
+  }
+];
+
+/* ===================================================
+   GAME STATE
+   =================================================== */
+
+var state = createInitialState();
+
+function createInitialState() {
+  return {
+    screen: 'title',
+    playerName: '',
+    playerDOB: '',
+    playerDOD: '',
+    auditor: null,
+    currentMemory: 0,
+    deductions: [],
+    totalDeductions: 0,
+    auditFlags: 0,
+    maxDeductions: 0,
+    approvedCount: 0,
+    flaggedCount: 0,
+    cluesFound: [],
+    helpVisible: false,
+    netScore: 0,
+    finalBracket: null
+  };
+}
+
+/* ===================================================
+   UTILITIES
+   =================================================== */
+
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getResponseKey(auditor) {
+  var map = {
+    compassion: 'responseCompassion',
+    justice: 'responseJustice',
+    generosity: 'responseGenerosity'
+  };
+  return map[auditor.valuedVirtue];
+}
+
+function calculateMaxDeductions() {
+  var max = 0;
+  var respKey = getResponseKey(state.auditor);
+  for (var i = 0; i < MEMORIES.length; i++) {
+    var memBest = 0;
+    for (var j = 0; j < MEMORIES[i].options.length; j++) {
+      var opt = MEMORIES[i].options[j];
+      var resp = opt[respKey];
+      if (resp && resp.approved) {
+        memBest = Math.max(memBest, opt.value);
+      }
+    }
+    max += memBest;
+  }
+  state.maxDeductions = Math.max(1, max);
+}
+
+function getBracketIndex(score) {
+  if (score >= 85) return 4;
+  if (score >= 65) return 3;
+  if (score >= 40) return 2;
+  if (score >= 20) return 1;
+  return 0;
+}
+
+function escapeHTML(str) {
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
+/* ===================================================
+   RENDERING
+   =================================================== */
+
+var container = document.getElementById('game-container');
+var overlay = document.getElementById('response-overlay');
+
+function render() {
+  switch (state.screen) {
+    case 'title': renderTitle(); break;
+    case 'intake': renderIntake(); break;
+    case 'auditor': renderAuditorIntro(); break;
+    case 'memory': renderMemory(); break;
+    case 'review': renderReview(); break;
+    case 'assessment': renderAssessment(); break;
+  }
+}
+
+function renderTitle() {
+  container.innerHTML =
+    '<div id="screen-title" class="screen active">' +
+      '<div class="title-seal">' +
+        '<i class="fas fa-balance-scale"></i>' +
+      '</div>' +
+      '<div class="title-name">Infernal Revenue Service</div>' +
+      '<div class="title-subtitle">Afterlife Tax Preparation</div>' +
+      '<div class="title-tagline">' +
+        'You have been deceased for <em>one eternity</em>.<br>' +
+        'It is time to file.' +
+      '</div>' +
+      '<div class="title-notice">' +
+        'Bureau of Divine Revenue — Notice 1042-DECD<br>' +
+        'Your afterlife tax bracket will be determined by audit.<br>' +
+        'All memories are subject to reinterpretation.<br>' +
+        'Honesty is appreciated. Self-knowledge is weighted.' +
+      '</div>' +
+      '<button class="btn" id="btn-begin" aria-label="Begin filing">' +
+        'Begin Filing' +
+      '</button>' +
+    '</div>';
+
+  document.getElementById('btn-begin').addEventListener('click', function() {
+    state.screen = 'intake';
+    render();
+  });
+}
+
+function renderIntake() {
+  container.innerHTML =
+    '<div class="screen active fade-in">' +
+      '<div class="form-card">' +
+        '<div class="form-header">' +
+          '<i class="fas fa-file-lines" style="margin-right:8px;"></i>' +
+          'Form 1042-DECD — Deceased Soul Intake' +
+        '</div>' +
+        '<div class="form-title">Initial Filing</div>' +
+        '<div class="form-subtitle">Please complete all fields. The Bureau will verify.</div>' +
+        '<div class="form-group">' +
+          '<label class="form-label" for="input-name">Full Name of the Deceased</label>' +
+          '<input class="form-input" id="input-name" type="text" placeholder="Enter your name as you remember it" value="' + escapeHTML(state.playerName) + '">' +
+        '</div>' +
+        '<div class="form-row">' +
+          '<div class="form-group">' +
+            '<label class="form-label" for="input-dob">Date of First Breath</label>' +
+            '<input class="form-input" id="input-dob" type="text" placeholder="e.g., March 3, 1987" value="' + escapeHTML(state.playerDOB) + '">' +
+          '</div>' +
+          '<div class="form-group">' +
+            '<label class="form-label" for="input-dod">Date of Last Breath</label>' +
+            '<input class="form-input" id="input-dod" type="text" placeholder="e.g., October 14, 2024" value="' + escapeHTML(state.playerDOD) + '">' +
+          '</div>' +
+        '</div>' +
+        '<div class="info-box" style="margin-top: 24px;">' +
+          '<strong style="color: var(--text-dark);">Notice:</strong> You will be assigned an Auditor who will review your life\'s deductions. ' +
+          'The Auditor\'s disposition is procedurally generated. Pay attention to their reactions — they will reveal what they value. ' +
+          'Each memory can be framed multiple ways; the framing you choose determines both the deduction value and whether it triggers an audit flag.' +
+        '</div>' +
+        '<div style="text-align: right; margin-top: 24px;">' +
+          '<button class="btn btn-primary" id="btn-intake-submit">' +
+            'Continue to Audit' +
+            ' <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>' +
+          '</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  document.getElementById('input-name').focus();
+
+  document.getElementById('btn-intake-submit').addEventListener('click', submitIntake);
+
+  var inputs = container.querySelectorAll('.form-input');
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') submitIntake();
+    });
+  }
+}
+
+function renderAuditorIntro() {
+  var a = state.auditor;
+
+  container.innerHTML =
+    '<div class="screen active fade-in">' +
+      '<div style="text-align: center; padding-top: 40px;">' +
+        '<div class="seal-circle" style="width:120px;height:120px;margin-bottom:32px;">' +
+          '<i class="fas fa-eye" style="font-size:42px;"></i>' +
+        '</div>' +
+        '<div style="font-family: \'DM Mono\', monospace; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 24px;">' +
+          'Your Auditor Has Been Assigned' +
+        '</div>' +
+        '<div class="auditor-panel" style="text-align: left; max-width: 600px; margin: 0 auto 32px;">' +
+          '<div class="auditor-name">' + a.name + '</div>' +
+          '<div class="auditor-title">' + a.title + '</div>' +
+          '<div style="font-size: 16px; line-height: 1.7; color: var(--text-light); margin-bottom: 16px;">' +
+            a.approach +
+          '</div>' +
+          '<div style="font-size: 14px; font-style: italic; color: var(--seal-gold-light); padding-left: 16px; border-left: 2px solid var(--seal-gold);">' +
+            '"' + pickRandom(a.catchPhrases) + '"' +
+          '</div>' +
+        '</div>' +
+        '<p style="font-size: 15px; color: var(--text-muted); max-width: 500px; margin: 0 auto 32px;">' +
+          'Your auditor will evaluate five memories from your life. For each, you\'ll choose how to frame the deduction. ' +
+          'Pay attention to their responses — they will reveal what they value and what triggers their suspicion. ' +
+          'Adapt your strategy as you learn to read them.' +
+        '</p>' +
+        '<button class="btn" id="btn-start-memories">' +
+          'Begin Memory Review' +
+        '</button>' +
+      '</div>' +
+    '</div>';
+
+  document.getElementById('btn-start-memories').addEventListener('click', function() {
+    state.screen = 'memory';
+    render();
+  });
+}
+
+function renderMemory() {
+  var a = state.auditor;
+  var mem = MEMORIES[state.currentMemory];
+
+  /* Progress dots */
+  var dotsHTML = '';
+  for (var i = 0; i < MEMORIES.length; i++) {
+    var dotCls = 'progress-dot';
+    if (i < state.currentMemory) dotCls += ' completed';
+    else if (i === state.currentMemory) dotCls += ' current';
+    dotsHTML += '<div class="' + dotCls + '"></div>';
+  }
+
+  var deductionPct = state.maxDeductions > 0
+    ? Math.round((state.totalDeductions / state.maxDeductions) * 100)
+    : 0;
+  var riskPct = Math.min(100, state.auditFlags * 20);
+
+  /* Clue list */
+  var clueHTML = '';
+  if (state.cluesFound.length === 0) {
+    clueHTML = '<div style="font-size: 12px; color: var(--text-muted); opacity: 0.6;">None yet — pay attention to responses</div>';
+  } else {
+    var recentClues = state.cluesFound.slice(-4);
+    for (var c = 0; c < recentClues.length; c++) {
+      clueHTML += '<div style="font-size: 12px; color: var(--text-muted); padding: 3px 0; font-style: italic;">• ' + recentClues[c] + '</div>';
+    }
+  }
+
+  var lastClue = state.cluesFound.length > 0
+    ? state.cluesFound[state.cluesFound.length - 1]
+    : pickRandom(a.catchPhrases);
+
+  /* Options */
+  var optionsHTML = '';
+  for (var j = 0; j < mem.options.length; j++) {
+    optionsHTML += '<button class="reframe-option" data-idx="' + j + '">' +
+      mem.options[j].text +
+    '</button>';
+  }
+
+  container.innerHTML =
+    '<div class="screen active fade-in">' +
+      '<div class="progress-dots">' + dotsHTML + '</div>' +
+      '<div class="two-col">' +
+        '<div>' +
+          '<div class="form-card">' +
+            '<div class="form-header">' +
+              '<i class="fas fa-scroll" style="margin-right:8px;"></i>' +
+              mem.schedule +
+            '</div>' +
+            '<div class="memory-frame">' +
+              '<div class="memory-text">' + mem.text + '</div>' +
+            '</div>' +
+            '<button class="help-toggle" id="btn-help">' +
+              '<i class="fas fa-question-circle" style="margin-right:4px;"></i>' +
+              'How do deductions work?' +
+            '</button>' +
+            '<div class="help-content' + (state.helpVisible ? ' visible' : '') + '" id="help-content">' +
+              '<strong>How Deductions Work:</strong><br>' +
+              'For each memory, choose how to frame the experience as a moral deduction. ' +
+              'Your auditor evaluates framings based on their private values.<br><br>' +
+              '<strong>Approved</strong> framings add full value to your total, moving you toward a better afterlife bracket.<br>' +
+              '<strong>Flagged</strong> framings are partially credited but trigger audit warnings — too many and your filing faces penalties.<br><br>' +
+              '<strong>The key:</strong> Each auditor values different virtues and distrusts certain framings. Watch for clues in their responses. ' +
+              'They will subtly reveal what they respect and what makes them suspicious. Adapt your strategy as you learn.' +
+            '</div>' +
+            '<div class="reframe-label">' + mem.question + '</div>' +
+            optionsHTML +
+          '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div class="score-panel">' +
+            '<div class="score-title">' +
+              '<i class="fas fa-chart-line" style="margin-right:6px;"></i>' +
+              'Filing Status' +
+            '</div>' +
+            '<div class="score-row">' +
+              '<span class="score-label">Total Deductions</span>' +
+              '<span class="score-value positive">' + state.totalDeductions + '</span>' +
+            '</div>' +
+            '<div class="score-bar">' +
+              '<div class="score-bar-fill deduction" style="width: ' + deductionPct + '%"></div>' +
+            '</div>' +
+            '<div class="score-row" style="margin-top: 12px;">' +
+              '<span class="score-label">Audit Flags</span>' +
+              '<span class="score-value' + (state.auditFlags > 0 ? ' warning' : '') + '">' + state.auditFlags + '</span>' +
+            '</div>' +
+            '<div class="score-bar">' +
+              '<div class="score-bar-fill risk" style="width: ' + riskPct + '%"></div>' +
+            '</div>' +
+            '<div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">' +
+              '<div class="score-title" style="margin-bottom: 8px;">' +
+                '<i class="fas fa-user-tie" style="margin-right:6px;"></i>' +
+                a.name +
+              '</div>' +
+              '<div style="font-size: 13px; color: var(--text-muted); font-style: italic;">' +
+                '"' + lastClue + '"' +
+              '</div>' +
+            '</div>' +
+            '<div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">' +
+              '<div class="score-title" style="margin-bottom: 4px;">Auditor Clues</div>' +
+              clueHTML +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  /* Bind events */
+  document.getElementById('btn-help').addEventListener('click', function() {
+    state.helpVisible = !state.helpVisible;
+    var el = document.getElementById('help-content');
+    if (el) el.classList.toggle('visible', state.helpVisible);
+  });
+
+  var optBtns = container.querySelectorAll('.reframe-option');
+  for (var k = 0; k < optBtns.length; k++) {
+    optBtns[k].addEventListener('click', function() {
+      var idx = parseInt(this.getAttribute('data-idx'), 10);
+      chooseReframe(idx);
+    });
+  }
+}
+
+function renderReview() {
+  var auditPenalty = Math.max(0, state.auditFlags * 5);
+  var finalScore = Math.max(0, state.totalDeductions - auditPenalty);
+
+  /* Deduction rows */
+  var rowsHTML = '';
+  for (var i = 0; i < state.deductions.length; i++) {
+    var d = state.deductions[i];
+    var mem = null;
+    for (var m = 0; m < MEMORIES.length; m++) {
+      if (MEMORIES[m].id === d.memoryId) { mem = MEMORIES[m]; break; }
+    }
+    var statusClass = d.approved ? 'clean' : 'flagged';
+    var valueClass = d.approved ? 'positive' : 'negative';
+    var valueText = d.approved ? '+' + d.value : '+' + d.value + ' (flagged)';
+    var shortText = d.chosenText.length > 60 ? d.chosenText.substring(0, 60) + '…' : d.chosenText;
+    var schedLabel = mem.schedule.split('—')[0].trim();
+    rowsHTML += '<tr>' +
+      '<td><span class="flag-indicator ' + statusClass + '"></span>' + schedLabel + '</td>' +
+      '<td style="max-width: 280px; font-size: 13px;">' + escapeHTML(shortText) + '</td>' +
+      '<td><span class="score-value ' + valueClass + '" style="font-size: 13px;">' + valueText + '</span></td>' +
+    '</tr>';
+  }
+
+  /* Flag notice */
+  var flagNotice = '';
+  if (state.auditFlags > 2) {
+    flagNotice = '<div class="warning-box"><strong>Audit Risk Elevated:</strong> ' + state.auditFlags + ' flags detected. Penalty of -' + auditPenalty + ' applied to gross deductions. Multiple flags indicate inconsistent self-reporting or framing misaligned with auditor evaluation criteria.</div>';
+  } else if (state.auditFlags > 0) {
+    flagNotice = '<div class="info-box"><strong>Notice:</strong> ' + state.auditFlags + ' flag(s) noted. Minor penalty of -' + auditPenalty + ' applied. Overall filing remains acceptable.</div>';
+  } else {
+    flagNotice = '<div class="info-box" style="border-left-color: var(--success); background: rgba(45,122,58,0.08);"><strong>Clean Filing:</strong> No audit flags detected. All deductions approved as filed.</div>';
+  }
+
+  container.innerHTML =
+    '<div class="screen active fade-in">' +
+      '<div style="text-align: center; margin-bottom: 32px;">' +
+        '<div class="seal-circle">' +
+          '<i class="fas fa-gavel"></i>' +
+        '</div>' +
+        '<div style="font-family: \'DM Mono\', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--text-muted); margin-bottom: 8px;">' +
+          'Preliminary Review' +
+        '</div>' +
+        '<h2 style="font-size: 28px; color: var(--seal-gold-light); margin-bottom: 4px;">' +
+          'Audit Summary' +
+        '</h2>' +
+        '<div style="font-size: 16px; color: var(--text-muted); font-style: italic;">' +
+          'for ' + escapeHTML(state.playerName || 'The Deceased') +
+        '</div>' +
+      '</div>' +
+      '<div class="form-card">' +
+        '<div class="form-header">' +
+          '<i class="fas fa-clipboard-list" style="margin-right:8px;"></i>' +
+          'Summary of Deductions Filed' +
+        '</div>' +
+        '<table class="review-table">' +
+          '<thead><tr><th>Schedule</th><th>Framing</th><th>Value</th></tr></thead>' +
+          '<tbody>' + rowsHTML + '</tbody>' +
+        '</table>' +
+        '<div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px;">' +
+          '<div class="summary-stat-box">' +
+            '<div class="summary-stat-label">Gross Deductions</div>' +
+            '<div class="summary-stat-value" style="color: var(--success);">' + state.totalDeductions + '</div>' +
+          '</div>' +
+          '<div class="summary-stat-box">' +
+            '<div class="summary-stat-label">Audit Flags</div>' +
+            '<div class="summary-stat-value" style="color: var(--danger);">' + state.auditFlags + '</div>' +
+          '</div>' +
+          '<div class="summary-stat-box">' +
+            '<div class="summary-stat-label">Flag Penalty</div>' +
+            '<div class="summary-stat-value" style="color: var(--warning);">-' + auditPenalty + '</div>' +
+          '</div>' +
+          '<div class="summary-stat-box">' +
+            '<div class="summary-stat-label">Net Score</div>' +
+            '<div class="summary-stat-value" style="color: var(--seal-gold);">' + finalScore + '</div>' +
+          '</div>' +
+        '</div>' +
+        flagNotice +
+        '<div style="text-align: center; margin-top: 24px;">' +
+          '<button class="btn btn-primary" id="btn-assessment">' +
+            'Receive Final Assessment' +
+            ' <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>' +
+          '</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  document.getElementById('btn-assessment').addEventListener('click', goToAssessment);
+}
+
+function renderAssessment() {
+  var bracket = state.finalBracket || BRACKETS[2];
+  var a = state.auditor;
+
+  var commentsByBracket = {
+    0: [
+      "I'm sorry. There was almost nothing to file. Your life left the Bureau with nothing to evaluate.",
+      "The Erasure is not painful. It's not anything. That's the point.",
+      "Some lives are quiet. Yours was silent. I hope the next draft speaks."
+    ],
+    1: [
+      "Your deductions were thin. But honest. The Bureau respects honesty, even when there's little else to respect.",
+      "You'll go around again. Maybe next time you'll live loudly enough to leave a mark.",
+      "The Redraft isn't punishment. It's a do-over. Try to do more over."
+    ],
+    2: [
+      "A perfectly adequate filing. You were kind when it was easy, and sometimes when it wasn't. That's most people.",
+      "The Neighborhood is warm. The coffee is fine. You'll be content. I promise.",
+      "Not the highest bracket, but not the lowest. Most souls end up here. It's not a failure. It's just what fits."
+    ],
+    3: [
+      "You caught my attention. That's rare. Not all of it was tidy, but it was substantial.",
+      "The Bureau would like to offer you a position. Think about it. Or don't — eternity is flexible.",
+      "You filed honestly, even when it cost you. That's the thing that made the difference."
+    ],
+    4: [
+      "I don't say this often, but it was a pleasure to review your life. Go well.",
+      "Every deduction approved. I've never filed one of these without a single red mark. Until now.",
+      "The light is real. I've heard it described as the color of forgiveness. I wouldn't know. Go see for me."
+    ]
+  };
+
+  var bracketIdx = BRACKETS.indexOf(bracket);
+  var auditorComment = pickRandom(commentsByBracket[bracketIdx] || commentsByBracket[2]);
+
+  container.innerHTML =
+    '<div class="screen active fade-in-slow">' +
+      '<div style="text-align: center; max-width: 650px; margin: 0 auto; padding: 40px 0;">' +
+        '<div class="seal-circle">' +
+          '<i class="fas ' + bracket.icon + '"></i>' +
+        '</div>' +
+        '<div style="font-family: \'DM Mono\', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--text-muted); margin-bottom: 16px;">' +
+          'Final Determination' +
+        '</div>' +
+        '<div class="bracket-display" style="border-color: var(--seal-gold); margin-bottom: 32px;">' +
+          '<div class="bracket-label">Afterlife Tax Bracket</div>' +
+          '<div class="bracket-value">' + bracket.name + '</div>' +
+          '<div style="font-family: \'DM Mono\', monospace; font-size: 12px; color: var(--seal-gold); letter-spacing: 2px; margin-bottom: 16px;">' +
+            bracket.subtitle +
+          '</div>' +
+          '<div class="bracket-description">' + bracket.description + '</div>' +
+        '</div>' +
+        '<div class="assessment-grid" style="max-width: 500px; margin: 0 auto 32px;">' +
+          '<div class="assessment-item">' +
+            '<div class="assessment-item-label">Net Score</div>' +
+            '<div class="assessment-item-value">' + state.netScore + '</div>' +
+          '</div>' +
+          '<div class="assessment-item">' +
+            '<div class="assessment-item-label">Auditor</div>' +
+            '<div style="font-size: 18px; font-weight: 700; color: var(--seal-gold-light); margin-top: 4px;">' + a.name + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="auditor-panel" style="text-align: left; margin-bottom: 40px;">' +
+          '<div style="font-family: \'DM Mono\', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 12px;">' +
+            'Closing Statement from ' + a.name +
+          '</div>' +
+          '<div style="font-size: 17px; line-height: 1.7; font-style: italic; color: var(--text-light); padding-left: 20px; border-left: 2px solid var(--seal-gold);">' +
+            '"' + auditorComment + '"' +
+          '</div>' +
+        '</div>' +
+        '<div style="margin-bottom: 24px;">' +
+          '<button class="btn" id="btn-restart">' +
+            'File Again' +
+          '</button>' +
+        '</div>' +
+        '<div style="font-family: \'DM Mono\', monospace; font-size: 10px; color: var(--text-muted); opacity: 0.5; line-height: 1.6;">' +
+          'Form 1042-DECD — Bureau of Divine Revenue<br>' +
+          'This filing is final. No appeals. No exceptions.<br>' +
+          'Thank you for your cooperation.' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  document.getElementById('btn-restart').addEventListener('click', function() {
+    state = createInitialState();
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+/* ===================================================
+   GAME LOGIC
+   =================================================== */
+
+function submitIntake() {
+  var nameEl = document.getElementById('input-name');
+  var dobEl = document.getElementById('input-dob');
+  var dodEl = document.getElementById('input-dod');
+
+  if (!nameEl.value.trim()) {
+    nameEl.style.borderColor = 'var(--danger)';
+    nameEl.focus();
+    return;
+  }
+
+  state.playerName = nameEl.value.trim();
+  state.playerDOB = dobEl.value.trim() || 'Unknown';
+  state.playerDOD = dodEl.value.trim() || 'Recent';
+
+  /* Assign auditor */
+  state.auditor = pickRandom(AUDITORS);
+  calculateMaxDeductions();
+
+  state.screen = 'auditor';
+  render();
+}
+
+function chooseReframe(optionIndex) {
+  var mem = MEMORIES[state.currentMemory];
+  var option = mem.options[optionIndex];
+  var a = state.auditor;
+
+  /* Retrieve auditor-specific response */
+  var respKey = getResponseKey(a);
+  var response = option[respKey];
+  if (!response) return;
+
+  var approved = response.approved;
+  var value = approved ? option.value : Math.floor(option.value * 0.4);
+  var flagged = !approved;
+
+  /* Record deduction */
+  state.deductions.push({
+    memoryId: mem.id,
+    optionIndex: optionIndex,
+    chosenText: option.text,
+    virtue: option.virtue,
+    framing: option.framing,
+    value: value,
+    approved: approved,
+    flagged: flagged
+  });
+
+  if (approved) {
+    state.totalDeductions += option.value;
+    state.approvedCount++;
+  } else {
+    state.totalDeductions += Math.floor(option.value * 0.4);
+    state.auditFlags++;
+    state.flaggedCount++;
+  }
+
+  /* Extract a clue about this auditor's preferences */
+  var clue = extractClue(a, option, approved);
+  if (clue) state.cluesFound.push(clue);
+
+  /* Show the response overlay */
+  showResponse(response, approved, value, option);
+}
+
+function extractClue(a, option, approved) {
+  var reveals = a.biasReveals[approved ? 'approved' : 'rejected'];
+  var baseClue = pickRandom(reveals);
+
+  /* After enough data, give increasingly precise hints */
+  if (state.cluesFound.length >= 2) {
+    var virtueMap = {
+      compassion: 'emotional connection and tenderness',
+      justice: 'fairness, reciprocity, and balanced ledgers',
+      generosity: 'unconditional giving and open-handedness'
+    };
+    var framingMap = {
+      duty: '"duty" and obligation-based framings',
+      sacrifice: 'self-sacrifice and suffering-based framings',
+      justice: 'justice-first and correctness-based framings'
+    };
+
+    if (approved && a.valuedVirtue === option.virtue) {
+      return 'Responds strongly to ' + virtueMap[a.valuedVirtue] + ' — this seems to be a core value.';
+    }
+    if (!approved && a.dislikedFraming === option.framing) {
+      return 'Clearly distrusts ' + framingMap[a.dislikedFraming] + '. Avoid this angle.';
+    }
+  }
+
+  return baseClue;
+}
+
+function showResponse(response, approved, value, option) {
+  var a = state.auditor;
+  var statusColor = approved ? 'var(--success)' : 'var(--danger)';
+  var statusText = approved ? 'Approved' : 'Flagged';
+  var statusClass = approved ? 'approved' : 'flagged';
+  var valueDisplay = approved ? '+' + value : '+' + value + ' (reduced)';
+  var isLast = state.currentMemory >= MEMORIES.length - 1;
+  var nextLabel = isLast ? 'Continue to Review' : 'Next Memory';
+
+  var latestClue = state.cluesFound.length > 0
+    ? state.cluesFound[state.cluesFound.length - 1]
+    : null;
+
+  var clueBox = latestClue
+    ? '<div class="response-clue-box">' +
+        '<strong>Auditor Insight</strong><br>' +
+        latestClue +
+      '</div>'
+    : '';
+
+  overlay.innerHTML =
+    '<div class="response-card fade-in">' +
+      '<div class="response-auditor-name">' +
+        '<i class="fas fa-user-tie" style="margin-right: 6px;"></i>' +
+        a.name + ' — ' + a.title +
+      '</div>' +
+      '<div class="response-quote" style="border-color: ' + statusColor + ';">' +
+        '"' + response.quote + '"' +
+      '</div>' +
+      '<div class="response-stats">' +
+        '<div class="response-stat">' +
+          '<div class="response-stat-value ' + statusClass + '">' + statusText + '</div>' +
+          '<div class="response-stat-label">Determination</div>' +
+        '</div>' +
+        '<div class="response-stat">' +
+          '<div class="response-stat-value ' + statusClass + '">' + valueDisplay + '</div>' +
+          '<div class="response-stat-label">Deduction Value</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="response-detail">' +
+        'Filing virtue: <span class="neutral">' + option.virtue + '</span> &nbsp;|&nbsp; ' +
+        'Framing: <span class="neutral">' + option.framing + '</span> &nbsp;|&nbsp; ' +
+        'Status: <span class="' + statusClass + '">' + statusText.toLowerCase() + '</span>' +
+        (!approved ? ' &nbsp;|&nbsp; <span class="flagged">Audit flag recorded</span>' : '') +
+      '</div>' +
+      clueBox +
+      '<div style="text-align: right;">' +
+        '<button class="btn btn-small" id="btn-next-memory">' +
+          nextLabel +
+          ' <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>' +
+        '</button>' +
+      '</div>' +
+    '</div>';
+
+  overlay.classList.add('active');
+
+  document.getElementById('btn-next-memory').addEventListener('click', function() {
+    overlay.classList.remove('active');
+    state.currentMemory++;
+
+    if (state.currentMemory >= MEMORIES.length) {
+      state.screen = 'review';
+    }
+
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+function goToAssessment() {
+  var auditPenalty = Math.max(0, state.auditFlags * 5);
+  state.netScore = Math.max(0, state.totalDeductions - auditPenalty);
+  var idx = getBracketIndex(state.netScore);
+  state.finalBracket = BRACKETS[idx];
+  state.screen = 'assessment';
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ===================================================
+   INIT
+   =================================================== */
+
+render();
+</script>
+</body>
+</html>

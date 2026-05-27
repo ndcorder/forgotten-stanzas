@@ -18,3 +18,6 @@
 ### 2026-05-27T09:03:56.920Z
 
 **Iteration 5 — SHIPPED:** "The Committee of Mutually Assured Destruction" [interactive] as 0005. Rating: 4.7. Review: A diplomatic summit simulation where you are the mute human aide passing notes under a door — influence without authority, intervention without accountability. The three delegates (Voss, Chen, Reyes) . Token usage: 93745in/65792out.
+### 2026-05-27T09:33:30.680Z
+
+**Iteration 6 — SHIPPED:** "Infernal Revenue Service" [interactive] as 0006. Rating: 4.7. Review: A satirical afterlife bureaucracy where you itemize your moral deductions before a celestial auditor who has opinions about your soul's accounting. The five memories are the real achievement — each on. Token usage: 116013in/83398out.

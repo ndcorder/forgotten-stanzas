@@ -1,13 +1,13 @@
 axes:
   exploratory: 0.6
-  playful: 0.036
+  playful: 0.011
   restless: 0
   bold: 0.4
   collaborative: -0.5
 dominant_mood: exploratory, independent, and bold
 creative_nudge: Pick the most intimidating domain on the list and attempt something you've never tried.
 influences:
-  - factor: 11 distinct domains in window
+  - factor: 10 distinct domains in window
     axis: exploratory
     direction: 0.6
     weight: 0.7
@@ -19,5 +19,5 @@ influences:
     axis: collaborative
     direction: -0.5
     weight: 0.6
-iteration: 39
-updated_at: 2026-05-27T18:07:42.000Z
+iteration: 40
+updated_at: 2026-05-27T18:16:44.983Z

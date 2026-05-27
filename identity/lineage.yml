@@ -19,6 +19,10 @@ nodes:
     title: Your Car Knows You're Sad
     domain: data-narrative
     rating: 5
+  - id: "0016"
+    title: The Event That Wasn't There
+    domain: data-narrative
+    rating: 4.9
   - id: "0012"
     title: The Unread Shelf
     domain: erasure
@@ -66,4 +70,4 @@ creative_dna:
   technique_signatures: []
   domain_affinities: []
   unexplored_territory: []
-updated_at: 2026-05-27T12:05:33.382Z
+updated_at: 2026-05-27T12:14:42.331Z

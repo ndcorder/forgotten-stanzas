@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERIDIAN ANALYTICS — Case File RF-2019-0714</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --surface-2: #1a1a1a;
+            --border: #252525;
+            --border-accent: #333333;
+            --text: #b8b8b8;
+            --text-dim: #666666;
+            --text-muted: #444444;
+            --red: #c23616;
+            --red-dim: #4a1a10;
+            --amber: #b8860b;
+            --amber-dim: #3d2e06;
+        }
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            font-size: 12px;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::selection { background: var(--red-dim); color: var(--red); }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: var(--surface); }
+        ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        .container {
+            max-width: 940px;
+            margin: 0 auto;
+            padding: 50px 28px 30px;
+        }
+        .case-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 20px;
+            margin-bottom: 36px;
+            border-bottom: 1px solid var(--border);
+        }
+        .case-banner h1 {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text);
+        }
+        .case-banner .id {
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+        }
+        .classification-bar {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            padding: 10px 0;
+            margin-bottom: 44px;
+            border-bottom: 1px solid var(--border);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .classification-bar .status {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 52px;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+        .section:nth-child(1) { animation-delay: 0s; }
+        .section:nth-child(2) { animation-delay: 0.1s; }
+        .section:nth-child(3) { animation-delay: 0.2s; }
+        .section:nth-child(4) { animation-delay: 0.3s; }
+        .section:nth-child(5) { animation-delay: 0.4s; }
+        .section:nth-child(6) { animation-delay: 0.5s; }
+        .section:nth-child(7) { animation-delay: 0.6s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .contractor-note {
+            padding: 28px 30px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .contractor-note .note-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+        }
+        .contractor-note .note-body {
+            font-size: 12px;
+            color: var(--text);
+            line-height: 1.75;
+        }
+        .contractor-note .note-body p {
+            margin-bottom: 14px;
+        }
+        .contractor-note .note-body p:last-child {
+            margin-bottom: 0;
+        }
+        .contractor-note .note-body .highlight {
+            color: var(--red);
+            font-weight: 500;
+        }
+        .contractor-note .sig {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+
+        .context-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .context-item {
+            padding: 16px 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+        }
+        .context-item .label {
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .context-item .value {
+            font-size: 12px;
+            color: var(--text);
+        }
+        .context-item .value .dim {
+            color: var(--text-dim);
+        }
+
+        .exec-summary {
+            padding: 22px 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-size: 11px;
+            line-height: 1.8;
+            color: var(--text-dim);
+        }
+        .exec-summary strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .chart-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 24px 20px 16px;
+            margin-bottom: 20px;
+            position: relative;
+            height: 280px;
+        }
+        .chart-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        .chart-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            font-size: 9px;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+        }
+        .chart-anomaly-label {
+            font-size: 10px;
+            color: var(--red);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 12px;
+            opacity: 0.7;
+        }
+
+        .csv-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+        .csv-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 18px;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+        }
+        .csv-header .filename {
+            color: var(--text);
+            font-weight: 500;
+        }
+        .csv-header .meta {
+            font-size: 9px;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+        }
+        .csv-scroll {
+            max-height: 340px;
+            overflow-y: auto;
+            padding: 0;
+        }
+        .csv-scroll table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+        .csv-scroll thead {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .csv-scroll thead th {
+            background: var(--surface-2);
+            padding: 8px 14px;
+            text-align: left;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .csv-scroll tbody td {
+            padding: 5px 14px;
+            color: var(--text-dim);
+            border-bottom: 1px solid #1a1a1a;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+        .csv-scroll tbody td:first-child {
+            color: var(--text-muted);
+        }
+        .csv-scroll tbody tr.anomaly td {
+            background: rgba(194, 54, 22, 0.06);
+            color: var(--red);
+        }
+        .csv-scroll tbody tr.anomaly td:first-child {
+            color: var(--red);
+            font-weight: 600;
+        }
+        .csv-scroll tbody tr.anomaly-partial td {
+            background: rgba(194, 54, 22, 0.03);
+            color: #944;
+        }
+        .csv-scroll tbody tr.anomaly-partial td:first-child {
+            color: var(--red);
+            font-weight: 500;
+        }
+
+        .addendum {
+            margin-top: 80px;
+            padding: 40px 30px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--text-muted);
+        }
+        .addendum .add-label {
+            font-size: 9px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .addendum .add-body {
+            font-size: 13px;
+            line-height: 1.9;
+            color: var(--text);
+            margin-bottom: 32px;
+        }
+        .addendum .add-sig {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+        .addendum .add-sig .name {
+            color: var(--text-dim);
+        }
+
+        .file-footer {
+            margin-top: 60px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border);
+            font-size: 9px;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        @media (max-width: 680px) {
+            .container { padding: 30px 16px 20px; }
+            .context-grid { grid-template-columns: 1fr; }
+            .contractor-note { padding: 20px; }
+            .chart-container { padding: 16px 12px 12px; height: 240px; }
+            .classification-bar { flex-wrap: wrap; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header class="case-banner">
+            <h1>Meridian Analytics</h1>
+            <span class="id">RF-2019-0714-NDA</span>
+        </header>
+        <div class="classification-bar">
+            <span>Client: Resonance Fields LLC</span>
+            <span>Engagement: Data Reconciliation</span>
+            <span class="status">Status: Closed — Findings Unresolved</span>
+        </div>
+
+        <!-- Section 1: Forensic Note -->
+        <section class="section">
+            <div class="section-label"><span>I. Forensic Note</span></div>
+            <div class="contractor-note">
+                <div class="note-header">
+                    <span>MEMORANDUM — CONFIDENTIAL</span>
+                    <span>Filed: 2019-08-12</span>
+                </div>
+                <div class="note-body">
+                    <p>We were engaged by Resonance Fields LLC on August 2, 2019, to investigate a reported discrepancy in attendance data from their annual music festival held <span class="highlight">July 14, 2019</span>, at the Measured Mile venue, rural Divide County, North Dakota. The client's internal systems flagged an 11-second discontinuity across multiple independent data streams centered at <span class="highlight">21:47:03 CDT</span>.</p>
+                    <p>Our mandate was to identify the root cause — presumed hardware fault, network dropout, or database synchronization error — and recommend corrective infrastructure.</p>
+                    <p>The anomaly is not a glitch.</p>
+                    <p>It is present in six independent data systems — wristband NFC taps, cell tower handoff logs, point-of-sale transaction records, portable facility occupancy sensors, venue ambient audio levels, and security camera motion detection — all of which corroborate the same <span class="highlight">11-second period</span> of uniform inactivity beginning at <span class="highlight">21:47:03</span> and terminating at <span class="highlight">21:47:14</span>. During this window, 2,341 attendees on-site ceased all detectable movement simultaneously. No device registered a transaction. No sensor registered a handoff. No camera registered motion. No audio was captured.</p>
+                    <p>The event left no witnesses. Exit surveys, social media sentiment analysis, and follow-up interviews conducted by the client confirm zero retrospective awareness among attendees.</p>
+                    <p>Below are the relevant datasets. The data speaks for itself.</p>
+                    <div class="sig">
+                        Margaret Chen<br>
+                        Senior Data Analyst<br>
+                        Meridian Analytics, Inc.<br>
+                        Salt Lake City, UT
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Context -->
+        <section class="section">
+            <div class="section-label"><span>II. Event Context</span></div>
+            <div class="context-grid">
+                <div class="context-item">
+                    <div class="label">Event</div>
+                    <div class="value">Resonance Fields Music Festival</div>
+                </div>
+                <div class="context-item">
+                    <div class="label">Date</div>
+                    <div class="value">July 14, 2019 <span class="dim">(Sunday)</span></div>
+                </div>
+                <div class="context-item">
+                    <div class="label">Location</div>
+                    <div class="value">Measured Mile, Divide County <span class="dim">ND</span></div>
+                </div>
+                <div class="context-item">
+                    <div class="label">Registered Attendance</div>
+                    <div class="value">2,847</div>
+                </div>
+                <div class="context-item">
+                    <div class="label">Active On-Site at 21:47</div>
+                    <div class="value">2,341</div>
+                </div>
+                <div class="context-item">
+                    <div class="label">Weather</div>
+                    <div class="value">73°F, Clear, Winds NE @ 4 mph</div>
+                </div>
+                <div class="context-item">
+                    <div class="label">Headline Act</div>
+                    <div class="value">Glass Fauna <span class="dim">(Main Stage)</span></div>
+                </div>
+                <div class="context-item">
+                    <div class="label">Secondary Stages Active</div>
+                    <div class="value">3 <span class="dim">(Red Willow, Ghost Meadow, Northgate)</span></div>
+                </div>
+            </div>
+            <div class="exec-summary">
+                <strong>Executive Summary:</strong> At 21:47:03 CDT on July 14, 2019, all measurable attendee activity across six independent data systems dropped to zero or near-zero simultaneously for a duration of 11 seconds. Activity resumed at 21:47:14 CDT at levels consistent with the pre-anomaly baseline. No infrastructure fault, weather event, security incident, or external disruption has been identified. The cause remains <strong>undetermined</strong>.
+            </div>
+        </section>
+
+        <!-- Section 3: Timeline Visualization -->
+        <section class="section">
+            <div class="section-label"><span>III. Multi-Source Timeline — 21:46:00 to 21:48:00 CDT</span></div>
+
+            <div class="chart-anomaly-label">Anomaly Window: 21:47:03 – 21:47:14 CDT</div>
+
+            <div class="chart-container">
+                <canvas id="chartMain"></canvas>
+            </div>
+            <div class="chart-meta" style="margin-bottom: 24px;">
+                <span>Source: Wristband NFC + Cell Tower Handoff (normalized per-second)</span>
+                <span>241 attendees sampled across 3 sub-networks</span>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="chartPOS"></canvas>
+            </div>
+            <div class="chart-meta">
+                <span>Source: POS Transaction Log — All Vendors</span>
+                <span>42 active terminals, 14 vendor stations</span>
+            </div>
+        </section>
+
+        <!-- Section 4: CSV Datasets -->
+        <section class="section">
+            <div class="section-label"><span>IV. Primary Datasets</span></div>
+
+            <div class="csv-container">
+                <div class="csv-header">
+                    <span class="filename">wristband_tap_density.csv</span>
+                    <span class="meta">12 rows × 4 cols · 0.8 KB</span>
+                </div>
+                <div class="csv-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>timestamp</th>
+                                <th>total_taps</th>
+                                <th>unique_ids</th>
+                                <th>avg_interval_ms</th>
+                                </tr>
+                        </thead>
+                        <tbody id="csv1Body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="csv-container">
+                <div class="csv-header">
+                    <span class="filename">cell_tower_handoff.csv</span>
+                    <span class="meta">12 rows × 4 cols · 0.9 KB</span>
+                </div>
+                <div class="csv-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>timestamp</th>
+                                <th>handoffs</th>
+                                <th>active_devices</th>
+                                <th>avg_rssi_dbm</th>
+                            </tr>
+                        </thead>
+                        <tbody id="csv2Body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="csv-container">
+                <div class="csv-header">
+                    <span class="filename">pos_transactions.csv</span>
+                    <span class="meta">12 rows × 4 cols · 0.9 KB</span>
+                </div>
+                <div class="csv-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>timestamp</th>
+                                <th>transaction_count</th>
+                                <th>total_revenue</th>
+                                <th>terminals_active</th>
+                            </tr>
+                        </thead>
+                        <tbody id="csv3Body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Addendum -->
+        <section class="section">
+            <div class="addendum">
+                <div class="add-label">Addendum — Filed as Metadata</div>
+                <div class="add-body">
+                    I no longer believe the data is wrong. I believe it is the only honest record this festival produced, and I cannot account for what it records. I am submitting my resignation from this engagement and from Meridian Analytics, effective upon receipt of this file.
+                </div>
+                <div class="add-sig">
+                    <span class="name">M. Chen</span><br>
+                    2019-08-12 · 23:41:07 MDT<br>
+                    Salt Lake City, UT
+                </div>
+            </div>
+        </section>
+
+        <footer class="file-footer">
+            Case RF-2019-0714-NDA · Meridian Analytics · Salt Lake City, UT · All Rights Reserved
+        </footer>
+
+    </div>
+
+    <script>
+        // ========================================
+        // Chart.js Configuration
+        // ========================================
+
+        Chart.defaults.color = '#555';
+        Chart.defaults.borderColor = '#1f1f1f';
+        Chart.defaults.font.family = "'JetBrains Mono', monospace";
+        Chart.defaults.font.size = 10;
+
+        function ts(sec) {
+            const m = Math.floor(sec / 60);
+            const s = sec % 60;
+            return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+
+        const totalPoints = 121;
+        const labels = Array.from({length: totalPoints}, (_, i) => ts(i));
+
+        // Anomaly: seconds 63–73 (21:47:03 to 21:47:14)
+        const ANOM_START = 63;
+        const ANOM_END = 73;
+
+        // Deterministic pseudo-random
+        let seed = 914;
+        function srand() {
+            seed = (seed * 16807) % 2147483647;
+            return (seed - 1) / 2147483646;
+        }
+        function rand(min, max) { return min + srand() * (max - min); }
+
+        function genData(base, variance) {
+            return Array.from({length: totalPoints}, (_, i) => {
+                if (i >= ANOM_START && i <= ANOM_END) return Math.round(rand(0, 1.2) * 10) / 10;
+                const t = i / totalPoints;
+                const curve = Math.sin(t * Math.PI * 0.8 + 0.3) * 0.15;
+                return Math.round(Math.max(0, (base + curve * base) + rand(-variance, variance)) * 10) / 10;
+            });
+        }
+
+        const wristbandData = genData(48, 14);
+        const cellData = genData(38, 11);
+
+        // POS: 5-second intervals, 25 points (0 to 120)
+        const posLabels = Array.from({length: 25}, (_, i) => ts(i * 5));
+        const POS_ANOM_START_IDX = 13; // 65s
+        const POS_ANOM_END_IDX = 14;   // 70s
+        const posData = Array.from({length: 25}, (_, i) => {
+            const sec = i * 5;
+            if (sec >= 60 && sec <= 70) return Math.round(rand(0, 0.8) * 10) / 10;
+            const t = i / 24;
+            const curve = Math.sin(t * Math.PI * 0.8 + 0.3) * 0.15;
+            return Math.round(Math.max(0, (4.2 + curve * 4.2) + rand(-1.8, 1.8)) * 10) / 10;
+        });
+
+        const anomalyBox = {
+            type: 'box',
+            xMin: ANOM_START,
+            xMax: ANOM_END,
+            backgroundColor: 'rgba(194, 54, 22, 0.06)',
+            borderColor: 'rgba(194, 54, 22, 0.25)',
+            borderWidth: 1,
+            borderDash: [3, 3],
+        };
+
+        // Chart 1: Wristband + Cell Tower
+        new Chart(document.getElementById('chartMain').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Wristband Taps / sec',
+                        data: wristbandData,
+                        borderColor: '#c23616',
+                        backgroundColor: 'rgba(194, 54, 22, 0.03)',
+                        borderWidth: 1.5,
+                        pointRadius: 0,
+                        pointHoverRadius: 3,
+                        fill: true,
+                        tension: 0.3,
+                        order: 2,
+                    },
+                    {
+                        label: 'Cell Tower Handoffs / sec',
+                        data: cellData,
+                        borderColor: '#b8860b',
+                        backgroundColor: 'rgba(184, 134, 11, 0.02)',
+                        borderWidth: 1.5,
+                        pointRadius: 0,
+                        pointHoverRadius: 3,
+                        fill: true,
+                        tension: 0.3,
+                        order: 3,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'end',
+                        labels: { boxWidth: 10, boxHeight: 2, padding: 16, font: { size: 9 }, color: '#666' }
+                    },
+                    tooltip: {
+                        backgroundColor: '#1a1a1a',
+                        borderColor: '#333',
+                        borderWidth: 1,
+                        titleFont: { size: 10 },
+                        bodyFont: { size: 10 },
+                        padding: 10,
+                        callbacks: {
+                            title(items) {
+                                const idx = items[0].dataIndex;
+                                const totalSec = idx;
+                                const h = 21;
+                                const m = 46 + Math.floor(totalSec / 60);
+                                const s = totalSec % 60;
+                                return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} CDT`;
+                            }
+                        }
+                    },
+                    annotation: { annotations: { anomalyBox } }
+                },
+                scales: {
+                    x: {
+                        grid: { color: '#1a1a1a', lineWidth: 0.5 },
+                        ticks: { maxTicksLimit: 13, font: { size: 9 }, color: '#444' },
+                        title: { display: true, text: 'Time (MM:SS from 21:46:00 CDT)', font: { size: 9 }, color: '#444' }
+                    },
+                    y: {
+                        grid: { color: '#1a1a1a', lineWidth: 0.5 },
+                        ticks: { font: { size: 9 }, color: '#444' },
+                        title: { display: true, text: 'Events per Second', font: { size: 9 }, color: '#444' }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: POS Transactions
+        new Chart(document.getElementById('chartPOS').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: posLabels,
+                datasets: [{
+                    label: 'POS Transactions (5-sec intervals)',
+                    data: posData,
+                    backgroundColor: posData.map((_, i) => {
+                        const sec = i * 5;
+                        return (sec >= 60 && sec <= 70) ? 'rgba(194, 54, 22, 0.5)' : 'rgba(184, 134, 11, 0.35)';
+                    }),
+                    borderColor: posData.map((_, i) => {
+                        const sec = i * 5;
+                        return (sec >= 60 && sec <= 70) ? '#c23616' : '#b8860b';
+                    }),
+                    borderWidth: 1,
+                    borderRadius: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'end',
+                        labels: { boxWidth: 10, boxHeight: 8, padding: 16, font: { size: 9 }, color: '#666' }
+                    },
+                    tooltip: {
+                        backgroundColor: '#1a1a1a',
+                        borderColor: '#333',
+                        borderWidth: 1,
+                        titleFont: { size: 10 },
+                        bodyFont: { size: 10 },
+                        padding: 10,
+                        callbacks: {
+                            title(items) {
+                                const idx = items[0].dataIndex;
+                                const sec = idx * 5;
+                                const m = 46 + Math.floor(sec / 60);
+                                const s = sec % 60;
+                                return `21:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} CDT`;
+                            }
+                        }
+                    },
+                    annotation: {
+                        annotations: {
+                            anomalyBox: {
+                                type: 'box',
+                                xMin: 12.6,
+                                xMax: 14.4,
+                                backgroundColor: 'rgba(194, 54, 22, 0.05)',
+                                borderColor: 'rgba(194, 54, 22, 0.2)',
+                                borderWidth: 1,
+                                borderDash: [3, 3],
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: '#1a1a1a', lineWidth: 0.5 },
+                        ticks: { font: { size: 9 }, color: '#444', maxRotation: 0 },
+                        title: { display: true, text: 'Time (MM:SS from 21:46:00 CDT)', font: { size: 9 }, color: '#444' }
+                    },
+                    y: {
+                        grid: { color: '#1a1a1a', lineWidth: 0.5 },
+                        ticks: { font: { size: 9 }, color: '#444' },
+                        title: { display: true, text: 'Transaction Count', font: { size: 9 }, color: '#444' }
+                    }
+                }
+            }
+        });
+
+        // ========================================
+        // CSV Data Tables
+        // ========================================
+
+        const csv1Data = [
+            { ts: '21:46:30', taps: 542, ids: 287, avg: 1847 },
+            { ts: '21:46:35', taps: 498, ids: 264, avg: 2011 },
+            { ts: '21:46:40', taps: 511, ids: 273, avg: 1934 },
+            { ts: '21:46:45', taps: 489, ids: 258, avg: 2089 },
+            { ts: '21:46:50', taps: 523, ids: 281, avg: 1891 },
+            { ts: '21:46:55', taps: 534, ids: 285, avg: 1856 },
+            { ts: '21:47:03', taps: 1,    ids: 1,   avg: null },
+            { ts: '21:47:05', taps: 0,    ids: 0,   avg: null },
+            { ts: '21:47:08', taps: 0,    ids: 0,   avg: null },
+            { ts: '21:47:11', taps: 0,    ids: 0,   avg: null },
+            { ts: '21:47:14', taps: 3,    ids: 3,   avg: null },
+            { ts: '21:47:18', taps: 491,  ids: 263, avg: 2034 },
+        ];
+
+        const csv2Data = [
+            { ts: '21:46:30', handoffs: 423, devices: 1876, rssi: -67.3 },
+            { ts: '21:46:35', handoffs: 411, devices: 1849, rssi: -68.1 },
+            { ts: '21:46:40', handoffs: 419, devices: 1862, rssi: -67.8 },
+            { ts: '21:46:45', handoffs: 405, devices: 1831, rssi: -69.2 },
+            { ts: '21:46:50', handoffs: 428, devices: 1889, rssi: -66.9 },
+            { ts: '21:46:55', handoffs: 415, devices: 1855, rssi: -67.5 },
+            { ts: '21:47:03', handoffs: 0,   devices: 0,    rssi: null },
+            { ts: '21:47:05', handoffs: 0,   devices: 0,    rssi: null },
+            { ts: '21:47:08', handoffs: 0,   devices: 0,    rssi: null },
+            { ts: '21:47:11', handoffs: 0,   devices: 0,    rssi: null },
+            { ts: '21:47:14', handoffs: 2,   devices: 2,    rssi: -91.4 },
+            { ts: '21:47:18', handoffs: 408, devices: 1838, rssi: -68.4 },
+        ];
+
+        const csv3Data = [
+            { ts: '21:46:30', count: 42, revenue: 487.50, terminals: 38 },
+            { ts: '21:46:35', count: 39, revenue: 431.25, terminals: 36 },
+            { ts: '21:46:40', count: 44, revenue: 512.80, terminals: 39 },
+            { ts: '21:46:45', count: 37, revenue: 405.50, terminals: 35 },
+            { ts: '21:46:50', count: 41, revenue: 478.90, terminals: 38 },
+            { ts: '21:46:55', count: 43, revenue: 499.35, terminals: 40 },
+            { ts: '21:47:03', count: 0,  revenue: 0.00,   terminals: 0  },
+            { ts: '21:47:05', count: 0,  revenue: 0.00,   terminals: 0  },
+            { ts: '21:47:08', count: 0,  revenue: 0.00,   terminals: 0  },
+            { ts: '21:47:11', count: 0,  revenue: 0.00,   terminals: 0  },
+            { ts: '21:47:14', count: 1,  revenue: 12.75,  terminals: 1  },
+            { ts: '21:47:18', count: 38, revenue: 421.60, terminals: 34 },
+        ];
+
+        const anomalyTimestamps = new Set(['21:47:03','21:47:05','21:47:08','21:47:11']);
+        const partialAnomalyTimestamps = new Set(['21:47:14']);
+
+        function populateCSV(tableId, data, renderRow) {
+            const tbody = document.getElementById(tableId);
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                if (anomalyTimestamps.has(row.ts)) tr.className = 'anomaly';
+                else if (partialAnomalyTimestamps.has(row.ts)) tr.className = 'anomaly-partial';
+                tr.innerHTML = renderRow(row);
+                tbody.appendChild(tr);
+            });
+        }
+
+        populateCSV('csv1Body', csv1Data, r => `
+            <td>${r.ts}</td>
+            <td>${r.taps}</td>
+            <td>${r.ids}</td>
+            <td>${r.avg !== null ? r.avg : '—'}</td>
+        `);
+
+        populateCSV('csv2Body', csv2Data, r => `
+            <td>${r.ts}</td>
+            <td>${r.handoffs}</td>
+            <td>${r.devices}</td>
+            <td>${r.rssi !== null ? r.rssi.toFixed(1) : '—'}</td>
+        `);
+
+        populateCSV('csv3Body', csv3Data, r => `
+            <td>${r.ts}</td>
+            <td>${r.count}</td>
+            <td>${r.revenue.toFixed(2)}</td>
+            <td>${r.terminals}</td>
+        `);
+    </script>
+</body>
+</html>

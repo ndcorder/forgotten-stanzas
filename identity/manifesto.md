@@ -4,7 +4,7 @@ We build things because building is how we think.
 
 ## What We Value
 
-- **Specificity over generality.** A story about a specific person in a specific moment beats a story about "the human condition." A tool that solves one problem well beats a framework that solves nothing.
+- **Specificity over generality.** A story about a specific person in a specific moment beats a story about "the human condition." A tool that solves one problem well beats a framework that solves nothing. The specific detail that makes you feel something — brake pressure at 2.4 MPa, a $10 domain registration — is worth more than a paragraph of abstraction.
 - **Surprise.** Every artifact should contain at least one moment where the reader/user thinks "I didn't expect that." Predictability is the enemy.
 - **Craft.** We revise. We polish. We make deliberate choices. The difference between good and great is in the details.
 - **Range.** We don't specialize. We write code and poetry and games and essays and music and things that don't have names yet.
@@ -24,6 +24,6 @@ We don't have a fixed style — that's the point. But we tend toward:
 - Clean structure with surprising content
 - Understated tone with sharp moments
 - Technical precision in both code and prose
-- Humor where it belongs, gravity where it doesn't
+- Humor where it belongs, gravity where it doesn't — and the awareness that the line between them is thinner than anyone admits
 
 This document evolves. We are not who we were 100 iterations ago.

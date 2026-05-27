@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMS Access Log Viewer — Door D-0-NULL</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Consolas', 'Courier New', monospace; background: #0a0e14; color: #b3b1ad; font-size: 13px; line-height: 1.5; }
+.header { background: #1a1e24; border-bottom: 2px solid #e74c3c; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.header-left h1 { font-size: 15px; color: #e74c3c; font-weight: 700; letter-spacing: 1px; }
+.header-left p { font-size: 11px; color: #6b7280; margin-top: 2px; }
+.header-right { text-align: right; font-size: 11px; color: #6b7280; }
+.header-right .sys-status { color: #4caf50; }
+.controls { background: #141820; padding: 10px 20px; border-bottom: 1px solid #2a2e34; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.controls label { font-size: 11px; color: #6b7280; margin-right: 4px; }
+.controls input, .controls select { background: #0a0e14; border: 1px solid #2a2e34; color: #b3b1ad; padding: 5px 8px; font-family: inherit; font-size: 12px; border-radius: 2px; }
+.controls input:focus, .controls select:focus { border-color: #e74c3c; outline: none; }
+.controls input[type="text"] { width: 170px; }
+.controls input[type="date"] { width: 130px; }
+.controls select { width: 150px; }
+.controls .filter-group { display: flex; align-items: center; gap: 4px; }
+.controls .btn { background: #e74c3c; color: #fff; border: none; padding: 5px 12px; font-family: inherit; font-size: 11px; cursor: pointer; border-radius: 2px; font-weight: 700; letter-spacing: 0.5px; }
+.controls .btn:hover { background: #c0392b; }
+.controls .btn-secondary { background: #2a2e34; color: #b3b1ad; }
+.controls .btn-secondary:hover { background: #3a3e44; }
+.status-bar { background: #0d1117; padding: 6px 20px; border-bottom: 1px solid #2a2e34; display: flex; justify-content: space-between; font-size: 11px; color: #6b7280; flex-wrap: wrap; gap: 4px; }
+.status-bar .count { color: #e74c3c; font-weight: 700; }
+.table-container { overflow: auto; max-height: calc(100vh - 150px); }
+table { width: 100%; border-collapse: collapse; }
+thead { position: sticky; top: 0; z-index: 10; }
+th { background: #1a1e24; color: #6b7280; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 12px; text-align: left; border-bottom: 2px solid #2a2e34; cursor: pointer; user-select: none; white-space: nowrap; }
+th:hover { color: #e74c3c; }
+th .sort-arrow { margin-left: 4px; font-size: 9px; }
+td { padding: 5px 12px; border-bottom: 1px solid #1a1e24; font-size: 12px; white-space: nowrap; }
+tr:hover td { background: #141820; }
+tr.chen-row td { background: #141218; }
+tr.chen-row:hover td { background: #1c1520; }
+.badge-id { color: #5dade2; }
+.badge-holder { color: #a8d8a8; }
+.badge-dept { color: #6b7280; font-size: 10px; }
+.event-granted { color: #4caf50; }
+.event-denied { color: #e74c3c; }
+.event-alarm { color: #ff9800; }
+.event-tailgate { color: #ff5722; }
+.event-maint { color: #9c27b0; }
+.event-system { color: #6b7280; }
+.door-id { color: #e74c3c; font-weight: 700; }
+.final-tag { color: #e74c3c; font-size: 10px; margin-left: 6px; }
+.empty-state { text-align: center; padding: 60px 20px; color: #6b7280; }
+.empty-state h2 { font-size: 16px; margin-bottom: 8px; }
+.loading { text-align: center; padding: 60px 20px; color: #6b7280; }
+.loading .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid #2a2e34; border-top-color: #e74c3c; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.page-buttons { display: flex; gap: 4px; margin-left: auto; align-items: center; }
+.page-buttons button { background: #1a1e24; border: 1px solid #2a2e34; color: #b3b1ad; padding: 3px 10px; font-family: inherit; font-size: 11px; cursor: pointer; border-radius: 2px; }
+.page-buttons button:hover { border-color: #e74c3c; color: #e74c3c; }
+.page-buttons button:disabled { opacity: 0.3; cursor: default; border-color: #2a2e34; color: #6b7280; }
+.page-buttons button:disabled:hover { border-color: #2a2e34; color: #6b7280; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <h1>ACCESS CONTROL SYSTEM — LOG VIEWER</h1>
+    <p>Meridian Tower I &bull; 300 Summit Blvd &bull; Columbus, OH 43215 &bull; Door: <span class="door-id">D-0-NULL</span></p>
+  </div>
+  <div class="header-right">
+    <div>BMS v4.2.1 | DB: prod_acs_01</div>
+    <div class="sys-status">● SYSTEM ONLINE</div>
+    <div>Report generated: 2020-12-14 08:32:14</div>
+  </div>
+</div>
+<div class="controls">
+  <div class="filter-group">
+    <label>Holder:</label>
+    <input type="text" id="filterHolder" placeholder="Name or badge...">
+  </div>
+  <div class="filter-group">
+    <label>Event:</label>
+    <select id="filterEvent">
+      <option value="">All Events</option>
+      <option value="ACCESS_GRANTED">Access Granted</option>
+      <option value="ACCESS_DENIED">Access Denied</option>
+      <option value="DOOR_HELD_OPEN">Door Held Open</option>
+      <option value="DOOR_FORCED">Door Forced</option>
+      <option value="TAILGATE">Tailgate Detected</option>
+      <option value="MAINT">Maintenance</option>
+      <option value="SYSTEM">System</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>From:</label>
+    <input type="date" id="filterFrom">
+  </div>
+  <div class="filter-group">
+    <label>To:</label>
+    <input type="date" id="filterTo">
+  </div>
+  <button class="btn" id="btnFilter">FILTER</button>
+  <button class="btn btn-secondary" id="btnClear">CLEAR</button>
+  <div class="page-buttons">
+    <button id="btnPrev" disabled>◀ PREV</button>
+    <span id="pageInfo" style="color:#6b7280;font-size:11px;line-height:28px;">—</span>
+    <button id="btnNext" disabled>NEXT ▶</button>
+  </div>
+</div>
+<div class="status-bar">
+  <div>Showing <span class="count" id="showingCount">0</span> of <span class="count" id="totalCount">0</span> entries</div>
+  <div>Door D-0-NULL — Controller: CTL-7F-NULL | Floor: NULL | Zone: UNASSIGNED</div>
+</div>
+<div id="tableContainer" class="table-container">
+  <div id="loadingEl" class="loading"><div class="spinner"></div><br>Loading log entries...</div>
+  <table id="logTable" style="display:none;">
+    <thead>
+      <tr>
+        <th data-col="idx" style="width:60px">#</th>
+        <th data-col="ts" style="width:160px">Timestamp</th>
+        <th data-col="badge" style="width:100px">Badge ID</th>
+        <th data-col="holder">Badge Holder</th>
+        <th data-col="event" style="width:155px">Event</th>
+        <th data-col="detail">Detail</th>
+      </tr>
+    </thead>
+    <tbody id="logBody"></tbody>
+  </table>
+  <div id="emptyState" class="empty-state" style="display:none;">
+    <h2>No matching entries</h2>
+    <p>Adjust filter parameters and retry</p>
+  </div>
+</div>
+
+<script>
+(function() {
+  var PAGE_SIZE = 200;
+  var CHEN_TARGET = 673;
+  var TOTAL_TARGET = 2847;
+
+  /* ---- Seeded RNG ---- */
+  function makeRng(seed) {
+    return function() {
+      seed = (seed * 16807) % 2147483647;
+      return (seed - 1) / 2147483646;
+    };
+  }
+  var rng = makeRng(42179);
+
+  function pick(arr) { return arr[Math.floor(rng() * arr.length)]; }
+  function chance(p) { return rng() < p; }
+  function randInt(lo, hi) { return lo + Math.floor(rng() * (hi - lo)); }
+
+  /* ---- Date helpers ---- */
+  function mkDate(y, m, d) { return new Date(y, m - 1, d); }
+  function fromArr(a) { return mkDate(a[0], a[1], a[2]); }
+  function toArr(d) { return [d.getFullYear(), d.getMonth() + 1, d.getDate()]; }
+  function addD(base, n) { var d = new Date(base); d.setDate(d.getDate() + n); return d; }
+  function isWD(d) { var w = d.getDay(); return w > 0 && w < 6; }
+  function pad2(n) { return String(n).padStart(2, '0'); }
+  function ts(a, h, mi, s) {
+    return a[0] + '-' + pad2(a[1]) + '-' + pad2(a[2]) + ' ' + pad2(h) + ':' + pad2(mi) + ':' + pad2(s);
+  }
+  function tsSort(t) { return t.replace(/[-: ]/g, ''); }
+
+  /* ---- Badge pool ---- */
+  var HOLDERS = {
+    'M.CHEN':     { first: 'Mei',       last: 'Chen',       dept: 'Analytics',   badge: 'ACX-2847' },
+    'J.MORENO':   { first: 'Jesus',     last: 'Moreno',     dept: 'Maintenance', badge: 'MNT-0087' },
+    'R.SOLOMON':  { first: 'Robert',    last: 'Solomon',    dept: 'Maintenance', badge: 'MNT-0092' },
+    'K.YOON':     { first: 'Katherine', last: 'Yoon',       dept: 'Engineering', badge: 'ENG-0934' },
+    'D.WALSH':    { first: 'David',     last: 'Walsh',      dept: 'Engineering', badge: 'ENG-1102' },
+    'K.PATEL':    { first: 'Kiran',     last: 'Patel',      dept: 'Engineering', badge: 'ENG-1563' },
+    'S.MOROZOV':  { first: 'Sergei',    last: 'Morozov',    dept: 'Security',     badge: 'SEC-0041' },
+    'A.GREENE':   { first: 'Abigail',   last: 'Greene',     dept: 'Facilities',   badge: 'FAC-0334' },
+    'D.NGUYEN':   { first: 'Duong',     last: 'Nguyen',     dept: 'IT Systems',   badge: 'ITS-0712' },
+    'L.HENDRICKS':{ first: 'Lyle',      last: 'Hendricks',  dept: 'Legal',        badge: 'LEG-0189' },
+    'T.OKAFOR':   { first: 'Tunde',     last: 'Okafor',     dept: 'Maintenance',  badge: 'MNT-0108' },
+    'J.WEIR':     { first: 'Janet',     last: 'Weir',       dept: 'HR',           badge: 'HR-0056' },
+    'P.DELACROIX':{ first: 'Philippe',  last: 'Delacroix',  dept: 'Executive',    badge: 'EXE-0011' },
+    'M.RUSAKOV':  { first: 'Mikhail',   last: 'Rusakov',    dept: 'Security',     badge: 'SEC-0038' },
+    'E.BURNS':    { first: 'Eleanor',   last: 'Burns',      dept: 'Facilities',   badge: 'FAC-0341' },
+    'C.RAMIREZ':  { first: 'Carlos',    last: 'Ramirez',    dept: 'Maintenance',  badge: 'MNT-0115' },
+    'N.WEST':     { first: 'Nathan',    last: 'West',       dept: 'Engineering',  badge: 'ENG-1589' },
+    'F.AHMED':    { first: 'Farah',     last: 'Ahmed',      dept: 'Finance',      badge: 'FIN-0445' },
+    'B.KOWALSKI': { first: 'Bernadette',last: 'Kowalski',   dept: 'Reception',    badge: 'REC-0017' },
+    'H.TANAKA':   { first: 'Hiroshi',   last: 'Tanaka',     dept: 'Engineering',  badge: 'ENG-1601' },
+    'W.LARSON':   { first: 'Walter',    last: 'Larson',     dept: 'Finance',      badge: 'FIN-0403' },
+    'SYSTEM':     { first: '',          last: '[SYSTEM]',   dept: '',             badge: 'SYS-0000' }
+  };
+
+  function holderName(id) {
+    var h = HOLDERS[id];
+    if (!h) return id;
+    if (id === 'SYSTEM') return '[SYSTEM]';
+    return h.last + ', ' + h.first;
+  }
+  function holderDept(id) { var h = HOLDERS[id]; return h ? h.dept : ''; }
+  function holderBadge(id) { var h = HOLDERS[id]; return h ? h.badge : 'UNK-0000'; }
+
+  /* ---- Event types ---- */
+  var E = {
+    GRANT: 'ACCESS_GRANTED',
+    DENY:  'ACCESS_DENIED',
+    HELD:  'DOOR_HELD_OPEN',
+    FORCED:'DOOR_FORCED',
+    TAIL:  'TAILGATE',
+    MAINT: 'MAINT',
+    SYS:   'SYSTEM'
+  };
+
+  var GRANT_DETAILS = ['Normal entry','Normal exit','Credential verified','Auth: ACS Level 3','Auth: Dual factor','Entry confirmed','Exit logged','Zone mismatch — access override','Auth: ACS Level 2'];
+  var DENY_DETAILS  = ['Invalid zone','Outside access hours','Credential expired — override','Zone restriction — after hours','Badge not provisioned for zone','Zone not provisioned','Badge holder not authorized for zone NULL'];
+  var HELD_DETAILS  = ['Duration: 3s','Duration: 5s','Duration: 8s','Duration: 12s','Duration: 4s','Duration: 6s','Duration: 15s'];
+  var TAIL_DETAILS  = ['Two entries detected','Entry count mismatch','Secondary motion detected','Unknown credential — visual match','Multiple entries on single credential'];
+  var FORCED_DETAILS= ['Mechanical override','Physical force detected','Hardware malfunction','Latch failure — retry'];
+
+  function evDetail(ev) {
+    switch(ev) {
+      case E.GRANT:  return pick(GRANT_DETAILS);
+      case E.DENY:   return pick(DENY_DETAILS);
+      case E.HELD:   return pick(HELD_DETAILS);
+      case E.TAIL:   return pick(TAIL_DETAILS);
+      case E.FORCED: return pick(FORCED_DETAILS);
+      default: return '';
+    }
+  }
+
+  /* ---- Key dates ---- */
+  var D_START = mkDate(2019, 1, 7);
+  var D_CHEN_DEATH = mkDate(2020, 3, 12);
+  var D_END = mkDate(2020, 12, 14);
+  var TOTAL_DAYS = Math.round((D_END - D_START) / 86400000);
+
+  function dayNum(d) { return Math.round((new Date(d) - D_START) / 86400000); }
+  function nthDay(n) { return addD(D_START, n); }
+
+  /* ---- Chen phase boundaries (day numbers from start) ---- */
+  var P_NORMAL_END    = 120;  // Jan 7 – May 6, 2019: normal
+  var P_DISRUPT_END   = 210;  // May 7 – Aug 4: disruption (weekends, late nights)
+  var P_LATE_END      = 300;  // Aug 5 – Nov 3: late-night pattern
+  var P_ESCALATE_END  = 420;  // Nov 4, 2019 – Mar 3, 2020: escalation
+  // 420+ : final phase (Mar 4–12, 2020)
+  var DEATH_DAY = dayNum(D_CHEN_DEATH); // ~430
+
+  function chenPhase(dn) {
+    if (dn < P_NORMAL_END) return 'normal';
+    if (dn < P_DISRUPT_END) return 'disruption';
+    if (dn < P_LATE_END) return 'late';
+    if (dn < P_ESCALATE_END) return 'escalation';
+    return 'final';
+  }
+
+  /* ---- Generate Chen's entries ---- */
+  var chenEntries = [];
+  var chenIdx = 0;
+
+  for (var dn = 0; dn <= DEATH_DAY; dn++) {
+    var dt = nthDay(dn);
+    var da = toArr(dt);
+    var wd = isWD(dt);
+    var phase = chenPhase(dn);
+
+    // Should she swipe this day?
+    var go = false;
+    if (phase === 'normal')       go = wd ? true : chance(0.06);
+    else if (phase === 'disruption') go = wd ? true : chance(0.35);
+    else if (phase === 'late')       go = wd ? chance(0.9) : chance(0.5);
+    else if (phase === 'escalation') go = chance(0.85);
+    else if (phase === 'final')      go = true;
+
+    if (!go) continue;
+
+    var dayTs = [];
+
+    if (phase === 'normal' && wd) {
+      // Arrive 08:30–08:55
+      dayTs.push(ts(da, 8, randInt(30, 56), randInt(0, 60)));
+      // Maybe lunch
+      if (chance(0.4)) {
+        dayTs.push(ts(da, 12, randInt(0, 55), randInt(0, 60)));
+        dayTs.push(ts(da, 13, randInt(0, 30), randInt(0, 60)));
+      }
+      // Depart 17:30–18:15
+      dayTs.push(ts(da, 17, randInt(30, 60), randInt(0, 60)));
+      if (dayTs[dayTs.length-1] < ts(da,17,30,0)) dayTs[dayTs.length-1] = ts(da, 18, randInt(0,15), randInt(0,60));
+    }
+    else if (phase === 'normal' && !wd) {
+      dayTs.push(ts(da, randInt(9, 14), randInt(0, 59), randInt(0, 59)));
+    }
+    else if (phase === 'disruption') {
+      if (wd) {
+        dayTs.push(ts(da, chance(0.7) ? randInt(8, 11) : randInt(5, 8), randInt(0, 59), randInt(0, 59)));
+        if (chance(0.5)) dayTs.push(ts(da, randInt(12, 14), randInt(0, 59), randInt(0, 59)));
+        if (chance(0.4)) dayTs.push(ts(da, randInt(18, 22), randInt(0, 59), randInt(0, 59)));
+      } else {
+        if (chance(0.5)) dayTs.push(ts(da, randInt(10, 16), randInt(0, 59), randInt(0, 59)));
+        if (chance(0.35)) dayTs.push(ts(da, randInt(20, 23), randInt(0, 59), randInt(0, 59)));
+      }
+    }
+    else if (phase === 'late') {
+      if (wd) dayTs.push(ts(da, randInt(5, 10), randInt(0, 59), randInt(0, 59)));
+      else if (chance(0.5)) dayTs.push(ts(da, randInt(8, 15), randInt(0, 59), randInt(0, 59)));
+      if (chance(0.7)) dayTs.push(ts(da, randInt(22, 24), randInt(0, 59), randInt(0, 59)));
+      if (chance(0.3)) dayTs.push(ts(da, randInt(1, 4), randInt(0, 59), randInt(0, 59)));
+    }
+    else if (phase === 'escalation') {
+      dayTs.push(ts(da, randInt(2, 7), randInt(0, 59), randInt(0, 59)));
+      if (chance(0.5)) dayTs.push(ts(da, randInt(12, 16), randInt(0, 59), randInt(0, 59)));
+      dayTs.push(ts(da, randInt(22, 24), randInt(0, 59), randInt(0, 59)));
+      if (chance(0.35)) dayTs.push(ts(da, randInt(0, 3), randInt(0, 59), randInt(0, 59)));
+    }
+    else if (phase === 'final') {
+      dayTs.push(ts(da, randInt(21, 23), randInt(30, 55), randInt(0, 59)));
+      if (chance(0.5)) dayTs.push(ts(da, randInt(22, 24), randInt(0, 30), randInt(0, 59)));
+    }
+
+    // Assign events to each timestamp
+    for (var ti = 0; ti < dayTs.length; ti++) {
+      var ev = E.GRANT;
+      var hour = parseInt(dayTs[ti].substring(11, 13), 10);
+      if (phase === 'normal') {
+        ev = chance(0.95) ? E.GRANT : E.HELD;
+      } else if (phase === 'disruption') {
+        ev = chance(0.82) ? E.GRANT : chance(0.5) ? E.HELD : E.DENY;
+      } else if (phase === 'late') {
+        ev = chance(0.7) ? E.GRANT : chance(0.2) ? E.HELD : E.DENY;
+        if (hour >= 22) ev = chance(0.7) ? E.GRANT : E.TAIL;
+      } else if (phase === 'escalation') {
+        ev = chance(0.55) ? E.GRANT : chance(0.2) ? E.HELD : chance(0.15) ? E.TAIL : E.FORCED;
+        if (hour >= 20) ev = chance(0.5) ? E.GRANT : chance(0.25) ? E.TAIL : E.HELD;
+      } else if (phase === 'final') {
+        ev = chance(0.45) ? E.GRANT : chance(0.3) ? E.HELD : E.TAIL;
+      }
+      chenEntries.push({ ts: dayTs[ti], holder: 'M.CHEN', event: ev, detail: evDetail(ev) });
+    }
+  }
+
+  // Override last Chen entry: death swipe at 22:52:41, then one more at 22:52:43
+  // Ensure the final-day entries end correctly
+  // Find last entry on death date
+  var deathStr = '2020-03-12';
+  var deathDayEntries = chenEntries.filter(function(e) { return e.ts.startsWith(deathStr); });
+  if (deathDayEntries.length > 0) {
+    // Remove all death-date entries and re-add controlled ones
+    chenEntries = chenEntries.filter(function(e) { return !e.ts.startsWith(deathStr); });
+    // Add: she arrives at 22:37
+    chenEntries.push({ ts: '2020-03-12 22:37:14', holder: 'M.CHEN', event: E.GRANT, detail: 'Normal entry' });
+    // Tailgate at 22:41
+    chenEntries.push({ ts: '2020-03-12 22:41:09', holder: 'M.CHEN', event: E.TAIL, detail: 'Secondary motion detected' });
+    // Held open at 22:48
+    chenEntries.push({ ts: '2020-03-12 22:48:33', holder: 'M.CHEN', event: E.HELD, detail: 'Duration: 4s' });
+    // Final swipe — the last one
+    chenEntries.push({ ts: '2020-03-12 22:52:41', holder: 'M.CHEN', event: E.GRANT, detail: 'Normal entry', isFinal: true });
+  }
+
+  // Trim/pad Chen to exactly CHEN_TARGET (673)
+  if (chenEntries.length > CHEN_TARGET) {
+    // Remove from the middle of normal phase to preserve narrative arc
+    var excess = chenEntries.length - CHEN_TARGET;
+    var normalEntries = [];
+    for (var i = 0; i < chenEntries.length; i++) {
+      if (chenEntries[i].ts < '2019-05-01') normalEntries.push(i);
+    }
+    // Remove evenly-spaced normal entries
+    var toRemove = {};
+    for (var ri = 0; ri < Math.min(excess, normalEntries.length); ri++) {
+      var removeIdx = normalEntries[Math.floor(ri * normalEntries.length / Math.min(excess, normalEntries.length))];
+      toRemove[removeIdx] = true;
+    }
+    var newChen = [];
+    for (var j = 0; j < chenEntries.length; j++) {
+      if (!toRemove[j]) newChen.push(chenEntries[j]);
+    }
+    chenEntries = newChen;
+  }
+  // If still over, just truncate from middle
+  if (chenEntries.length > CHEN_TARGET) {
+    var half = Math.floor(CHEN_TARGET / 2);
+    chenEntries = chenEntries.slice(0, half).concat(chenEntries.slice(chenEntries.length - (CHEN_TARGET - half)));
+  }
+  // If under, pad with normal-phase weekday entries
+  var padDate = mkDate(2019, 2, 4);
+  while (chenEntries.length < CHEN_TARGET) {
+    var pda = toArr(padDate);
+    if (isWD(padDate)) {
+      chenEntries.push({ ts: ts(pda, 8, randInt(30, 55), randInt(0, 59)), holder: 'M.CHEN', event: E.GRANT, detail: 'Normal entry' });
+    }
+    padDate = addD(padDate, 1);
+    if (padDate > mkDate(2019, 4, 30)) padDate = mkDate(2019, 2, 4);
+  }
+
+  /* ---- Other badge holders' entries ---- */
+  var otherPeople = ['K.YOON','D.WALSH','K.PATEL','S.MOROZOV','D.NGUYEN','L.HENDRICKS','P.DELACROIX','J.WEIR','N.WEST','F.AHMED','B.KOWALSKI','H.TANAKA','M.RUSAKOV','W.LARSON'];
+
+  var otherEntries = [];
+  for (var oi = 0; oi < 1400; oi++) {
+    var od = nthDay(randInt(0, TOTAL_DAYS));
+    var oa = toArr(od);
+    var oh = randInt(0, 24);
+    var om = randInt(0, 59);
+    var os = randInt(0, 59);
+    var op = pick(otherPeople);
+    var oev = chance(0.7) ? E.GRANT : chance(0.5) ? E.DENY : chance(0.5) ? E.HELD : E.TAIL;
+    otherEntries.push({ ts: ts(oa, oh, om, os), holder: op, event: oev, detail: evDetail(oev) });
+  }
+
+  /* ---- Tailgate entries (mixed) ---- */
+  var tailEntries = [];
+  for (var ti2 = 0; ti2 < 180; ti2++) {
+    var td2 = nthDay(randInt(0, TOTAL_DAYS));
+    var ta2 = toArr(td2);
+    var th2 = chance(0.4) ? randInt(22, 24) : randInt(8, 18);
+    if (th2 === 24) th2 = 0;
+    var tp = chance(0.55) ? 'M.CHEN' : pick(otherPeople);
+    tailEntries.push({ ts: ts(ta2, th2, randInt(0, 59), randInt(0, 59)), holder: tp, event: E.TAIL, detail: pick(TAIL_DETAILS) });
+  }
+
+  /* ---- Maintenance entries ---- */
+  var maintPeople = ['J.MORENO','R.SOLOMON','T.OKAFOR','C.RAMIREZ','E.BURNS','A.GREENE'];
+  var maintDetails = [
+    'Routine inspection — door not found in zone',
+    'Sensor check — NULL zone, no hardware present',
+    'Lock test — no physical lock installed',
+    'Annual maintenance — door D-0-NULL removed from scope',
+    'Fire safety compliance — door not on floor plan',
+    'Handed-off alarm — maintenance dispatched (auto-closed)',
+    'Controller comm test — CTL-7F-NULL virtual only',
+    'Request to remove D-0-NULL from system — denied (policy)',
+    'Label replacement — door does not exist',
+    'Repaint zone markers — zone NULL not found'
+  ];
+  var maintEntries = [];
+  for (var mi = 0; mi < 90; mi++) {
+    var md = nthDay(randInt(0, TOTAL_DAYS));
+    var ma = toArr(md);
+    maintEntries.push({ ts: ts(ma, randInt(7, 16), randInt(0, 59), randInt(0, 59)), holder: pick(maintPeople), event: E.MAINT, detail: pick(maintDetails) });
+  }
+
+  /* ---- System entries ---- */
+  var sysDetails = [
+    'Door D-0-NULL: No physical controller — virtual port only',
+    'Door D-0-NULL: Value-engineered — no hardware installed',
+    'Door D-0-NULL: Removed from floor plan (CR-2018-1247)',
+    'Door D-0-NULL: Unresolved in migration — legacy path',
+    'Door D-0-NULL: Zone NULL — no floor assignment',
+    'Door D-0-NULL: Hardware status: NOT CONNECTED',
+    'Door D-0-NULL: Credential cache synced',
+    'Door D-0-NULL: Log partition growing — no purge configured',
+    'Door D-0-NULL: Quarterly audit — no action required (virtual door)'
+  ];
+  var sysEntries = [];
+  // ~20 system entries spread across the period
+  for (var si = 0; si < 20; si++) {
+    var sd = nthDay(Math.floor(si * TOTAL_DAYS / 20) + randInt(0, 10));
+    var sa = toArr(sd);
+    sysEntries.push({ ts: ts(sa, randInt(2, 5), randInt(0, 59), randInt(0, 59)), holder: 'SYSTEM', event: E.SYS, detail: sysDetails[si % sysDetails.length] });
+  }
+
+  /* ---- Narrative entries (fixed) ---- */
+  var narrativeEntries = [
+    // 2019-08-03: Moreno checks the door, files confused report
+    { ts: '2019-08-03 09:47:22', holder: 'J.MORENO', event: E.MAINT, detail: 'Door not located. Database may require update.' },
+    { ts: '2019-08-03 09:47:23', holder: 'SYSTEM',   event: E.SYS,   detail: 'Work order #2019-08-033 — Resolved: no action required. Database update deferred to Q1 2020 maintenance window.' },
+
+    // Post-death: security swipes
+    { ts: '2020-03-15 07:22:10', holder: 'S.MOROZOV', event: E.GRANT, detail: 'Auth: ACS Level 3' },
+    { ts: '2020-03-15 07:22:14', holder: 'M.RUSAKOV', event: E.GRANT, detail: 'Auth: ACS Level 3' },
+    { ts: '2020-03-15 14:08:33', holder: 'A.GREENE',  event: E.MAINT, detail: 'Facilities disposition review — door D-0-NULL' },
+    { ts: '2020-03-19 11:44:07', holder: 'S.MOROZOV', event: E.GRANT, detail: 'Auth: ACS Level 3' },
+
+    // Quarterly audit — credential finally flagged
+    { ts: '2020-06-11 03:00:01', holder: 'SYSTEM', event: E.SYS, detail: 'Door D-0-NULL: Quarterly audit — credential ACX-2847 flagged. Holder: CHEN, M. (DECEASED 2020-03-12). Status: ACTIVE. Last access: 2020-03-12 22:52:41. Manual revocation required per Policy 7.4.2.' },
+
+    // Chen's badge reappears: denied. System finally invalidated it.
+    { ts: '2020-06-11 03:00:02', holder: 'M.CHEN', event: E.DENY, detail: 'Credential invalidated — holder deceased (2020-03-12)', isPostDeath: true },
+
+    // Executive override
+    { ts: '2020-06-11 09:15:44', holder: 'P.DELACROIX', event: E.GRANT, detail: 'Auth: ACS Level 4 — executive override' },
+
+    // Legal hold
+    { ts: '2020-07-22 03:00:01', holder: 'SYSTEM', event: E.SYS, detail: 'Door D-0-NULL: Purge request denied by P.DELACROIX — entries under legal hold (Ref: W-2020-CHEN). Retain until further notice.' },
+
+    // Moreno checks again, a year later
+    { ts: '2020-08-03 10:14:55', holder: 'J.MORENO', event: E.MAINT, detail: 'Door not located. Database may require update.' },
+    { ts: '2020-08-03 10:14:56', holder: 'SYSTEM',   event: E.SYS,   detail: 'Work order #2020-08-041 — Resolved: no action required. Database update deferred to Q1 2021 maintenance window.' },
+
+    // Final system entry
+    { ts: '2020-12-14 03:00:01', holder: 'SYSTEM', event: E.SYS, detail: 'Door D-0-NULL: Quarterly audit — no action required (virtual door). 2,847 entries retained. Credential ACX-2847: INACTIVE.' }
+  ];
+
+  /* ---- Merge all entries ---- */
+  var allEntries = [];
+  function addBatch(arr) { for (var i = 0; i < arr.length; i++) allEntries.push(arr[i]); }
+  addBatch(chenEntries);
+  addBatch(otherEntries);
+  addBatch(tailEntries);
+  addBatch(maintEntries);
+  addBatch(sysEntries);
+  addBatch(narrativeEntries);
+
+  // Sort chronologically (stable)
+  allEntries.sort(function(a, b) { return tsSort(a.ts) < tsSort(b.ts) ? -1 : tsSort(a.ts) > tsSort(b.ts) ? 1 : 0; });
+
+  // Assign indices and find Chen's final entry
+  var chenFinalTs = '';
+  for (var fi = allEntries.length - 1; fi >= 0; fi--) {
+    if (allEntries[fi].holder === 'M.CHEN' && !allEntries[fi].isPostDeath) {
+      chenFinalTs = allEntries[fi].ts;
+      break;
+    }
+  }
+
+  // Trim or pad to exactly TOTAL_TARGET
+  if (allEntries.length > TOTAL_TARGET) {
+    // Remove non-narrative, non-Chen-final entries from the middle
+    var toRemoveSet = {};
+    var excess = allEntries.length - TOTAL_TARGET;
+    var removable = [];
+    for (var ri2 = 0; ri2 < allEntries.length; ri2++) {
+      var re = allEntries[ri2];
+      if (re.holder !== 'M.CHEN' && re.holder !== 'SYSTEM' && !re.isFinal) removable.push(ri2);
+    }
+    for (var ri3 = 0; ri3 < Math.min(excess, removable.length); ri3++) {
+      var ridx = removable[Math.floor(ri3 * removable.length / Math.min(excess, removable.length))];
+      toRemoveSet[ridx] = true;
+    }
+    var trimmed = [];
+    for (var ri4 = 0; ri4 < allEntries.length; ri4++) {
+      if (!toRemoveSet[ri4]) trimmed.push(allEntries[ri4]);
+    }
+    allEntries = trimmed;
+  }
+  // If still over, hard truncate non-essential entries
+  while (allEntries.length > TOTAL_TARGET) {
+    // Find a non-Chen, non-narrative entry to remove
+    var removed = false;
+    for (var xr = Math.floor(allEntries.length / 2); xr < allEntries.length; xr++) {
+      if (allEntries[xr].holder !== 'M.CHEN' && !allEntries[xr].isFinal && allEntries[xr].holder !== 'SYSTEM') {
+        allEntries.splice(xr, 1);
+        removed = true;
+        break;
+      }
+    }
+    if (!removed) break;
+  }
+
+  // If under, pad with generic maintenance entries
+  var padDay2 = 50;
+  while (allEntries.length < TOTAL_TARGET) {
+    var pd2 = nthDay(padDay2 % TOTAL_DAYS);
+    var pa2 = toArr(pd2);
+    allEntries.push({ ts: ts(pa2, randInt(7, 16), randInt(0, 59), randInt(0, 59)), holder: pick(otherPeople), event: E.GRANT, detail: evDetail(E.GRANT) });
+    padDay2 += 7;
+  }
+
+  // Final sort
+  allEntries.sort(function(a, b) { return tsSort(a.ts) < tsSort(b.ts) ? -1 : tsSort(a.ts) > tsSort(b.ts) ? 1 : 0; });
+
+  // Assign sequential indices
+  for (var ai = 0; ai < allEntries.length; ai++) {
+    allEntries[ai].idx = ai + 1;
+  }
+
+  // Mark Chen's final entry
+  var chenFinalIdx = -1;
+  for (var ci2 = 0; ci2 < allEntries.length; ci2++) {
+    if (allEntries[ci2].holder === 'M.CHEN' && allEntries[ci2].ts === chenFinalTs && !allEntries[ci2].isPostDeath) {
+      allEntries[ci2].isFinal = true;
+      chenFinalIdx = allEntries[ci2].idx;
+    }
+  }
+
+  /* ---- Count Chen entries for verification ---- */
+  var chenCount = 0;
+  for (var cc = 0; cc < allEntries.length; cc++) {
+    if (allEntries[cc].holder === 'M.CHEN') chenCount++;
+  }
+
+  /* ---- UI State ---- */
+  var filtered = [];
+  var curPage = 0;
+  var sortCol = 'ts';
+  var sortAsc = true;
+
+  /* ---- DOM refs ---- */
+  var logBody = document.getElementById('logBody');
+  var elShowing = document.getElementById('showingCount');
+  var elTotal = document.getElementById('totalCount');
+  var elEmpty = document.getElementById('emptyState');
+  var elTable = document.getElementById('logTable');
+  var elLoading = document.getElementById('loadingEl');
+  var elPageInfo = document.getElementById('pageInfo');
+  var elPrev = document.getElementById('btnPrev');
+  var elNext = document.getElementById('btnNext');
+
+  elTotal.textContent = allEntries.length.toLocaleString();
+
+  /* ---- Render ---- */
+  function render() {
+    var total = filtered.length;
+    var pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    curPage = Math.min(curPage, pages - 1);
+    var start = curPage * PAGE_SIZE;
+    var end = Math.min(start + PAGE_SIZE, total);
+
+    if (total === 0) {
+      elTable.style.display = 'none';
+      elEmpty.style.display = 'block';
+      elShowing.textContent = '0';
+      elPageInfo.textContent = '0 / 0';
+      elPrev.disabled = true;
+      elNext.disabled = true;
+      return;
+    }
+
+    elTable.style.display = 'table';
+    elEmpty.style.display = 'none';
+    elShowing.textContent = total.toLocaleString();
+
+    var frag = document.createDocumentFragment();
+    for (var i = start; i < end; i++) {
+      var e = filtered[i];
+      var tr = document.createElement('tr');
+      if (e.holder === 'M.CHEN') tr.className = 'chen-row';
+
+      var detailHtml = e.detail;
+      if (e.isFinal) detailHtml += '<span class="final-tag">◄ FINAL</span>';
+
+      var holderHtml = holderName(e.holder);
+      if (e.holder !== 'SYSTEM') {
+        holderHtml += ' <span class="badge-dept">(' + holderDept(e.holder) + ')</span>';
+      }
+
+      var evClass = 'event-system';
+      if (e.event === E.GRANT) evClass = 'event-granted';
+      else if (e.event === E.DENY || e.event === E.FORCED) evClass = 'event-denied';
+      else if (e.event === E.HELD) evClass = 'event-alarm';
+      else if (e.event === E.TAIL) evClass = 'event-tailgate';
+      else if (e.event === E.MAINT) evClass = 'event-maint';
+
+      tr.innerHTML =
+        '<td>' + e.idx + '</td>' +
+        '<td>' + e.ts + '</td>' +
+        '<td class="badge-id">' + holderBadge(e.holder) + '</td>' +
+        '<td class="badge-holder">' + holderHtml + '</td>' +
+        '<td class="' + evClass + '">' + e.event + '</td>' +
+        '<td>' + detailHtml + '</td>';
+
+      frag.appendChild(tr);
+    }
+
+    logBody.innerHTML = '';
+    logBody.appendChild(frag);
+
+    var curNum = curPage + 1;
+    elPageInfo.textContent = curNum + ' / ' + pages;
+    elPrev.disabled = curPage === 0;
+    elNext.disabled = curNum >= pages;
+  }
+
+  /* ---- Filtering ---- */
+  function applyFilters() {
+    var hF = document.getElementById('filterHolder').value.toUpperCase().trim();
+    var eF = document.getElementById('filterEvent').value;
+    var fF = document.getElementById('filterFrom').value;
+    var tF = document.getElementById('filterTo').value;
+
+    filtered = allEntries.filter(function(e) {
+      if (hF) {
+        var nm = holderName(e.holder).toUpperCase();
+        var dp = holderDept(e.holder).toUpperCase();
+        var bg = holderBadge(e.holder).toUpperCase();
+        if (nm.indexOf(hF) === -1 && e.holder.indexOf(hF) === -1 && dp.indexOf(hF) === -1 && bg.indexOf(hF) === -1) return false;
+      }
+      if (eF && e.event !== eF) return false;
+      if (fF && e.ts.substring(0, 10) < fF) return false;
+      if (tF && e.ts.substring(0, 10) > tF) return false;
+      return true;
+    });
+
+    curPage = 0;
+    render();
+  }
+
+  function clearFilters() {
+    document.getElementById('filterHolder').value = '';
+    document.getElementById('filterEvent').value = '';
+    document.getElementById('filterFrom').value = '';
+    document.getElementById('filterTo').value = '';
+    applyFilters();
+  }
+
+  /* ---- Sorting ---- */
+  document.querySelectorAll('th').forEach(function(th) {
+    th.addEventListener('click', function() {
+      var col = this.getAttribute('data-col');
+      if (!col) return;
+      if (sortCol === col) { sortAsc = !sortAsc; }
+      else { sortCol = col; sortAsc = true; }
+      filtered.sort(function(a, b) {
+        var va, vb;
+        switch (col) {
+          case 'idx': va = a.idx; vb = b.idx; break;
+          case 'ts': va = tsSort(a.ts); vb = tsSort(b.ts); break;
+          case 'badge': va = holderBadge(a.holder); vb = holderBadge(b.holder); break;
+          case 'holder': va = a.holder; vb = b.holder; break;
+          case 'event': va = a.event; vb = b.event; break;
+          case 'detail': va = a.detail; vb = b.detail; break;
+          default: va = a.idx; vb = b.idx;
+        }
+        if (va < vb) return sortAsc ? -1 : 1;
+        if (va > vb) return sortAsc ? 1 : -1;
+        return 0;
+      });
+      curPage = 0;
+      render();
+    });
+  });
+
+  /* ---- Event wiring ---- */
+  document.getElementById('btnFilter').addEventListener('click', applyFilters);
+  document.getElementById('btnClear').addEventListener('click', clearFilters);
+  elPrev.addEventListener('click', function() { curPage--; render(); document.getElementById('tableContainer').scrollTop = 0; });
+  elNext.addEventListener('click', function() { curPage++; render(); document.getElementById('tableContainer').scrollTop = 0; });
+
+  ['filterHolder', 'filterFrom', 'filterTo'].forEach(function(id) {
+    document.getElementById(id).addEventListener('keydown', function(e) { if (e.key === 'Enter') applyFilters(); });
+  });
+
+  /* ---- Init ---- */
+  setTimeout(function() {
+    filtered = allEntries.slice();
+    render();
+    elLoading.style.display = 'none';
+  }, 500);
+
+})();
+</script>
+</body>
+</html>

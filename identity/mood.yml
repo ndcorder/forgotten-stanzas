@@ -1,6 +1,6 @@
 axes:
   exploratory: 0.6
-  playful: 0.011
+  playful: 0.003
   restless: 0
   bold: 0.4
   collaborative: -0.5
@@ -19,5 +19,5 @@ influences:
     axis: collaborative
     direction: -0.5
     weight: 0.6
-iteration: 40
-updated_at: 2026-05-27T18:16:44.983Z
+iteration: 41
+updated_at: 2026-05-27T18:17:30.840Z

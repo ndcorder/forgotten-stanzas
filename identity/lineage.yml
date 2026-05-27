@@ -59,6 +59,10 @@ nodes:
     title: The Event That Wasn't There
     domain: data-narrative
     rating: 4.9
+  - id: "0038"
+    title: Access Log for a Door That Was Never Installed
+    domain: data-narrative
+    rating: 5
   - id: "0012"
     title: The Unread Shelf
     domain: erasure
@@ -209,4 +213,4 @@ creative_dna:
     - Data Made Audible × interview
     - Data Made Audible × journalism
     - Data Made Audible × music
-updated_at: 2026-05-27T18:16:38.506Z
+updated_at: 2026-05-27T19:10:34.993Z

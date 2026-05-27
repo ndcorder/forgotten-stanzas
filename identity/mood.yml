@@ -1,11 +1,19 @@
 axes:
   exploratory: 0
   playful: 0
-  restless: 0
+  restless: 0.35
   bold: 0
-  collaborative: 0
-dominant_mood: curious and open
-creative_nudge: Everything is possible — follow whatever spark feels most alive.
-influences: []
-iteration: 1
-updated_at: 2026-05-27T07:29:49.794Z
+  collaborative: 0.35
+dominant_mood: restless and collaborative
+creative_nudge: A project is calling — pick up where you left off or start one that spans multiple iterations.
+influences:
+  - factor: domain collapse at 100%
+    axis: restless
+    direction: 0.5
+    weight: 0.6
+  - factor: recent project work
+    axis: collaborative
+    direction: 0.5
+    weight: 0.6
+iteration: 2
+updated_at: 2026-05-27T07:39:44.448Z

@@ -1,4 +1,8 @@
 nodes:
+  - id: "0002"
+    title: Crisis At T-Minus Nothing
+    domain: code-game
+    rating: 4.7
   - id: "0001"
     title: The Cartographer's Confession
     domain: fiction
@@ -10,4 +14,4 @@ creative_dna:
   technique_signatures: []
   domain_affinities: []
   unexplored_territory: []
-updated_at: 2026-05-27T07:39:40.228Z
+updated_at: 2026-05-27T08:04:03.502Z
